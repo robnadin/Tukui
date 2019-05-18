@@ -122,7 +122,7 @@ function Loading:OnEvent(event, addon)
 				--T["Miscellaneous"]["Invite"]:Enable()
 			end
 
-			--T["Miscellaneous"]["MirrorTimers"]:Enable()
+			T["Miscellaneous"]["MirrorTimers"]:Enable()
 			T["Miscellaneous"]["DropDown"]:Enable()
 			--T["Miscellaneous"]["CollectGarbage"]:Enable()
 			--T["Miscellaneous"]["GameMenu"]:Enable()
