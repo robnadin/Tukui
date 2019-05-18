@@ -4,7 +4,7 @@
 	<Script file="oUF_AuraWatch\oUF_AuraWatch.lua"/>
 	<Script file="oUF_CombatFeedback\oUF_CombatFeedback.lua"/>
 	<Script file="oUF_Smooth\oUF_Smooth.lua"/>
-	<Script file="oUF_RaidDebuffs\oUF_RaidDebuffs.lua"/>
+	<!-- <Script file="oUF_RaidDebuffs\oUF_RaidDebuffs.lua"/> -->
 	<Include file="DropDownMenu\UIDropDownMenuTemplates.xml"/>
 	<Script file="DropDownMenu\EasyMenu.lua"/>
 	<Script file="DropDownMenu\UIDropDownMenu.lua"/>
