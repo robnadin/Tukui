@@ -413,7 +413,7 @@ function Bags:CreateContainer(storagetype, ...)
 
 		for i = 1, 6 do
 			local Bag = BankSlotsFrame["Bag"..i]
-			print(Bag)
+			
 			if T.WoWBuild < 28724 then
 				Bag.HighlightFrame:Kill() -- Bugged Texture on Bank Bag Slot
 			end
