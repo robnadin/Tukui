@@ -111,7 +111,7 @@ function Loading:OnEvent(event, addon)
 			end
 
 			if C["Misc"].ReputationEnable then
-				--T["Miscellaneous"]["Reputation"]:Enable()
+				T["Miscellaneous"]["Reputation"]:Enable()
 			end
 
 			if C["Misc"].ErrorFilterEnable then

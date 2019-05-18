@@ -19,7 +19,7 @@ function T17:MoveXPBars()
 	local Experience = Misc.Experience
 	local Reputation = Misc.Reputation
 
-	if Experience.NumBars then
+	if Experience and Experience.NumBars then
 		for i = 1, Experience.NumBars do
 			local Bar = Experience["XPBar"..i]
 			local RestedBar = Experience["RestedBar"..i]
@@ -35,7 +35,7 @@ function T17:MoveXPBars()
 		end
 	end
 
-	if Reputation.NumBars then
+	if Reputation and Reputation.NumBars then
 		for i = 1, Reputation.NumBars do
 			local Bar = Reputation["RepBar"..i]
 

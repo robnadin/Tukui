@@ -94,15 +94,8 @@ function Reputation:Enable()
 		self.IsCreated = true
 	end
 
-	local HasAzeriteItem = C_AzeriteItem.FindActiveAzeriteItem()
-
 	self.RepBar1:Show()
-
-	if HasAzeriteItem then
-		self.RepBar2:Hide()
-	else
-		self.RepBar2:Show()
-	end
+	self.RepBar2:Show()
 end
 
 function Reputation:Disable()
