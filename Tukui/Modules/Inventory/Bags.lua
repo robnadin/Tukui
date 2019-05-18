@@ -101,21 +101,10 @@ function Bags:SkinBagButton()
 end
 
 function Bags:HideBlizzard()
-	local TokenFrame = _G["BackpackTokenFrame"]
-	local Inset = _G["BankFrameMoneyFrameInset"]
-	local Border = _G["BankFrameMoneyFrameBorder"]
-	local BankClose = _G["BankFrameCloseButton"]
-	local BankPortraitTexture = _G["BankPortraitTexture"]
 	local BankSlotsFrame = _G["BankSlotsFrame"]
 
-	TokenFrame:GetRegions():SetAlpha(0)
-	Inset:Hide()
-	Border:Hide()
-	BankClose:Hide()
-	BankPortraitTexture:Hide()
 	BagHelpBox:Kill()
 	BankFrame:HookScript('OnShow', function(self) self:EnableMouse(false) end)
-	BankFrame.NineSlice:SetAlpha(0)
 
 	for i = 1, 12 do
 		local CloseButton = _G["ContainerFrame"..i.."CloseButton"]
@@ -143,8 +132,8 @@ function Bags:HideBlizzard()
 
 	-- Hide Tabs, we will create our tabs
 	for i = 1, 2 do
-		local Tab = _G["BankFrameTab"..i]
-		Tab:Hide()
+		--local Tab = _G["BankFrameTab"..i]
+		--Tab:Hide()
 	end
 end
 
@@ -295,7 +284,6 @@ function Bags:CreateContainer(storagetype, ...)
 	Container:EnableMouse(true)
 
 	if (storagetype == "Bag") then
-		local Sort = BagItemAutoSortButton
 		local BagsContainer = CreateFrame("Frame", nil, UIParent)
 		local ToggleBagsContainer = CreateFrame("Frame")
 
@@ -306,24 +294,6 @@ function Bags:CreateContainer(storagetype, ...)
 		BagsContainer:Hide()
 		BagsContainer:SetTemplate()
 		BagsContainer:CreateShadow()
-
-		Sort:Size(Container:GetWidth(), 23)
-		Sort:ClearAllPoints()
-		Sort:SetPoint("BOTTOMLEFT", Container, "TOPLEFT", 0, 2)
-		Sort:SetFrameLevel(Container:GetFrameLevel())
-		Sort:SetFrameStrata(Container:GetFrameStrata())
-		Sort:StripTextures()
-		Sort:SkinButton()
-		Sort:CreateShadow()
-		Sort.Text = Sort:CreateFontString(nil, "OVERLAY")
-		Sort.Text:SetFont(FontPath, 12)
-		Sort.Text:SetJustifyH("LEFT")
-		Sort.Text:SetShadowColor(0, 0, 0)
-		Sort.Text:SetShadowOffset(T.Mult, -T.Mult)
-		Sort.Text:SetPoint("CENTER")
-		Sort.Text:SetText(BAG_FILTER_CLEANUP)
-		Sort.ClearAllPoints = Noop
-		Sort.SetPoint = Noop
 
 		ToggleBagsContainer:SetHeight(20)
 		ToggleBagsContainer:SetWidth(20)
@@ -415,7 +385,6 @@ function Bags:CreateContainer(storagetype, ...)
 		local CostText = BankFrameSlotCost
 		local TotalCost = BankFrameDetailMoneyFrame
 		local Purchase = BankFramePurchaseInfo
-		local SortButton = CreateFrame("Button", nil, Container)
 		local BankBagsContainer = CreateFrame("Frame", nil, Container)
 
 		CostText:ClearAllPoints()
@@ -425,47 +394,6 @@ function Bags:CreateContainer(storagetype, ...)
 		PurchaseButton:ClearAllPoints()
 		PurchaseButton:SetPoint("BOTTOMRIGHT", -10, 10)
 		PurchaseButton:SkinButton()
-		BankItemAutoSortButton:Hide()
-
-		local SwitchReagentButton = CreateFrame("Button", nil, Container)
-		SwitchReagentButton:Size((Container:GetWidth() / 2) - 1, 23)
-		SwitchReagentButton:SkinButton()
-		SwitchReagentButton:CreateShadow()
-		SwitchReagentButton:Point("BOTTOMLEFT", Container, "TOPLEFT", 0, 2)
-		SwitchReagentButton.Text = SwitchReagentButton:CreateFontString(nil, "OVERLAY")
-		SwitchReagentButton.Text:SetFont(FontPath, 12)
-		SwitchReagentButton.Text:SetJustifyH("LEFT")
-		SwitchReagentButton.Text:SetShadowColor(0, 0, 0)
-		SwitchReagentButton.Text:SetShadowOffset(T.Mult, -T.Mult)
-		SwitchReagentButton.Text:SetPoint("CENTER")
-		SwitchReagentButton.Text:SetText("Switch to: "..REAGENT_BANK)
-		SwitchReagentButton:SetScript("OnClick", function()
-			BankFrame_ShowPanel(BANK_PANELS[2].name)
-
-			if (not ReagentBankFrame.isMade) then
-				self:CreateReagentContainer()
-				ReagentBankFrame.isMade = true
-			else
-				self.Reagent:Show()
-			end
-
-			for i = 5, 11 do
-				self:CloseBag(i)
-			end
-		end)
-
-		SortButton:Size((Container:GetWidth() / 2) - 1, 23)
-		SortButton:SetPoint("LEFT", SwitchReagentButton, "RIGHT", 2, 0)
-		SortButton:SkinButton()
-		SortButton:CreateShadow()
-		SortButton.Text = SortButton:CreateFontString(nil, "OVERLAY")
-		SortButton.Text:SetFont(FontPath, 12)
-		SortButton.Text:SetJustifyH("LEFT")
-		SortButton.Text:SetShadowColor(0, 0, 0)
-		SortButton.Text:SetShadowOffset(T.Mult, -T.Mult)
-		SortButton.Text:SetPoint("CENTER")
-		SortButton.Text:SetText(BAG_FILTER_CLEANUP)
-		SortButton:SetScript("OnClick", BankFrame_AutoSortButtonOnClick)
 
 		Purchase:ClearAllPoints()
 		Purchase:SetWidth(Container:GetWidth() + 50)
@@ -483,9 +411,9 @@ function Bags:CreateContainer(storagetype, ...)
 		BankBagsContainer:SetFrameLevel(Container:GetFrameLevel())
 		BankBagsContainer:SetFrameStrata(Container:GetFrameStrata())
 
-		for i = 1, 7 do
+		for i = 1, 6 do
 			local Bag = BankSlotsFrame["Bag"..i]
-
+			print(Bag)
 			if T.WoWBuild < 28724 then
 				Bag.HighlightFrame:Kill() -- Bugged Texture on Bank Bag Slot
 			end
@@ -512,7 +440,6 @@ function Bags:CreateContainer(storagetype, ...)
 		BankBagsContainer:Hide()
 
 		BankFrame:EnableMouse(false)
-		BankFrame.NineSlice:SetAlpha(0)
 
 		Container.BagsContainer = BankBagsContainer
 		Container.ReagentButton = SwitchReagentButton
@@ -523,58 +450,7 @@ function Bags:CreateContainer(storagetype, ...)
 end
 
 function Bags:SetBagsSearchPosition()
-	local BagItemSearchBox = BagItemSearchBox
-	local BankItemSearchBox = BankItemSearchBox
 
-	BagItemSearchBox:SetParent(self.Bag)
-	BagItemSearchBox:SetWidth(self.Bag:GetWidth() - (ButtonSpacing + ButtonSpacing + ButtonSpacing + ButtonSpacing))
-	BagItemSearchBox:ClearAllPoints()
-	BagItemSearchBox:SetPoint("BOTTOMLEFT", self.Bag, "BOTTOMLEFT", ButtonSpacing - 1, ButtonSpacing * 3)
-	BagItemSearchBox:StripTextures()
-	BagItemSearchBox.SetParent = Noop
-	BagItemSearchBox.ClearAllPoints = Noop
-	BagItemSearchBox.SetPoint = Noop
-	BagItemSearchBox.Backdrop = CreateFrame("Frame", nil, BagItemSearchBox)
-	BagItemSearchBox.Backdrop:SetPoint("TOPLEFT", 7, 4)
-	BagItemSearchBox.Backdrop:SetPoint("BOTTOMRIGHT", 2, -2)
-	BagItemSearchBox.Backdrop:SetTemplate()
-	BagItemSearchBox.Backdrop:SetFrameLevel(BagItemSearchBox:GetFrameLevel() - 1)
-
-	BankItemSearchBox:Hide()
-end
-
-function Bags:SetTokensPosition()
-	local Money = ContainerFrame1MoneyFrame
-
-	Token3:ClearAllPoints()
-	Token3:SetPoint("LEFT", Money, "RIGHT", 2, -2)
-	Token2:ClearAllPoints()
-	Token2:SetPoint("LEFT", Token3, "RIGHT", 10, 0)
-	Token1:ClearAllPoints()
-	Token1:SetPoint("LEFT", Token2, "RIGHT", 10, 0)
-end
-
-function Bags:SkinTokens()
-	for i = 1, 3 do
-		local Token = _G["BackpackTokenFrameToken"..i]
-		local Icon = _G["BackpackTokenFrameToken"..i.."Icon"]
-		local Count = _G["BackpackTokenFrameToken"..i.."Count"]
-		local PreviousToken = _G["BackpackTokenFrameToken"..(i - 1)]
-
-		Token:SetParent(self.Bag)
-		Token:SetFrameLevel(5)
-		Token:SetScale(1)
-		Token:CreateBackdrop()
-		Token.Backdrop:SetOutside(Icon)
-		Token:SetFrameStrata("MEDIUM")
-		Token:SetFrameLevel(51)
-
-		Icon:SetSize(12,12)
-		Icon:SetTexCoord(unpack(T.IconCoord))
-		Icon:SetPoint("LEFT", Token, "RIGHT", -8, 2)
-
-		Count:SetFontObject(Font)
-	end
 end
 
 function Bags:SlotUpdate(id, button)
@@ -591,8 +467,6 @@ function Bags:SlotUpdate(id, button)
 
 	button.ItemID = ItemID
 
-	local IsQuestItem, _, IsActive = GetContainerItemQuestInfo(id, button:GetID())
-	--local IsBattlePayItem = IsBattlePayItem(id, button:GetID())
 	local NewItem = button.NewItemTexture
 	local IsProfBag = self:IsProfessionBag(id)
 	local IconQuestTexture = button.IconQuestTexture
@@ -608,9 +482,7 @@ function Bags:SlotUpdate(id, button)
 		--button:SetBackdropColor(unpack(C["General"].BackdropColor))
 	end
 
-	if IsQuestItem then
-		button:SetBackdropBorderColor(1, 1, 0)
-	elseif Rarity and Rarity > 1 then
+	if Rarity and Rarity > 1 then
 		button:SetBackdropBorderColor(GetItemQualityColor(Rarity))
 	else
 		button:SetBackdropBorderColor(unpack(C["General"].BorderColor))
@@ -701,7 +573,7 @@ function Bags:UpdateAllBags()
 		Bags:BagUpdate(ID)
 	end
 
-	Bags.Bag:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 54 + BagItemSearchBox:GetHeight() + (ButtonSpacing * 4)) - ButtonSpacing)
+	Bags.Bag:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 54 + (ButtonSpacing * 4)) - ButtonSpacing)
 end
 
 function Bags:UpdateAllBankBags()
@@ -971,7 +843,7 @@ function Bags:Enable()
 		return
 	end
 
-	SetSortBagsRightToLeft(false)
+	--SetSortBagsRightToLeft(false)
 	SetInsertItemsLeftToRight(true)
 
 	Font = T.GetFont(C["Bags"].Font)
@@ -990,9 +862,6 @@ function Bags:Enable()
 	self:CreateContainer("Bag", "BOTTOMRIGHT", DataTextRight, "TOPRIGHT", 0, 6)
 	self:CreateContainer("Bank", "BOTTOMLEFT", DataTextLeft, "TOPLEFT", 0, 6)
 	self:HideBlizzard()
-	self:SetBagsSearchPosition()
-	self:SetTokensPosition()
-	self:SkinTokens()
 
 	Bag:SetScript("OnHide", function()
 		self.Bag:Hide()
@@ -1036,11 +905,9 @@ function Bags:Enable()
 	-- Register Events for Updates
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
-	self:RegisterEvent("PLAYERREAGENTBANKSLOTS_CHANGED")
 	self:RegisterEvent("BAG_CLOSED")
 	self:RegisterEvent("BANKFRAME_CLOSED")
 	self:RegisterEvent("BANKFRAME_OPENED")
-	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
 	self:SetScript("OnEvent", self.OnEvent)
 
 	function ManageBackpackTokenFrame() end

@@ -80,7 +80,7 @@ function Loading:OnEvent(event, addon)
 		-- INVENTORY
 			-- Bags
 			if (C.Bags.Enable) then
-				--T["Inventory"]["Bags"]:Enable()
+				T["Inventory"]["Bags"]:Enable()
 			end
 
 			-- Loot Frame
