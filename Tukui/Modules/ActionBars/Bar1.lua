@@ -71,8 +71,6 @@ function TukuiActionBars:CreateBar1()
 	TukuiActionBars:UpdateBar1()
 
 	ActionBar1:RegisterEvent("PLAYER_ENTERING_WORLD")
-	ActionBar1:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
-	ActionBar1:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
 	ActionBar1:SetScript("OnEvent", function(self, event, unit, ...)
 		if (event == "PLAYER_ENTERING_WORLD") then
 			for i = 1, Num do

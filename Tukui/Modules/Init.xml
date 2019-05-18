@@ -75,31 +75,47 @@
 	<Script file="DataTexts\Elements\Armor.lua"/>
 	<Script file="DataTexts\Elements\Avoidance.lua"/>
 	<Script file="DataTexts\Elements\Bags.lua"/>
-	<Script file="DataTexts\Elements\CallToArms.lua"/>
+	
+
+	
 	<Script file="DataTexts\Elements\Crit.lua"/>
-	<Script file="DataTexts\Elements\Currency.lua"/>
+	
+
+	
 	<Script file="DataTexts\Elements\DPS.lua"/>
+	
 	<Script file="DataTexts\Elements\Durability.lua"/>
+	
 	<Script file="DataTexts\Elements\FPS.lua"/>
-	<Script file="DataTexts\Elements\Friends.lua"/>
-	<Script file="DataTexts\Elements\Garrison.lua"/>
 	<Script file="DataTexts\Elements\Gold.lua"/>
 	<Script file="DataTexts\Elements\Guild.lua"/>
-	<Script file="DataTexts\Elements\Haste.lua"/>
 	<Script file="DataTexts\Elements\HPS.lua"/>
-	<Script file="DataTexts\Elements\Leech.lua"/>
-	<Script file="DataTexts\Elements\Lootspec.lua"/>
-	<Script file="DataTexts\Elements\Mastery.lua"/>
 	<Script file="DataTexts\Elements\Memory.lua"/>
 	<Script file="DataTexts\Elements\Power.lua"/>
 	<Script file="DataTexts\Elements\Regen.lua"/>
-	<Script file="DataTexts\Elements\Talent.lua"/>
 	<Script file="DataTexts\Elements\Time.lua"/>
 	<Script file="DataTexts\Elements\Battleground.lua"/>
-	<Script file="DataTexts\Elements\Versatility.lua"/>
 	<Script file="DataTexts\Elements\Zone.lua"/>
 	<Script file="DataTexts\Elements\Voice.lua"/>
-
+	<!--
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	-->
+	
 	<!-- ChatFrames -->
 	<Script file="ChatFrames\Core.lua"/>
 	<Script file="ChatFrames\ChatFrames.lua"/>
@@ -126,10 +142,6 @@
 	<Script file="UnitFrames\Units\Target.lua"/>
 	<Script file="UnitFrames\Units\TargetOfTarget.lua"/>
 	<Script file="UnitFrames\Units\Pet.lua"/>
-	<Script file="UnitFrames\Units\Focus.lua"/>
-	<Script file="UnitFrames\Units\FocusTarget.lua"/>
-	<Script file="UnitFrames\Units\Arena.lua"/>
-	<Script file="UnitFrames\Units\Boss.lua"/>
 	<Script file="UnitFrames\Units\Nameplates.lua"/>
 	<Script file="UnitFrames\Groups\Party.lua"/>
 	<Script file="UnitFrames\Groups\Raid.lua"/>
@@ -137,11 +149,4 @@
 	<!-- Tooltips -->
 	<Script file="Tooltips\Core.lua"/>
 	<Script file="Tooltips\Talent.lua"/>
-
-	<!-- Pet Battles -->
-	<Script file="PetBattles\Core.lua"/>
-	<Script file="PetBattles\UnitFrames.lua"/>
-	<Script file="PetBattles\Actions.lua"/>
-	<Script file="PetBattles\Others.lua"/>
-
 </Ui>

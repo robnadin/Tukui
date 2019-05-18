@@ -83,7 +83,7 @@ function Tooltip:GetColor(unit)
 		return
 	end
 
-	if (UnitIsPlayer(unit) and not UnitHasVehicleUI(unit)) then
+	if (UnitIsPlayer(unit)) then
 		local Class = select(2, UnitClass(unit))
 		local Color = RaidColors[Class]
 
@@ -221,7 +221,7 @@ function Tooltip:OnTooltipSetUnit()
 		local Reaction = UnitReaction(UnitTarget, "player")
 		local R, G, B
 		
-		if (UnitIsPlayer(UnitTarget) and not UnitHasVehicleUI(UnitTarget)) then
+		if (UnitIsPlayer(UnitTarget)) then
 			R, G, B = unpack(T.Colors.class[Class])
 		elseif Reaction then
 			R, G, B = unpack(T.Colors.reaction[Reaction])

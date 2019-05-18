@@ -18,6 +18,7 @@ function Lib_EasyMenu(menuList, menuFrame, anchor, x, y, displayMode, autoHideDe
 	if ( displayMode == "MENU" ) then
 		menuFrame.displayMode = displayMode;
 	end
+
 	Lib_UIDropDownMenu_Initialize(menuFrame, Lib_EasyMenu_Initialize, displayMode, nil, menuList);
 	Lib_ToggleDropDownMenu(1, nil, menuFrame, anchor, x, y, menuList, nil, autoHideDelay);
 end

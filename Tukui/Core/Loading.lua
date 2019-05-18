@@ -80,14 +80,14 @@ function Loading:OnEvent(event, addon)
 		-- INVENTORY
 			-- Bags
 			if (C.Bags.Enable) then
-				T["Inventory"]["Bags"]:Enable()
+				--T["Inventory"]["Bags"]:Enable()
 			end
 
 			-- Loot Frame
 			T["Inventory"]["Loot"]:Enable()
 
 			-- Merchant
-			T["Inventory"]["Merchant"]:Enable()
+			--T["Inventory"]["Merchant"]:Enable()
 
 		-- ACTION BARS
 			if (C.ActionBars.Enable) then
@@ -99,11 +99,11 @@ function Loading:OnEvent(event, addon)
 
 		-- MISCELLANEOUS
 			if C["Misc"].ThreatBarEnable then
-				T["Miscellaneous"]["ThreatBar"]:Enable()
+				--T["Miscellaneous"]["ThreatBar"]:Enable()
 			end
 
 			if C["Misc"].AltPowerBarEnable then
-				T["Miscellaneous"]["AltPowerBar"]:Enable()
+				--T["Miscellaneous"]["AltPowerBar"]:Enable()
 			end
 
 			if C["Misc"].ExperienceEnable then
@@ -111,33 +111,34 @@ function Loading:OnEvent(event, addon)
 			end
 
 			if C["Misc"].ReputationEnable then
-				T["Miscellaneous"]["Reputation"]:Enable()
+				--T["Miscellaneous"]["Reputation"]:Enable()
 			end
 
 			if C["Misc"].ErrorFilterEnable then
-				T["Miscellaneous"]["ErrorFilter"]:Enable()
+				--T["Miscellaneous"]["ErrorFilter"]:Enable()
 			end
 
 			if C["Misc"].AutoInviteEnable then
-				T["Miscellaneous"]["Invite"]:Enable()
+				--T["Miscellaneous"]["Invite"]:Enable()
 			end
 
-			T["Miscellaneous"]["MirrorTimers"]:Enable()
+			--T["Miscellaneous"]["MirrorTimers"]:Enable()
 			T["Miscellaneous"]["DropDown"]:Enable()
-			T["Miscellaneous"]["CollectGarbage"]:Enable()
-			T["Miscellaneous"]["GameMenu"]:Enable()
-			T["Miscellaneous"]["LossControl"]:Enable()
-			T["Miscellaneous"]["StaticPopups"]:Enable()
-			T["Miscellaneous"]["TimerTracker"]:Enable()
-			T["Miscellaneous"]["Durability"]:Enable()
-			T["Miscellaneous"]["UIWidgets"]:Enable()
-			T["Miscellaneous"]["Ghost"]:Enable()
-			T["Miscellaneous"]["VehicleIndicator"]:Enable()
-			T["Miscellaneous"]["TalkingHead"]:Enable()
-			T["Miscellaneous"]["DeathRecap"]:Enable()
-			T["Miscellaneous"]["AFK"]:Enable()
-			T["Miscellaneous"]["OrderHall"]:Enable()
-			T["Miscellaneous"]["UIErrorFilter"]:Enable()
+			--T["Miscellaneous"]["CollectGarbage"]:Enable()
+			--T["Miscellaneous"]["GameMenu"]:Enable()
+			--T["Miscellaneous"]["LossControl"]:Enable()
+			--T["Miscellaneous"]["StaticPopups"]:Enable()
+			--T["Miscellaneous"]["TimerTracker"]:Enable()
+			--T["Miscellaneous"]["Durability"]:Enable()
+			--T["Miscellaneous"]["UIWidgets"]:Enable()
+			--T["Miscellaneous"]["Ghost"]:Enable()
+			--T["Miscellaneous"]["VehicleIndicator"]:Enable()
+			--T["Miscellaneous"]["TalkingHead"]:Enable()
+			--T["Miscellaneous"]["DeathRecap"]:Enable()
+			--T["Miscellaneous"]["AFK"]:Enable()
+			--T["Miscellaneous"]["OrderHall"]:Enable()
+			--T["Miscellaneous"]["UIErrorFilter"]:Enable()
+			T["Miscellaneous"]["MicroMenu"]:Enable()
 
 		-- BUFFS
 			if (C.Auras.Enable) then
@@ -146,8 +147,8 @@ function Loading:OnEvent(event, addon)
 
 		-- Maps
 			T["Maps"]["Minimap"]:Enable()
-			T["Maps"]["Zonemap"]:Enable()
-			T["Maps"]["Worldmap"]:Enable()
+			--T["Maps"]["Zonemap"]:Enable()
+			--T["Maps"]["Worldmap"]:Enable()
 
 		-- DATATEXTS
 			T["DataTexts"]:Enable()
@@ -162,17 +163,17 @@ function Loading:OnEvent(event, addon)
 			T["Tooltips"]:Enable()
 
 		-- PET BATTLES
-			T["PetBattles"]:Enable()
+			--T["PetBattles"]:Enable()
 
 		-- Because peoples seem to not know about this?
 			print(T.WelcomeMessage)
 
 		-- Taint Fix
-		ShowUIPanel(SpellBookFrame)
-		HideUIPanel(SpellBookFrame)
+		--ShowUIPanel(SpellBookFrame)
+		--HideUIPanel(SpellBookFrame)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		-- OBJECTIVE TRACKER
-			T["Miscellaneous"]["ObjectiveTracker"]:Enable()
+			--T["Miscellaneous"]["ObjectiveTracker"]:Enable()
 	end
 end
 

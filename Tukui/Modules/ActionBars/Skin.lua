@@ -210,31 +210,7 @@ function TukuiActionBars:SkinFlyoutButtons()
 end
 
 function TukuiActionBars:StyleFlyout()
-	if not self.FlyoutArrow then return end
 
-	local HB = SpellFlyoutHorizontalBackground
-	local VB = SpellFlyoutVerticalBackground
-	local BE = SpellFlyoutBackgroundEnd
-
-	if self.FlyoutBorder then
-		self.FlyoutBorder:SetAlpha(0)
-		self.FlyoutBorderShadow:SetAlpha(0)
-	end
-
-	HB:SetAlpha(0)
-	VB:SetAlpha(0)
-	BE:SetAlpha(0)
-
-	for i = 1, GetNumFlyouts() do
-		local ID = GetFlyoutID(i)
-		local _, _, NumSlots, IsKnown = GetFlyoutInfo(ID)
-		if IsKnown then
-			FlyoutButtons = NumSlots
-			break
-		end
-	end
-
-	TukuiActionBars.SkinFlyoutButtons()
 end
 
 function TukuiActionBars:StopButtonHighlight()

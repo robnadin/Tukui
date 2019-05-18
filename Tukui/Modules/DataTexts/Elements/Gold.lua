@@ -60,24 +60,6 @@ local OnEnter = function(self)
 		GameTooltip:AddLine(L.DataText.Server)
 		GameTooltip:AddDoubleLine(L.DataText.TotalGold, FormatTooltipMoney(TotalGold), 1, 1, 1, 1, 1, 1)
 
-		for i = 1, GetNumWatchedTokens() do
-			local Name, Count, _, _, ItemID = GetBackpackCurrencyInfo(i)
-			if (Name and i == 1) then
-				GameTooltip:AddLine(" ")
-				GameTooltip:AddLine(CURRENCY)
-			end
-
-			local R, G, B = 1, 1, 1
-
-			if ItemID then
-				R, G, B = GetItemQualityColor(select(3, GetItemInfo(ItemID)))
-			end
-
-			if (Name and Count) then
-				GameTooltip:AddDoubleLine(Name, Count, R, G, B, 1, 1, 1)
-			end
-		end
-
 		GameTooltip:Show()
 	end
 end

@@ -309,7 +309,7 @@ local function Enable(self)
 	end
 	--Need to run these always
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", CheckSpec)
-	self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
+	--self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 end
 
@@ -320,7 +320,7 @@ local function Disable(self)
 	end
 	--Need to run these always
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD", CheckSpec)
-	self:UnregisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
+	--self:UnregisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
 	self:UnregisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 end
 

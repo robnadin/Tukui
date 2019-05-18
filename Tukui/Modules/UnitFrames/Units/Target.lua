@@ -78,33 +78,6 @@ function TukuiUnitFrames:Target()
 
 	Power.PostUpdate = TukuiUnitFrames.PostUpdatePower
 
-	local AltPowerBar = CreateFrame("StatusBar", nil, self)
-	AltPowerBar:SetFrameStrata(self:GetFrameStrata())
-	AltPowerBar:Height(8)
-	AltPowerBar:SetStatusBarTexture(PowerTexture)
-	AltPowerBar:GetStatusBarTexture():SetHorizTile(false)
-	AltPowerBar:SetStatusBarColor(0, 0, 0)
-	AltPowerBar:SetPoint("LEFT")
-	AltPowerBar:SetPoint("RIGHT")
-	AltPowerBar:SetPoint("BOTTOM", Health, "BOTTOM", 0, 0)
-	AltPowerBar:SetBackdrop({
-		bgFile = C.Medias.Blank,
-		edgeFile = C.Medias.Blank,
-		tile = false, tileSize = 0, edgeSize = T.Scale(1),
-		insets = { left = 0, right = 0, top = T.Scale(-1), bottom = 0}
-	})
-	AltPowerBar:SetBackdropColor(0, 0, 0)
-	AltPowerBar:SetBackdropBorderColor(0, 0, 0)
-	AltPowerBar:SetFrameLevel(Health:GetFrameLevel() + 1)
-
-	if C.UnitFrames.AltPowerText then
-		AltPowerBar.Value = AltPowerBar:CreateFontString(nil, "OVERLAY")
-		AltPowerBar.Value:SetFontObject(Font)
-		AltPowerBar.Value:Point("CENTER", 0, 0)
-	end
-
-	AltPowerBar.PostUpdate = TukuiUnitFrames.UpdateAltPower
-
 	if C.UnitFrames.Portrait then
 		local Portrait = CreateFrame("PlayerModel", nil, Health)
 		Portrait:SetFrameStrata(self:GetFrameStrata())
@@ -128,41 +101,6 @@ function TukuiUnitFrames:Target()
 	Name:Point("LEFT", Panel, "LEFT", 4, 0)
 	Name:SetJustifyH("LEFT")
 	Name:SetFontObject(Font)
-
-	if (C.UnitFrames.HealBar) then
-		local FirstBar = CreateFrame("StatusBar", nil, Health)
-		FirstBar:SetPoint("TOPLEFT", Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-		FirstBar:SetPoint("BOTTOMLEFT", Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-		FirstBar:SetWidth(250)
-		FirstBar:SetStatusBarTexture(HealthTexture)
-		FirstBar:SetStatusBarColor(0, 0.3, 0.15, 1)
-		FirstBar:SetMinMaxValues(0,1)
-
-		local SecondBar = CreateFrame("StatusBar", nil, Health)
-		SecondBar:SetPoint("TOPLEFT", Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-		SecondBar:SetPoint("BOTTOMLEFT", Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-		SecondBar:SetWidth(250)
-		SecondBar:SetStatusBarTexture(HealthTexture)
-		SecondBar:SetStatusBarColor(0, 0.3, 0, 1)
-
-		local ThirdBar = CreateFrame("StatusBar", nil, Health)
-		ThirdBar:SetPoint("TOPLEFT", Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-		ThirdBar:SetPoint("BOTTOMLEFT", Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-		ThirdBar:SetWidth(250)
-		ThirdBar:SetStatusBarTexture(HealthTexture)
-		ThirdBar:SetStatusBarColor(0.3, 0.3, 0, 1)
-
-		ThirdBar:SetFrameLevel(Health:GetFrameLevel())
-		SecondBar:SetFrameLevel(ThirdBar:GetFrameLevel() + 1)
-		FirstBar:SetFrameLevel(ThirdBar:GetFrameLevel() + 2)
-
-		self.HealthPrediction = {
-			myBar = FirstBar,
-			otherBar = SecondBar,
-			absorbBar = ThirdBar,
-			maxOverflow = 1,
-		}
-	end
 
 	if (C.UnitFrames.CastBar) then
 		local CastBar = CreateFrame("StatusBar", "TukuiTargetCastBar", self)
@@ -310,9 +248,6 @@ function TukuiUnitFrames:Target()
 	RaidIcon:SetPoint("TOP", self, 0, 8)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
 
-	local Threat = Health:CreateTexture(nil, "OVERLAY")
-	Threat.Override = TukuiUnitFrames.UpdateThreat
-
 	self:Tag(Name, "[Tukui:GetNameColor][Tukui:NameLong] [Tukui:Classification][Tukui:DiffColor][level]")
 	self.Name = Name
 	self.Panel = Panel
@@ -320,7 +255,5 @@ function TukuiUnitFrames:Target()
 	self.Health.bg = Health.Background
 	self.Power = Power
 	self.Power.bg = Power.Background
-	self.AlternativePower = AltPowerBar
 	self.RaidTargetIndicator = RaidIcon
-	self.ThreatIndicator = Threat
 end

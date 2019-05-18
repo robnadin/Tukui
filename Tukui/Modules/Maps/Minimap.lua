@@ -26,7 +26,7 @@ function Minimap:DisableMinimapElements()
 		"MinimapZoneTextButton",
 		"GameTimeFrame",
 		"MiniMapWorldMapButton",
-		"GarrisonLandingPageMinimapButton",
+		--"GarrisonLandingPageMinimapButton",
 	}
 
 	for i, FrameName in pairs(HiddenFrames) do
@@ -91,21 +91,21 @@ function Minimap:StyleMinimap()
 	MailBorder:Hide()
 	MailIcon:SetTexture("Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\Mail")
 
-	QueueStatusMinimapButton:SetParent(Minimap)
-	QueueStatusMinimapButton:ClearAllPoints()
-	QueueStatusMinimapButton:SetPoint("BOTTOMRIGHT", 0, 0)
-	QueueStatusMinimapButtonBorder:Kill()
-	QueueStatusFrame:StripTextures()
-	QueueStatusFrame:SetTemplate()
-	QueueStatusFrame:CreateShadow()
+	--QueueStatusMinimapButton:SetParent(Minimap)
+	--QueueStatusMinimapButton:ClearAllPoints()
+	--QueueStatusMinimapButton:SetPoint("BOTTOMRIGHT", 0, 0)
+	--QueueStatusMinimapButtonBorder:Kill()
+	--QueueStatusFrame:StripTextures()
+	--QueueStatusFrame:SetTemplate()
+	--QueueStatusFrame:CreateShadow()
 
-	MiniMapInstanceDifficulty:ClearAllPoints()
-	MiniMapInstanceDifficulty:SetParent(Minimap)
-	MiniMapInstanceDifficulty:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
+	--MiniMapInstanceDifficulty:ClearAllPoints()
+	--MiniMapInstanceDifficulty:SetParent(Minimap)
+	--MiniMapInstanceDifficulty:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
 
-	GuildInstanceDifficulty:ClearAllPoints()
-	GuildInstanceDifficulty:SetParent(Minimap)
-	GuildInstanceDifficulty:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
+	--GuildInstanceDifficulty:ClearAllPoints()
+	--GuildInstanceDifficulty:SetParent(Minimap)
+	--GuildInstanceDifficulty:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
 
 	HelpOpenTicketButton:SetParent(Minimap.Ticket)
 	HelpOpenTicketButton:SetFrameLevel(Minimap.Ticket:GetFrameLevel() + 1)
@@ -203,12 +203,12 @@ function Minimap:AddZoneAndCoords()
 	Minimap.MinimapCoords = MinimapCoords
 
 	-- Put tracking button over zone
-	MiniMapTracking:Kill()
-	MiniMapTrackingButtonBorder:Kill()
-	MiniMapTrackingButton:SetParent(MinimapZone)
-	MiniMapTrackingButton:ClearAllPoints()
-	MiniMapTrackingButton:SetAllPoints()
-	MiniMapTrackingButton:StripTextures()
+	--MiniMapTracking:Kill()
+	--MiniMapTrackingButtonBorder:Kill()
+	--MiniMapTrackingButton:SetParent(MinimapZone)
+	--MiniMapTrackingButton:ClearAllPoints()
+	--MiniMapTrackingButton:SetAllPoints()
+	--MiniMapTrackingButton:StripTextures()
 end
 
 function Minimap:UpdateCoords(t)
@@ -280,15 +280,15 @@ function Minimap:EnableMouseOver()
 		Minimap.MinimapCoords:SetAlpha(0)
 	end)
 
-	MiniMapTrackingButton:SetScript("OnEnter", function()
-		Minimap.MinimapZone:SetAlpha(1)
-		Minimap.MinimapCoords:SetAlpha(1)
-	end)
+	--MiniMapTrackingButton:SetScript("OnEnter", function()
+		--Minimap.MinimapZone:SetAlpha(1)
+		--Minimap.MinimapCoords:SetAlpha(1)
+	--end)
 
-	MiniMapTrackingButton:SetScript("OnLeave", function()
-		Minimap.MinimapZone:SetAlpha(0)
-		Minimap.MinimapCoords:SetAlpha(0)
-	end)
+	--MiniMapTrackingButton:SetScript("OnLeave", function()
+		--Minimap.MinimapZone:SetAlpha(0)
+		--Minimap.MinimapCoords:SetAlpha(0)
+	--end)
 end
 
 function Minimap:Enable()

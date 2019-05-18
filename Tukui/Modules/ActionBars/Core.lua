@@ -33,14 +33,6 @@ function TukuiActionBars:DisableBlizzard()
 		frame:SetParent(Hider)
 	end
 
-	for i = 1, 6 do
-		local Button = _G["OverrideActionBarButton"..i]
-
-		Button:UnregisterAllEvents()
-		Button:SetAttribute("statehidden", true)
-		Button:SetAttribute("showgrid", 1)
-	end
-
 	hooksecurefunc("TalentFrame_LoadUI", function()
 		PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 	end)
@@ -312,8 +304,8 @@ function TukuiActionBars:AddHooks()
 	hooksecurefunc("ActionButton_UpdateFlyout", self.StyleFlyout)
 	hooksecurefunc("SpellButton_OnClick", self.StyleFlyout)
 	hooksecurefunc("ActionButton_UpdateHotkeys", self.UpdateHotKey)
-	hooksecurefunc(ExtraActionButton1.style, "SetTexture", self.DisableExtraButtonTexture)
-	hooksecurefunc(ZoneAbilityFrame.SpellButton.Style, "SetTexture", self.DisableExtraButtonTexture)
+	--hooksecurefunc(ExtraActionButton1.style, "SetTexture", self.DisableExtraButtonTexture)
+	--hooksecurefunc(ZoneAbilityFrame.SpellButton.Style, "SetTexture", self.DisableExtraButtonTexture)
 	hooksecurefunc("PetActionButton_SetHotkeys", self.UpdateHotKey)
 end
 

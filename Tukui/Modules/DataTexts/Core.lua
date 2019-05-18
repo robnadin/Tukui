@@ -201,12 +201,12 @@ function TukuiDT:AddDefaults()
 	TukuiData[GetRealmName()][UnitName("player")].Texts = {}
 
 	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Guild] = {true, 1}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Voice] = {true, 2}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Friends] = {true, 3}
+	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Durability] = {true, 2}
+	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Voice] = {true, 3}
 	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.FPSAndMS] = {true, 4}
 	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Memory] = {true, 5}
 	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Gold] = {true, 6}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Time] = {true, 7}
+	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Zone] = {true, 7}
 end
 
 function TukuiDT:Reset()
@@ -279,7 +279,10 @@ function TukuiDT:Enable()
 	self.ValueColor = T.RGBToHex(unpack(C["DataTexts"].ValueColor))
 	self:Load()
 	self:AddRemove()
-	self.BGFrame:Enable()
+	
+	if self.BGFrame then
+		self.BGFrame:Enable()
+	end
 end
 
 TukuiDT:RegisterEvent("PLAYER_LOGOUT")

@@ -706,11 +706,12 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 	local IsPowerHidden = PowerBar.IsHidden
 
 	if (not CastBar:IsShown()) and (CurrentPower and CurrentPower == 0) and (MaxPower and MaxPower == 0) then
+		
 		if (not IsPowerHidden) then
 			Health:ClearAllPoints()
 			Health:SetAllPoints()
 
-			PowerBar:Hide()
+			PowerBar:SetAlpha(0)
 			PowerBar.IsHidden = true
 		end
 	else
@@ -720,7 +721,7 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 			Health:SetHeight(C.NamePlates.Height - C.NamePlates.CastHeight - 1)
 			Health:SetWidth(Nameplate:GetWidth())
 
-			PowerBar:Show()
+			PowerBar:SetAlpha(1)
 			PowerBar.IsHidden = false
 		end
 	end
@@ -753,7 +754,7 @@ function TukuiUnitFrames:GetPartyFramesAttributes()
 		]],
 		"initial-width", T.Scale(180),
 		"initial-height", T.Scale(24),
-		"showSolo", false,
+		"showSolo", true,
 		"showParty", true,
 		"showPlayer", C["Party"].ShowPlayer,
 		"showRaid", true,
@@ -780,7 +781,7 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
 		"showParty", true,
 		"showRaid", true,
 		"showPlayer", true,
-		"showSolo", false,
+		"showSolo", true,
 		"xoffset", T.Scale(4),
 		"yOffset", T.Scale(-4),
 		"point", "TOP",
@@ -788,83 +789,6 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
 		"groupingOrder", "1,2,3,4,5,6,7,8",
 		"groupBy", C["Raid"].GroupBy.Value,
 		"maxColumns", math.ceil(40 / 5),
-		"unitsPerColumn", C["Raid"].MaxUnitPerColumn,
-		"columnSpacing", T.Scale(4),
-		"columnAnchorPoint", "LEFT"
-end
-
-function TukuiUnitFrames:GetPetRaidFramesAttributes()
-	local Properties = C.Party.Enable and "custom [@raid6,exists] show;hide" or "solo,party,raid"
-
-	return
-		"TukuiRaidPet",
-		"SecureGroupPetHeaderTemplate",
-		Properties,
-		"showParty", false,
-		"showRaid", C["Raid"].ShowPets,
-		"showSolo", false,
-		"maxColumns", math.ceil(40 / 5),
-		"point", "TOP",
-		"unitsPerColumn", C["Raid"].MaxUnitPerColumn,
-		"columnSpacing", T.Scale(4),
-		"columnAnchorPoint", "LEFT",
-		"yOffset", T.Scale(-4),
-		"xOffset", T.Scale(4),
-		"initial-width", T.Scale(66),
-		"initial-height", T.Scale(50),
-		"oUF-initialConfigFunction", [[
-			local header = self:GetParent()
-			self:SetWidth(header:GetAttribute("initial-width"))
-			self:SetHeight(header:GetAttribute("initial-height"))
-		]]
-end
-
-function TukuiUnitFrames:MainTankAttibutes()
-	return
-		"TukuiMainTank",
-		nil,
-		"solo,party,raid",
-		"oUF-initialConfigFunction", [[
-			local header = self:GetParent()
-			self:SetWidth(header:GetAttribute("initial-width"))
-			self:SetHeight(header:GetAttribute("initial-height"))
-		]],
-		"initial-width", T.Scale(150),
-		"initial-height", T.Scale(22),
-		"showParty", false,
-		"showRaid", true,
-		"showPlayer", false,
-		"showSolo", false,
-		"groupFilter", "MAINTANK",
-		"xoffset", T.Scale(10),
-		"yOffset", T.Scale(-10),
-		"point", "TOP",
-		"unitsPerColumn", C["Raid"].MaxUnitPerColumn,
-		"columnSpacing", T.Scale(7),
-		"columnAnchorPoint", "LEFT"
-end
-
-function TukuiUnitFrames:MainTankTargetAttibutes()
-	return
-		"TukuiMainTankTarget",
-		nil,
-		"solo,party,raid",
-		"oUF-initialConfigFunction", [[
-			local header = self:GetParent()
-			self:SetWidth(header:GetAttribute("initial-width"))
-			self:SetHeight(header:GetAttribute("initial-height"))
-			self:SetAttribute("unitsuffix", "target")
-		]],
-		"initial-width", T.Scale(150),
-		"initial-height", T.Scale(22),
-		"showParty", false,
-		"showRaid", true,
-		"showPlayer", false,
-		"showSolo", false,
-		"groupFilter", "MAINTANK",
-		"xoffset", T.Scale(4),
-		"yOffset", T.Scale(-4),
-		"point", "TOP",
 		"unitsPerColumn", C["Raid"].MaxUnitPerColumn,
 		"columnSpacing", T.Scale(4),
 		"columnAnchorPoint", "LEFT"
@@ -885,16 +809,9 @@ function TukuiUnitFrames:Style(unit)
 		TukuiUnitFrames.TargetOfTarget(self)
 	elseif (unit == "pet") then
 		TukuiUnitFrames.Pet(self)
-	elseif (unit == "focus") then
-		TukuiUnitFrames.Focus(self)
-	elseif (unit == "focustarget") then
-		TukuiUnitFrames.FocusTarget(self)
-	elseif unit:find("arena%d") then
-		TukuiUnitFrames.Arena(self)
-	elseif unit:find("boss%d") then
-		TukuiUnitFrames.Boss(self)
-	elseif (unit:find("raid") or unit:find("raidpet")) then
+	elseif (unit:find("raid")) then
 		if Parent:match("Party") then
+			print"found"
 			TukuiUnitFrames.Party(self)
 		else
 			TukuiUnitFrames.Raid(self)
@@ -949,41 +866,10 @@ function TukuiUnitFrames:CreateUnits()
 		Pet:SetPoint("BOTTOM", TukuiUnitFrames.Anchor, "TOP", 0, 49)
 		Pet:Size(129, 36)
 
-		local Focus = oUF:Spawn("focus")
-		Focus:SetPoint("BOTTOMLEFT", TukuiUnitFrames.Anchor, "TOPLEFT", 0, 200)
-		Focus:SetParent(Panels.PetBattleHider)
-		Focus:Size(200, 29)
-
-		local FocusTarget = oUF:Spawn("focustarget")
-		FocusTarget:SetPoint("BOTTOM", Focus, "TOP", 0, 35)
-		FocusTarget:SetParent(Panels.PetBattleHider)
-		FocusTarget:Size(200, 29)
-
 		self.Units.Player = Player
 		self.Units.Target = Target
 		self.Units.TargetOfTarget = TargetOfTarget
 		self.Units.Pet = Pet
-		self.Units.Focus = Focus
-		self.Units.FocusTarget = FocusTarget
-
-		if (C.UnitFrames.Arena) then
-			local Arena = {}
-
-			for i = 1, 5 do
-				Arena[i] = oUF:Spawn("arena"..i, nil)
-				Arena[i]:SetParent(Panels.PetBattleHider)
-				if (i == 1) then
-					Arena[i]:SetPoint("BOTTOMRIGHT", TukuiUnitFrames.Anchor, "TOPRIGHT", 0, 200)
-				else
-					Arena[i]:SetPoint("BOTTOM", Arena[i - 1], "TOP", 0, 35)
-				end
-				Arena[i]:Size(200, 29)
-
-				Movers:RegisterFrame(Arena[i])
-			end
-
-			self.Units.Arena = Arena
-		end
 
 		if (C.UnitFrames.Boss) then
 			local Boss = {}
@@ -1003,51 +889,32 @@ function TukuiUnitFrames:CreateUnits()
 
 			self.Units.Boss = Boss
 		end
-
+		
+		-- BROKEN : SECUREGROUPHEADERS
 		if C.Party.Enable then
-			local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
-			Party:SetParent(Panels.PetBattleHider)
-			Party:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -(UIParent:GetHeight() / 2) + 200)
+			--local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
+			--Party:SetParent(Panels.PetBattleHider)
+			--Party:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -(UIParent:GetHeight() / 2) + 200)
 
-			TukuiUnitFrames.Headers.Party = Party
+			--TukuiUnitFrames.Headers.Party = Party
 
-			Movers:RegisterFrame(Party)
+			--Movers:RegisterFrame(Party)
 		end
 
 		if C.Raid.Enable then
-			local Raid = oUF:SpawnHeader(TukuiUnitFrames:GetRaidFramesAttributes())
-			Raid:SetParent(Panels.PetBattleHider)
-			Raid:Point("TOPLEFT", UIParent, "TOPLEFT", 30, -30)
+			--local Raid = oUF:SpawnHeader(TukuiUnitFrames:GetRaidFramesAttributes())
+			--Raid:SetParent(Panels.PetBattleHider)
+			--Raid:Point("TOPLEFT", UIParent, "TOPLEFT", 30, -30)
 
-			if C.Raid.ShowPets then
-				local Pet = oUF:SpawnHeader(TukuiUnitFrames:GetPetRaidFramesAttributes())
-				Pet:SetParent(Panels.PetBattleHider)
-				Pet:Point("TOPLEFT", Raid, "TOPRIGHT", 4, 0)
+			--TukuiUnitFrames.Headers.Raid = Raid
 
-				TukuiUnitFrames.Headers.RaidPet = Pet
-
-				Movers:RegisterFrame(Pet)
-			end
-	--[[
-			local MainTank = oUF:SpawnHeader(TukuiUnitFrames:MainTankAttibutes())
-			MainTank:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-			Movers:RegisterFrame(MainTank)
-
-			local MainTankTarget = oUF:SpawnHeader(TukuiUnitFrames:MainTankTargetAttibutes())
-			MainTankTarget:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-			Movers:RegisterFrame(MainTankTarget)
-	]]
-			TukuiUnitFrames.Headers.Raid = Raid
-
-			Movers:RegisterFrame(Raid)
+			--Movers:RegisterFrame(Raid)
 		end
 
 		Movers:RegisterFrame(Player)
 		Movers:RegisterFrame(Target)
 		Movers:RegisterFrame(TargetOfTarget)
 		Movers:RegisterFrame(Pet)
-		Movers:RegisterFrame(Focus)
-		Movers:RegisterFrame(FocusTarget)
 	end
 
 	if C.NamePlates.Enable then
@@ -1155,24 +1022,6 @@ function TukuiUnitFrames:Enable()
 			ORD.ShowDispellableDebuff = true
 			ORD.FilterDispellableDebuff = true
 			ORD.MatchBySpellName = false
-		end
-	end
-
-	if T.WoWBuild >= 28724 then
-		-- Remove this 8.1 ugly bar
-		local PNPFrames = {
-			ClassNameplateManaBarFrame,
-			ClassNameplateManaBarFrame.Border,
-			ClassNameplateManaBarFrame.FeedbackFrame,
-			ClassNameplateManaBarFrame.FullPowerFrame,
-			ClassNameplateManaBarFrame.ManaCostPredictionBar,
-			ClassNameplateManaBarFrame.background,
-			ClassNameplateManaBarFrame.Texture
-		}
-
-		for _, PNPFrame in pairs(PNPFrames) do
-			PNPFrame:ClearAllPoints()
-			PNPFrame:SetParent(T.Panels.Hider)
 		end
 	end
 end

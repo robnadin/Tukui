@@ -39,14 +39,14 @@ function Install:Step1()
 	SetCVar("UberTooltips", 1)
 	SetCVar("removeChatDelay", 1)
 	SetCVar("showVKeyCastbar", 1)
-	SetCVar("lossOfControl", 1)
+	--SetCVar("lossOfControl", 1)
 	SetCVar("showArenaEnemyFrames", 0)
 	SetCVar("alwaysShowActionBars", 1)
 	SetCVar("autoOpenLootHistory", 0)
 	SetCVar("spamFilter", 0)
 	SetCVar("violenceLevel", 5)
 	SetCVar("ShowClassColorInNameplate", 1)
-	SetCVar("nameplateShowSelf", 0)
+	--SetCVar("nameplateShowSelf", 0)
 	SetCVar("nameplateMotion", 0)
 
 	if (ActionBars) then
@@ -62,7 +62,6 @@ function Install:Step2()
 	end
 
 	Chat:Install()
-	Chat:SetDefaultChatFramesPositions()
 end
 
 function Install:PrintStep(number)

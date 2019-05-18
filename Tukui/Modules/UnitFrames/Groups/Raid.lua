@@ -104,54 +104,8 @@ function TukuiUnitFrames:Raid()
 		outsideAlpha = C["Raid"].RangeAlpha,
 	}
 
-	if (C.Raid.HealBar) then
-		local FirstBar = CreateFrame("StatusBar", nil, Health)
-		local SecondBar = CreateFrame("StatusBar", nil, Health)
-		local ThirdBar = CreateFrame("StatusBar", nil, Health)
-
-		FirstBar:Width(66)
-		FirstBar:Height(28)
-		FirstBar:SetStatusBarTexture(HealthTexture)
-		FirstBar:SetStatusBarColor(0, 0.3, 0.15, 1)
-		FirstBar:SetMinMaxValues(0,1)
-
-		SecondBar:Width(66)
-		SecondBar:Height(28)
-		SecondBar:SetStatusBarTexture(HealthTexture)
-		SecondBar:SetStatusBarColor(0, 0.3, 0, 1)
-
-		ThirdBar:Width(66)
-		ThirdBar:Height(28)
-		ThirdBar:SetStatusBarTexture(HealthTexture)
-		ThirdBar:SetStatusBarColor(0.3, 0.3, 0, 1)
-
-		if C.Raid.VerticalHealth then
-			FirstBar:SetOrientation("VERTICAL")
-			SecondBar:SetOrientation("VERTICAL")
-			ThirdBar:SetOrientation("VERTICAL")
-
-			FirstBar:SetPoint("BOTTOM", Health:GetStatusBarTexture(), "TOP", 0, 0)
-			SecondBar:SetPoint("BOTTOM", Health:GetStatusBarTexture(), "TOP", 0, 0)
-			ThirdBar:SetPoint("BOTTOM", Health:GetStatusBarTexture(), "TOP", 0, 0)
-		else
-			FirstBar:SetPoint("LEFT", Health:GetStatusBarTexture(), "RIGHT", 0, 0)
-			SecondBar:SetPoint("LEFT", Health:GetStatusBarTexture(), "RIGHT", 0, 0)
-			ThirdBar:SetPoint("LEFT", Health:GetStatusBarTexture(), "RIGHT", 0, 0)
-		end
-
-		ThirdBar:SetFrameLevel(Health:GetFrameLevel())
-		SecondBar:SetFrameLevel(ThirdBar:GetFrameLevel() + 1)
-		FirstBar:SetFrameLevel(ThirdBar:GetFrameLevel() + 2)
-
-		self.HealthPrediction = {
-			myBar = FirstBar,
-			otherBar = SecondBar,
-			absorbBar = ThirdBar,
-			maxOverflow = 1,
-		}
-	end
-
 	-- AuraWatch (corner and center icon)
+	--[[
 	if C["Raid"].AuraWatch then
 		TukuiUnitFrames:CreateAuraWatch(self)
 
@@ -191,28 +145,14 @@ function TukuiUnitFrames:Raid()
 
 		self.RaidDebuffs = RaidDebuffs
 	end
-
-	local Threat = Health:CreateTexture(nil, "OVERLAY")
-	Threat.Override = TukuiUnitFrames.UpdateThreat
-
+	--]]
+	
 	local Highlight = CreateFrame("Frame", nil, self)
 	Highlight:SetPoint("TOPLEFT", self, "TOPLEFT")
 	Highlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT")
 	Highlight:SetBackdrop(TukuiUnitFrames.HighlightBorder)
 	Highlight:SetFrameLevel(0)
 	Highlight:Hide()
-
-	--[[
-	if Class == "PRIEST" then
-		local Atonement = CreateFrame("StatusBar", nil, Power)
-		Atonement:SetAllPoints()
-		Atonement:SetStatusBarTexture(C.Medias.Normal)
-		Atonement:SetFrameStrata(Power:GetFrameStrata())
-		Atonement:SetFrameLevel(Power:GetFrameLevel() + 1)
-
-		self.Atonement = Atonement
-	end
-	--]]
 
 	self:Tag(Name, "[Tukui:GetRaidNameColor][Tukui:NameShort]")
 	self.Health.bg = Health.Background
@@ -223,10 +163,9 @@ function TukuiUnitFrames:Raid()
 	self.ReadyCheckIndicator = ReadyCheck
 	self.Range = Range
 	self.RaidTargetIndicator = RaidIcon
-	self.ThreatIndicator = Threat
 	self.Highlight = Highlight
 
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight)
 	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight)
-	self:RegisterEvent("PLAYER_FOCUS_CHANGED", TukuiUnitFrames.Highlight)
+	--self:RegisterEvent("PLAYER_FOCUS_CHANGED", TukuiUnitFrames.Highlight)
 end

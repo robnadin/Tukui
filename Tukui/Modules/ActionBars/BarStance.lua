@@ -48,7 +48,6 @@ function TukuiActionBars:CreateStanceBar()
 	StanceBar:RegisterEvent("UPDATE_SHAPESHIFT_COOLDOWN")
 	StanceBar:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 	StanceBar:RegisterEvent("ACTIONBAR_PAGE_CHANGED")
-	StanceBar:RegisterEvent("PLAYER_TALENT_UPDATE")
 	StanceBar:RegisterEvent("SPELLS_CHANGED")
 	StanceBar:SetScript("OnEvent", function(self, event, ...)
 		if (event == "UPDATE_SHAPESHIFT_FORMS") then

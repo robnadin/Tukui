@@ -37,13 +37,13 @@ local function Update(self, event)
 		element:PreUpdate()
 	end
 
-	local role = UnitGroupRolesAssigned(self.unit)
-	if(role == 'TANK' or role == 'HEALER' or role == 'DAMAGER') then
-		element:SetTexCoord(GetTexCoordsForRoleSmallCircle(role))
-		element:Show()
-	else
-		element:Hide()
-	end
+	--local role = UnitGroupRolesAssigned(self.unit)
+	--if(role == 'TANK' or role == 'HEALER' or role == 'DAMAGER') then
+		--element:SetTexCoord(GetTexCoordsForRoleSmallCircle(role))
+		--element:Show()
+	--else
+		--element:Hide()
+	--end
 
 	--[[ Callback: GroupRoleIndicator:PostUpdate(role)
 	Called after the element has been updated.

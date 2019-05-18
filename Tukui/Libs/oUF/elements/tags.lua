@@ -122,9 +122,9 @@ local tagStrings = {
 
 	['level'] = [[function(u)
 		local l = UnitLevel(u)
-		if(UnitIsWildBattlePet(u) or UnitIsBattlePetCompanion(u)) then
-			l = UnitBattlePetLevel(u)
-		end
+		--if(UnitIsWildBattlePet(u) or UnitIsBattlePetCompanion(u)) then
+			--l = UnitBattlePetLevel(u)
+		--end
 
 		if(l > 0) then
 			return l
@@ -493,8 +493,8 @@ local tagEvents = {
 	['pvp']                 = 'UNIT_FACTION',
 	['resting']             = 'PLAYER_UPDATE_RESTING',
 	['smartlevel']          = 'UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED',
-	['threat']              = 'UNIT_THREAT_SITUATION_UPDATE',
-	['threatcolor']         = 'UNIT_THREAT_SITUATION_UPDATE',
+	--['threat']              = 'UNIT_THREAT_SITUATION_UPDATE',
+	--['threatcolor']         = 'UNIT_THREAT_SITUATION_UPDATE',
 	['cpoints']             = 'UNIT_POWER_FREQUENT PLAYER_TARGET_CHANGED',
 	['affix']               = 'UNIT_CLASSIFICATION_CHANGED',
 	['plus']                = 'UNIT_CLASSIFICATION_CHANGED',
@@ -516,7 +516,7 @@ local tagEvents = {
 	['arcanecharges']       = 'UNIT_POWER_UPDATE SPELLS_CHANGED',
 	['powercolor']          = 'UNIT_DISPLAYPOWER',
 	['runes']               = 'RUNE_POWER_UPDATE',
-	['arenaspec']           = 'ARENA_PREP_OPPONENT_SPECIALIZATIONS',
+	--['arenaspec']           = 'ARENA_PREP_OPPONENT_SPECIALIZATIONS',
 }
 
 local unitlessEvents = {
@@ -526,7 +526,7 @@ local unitlessEvents = {
 	PARTY_LEADER_CHANGED = true,
 	GROUP_ROSTER_UPDATE = true,
 	RUNE_POWER_UPDATE = true,
-	ARENA_PREP_OPPONENT_SPECIALIZATIONS = true,
+	--ARENA_PREP_OPPONENT_SPECIALIZATIONS = true,
 }
 
 local events = {}

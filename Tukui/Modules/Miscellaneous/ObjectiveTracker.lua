@@ -10,7 +10,6 @@ local select = select
 
 -- WoW Globals
 local ObjectiveTrackerFrame = ObjectiveTrackerFrame
-local ObjectiveTrackerFrameHeaderMenuMinimizeButton = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
 local SCENARIO_CONTENT_TRACKER_MODULE = SCENARIO_CONTENT_TRACKER_MODULE
 local QUEST_TRACKER_MODULE = QUEST_TRACKER_MODULE
 local WORLD_QUEST_TRACKER_MODULE = WORLD_QUEST_TRACKER_MODULE
@@ -24,6 +23,8 @@ local CustomClassColor = T.Colors.class[Class]
 local PreviousPOI
 
 function ObjectiveTracker:Disable()
+	local ObjectiveTrackerFrameHeaderMenuMinimizeButton = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
+	
 	ObjectiveTrackerFrameHeaderMenuMinimizeButton:Hide()
 end
 

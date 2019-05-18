@@ -112,26 +112,6 @@ local OnEnter = function(self)
 	GameTooltip:ClearLines()
 
 	local SavedInstances = GetNumSavedInstances()
-	local SavedWorldBosses = GetNumSavedWorldBosses()
-
-	if (SavedWorldBosses > 0) then
-		GameTooltip:AddLine("World Bosses")
-
-		for i = 1, SavedWorldBosses do
-			local Name, _, Reset = GetSavedWorldBossInfo(i)
-
-			if (Name and Reset) then
-				local ResetTime = GetResetTime(Reset)
-
-				GameTooltip:AddDoubleLine(Name, ResetTime, 1, 1, 1, 1, 1, 1)
-			end
-		end
-	end
-
-	if ((SavedWorldBosses > 0) and (SavedInstances > 0)) then
-		-- Spacing
-		GameTooltip:AddLine(" ")
-	end
 
 	if (SavedInstances > 0) then
 		GameTooltip:AddLine("Saved Raids")

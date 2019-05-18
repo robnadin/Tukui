@@ -288,25 +288,11 @@ function ActionBars:LoadVariables()
 end
 
 function ActionBars:VehicleOnEvent(event)
-	if CanExitVehicle() then
-		if (UnitOnTaxi("player")) then
-			self.Text:SetText("|cffFF0000" .. TAXI_CANCEL_DESCRIPTION .. "|r")
-		else
-			self.Text:SetText("|cffFF0000" .. LEAVE_VEHICLE .. "|r")
-		end
 
-		self:Show()
-	else
-		self:Hide()
-	end
 end
 
 function ActionBars:VehicleOnClick()
-	if (UnitOnTaxi("player")) then
-		TaxiRequestEarlyLanding()
-	else
-		VehicleExit()
-	end
+
 end
 
 function ActionBars:CreateVehicleButtons()
@@ -319,10 +305,6 @@ function ActionBars:CreateVehicleButtons()
 	VehicleLeft:SetScript("OnClick", ActionBars.VehicleOnClick)
 	VehicleLeft:RegisterEvent("PLAYER_ENTERING_WORLD")
 	VehicleLeft:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
-	VehicleLeft:RegisterEvent("UPDATE_MULTI_CAST_ACTIONBAR")
-	VehicleLeft:RegisterEvent("UNIT_ENTERED_VEHICLE")
-	VehicleLeft:RegisterEvent("UNIT_EXITED_VEHICLE")
-	VehicleLeft:RegisterEvent("VEHICLE_UPDATE")
 	VehicleLeft:SetScript("OnEvent", ActionBars.VehicleOnEvent)
 	VehicleLeft:Hide()
 
@@ -340,10 +322,6 @@ function ActionBars:CreateVehicleButtons()
 	VehicleRight:SetScript("OnClick", ActionBars.VehicleOnClick)
 	VehicleRight:RegisterEvent("PLAYER_ENTERING_WORLD")
 	VehicleRight:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
-	VehicleRight:RegisterEvent("UPDATE_MULTI_CAST_ACTIONBAR")
-	VehicleRight:RegisterEvent("UNIT_ENTERED_VEHICLE")
-	VehicleRight:RegisterEvent("UNIT_EXITED_VEHICLE")
-	VehicleRight:RegisterEvent("VEHICLE_UPDATE")
 	VehicleRight:SetScript("OnEvent", ActionBars.VehicleOnEvent)
 	VehicleRight:Hide()
 
