@@ -33,10 +33,6 @@ function TukuiActionBars:DisableBlizzard()
 		frame:SetParent(Hider)
 	end
 
-	hooksecurefunc("TalentFrame_LoadUI", function()
-		PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-	end)
-
 	hooksecurefunc("ActionButton_OnEvent", function(self, event)
 		if (event == "PLAYER_ENTERING_WORLD") then
 			self:UnregisterEvent("ACTIONBAR_SHOWGRID")
