@@ -26,25 +26,61 @@ function WorldMap:OnUpdate(elapsed)
 			WorldMap.Coords.PlayerText:SetText(" ")
 		end
 
-		WorldMap.Interval = WorldMap.UpdateEveryXSeconds
+		WorldMap.Interval = 2
 	end
 end
 
 function WorldMap:CreateCoords()
+	local Map = WorldMapFrame.ScrollContainer.Child
+	
 	self.Coords = CreateFrame("Frame", nil, WorldMapFrame)
-
 	self.Coords:SetFrameLevel(90)
 	self.Coords:FontString("PlayerText", C.Medias.Font, 12, "THINOUTLINE")
 	self.Coords.PlayerText:SetTextColor(1, 1, 1)
-	self.Coords.PlayerText:SetPoint("BOTTOMLEFT", WorldMapFrame.BorderFrame, "BOTTOMLEFT", 5, 5)
+	self.Coords.PlayerText:SetPoint("BOTTOMLEFT", Map, "BOTTOMLEFT", 5, 5)
 	self.Coords.PlayerText:SetText("Player:   0, 0")
 end
 
+function WorldMap:SkinMap()
+	local Frame = WorldMapFrame
+	local Blackout = Frame.BlackoutFrame
+	local Borders = Frame.BorderFrame
+	local Map = Frame.ScrollContainer.Child
+	local CloseButton = WorldMapFrameCloseButton
+	local ContinentButton = WorldMapContinentDropDown
+	local ZoneButton = WorldMapZoneDropDown
+	local ZoonButton = WorldMapZoomOutButton
+	local MagnifyButton = WorldMapMagnifyingGlassButton
+	
+	Frame:CreateBackdrop()
+	Frame.Backdrop:ClearAllPoints()
+	Frame.Backdrop:SetAllPoints(Map)
+	Frame.Backdrop:CreateShadow()
+
+	Blackout:StripTextures()
+	Blackout:EnableMouse(false)
+	
+	Borders:SetAlpha(0)
+	
+	ContinentButton:SetParent(T.Panels.Hider)
+	
+	ZoneButton:SetParent(T.Panels.Hider)
+	
+	WorldMapZoomOutButton:SetParent(T.Panels.Hider)
+	
+	MagnifyButton:SetParent(T.Panels.Hider)
+	
+	CloseButton:ClearAllPoints()
+	CloseButton:SetPoint("TOPRIGHT", -10, -72)
+	CloseButton:SetFrameStrata("FULLSCREEN")
+	CloseButton:SetFrameLevel(Map:GetFrameLevel() + 1)
+end
+
 function WorldMap:Enable()
-	WorldMap.Interval = 2
-	WorldMap.UpdateEveryXSeconds = WorldMap.Interval
-	WorldMap:CreateCoords()
-	WorldMapFrame:HookScript("OnUpdate", WorldMap.OnUpdate)
+	self.Interval = 2
+	self:CreateCoords()
+	self:HookScript("OnUpdate", WorldMap.OnUpdate)
+	self:SkinMap()
 end
 
 T["Maps"].Worldmap = WorldMap

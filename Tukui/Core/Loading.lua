@@ -110,10 +110,6 @@ function Loading:OnEvent(event, addon)
 				T["Miscellaneous"]["ErrorFilter"]:Enable()
 			end
 
-			if C["Misc"].AutoInviteEnable then
-				--T["Miscellaneous"]["Invite"]:Enable()
-			end
-
 			T["Miscellaneous"]["MirrorTimers"]:Enable()
 			T["Miscellaneous"]["DropDown"]:Enable()
 			T["Miscellaneous"]["CollectGarbage"]:Enable()
@@ -139,7 +135,7 @@ function Loading:OnEvent(event, addon)
 		-- Maps
 			T["Maps"]["Minimap"]:Enable()
 			--T["Maps"]["Zonemap"]:Enable()
-			--T["Maps"]["Worldmap"]:Enable()
+			T["Maps"]["Worldmap"]:Enable()
 
 		-- DATATEXTS
 			T["DataTexts"]:Enable()
