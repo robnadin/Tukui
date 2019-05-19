@@ -168,7 +168,9 @@ local OnEnter = function(self)
 				Count = Count + 1
 			end
 			
-			if Count > 40 then
+			local MaxMemberNumberToDisplay = (T.ScreenHeight / 100) * 2
+			
+			if Count > MaxMemberNumberToDisplay then
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine("...")
 				break -- too many members online
