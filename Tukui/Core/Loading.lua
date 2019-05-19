@@ -114,17 +114,10 @@ function Loading:OnEvent(event, addon)
 			T["Miscellaneous"]["DropDown"]:Enable()
 			T["Miscellaneous"]["CollectGarbage"]:Enable()
 			T["Miscellaneous"]["GameMenu"]:Enable()
-			--T["Miscellaneous"]["LossControl"]:Enable()
-			--T["Miscellaneous"]["StaticPopups"]:Enable()
-			--T["Miscellaneous"]["TimerTracker"]:Enable()
+			T["Miscellaneous"]["StaticPopups"]:Enable()
 			T["Miscellaneous"]["Durability"]:Enable()
 			--T["Miscellaneous"]["UIWidgets"]:Enable()
-			--T["Miscellaneous"]["Ghost"]:Enable()
-			--T["Miscellaneous"]["VehicleIndicator"]:Enable()
-			--T["Miscellaneous"]["DeathRecap"]:Enable()
 			T["Miscellaneous"]["AFK"]:Enable()
-			--T["Miscellaneous"]["OrderHall"]:Enable()
-			--T["Miscellaneous"]["UIErrorFilter"]:Enable()
 			T["Miscellaneous"]["MicroMenu"]:Enable()
 
 		-- BUFFS
@@ -148,9 +141,6 @@ function Loading:OnEvent(event, addon)
 
 		-- TOOLTIPS
 			T["Tooltips"]:Enable()
-
-		-- PET BATTLES
-			--T["PetBattles"]:Enable()
 
 		-- Because peoples seem to not know about this?
 			print(T.WelcomeMessage)
