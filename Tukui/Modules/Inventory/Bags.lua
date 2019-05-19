@@ -4,13 +4,12 @@ local _G = _G
 local Noop = function() end
 local Font, FontPath
 local ReplaceBags = 0
-local LastButtonBag, LastButtonBank, LastButtonReagent
+local LastButtonBag, LastButtonBank
 local Token1, Token2, Token3 = BackpackTokenFrameToken1, BackpackTokenFrameToken2, BackpackTokenFrameToken3
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 local ContainerFrame_GetOpenFrame = ContainerFrame_GetOpenFrame
 local BankFrame = BankFrame
-local ReagentBankFrame = ReagentBankFrame
 local BagHelpBox = BagHelpBox
 local ButtonSize, ButtonSpacing, ItemsPerRow
 local Bags = CreateFrame("Frame")
@@ -137,140 +136,6 @@ function Bags:HideBlizzard()
 	end
 end
 
-function Bags:CreateReagentContainer()
-	ReagentBankFrame:StripTextures()
-
-	local DataTextLeft = T["Panels"].DataTextLeft
-	local Reagent = CreateFrame("Frame", "TukuiReagent", UIParent)
-	local SwitchBankButton = CreateFrame("Button", nil, Reagent)
-	local SortButton = CreateFrame("Button", nil, Reagent)
-	local NumButtons = ReagentBankFrame.size
-	local NumRows, LastRowButton, NumButtons, LastButton = 0, ReagentBankFrameItem1, 1, ReagentBankFrameItem1
-	local Deposit = ReagentBankFrame.DespositButton
-	local Movers = T["Movers"]
-
-	Reagent:SetWidth(((ButtonSize + ButtonSpacing) * ItemsPerRow) + 22 - ButtonSpacing)
-	Reagent:SetPoint("BOTTOMLEFT", DataTextLeft, "TOPLEFT", 0, 6)
-	Reagent:SetTemplate()
-	Reagent:CreateShadow()
-	Reagent:SetFrameStrata(self.Bank:GetFrameStrata())
-	Reagent:SetFrameLevel(self.Bank:GetFrameLevel())
-
-	SwitchBankButton:Size((Reagent:GetWidth() / 2) - 1, 23)
-	SwitchBankButton:SkinButton()
-	SwitchBankButton:CreateShadow()
-	SwitchBankButton:Point("BOTTOMLEFT", Reagent, "TOPLEFT", 0, 2)
-
-	SwitchBankButton.Text = SwitchBankButton:CreateFontString(nil, "OVERLAY")
-	SwitchBankButton.Text:SetFont(FontPath, 12)
-	SwitchBankButton.Text:SetJustifyH("LEFT")
-	SwitchBankButton.Text:SetShadowColor(0, 0, 0)
-	SwitchBankButton.Text:SetShadowOffset(T.Mult, -T.Mult)
-	SwitchBankButton.Text:SetPoint("CENTER")
-	SwitchBankButton.Text:SetText("Switch to: "..BANK)
-	SwitchBankButton:SetScript("OnClick", function()
-		Reagent:Hide()
-		self.Bank:Show()
-		BankFrame_ShowPanel(BANK_PANELS[1].name)
-
-		for i = 5, 11 do
-			if (not IsBagOpen(i)) then
-
-				self:OpenBag(i, 1)
-			end
-		end
-	end)
-
-	Deposit:SetParent(Reagent)
-	Deposit:ClearAllPoints()
-	Deposit:Size(Reagent:GetWidth(), 23)
-	Deposit:Point("BOTTOMLEFT", SwitchBankButton, "TOPLEFT", 0, 2)
-	Deposit:SkinButton()
-	Deposit:CreateShadow()
-
-	SortButton:Size((Reagent:GetWidth() / 2) - 1, 23)
-	SortButton:SetPoint("LEFT", SwitchBankButton, "RIGHT", 2, 0)
-	SortButton:SkinButton()
-	SortButton:CreateShadow()
-	SortButton.Text = SortButton:CreateFontString(nil, "OVERLAY")
-	SortButton.Text:SetFont(FontPath, 12)
-	SortButton.Text:SetJustifyH("LEFT")
-	SortButton.Text:SetShadowColor(0, 0, 0)
-	SortButton.Text:SetShadowOffset(T.Mult, -T.Mult)
-	SortButton.Text:SetPoint("CENTER")
-	SortButton.Text:SetText(BAG_FILTER_CLEANUP)
-	SortButton:SetScript("OnClick", BankFrame_AutoSortButtonOnClick)
-
-	for i = 1, 98 do
-		local Button = _G["ReagentBankFrameItem"..i]
-		local Count = _G[Button:GetName().."Count"]
-		local Icon = _G[Button:GetName().."IconTexture"]
-
-		ReagentBankFrame:SetParent(Reagent)
-		ReagentBankFrame:ClearAllPoints()
-		ReagentBankFrame:SetAllPoints()
-
-		Button:ClearAllPoints()
-		Button:SetWidth(ButtonSize)
-		Button:SetHeight(ButtonSize)
-		Button:SetNormalTexture("")
-		Button:SetPushedTexture("")
-		Button:SetHighlightTexture("")
-		Button:SetTemplate()
-		Button.IconBorder:SetAlpha(0)
-
-		if (i == 1) then
-			Button:SetPoint("TOPLEFT", Reagent, "TOPLEFT", 10, -10)
-			LastRowButton = Button
-			LastButton = Button
-		elseif (NumButtons == ItemsPerRow) then
-			Button:SetPoint("TOPRIGHT", LastRowButton, "TOPRIGHT", 0, -(ButtonSpacing + ButtonSize))
-			Button:SetPoint("BOTTOMLEFT", LastRowButton, "BOTTOMLEFT", 0, -(ButtonSpacing + ButtonSize))
-			LastRowButton = Button
-			NumRows = NumRows + 1
-			NumButtons = 1
-		else
-			Button:SetPoint("TOPRIGHT", LastButton, "TOPRIGHT", (ButtonSpacing + ButtonSize), 0)
-			Button:SetPoint("BOTTOMLEFT", LastButton, "BOTTOMLEFT", (ButtonSpacing + ButtonSize), 0)
-			NumButtons = NumButtons + 1
-		end
-
-		Icon:SetTexCoord(unpack(T.IconCoord))
-		Icon:SetInside()
-
-		LastButton = Button
-
-		self:SlotUpdate(-3, Button)
-	end
-
-	Reagent:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 20) - ButtonSpacing)
-	Reagent:SetScript("OnHide", function()
-		ReagentBankFrame:Hide()
-	end)
-
-	-- Unlock window
-	local Unlock = ReagentBankFrameUnlockInfo
-	local UnlockButton = ReagentBankFrameUnlockInfoPurchaseButton
-
-	Unlock:StripTextures()
-	Unlock:SetAllPoints(Reagent)
-	Unlock:SetTemplate()
-
-	UnlockButton:SkinButton()
-
-	-- Movers
-	local CustomPosition = TukuiData[T.MyRealm][T.MyName].Move.TukuiBank
-
-	if CustomPosition then
-		Reagent:ClearAllPoints()
-		Reagent:SetPoint("BOTTOMLEFT", TukuiBank, "BOTTOMLEFT", 0, 0)
-	end
-
-	self.Reagent = Reagent
-	self.Reagent.SwitchBankButton = SwitchBankButton
-	self.Reagent.SortButton = SortButton
-end
-
 function Bags:CreateContainer(storagetype, ...)
 	local Container = CreateFrame("Frame", "Tukui".. storagetype, UIParent)
 	Container:SetScale(1)
@@ -311,7 +176,6 @@ function Bags:CreateContainer(storagetype, ...)
 			if (button == "RightButton") then
 				local BanksContainer = Bags.Bank.BagsContainer
 				local Purchase = BankFramePurchaseInfo
-				local ReagentButton = Bags.Bank.ReagentButton
 
 				if (ReplaceBags == 0) then
 					ReplaceBags = 1
@@ -322,8 +186,6 @@ function Bags:CreateContainer(storagetype, ...)
 
 					if Purchase:IsShown() then
 						BanksContainer:SetPoint("BOTTOMLEFT", Purchase, "TOPLEFT", 50, 2)
-					else
-						BanksContainer:SetPoint("BOTTOMLEFT", ReagentButton, "TOPLEFT", 0, 2)
 					end
 				else
 					ReplaceBags = 0
@@ -398,7 +260,7 @@ function Bags:CreateContainer(storagetype, ...)
 		Purchase:ClearAllPoints()
 		Purchase:SetWidth(Container:GetWidth() + 50)
 		Purchase:SetHeight(70)
-		Purchase:SetPoint("BOTTOMLEFT", SwitchReagentButton, "TOPLEFT", -50, 2)
+		Purchase:SetPoint("BOTTOMLEFT", TukuiBank, "TOPLEFT", -50, 2)
 		Purchase:CreateBackdrop()
 		Purchase.Backdrop:SetPoint("TOPLEFT", 50, 0)
 		Purchase.Backdrop:SetPoint("BOTTOMRIGHT", 0, 0)
@@ -407,7 +269,7 @@ function Bags:CreateContainer(storagetype, ...)
 		BankBagsContainer:Size(Container:GetWidth(), BankSlotsFrame.Bag1:GetHeight() + ButtonSpacing + ButtonSpacing)
 		BankBagsContainer:SetTemplate()
 		BankBagsContainer:CreateShadow()
-		BankBagsContainer:SetPoint("BOTTOMLEFT", SwitchReagentButton, "TOPLEFT", 0, 2)
+		BankBagsContainer:SetPoint("BOTTOMLEFT", TukuiBank, "TOPLEFT", 0, 2)
 		BankBagsContainer:SetFrameLevel(Container:GetFrameLevel())
 		BankBagsContainer:SetFrameStrata(Container:GetFrameStrata())
 
@@ -442,7 +304,6 @@ function Bags:CreateContainer(storagetype, ...)
 		BankFrame:EnableMouse(false)
 
 		Container.BagsContainer = BankBagsContainer
-		Container.ReagentButton = SwitchReagentButton
 		Container.SortButton = SortButton
 	end
 
@@ -579,7 +440,7 @@ end
 function Bags:UpdateAllBankBags()
 	local NumRows, LastRowButton, NumButtons, LastButton = 0, ContainerFrame1Item1, 1, ContainerFrame1Item1
 
-	for Bank = 1, 28 do
+	for Bank = 1, 24 do
 		local Button = _G["BankFrameItem"..Bank]
 		local Money = ContainerFrame2MoneyFrame
 		local BankFrameMoneyFrame = BankFrameMoneyFrame
@@ -678,8 +539,10 @@ function Bags:OpenBag(id)
 
 	if (id == 4) then
 		Bags:UpdateAllBags()
-	elseif (id == 11) then
-		Bags:UpdateAllBankBags()
+		
+		if BankFrame:IsShown() then
+			Bags:UpdateAllBankBags()
+		end
 	end
 end
 
@@ -732,7 +595,7 @@ function Bags:OpenAllBankBags()
 		for i = 5, 11 do
 			if (not IsBagOpen(i)) then
 
-				self:OpenBag(i, 1)
+				--self:OpenBag(i, 1)
 			end
 		end
 	end
@@ -758,7 +621,7 @@ function Bags:CloseAllBankBags()
 end
 
 function Bags:ToggleBags()
-	if (self.Bag:IsShown() and BankFrame:IsShown()) and (not self.Bank:IsShown())  and (not ReagentBankFrame:IsShown()) then
+	if (self.Bag:IsShown() and BankFrame:IsShown()) and (not self.Bank:IsShown()) then
 		self:OpenAllBankBags()
 
 		return
@@ -819,14 +682,6 @@ function Bags:OnEvent(event, ...)
 				self:SlotUpdate(-1, Button)
 			end
 		end
-	elseif (event == "PLAYERREAGENTBANKSLOTS_CHANGED") then
-		local ID = ...
-
-		local Button = _G["ReagentBankFrameItem"..ID]
-
-		if (Button) then
-			self:SlotUpdate(-3, Button)
-		end
 	elseif (event == "BANKFRAME_CLOSED") then
 		local Bank = self.Bank
 
@@ -865,20 +720,10 @@ function Bags:Enable()
 
 	Bag:SetScript("OnHide", function()
 		self.Bag:Hide()
-
-		if self.Reagent and self.Reagent:IsShown() then
-			self.Reagent:Hide()
-		end
 	end)
 
 	Bag:HookScript("OnShow", function() -- Cinematic Bug with Bags open.
 		self.Bag:Show()
-	end)
-
-	BankFrame:HookScript("OnHide", function()
-		if self.Reagent and self.Reagent:IsShown() then
-			self.Reagent:Hide()
-		end
 	end)
 
 	BankItem1:SetScript("OnHide", function()
@@ -909,8 +754,6 @@ function Bags:Enable()
 	self:RegisterEvent("BANKFRAME_CLOSED")
 	self:RegisterEvent("BANKFRAME_OPENED")
 	self:SetScript("OnEvent", self.OnEvent)
-
-	function ManageBackpackTokenFrame() end
 
 	if ContainerFrame5 then
 		ContainerFrame5:EnableMouse(false)
