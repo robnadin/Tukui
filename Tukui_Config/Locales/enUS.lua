@@ -42,11 +42,6 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Derp",
 		},
 
-		["AddNewSpells"] = {
-			["Name"] = "Automatically Add New Spells",
-			["Desc"] = "Derp",
-		},
-
 		["EquipBorder"] = {
 			["Name"] = "Equipped Item Border",
 			["Desc"] = "Display Green Border on Equipped Items",
@@ -166,11 +161,6 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Set how many slots are on each row of the bags",
 		},
 
-		["PulseNewItem"] = {
-			["Name"] = "Flash New Item(s)",
-			["Desc"] = "New items in your bags will have a flash animation",
-		},
-
 		["Font"] = {
 			["Name"] = "Bag font",
 			["Desc"] = "Set a font for bags",
@@ -276,16 +266,6 @@ TukuiConfig["enUS"] = {
 	},
 
 	["Misc"] = {
-		["ThreatBarEnable"] = {
-			["Name"] = "Enable Threat Bar",
-			["Desc"] = "Derp",
-		},
-
-		["AltPowerBarEnable"] = {
-			["Name"] = "Enable Alt-Power Bar",
-			["Desc"] = "Derp",
-		},
-
 		["ExperienceEnable"] = {
 			["Name"] = "Enable Experience Bars",
 			["Desc"] = "Enable two experience bars on the left and right of the screen.",
@@ -305,11 +285,6 @@ TukuiConfig["enUS"] = {
 			["Name"] = "Enable Auto Invites",
 			["Desc"] = "Automatically accept group invites from friends, and guild members.",
 		},
-
-		["TalkingHeadEnable"] = {
-			["Name"] = "Enable Talking Head",
-			["Desc"] = "Display Blizzard Talking Head Frame.",
-		},
 	},
 
 	["NamePlates"] = {
@@ -328,11 +303,6 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Set the height of NamePlates",
 		},
 
-		["CastHeight"] = {
-			["Name"] = "Cast Bar Height",
-			["Desc"] = "Set the height of the cast bar on NamePlates",
-		},
-
 		["Font"] = {
 			["Name"] = "NamePlates Font",
 			["Desc"] = "Set a font for nameplates",
@@ -348,11 +318,6 @@ TukuiConfig["enUS"] = {
 		["Enable"] = {
 			["Name"] = "Enable Party Frames",
 			["Desc"] = "Derp",
-		},
-
-		["HealBar"] = {
-			["Name"] = "HealComm",
-			["Desc"] = "Display a bar showing incoming heals & absorbs",
 		},
 
 		["ShowPlayer"] = {
@@ -397,11 +362,6 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Change the max number of raid members per column",
 		},
 
-		["HealBar"] = {
-			["Name"] = "HealComm",
-			["Desc"] = "Display a bar showing incoming heals & absorbs",
-		},
-
 		["AuraWatch"] = {
 			["Name"] = "Aura Watch",
 			["Desc"] = "Display timers for class specific buffs in the corners of the raid frames",
@@ -420,11 +380,6 @@ TukuiConfig["enUS"] = {
 		["RangeAlpha"] = {
 			["Name"] = "Out Of Range Alpha",
 			["Desc"] = "Set the transparency of units that are out of range",
-		},
-
-		["ShowRessurection"] = {
-			["Name"] = "Show Ressurection Icon",
-			["Desc"] = "Display incoming ressurections on players",
 		},
 
 		["ShowHealthText"] = {
@@ -472,11 +427,6 @@ TukuiConfig["enUS"] = {
 		["UnitHealthText"] = {
 			["Name"] = "Display Health Text",
 			["Desc"] = "Display health text on the tooltip health bar",
-		},
-
-		["ShowSpec"] = {
-			["Name"] = "Specialization and iLevel",
-			["Desc"] = "Display player specialization and ilevel in tooltip when you press ALT",
 		},
 
 		["HealthFont"] = {
@@ -586,16 +536,6 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Display a bar to show the Weakened Soul debuff",
 		},
 
-		["HealBar"] = {
-			["Name"] = "HealComm",
-			["Desc"] = "Display a bar showing incoming heals & absorbs",
-		},
-
-		["TotemBar"] = {
-			["Name"] = "Totem Bar",
-			["Desc"] = "Create a tukui style totem bar",
-		},
-
 		["ComboBar"] = {
 			["Name"] = "Combo Points",
 			["Desc"] = "Enable the combo points bar",
@@ -616,16 +556,6 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Only display our buffs on the target frame",
 		},
 
-		["Threat"] = {
-			["Name"] = "Enable threat display",
-			["Desc"] = "Health Bar on party and raid members will turn red if they have aggro",
-		},
-
-		["Arena"] = {
-			["Name"] = "Arena Frames",
-			["Desc"] = "Display arena opponents when inside a battleground or arena",
-		},
-
 		["Boss"] = {
 			["Name"] = "Boss Frames",
 			["Desc"] = "Display boss frames while doing pve",
@@ -636,29 +566,9 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Display buffs and debuffs on target",
 		},
 
-		["FocusAuras"] = {
-			["Name"] = "Focus Auras",
-			["Desc"] = "Display buffs and debuffs on focus",
-		},
-
-		["FocusTargetAuras"] = {
-			["Name"] = "Focus Target Auras",
-			["Desc"] = "Display buffs and debuffs on focus target",
-		},
-
-		["ArenaAuras"] = {
-			["Name"] = "Arena Frames Auras",
-			["Desc"] = "Display debuffs on arena frames",
-		},
-
 		["BossAuras"] = {
 			["Name"] = "Boss Frames Auras",
 			["Desc"] = "Display debuffs on boss frames",
-		},
-
-		["AltPowerText"] = {
-			["Name"] = "AltPower Text",
-			["Desc"] = "Display altpower text values on altpower bar",
 		},
 
 		["Font"] = {

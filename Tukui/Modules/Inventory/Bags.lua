@@ -348,14 +348,6 @@ function Bags:SlotUpdate(id, button)
 	else
 		button:SetBackdropBorderColor(unpack(C["General"].BorderColor))
 	end
-
-	if IsNewItem and NewItem then
-		NewItem:SetAlpha(0)
-
-		if C.Bags.PulseNewItem then
-			AutoCastShine_AutoCastStart(button.AutoCastShine, button:GetBackdropBorderColor())
-		end
-	end
 end
 
 function Bags:BagUpdate(id)

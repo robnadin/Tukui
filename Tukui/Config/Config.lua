@@ -33,7 +33,6 @@ C["General"] = {
 
 C["ActionBars"] = {
 	["Enable"] = true,
-	["AddNewSpells"] = true,
 	["HotKey"] = false,
 	["EquipBorder"] = true,
 	["Macro"] = false,
@@ -63,7 +62,6 @@ C["Bags"] = {
 	["ButtonSize"] = 28,
 	["Spacing"] = 4,
 	["ItemsPerRow"] = 11,
-	["PulseNewItem"] = true,
 	["Font"] = "Tukui Outline",
 }
 
@@ -98,27 +96,22 @@ C["Loot"] = {
 }
 
 C["Misc"] = {
-	["ThreatBarEnable"] = true,
-	["AltPowerBarEnable"] = true,
 	["ExperienceEnable"] = true,
 	["ReputationEnable"] = true,
 	["ErrorFilterEnable"] = true,
 	["AutoInviteEnable"] = false,
-	["TalkingHeadEnable"] = true,
 }
 
 C["NamePlates"] = {
 	["Enable"] = true,
 	["Width"] = 138,
 	["Height"] = 14,
-	["CastHeight"] = 4,
 	["Font"] = "Tukui Outline",
 	["OnlySelfDebuffs"] = true,
 }
 
 C["Party"] = {
 	["Enable"] = true,
-	["HealBar"] = true,
 	["ShowPlayer"] = true,
 	["ShowHealthText"] = true,
 	["RangeAlpha"] = 0.3,
@@ -128,12 +121,10 @@ C["Party"] = {
 
 C["Raid"] = {
 	["Enable"] = true,
-	["HealBar"] = true,
 	["AuraWatch"] = true,
 	["AuraWatchTimers"] = true,
 	["DebuffWatch"] = true,
 	["RangeAlpha"] = 0.3,
-	["ShowRessurection"] = true,
 	["ShowHealthText"] = true,
 	["ShowPets"] = true,
 	["VerticalHealth"] = false,
@@ -155,7 +146,6 @@ C["Tooltips"] = {
 	["Enable"] = true,
 	["HideOnUnitFrames"] = false,
 	["UnitHealthText"] = true,
-	["ShowSpec"] = true,
 	["MouseOver"] = false,
 	["HealthFont"] = "Tukui Outline",
 }
@@ -186,18 +176,10 @@ C["UnitFrames"] = {
 	["Smooth"] = true,
 	["TargetEnemyHostileColor"] = true,
 	["CombatLog"] = false,
-	["HealBar"] = true,
-	["TotemBar"] = true,
 	["TargetAuras"] = true,
-	["FocusAuras"] = true,
-	["FocusTargetAuras"] = true,
-	["ArenaAuras"] = true,
 	["BossAuras"] = true,
 	["OnlySelfDebuffs"] = false,
 	["OnlySelfBuffs"] = false,
-	["Threat"] = false,
-	["AltPowerText"] = false,
-	["Arena"] = true,
 	["Boss"] = true,
 	["Font"] = "Tukui Outline",
 }

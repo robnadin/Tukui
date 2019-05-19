@@ -91,14 +91,6 @@ function TukuiUnitFrames:Raid()
 	RaidIcon:SetPoint("TOP", self, 0, 8)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
 
-	if C["Raid"].ShowRessurection then
-		local ResurrectIcon = Health:CreateTexture(nil, "OVERLAY", 3)
-		ResurrectIcon:Size(16)
-		ResurrectIcon:SetPoint("CENTER")
-
-		self.ResurrectIndicator = ResurrectIcon
-	end
-
 	local Range = {
 		insideAlpha = 1,
 		outsideAlpha = C["Raid"].RangeAlpha,

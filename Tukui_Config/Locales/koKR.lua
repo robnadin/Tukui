@@ -42,11 +42,6 @@ TukuiConfig["koKR"] = {
 			["Desc"] = "ㅇㅇ",
 		},
 
-		["AddNewSpells"] = {
-			["Name"] = "Automatically Add New Spells",
-			["Desc"] = "Derp",
-		},
-
 		["EquipBorder"] = {
 			["Name"] = "착용한 아이템 테두리",
 			["Desc"] = "착용한 아이템은 녹색 테두리로 보임",
@@ -166,11 +161,6 @@ TukuiConfig["koKR"] = {
 			["Desc"] = "가방 한 줄에 표시할 아이템 수 설정",
 		},
 
-		["PulseNewItem"] = {
-			["Name"] = "새 아이템 깜빡임",
-			["Desc"] = "가방의 새 아이템은 깜빡이는 효과로 표시",
-		},
-
 		["Font"] = {
 			["Name"] = "가방 폰트",
 			["Desc"] = "가방에 적용할 폰트 설정",
@@ -276,16 +266,6 @@ TukuiConfig["koKR"] = {
 	},
 
 	["Misc"] = {
-		["ThreatBarEnable"] = {
-			["Name"] = "위협바 사용",
-			["Desc"] = "ㅇㅇ",
-		},
-
-		["AltPowerBarEnable"] = {
-			["Name"] = "대체 파워바 사용",
-			["Desc"] = "ㅇㅇ",
-		},
-
 		["ExperienceEnable"] = {
 			["Name"] = "경험치 바 사용",
 			["Desc"] = "화면 좌/우측에 경험치 바 표시",
@@ -305,11 +285,6 @@ TukuiConfig["koKR"] = {
 			["Name"] = "초대 자동수락",
 			["Desc"] = "친구나 길드원으로부터 초대를 자동으로 수락함",
 		},
-
-		["TalkingHeadEnable"] = {
-			["Name"] = "말풍선 표시",
-			["Desc"] = "블리자드 기본 말풍선 표시",
-		},
 	},
 
 	["NamePlates"] = {
@@ -328,11 +303,6 @@ TukuiConfig["koKR"] = {
 			["Desc"] = "네임바 높이 설정",
 		},
 
-		["CastHeight"] = {
-			["Name"] = "시전바 높이 설정",
-			["Desc"] = "네임바에 표시할 시전바의 높이 설정",
-		},
-
 		["Font"] = {
 			["Name"] = "네임바 폰트",
 			["Desc"] = "네임바에 적용할 폰트 설정",
@@ -348,11 +318,6 @@ TukuiConfig["koKR"] = {
 		["Enable"] = {
 			["Name"] = "파티 프레임 사용",
 			["Desc"] = "ㅇㅇ",
-		},
-
-		["HealBar"] = {
-			["Name"] = "예측 힐",
-			["Desc"] = "들어오는 힐이나 흡수를 표시",
 		},
 
 		["ShowPlayer"] = {
@@ -397,11 +362,6 @@ TukuiConfig["koKR"] = {
 			["Desc"] = "한 열에 보일 멤버수 설정",
 		},
 
-		["HealBar"] = {
-			["Name"] = "예측 힐",
-			["Desc"] = "들어오는 힐이나 흡수를 표시",
-		},
-
 		["AuraWatch"] = {
 			["Name"] = "오라워치 사용",
 			["Desc"] = "레이드 프레임 네 귀퉁이에 직업별 버프 타이머 표시",
@@ -420,11 +380,6 @@ TukuiConfig["koKR"] = {
 		["RangeAlpha"] = {
 			["Name"] = "범위 밖 투명도",
 			["Desc"] = "범위를 벗어났을 때 투명도 설정",
-		},
-
-		["ShowRessurection"] = {
-			["Name"] = "부활 아이콘 보이기",
-			["Desc"] = "부활을 시전받는 플레이어의 아이콘 표시",
 		},
 
 		["ShowHealthText"] = {
@@ -472,11 +427,6 @@ TukuiConfig["koKR"] = {
 		["UnitHealthText"] = {
 			["Name"] = "생명력 수치 표시",
 			["Desc"] = "툴팁 생명력 바에 생명력 수치 표시",
-		},
-
-		["ShowSpec"] = {
-			["Name"] = "전문화와 아이템 레벨",
-			["Desc"] = "ALT키를 누르고 있으면, 전문화와 아이템 레벨이 툴팁에 표시됨",
 		},
 
 		["HealthFont"] = {
@@ -586,16 +536,6 @@ TukuiConfig["koKR"] = {
 			["Desc"] = "약화된 영혼(사제 보호막)의 디버프를 표시함",
 		},
 
-		["HealBar"] = {
-			["Name"] = "들어오는 힐",
-			["Desc"] = "들어오는 힐과 흡수되는 양을 표시",
-		},
-
-		["TotemBar"] = {
-			["Name"] = "토템 바",
-			["Desc"] = "Tukui 스타일의 토템 바 사용",
-		},
-
 		["ComboBar"] = {
 			["Name"] = "콤보 포인트",
 			["Desc"] = "콤보 포인트 바 사용",
@@ -611,16 +551,6 @@ TukuiConfig["koKR"] = {
 			["Desc"] = "네임바에 내 버프만 표시",
 		},
 
-		["Threat"] = {
-			["Name"] = "위협 수준 표시",
-			["Desc"] = "파티창이나 레이드창에서 어그로를 먹으면, 생명력 바가 빨간색으로 변함",
-		},
-
-		["Arena"] = {
-			["Name"] = "투기장 프레임",
-			["Desc"] = "전장이나 투기장 안에서 상대편을 표시",
-		},
-
 		["Boss"] = {
 			["Name"] = "보스 프레임",
 			["Desc"] = "레이드나 야외 우두머리의 프레임을 표시",
@@ -631,29 +561,9 @@ TukuiConfig["koKR"] = {
 			["Desc"] = "대상의 버프와 디버프를 표시",
 		},
 
-		["FocusAuras"] = {
-			["Name"] = "주시대상 버프/디버프",
-			["Desc"] = "주시대상의 버프와 디버프를 표시함",
-		},
-
-		["FocusTargetAuras"] = {
-			["Name"] = "주시대상의 대상 버프/디버프",
-			["Desc"] = "주시대상의 대상의 버프와 디버프를 표시함",
-		},
-
-		["ArenaAuras"] = {
-			["Name"] = "투기장 프레임 디버프",
-			["Desc"] = "투기장 프레임에서 상대방의 디버프를 표시",
-		},
-
 		["BossAuras"] = {
 			["Name"] = "보스 프레임 디버프",
 			["Desc"] = "보스 프레임에서 보스에 걸린 디버프를 표시",
-		},
-
-		["AltPowerText"] = {
-			["Name"] = "대체파워 수치",
-			["Desc"] = "대체파워바에서 파워 수치를 표시",
 		},
 
 		["Font"] = {

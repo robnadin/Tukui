@@ -23,10 +23,6 @@ function TukuiActionBars:DisableBlizzard()
 
 	SetCVar("alwaysShowActionBars", 1)
 
-	if (not C.ActionBars.AddNewSpells) then
-		tinsert(Frames, IconIntroTracker)
-	end
-
 	for _, frame in pairs(Frames) do
 		frame:UnregisterAllEvents()
 		frame.ignoreFramePositionManager = true

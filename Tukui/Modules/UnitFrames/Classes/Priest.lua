@@ -1,5 +1,3 @@
--- NOTE: Please Fix me - TotemBar Position, when Shadow Orbs Bar is Shown!
-
 local T, C, L = select(2, ...):unpack()
 
 local TukuiUnitFrames = T["UnitFrames"]

@@ -49,11 +49,6 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Ehm...",
 		},
 
-		["AddNewSpells"] = {
-			["Name"] = "Automatically Add New Spells",
-			["Desc"] = "Derp",
-		},
-
 		["EquipBorder"] = {
 			["Name"] = "Identification équipement",
 			["Desc"] = "Les bordures d'équipements dans la barre d'action sera coloré vert.",
@@ -173,11 +168,6 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Définir le nombre d'emplacements sur chaque ligne de sacs",
 		},
 
-		["PulseNewItem"] = {
-			["Name"] = "Surbrillance des nouveaux objets",
-			["Desc"] = "Les nouveaux objets dans vos sacs auront une animation avec surbrillance",
-		},
-
 		["Font"] = {
 			["Name"] = "Police de caractère des sacs",
 			["Desc"] = "Définir une police pour les sacs",
@@ -283,16 +273,6 @@ TukuiConfig["frFR"] = {
 	},
 
 	["Misc"] = {
-		["ThreatBarEnable"] = {
-			["Name"] = "Activer la barre de menace",
-			["Desc"] = "Ehm...",
-		},
-
-		["AltPowerBarEnable"] = {
-			["Name"] = "Activer la barre Alt-Power",
-			["Desc"] = "Ehm...",
-		},
-
 		["ExperienceEnable"] = {
 			["Name"] = "Activer la barre d'experience",
 			["Desc"] = "Activez deux barres d'expérience sur la gauche et la droite de l'écran.",
@@ -312,11 +292,6 @@ TukuiConfig["frFR"] = {
 			["Name"] = "Activer les invitations automatiques",
 			["Desc"] = "Acceptez automatiquement les invitations de groupe d'amis et de membres de guilde.",
 		},
-
-		["TalkingHeadEnable"] = {
-			["Name"] = "Activer le cadre des discussions PNJ",
-			["Desc"] = "Ehm...",
-		},
 	},
 
 	["NamePlates"] = {
@@ -335,11 +310,6 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Définir la hauteur des barres d'unités",
 		},
 
-		["CastHeight"] = {
-			["Name"] = "Hauteur de la barre de incantation",
-			["Desc"] = "Définir la hauteur de la barre de incantation des barres d'unités",
-		},
-
 		["Font"] = {
 			["Name"] = "Police de caractère",
 			["Desc"] = "Définir la police de caractère des barres d'unités",
@@ -355,11 +325,6 @@ TukuiConfig["frFR"] = {
 		["Enable"] = {
 			["Name"] = "Activer les cadres de groupe",
 			["Desc"] = "Ehm...",
-		},
-
-		["HealBar"] = {
-			["Name"] = "HealComm",
-			["Desc"] = "Afficher une barre indiquant les soins et absorbe entrants",
 		},
 
 		["ShowPlayer"] = {
@@ -404,11 +369,6 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Changer le nombre maximum de membres du raid par colonne",
 		},
 
-		["HealBar"] = {
-			["Name"] = "HealComm",
-			["Desc"] = "Afficher une barre indiquant les soins et absorbe entrants",
-		},
-
 		["AuraWatch"] = {
 			["Name"] = "Affichage des auras",
 			["Desc"] = "Affiche un decompte pour les améliorations spécifiques aux classes dans les coins des cadres de raid",
@@ -427,11 +387,6 @@ TukuiConfig["frFR"] = {
 		["RangeAlpha"] = {
 			["Name"] = "Opacité hors-d'atteinte",
 			["Desc"] = "Défini l'opacité des unitées qui sont hors d'atteinte",
-		},
-
-		["ShowRessurection"] = {
-			["Name"] = "Afficher l'icone de ressurection",
-			["Desc"] = "Afficher les ressurections entrantes sur les joueurs",
 		},
 
 		["ShowHealthText"] = {
@@ -479,11 +434,6 @@ TukuiConfig["frFR"] = {
 		["UnitHealthText"] = {
 			["Name"] = "Affichage texte santé",
 			["Desc"] = "Afficher le texte de la santé sur la barre de santé de l'info-bulle",
-		},
-
-		["ShowSpec"] = {
-			["Name"] = "Spécialisation et iLevel",
-			["Desc"] = "Affichage de la spécialisation et du iLevel dans l'info-bulle lorsque vous appuyez sur ALT",
 		},
 
 		["HealthFont"] = {
@@ -593,16 +543,6 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Afficher une barre pour montrer l'affaiblisement ame affaiblie",
 		},
 
-		["HealBar"] = {
-			["Name"] = "HealComm",
-			["Desc"] = "Afficher une barre indiquant les soins et absorbe entrants",
-		},
-
-		["TotemBar"] = {
-			["Name"] = "Berre de Totem",
-			["Desc"] = "Créer une barre de totem de style Tukui",
-		},
-
 		["ComboBar"] = {
 			["Name"] = "Combo Points",
 			["Desc"] = "Enable the combo points bar",
@@ -623,16 +563,6 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Afficher uniquement nos buffs sur le cadre cible",
 		},
 
-		["Threat"] = {
-			["Name"] = "Activer l'affichage de la menace",
-			["Desc"] = "La barre de vie va devenir rouge si le joueur a l'aggro",
-		},
-
-		["Arena"] = {
-			["Name"] = "Cadres d'arène",
-			["Desc"] = "Afficher les adversaires de l'arène à l'intérieur d'un champ de bataille ou d'une arène",
-		},
-
 		["Boss"] = {
 			["Name"] = "Cadres de monstre",
 			["Desc"] = "Afficher les cadres de monstre en faisant pve",
@@ -643,29 +573,9 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Afficher les buffs et les debuffs sur la cible",
 		},
 
-		["FocusAuras"] = {
-			["Name"] = "Auras du focus",
-			["Desc"] = "Afficher les buffs et les debuffs du focus",
-		},
-
-		["FocusTargetAuras"] = {
-			["Name"] = "Auras de la cible du focus",
-			["Desc"] = "Afficher les buffs et les debuffs sur la cible du focus",
-		},
-
-		["ArenaAuras"] = {
-			["Name"] = "Auras sur les cadres d'arène",
-			["Desc"] = "Afficher les débuffs sur les cadres d'arène",
-		},
-
 		["BossAuras"] = {
 			["Name"] = "Auras sur les cadres de monstre",
 			["Desc"] = "Afficher les débuffs sur les cadres de boss",
-		},
-
-		["AltPowerText"] = {
-			["Name"] = "Affichage du texte sur la barre de puissance alternative",
-			["Desc"] = "Ehm...",
 		},
 
 		["Font"] = {

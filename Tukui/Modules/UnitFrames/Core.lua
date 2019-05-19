@@ -255,24 +255,6 @@ function TukuiUnitFrames:UpdateNamePosition()
 	end
 end
 
-function TukuiUnitFrames:UpdateThreat(event, unit)
-	if (not C.UnitFrames.Threat) or (unit ~= self.unit) then
-		return
-	end
-
-	local Panel = self.Panel
-
-	if Panel then
-		local Status = UnitThreatSituation(unit)
-
-		if Status and Status > 0 then
-			Panel:SetBackdropBorderColor(1, 0, 0)
-		else
-			Panel:SetBackdropBorderColor(C["General"].BorderColor[1] * 0.7, C["General"].BorderColor[2] * 0.7, C["General"].BorderColor[3] * 0.7)
-		end
-	end
-end
-
 function TukuiUnitFrames:PreUpdateHealth(unit)
 	local HostileColor = C["UnitFrames"].TargetEnemyHostileColor
 
@@ -720,7 +702,7 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 		if IsPowerHidden then
 			Health:ClearAllPoints()
 			Health:SetPoint("TOPLEFT")
-			Health:SetHeight(C.NamePlates.Height - C.NamePlates.CastHeight - 1)
+			Health:SetHeight(C.NamePlates.Height - 3)
 			Health:SetWidth(Nameplate:GetWidth())
 
 			PowerBar:SetAlpha(1)

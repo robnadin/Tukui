@@ -98,14 +98,6 @@ function Loading:OnEvent(event, addon)
 			T["Cooldowns"]:Enable()
 
 		-- MISCELLANEOUS
-			if C["Misc"].ThreatBarEnable then
-				--T["Miscellaneous"]["ThreatBar"]:Enable()
-			end
-
-			if C["Misc"].AltPowerBarEnable then
-				--T["Miscellaneous"]["AltPowerBar"]:Enable()
-			end
-
 			if C["Misc"].ExperienceEnable then
 				T["Miscellaneous"]["Experience"]:Enable()
 			end
@@ -133,7 +125,6 @@ function Loading:OnEvent(event, addon)
 			--T["Miscellaneous"]["UIWidgets"]:Enable()
 			--T["Miscellaneous"]["Ghost"]:Enable()
 			--T["Miscellaneous"]["VehicleIndicator"]:Enable()
-			--T["Miscellaneous"]["TalkingHead"]:Enable()
 			--T["Miscellaneous"]["DeathRecap"]:Enable()
 			T["Miscellaneous"]["AFK"]:Enable()
 			--T["Miscellaneous"]["OrderHall"]:Enable()

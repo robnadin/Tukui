@@ -11,7 +11,7 @@ local CHAT_FLAG_DND = CHAT_FLAG_DND
 local LEVEL = LEVEL
 local BackdropColor = {0, 0, 0}
 local Short = T.ShortValue
-local ILevel, TalentSpec, MAXILevel, PVPILevel, LastUpdate = 0, "", 0, 0, 30
+local ILevel, MAXILevel, PVPILevel, LastUpdate = 0, 0, 0, 30
 local InspectDelay = 0.2
 local InspectFreq = 2
 
@@ -168,27 +168,10 @@ function Tooltip:OnTooltipSetUnit()
 	end
 
 	if (UnitIsPlayer(Unit) and UnitIsFriend("player", Unit)) then
-		local Talent = T.Tooltips.Talent
-
 		if (UnitIsAFK(Unit)) then
 			self:AppendText((" %s"):format(CHAT_FLAG_AFK))
 		elseif UnitIsDND(Unit) then
 			self:AppendText((" %s"):format(CHAT_FLAG_DND))
-		end
-
-		if Talent.Spec or Talent.ILevel then
-			self:AddLine(" ")
-
-			if Talent.ILevel then
-				self:AddLine(STAT_AVERAGE_ITEM_LEVEL..": |cff3eea23"..Talent.ILevel.."|r")
-			end
-
-			if Talent.Spec then
-				self:AddLine(SPECIALIZATION..": |cff3eea23"..Talent.Spec.."|r")
-			end
-
-			Talent.Spec = nil
-			Talent.ILevel = nil
 		end
 	end
 
@@ -398,10 +381,6 @@ function Tooltip:Enable()
 		HealthBar.Text = HealthBar:CreateFontString(nil, "OVERLAY")
 		HealthBar.Text:SetFontObject(T.GetFont(C["Tooltips"].HealthFont))
 		HealthBar.Text:Point("CENTER", HealthBar, "CENTER", 0, 6)
-	end
-
-	if C["Tooltips"].ShowSpec then
-		T.Tooltips.Talent:RegisterEvent("MODIFIER_STATE_CHANGED")
 	end
 end
 
