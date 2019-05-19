@@ -4,6 +4,8 @@ local WorldMap = CreateFrame("Frame")
 
 function WorldMap:OnUpdate(elapsed)
 	if not WorldMapFrame:IsShown() then
+		WorldMap.Interval = 0
+		
 		return
 	end
 	

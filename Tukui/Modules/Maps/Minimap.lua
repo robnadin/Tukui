@@ -3,7 +3,7 @@ local T, C, L = select(2, ...):unpack()
 local _G = _G
 local Miscellaneous = T["Miscellaneous"]
 local Maps = T["Maps"]
-local Elapsed = 0
+local Interval = 2
 
 Minimap.ZoneColors = {
 	["friendly"] = {0.1, 1.0, 0.1},
@@ -21,12 +21,10 @@ function Minimap:DisableMinimapElements()
 		"MinimapBorderTop",
 		"MinimapZoomIn",
 		"MinimapZoomOut",
-		--"MiniMapVoiceChatFrame",
 		"MinimapNorthTag",
 		"MinimapZoneTextButton",
 		"GameTimeFrame",
 		"MiniMapWorldMapButton",
-		--"GarrisonLandingPageMinimapButton",
 	}
 
 	for i, FrameName in pairs(HiddenFrames) do
@@ -212,47 +210,51 @@ function Minimap:AddZoneAndCoords()
 end
 
 function Minimap:UpdateCoords(t)
-	Elapsed = Elapsed - t
-
-	if (Elapsed > 0) then
+	if (Minimap.MinimapCoords:GetAlpha() == 0) then
+		Interval = 0
+		
 		return
 	end
+	
+	Interval = Interval - t
 
-	local UnitMap = C_Map.GetBestMapForUnit("player")
-	local X, Y = 0, 0
+	if (Interval < 0) then
+		local UnitMap = C_Map.GetBestMapForUnit("player")
+		local X, Y = 0, 0
 
-	if UnitMap then
-		local GetPlayerMapPosition = C_Map.GetPlayerMapPosition(UnitMap, "player")
+		if UnitMap then
+			local GetPlayerMapPosition = C_Map.GetPlayerMapPosition(UnitMap, "player")
 
-		if GetPlayerMapPosition then
-			X, Y = C_Map.GetPlayerMapPosition(UnitMap, "player"):GetXY()
+			if GetPlayerMapPosition then
+				X, Y = C_Map.GetPlayerMapPosition(UnitMap, "player"):GetXY()
+			end
 		end
-	end
 
-	local XText, YText
+		local XText, YText
 
-	X = math.floor(100 * X)
-	Y = math.floor(100 * Y)
+		X = math.floor(100 * X)
+		Y = math.floor(100 * Y)
 
-	if (X == 0 and Y == 0) then
-		Minimap.MinimapCoords.Text:SetText("?, ?")
-	else
-		if (X < 10) then
-			XText = "0"..X
+		if (X == 0 and Y == 0) then
+			Minimap.MinimapCoords.Text:SetText("?, ?")
 		else
-			XText = X
+			if (X < 10) then
+				XText = "0"..X
+			else
+				XText = X
+			end
+
+			if (Y < 10) then
+				YText = "0"..Y
+			else
+				YText = Y
+			end
+
+			Minimap.MinimapCoords.Text:SetText(XText .. ", " .. YText)
 		end
 
-		if (Y < 10) then
-			YText = "0"..Y
-		else
-			YText = Y
-		end
-
-		Minimap.MinimapCoords.Text:SetText(XText .. ", " .. YText)
+		Interval = 2
 	end
-
-	Elapsed = 2
 end
 
 function Minimap:UpdateZone()
