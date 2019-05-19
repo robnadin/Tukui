@@ -115,7 +115,7 @@ function Loading:OnEvent(event, addon)
 			end
 
 			if C["Misc"].ErrorFilterEnable then
-				--T["Miscellaneous"]["ErrorFilter"]:Enable()
+				T["Miscellaneous"]["ErrorFilter"]:Enable()
 			end
 
 			if C["Misc"].AutoInviteEnable then
