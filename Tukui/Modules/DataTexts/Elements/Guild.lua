@@ -168,7 +168,7 @@ local OnEnter = function(self)
 				Count = Count + 1
 			end
 			
-			if i == 40 then
+			if Count > 40 then
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine("...")
 				break -- too many members online
