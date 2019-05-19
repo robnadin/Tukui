@@ -260,7 +260,7 @@ function Bags:CreateContainer(storagetype, ...)
 		Purchase:ClearAllPoints()
 		Purchase:SetWidth(Container:GetWidth() + 50)
 		Purchase:SetHeight(70)
-		Purchase:SetPoint("BOTTOMLEFT", TukuiBank, "TOPLEFT", -50, 2)
+		Purchase:SetPoint("BOTTOMLEFT", Container, "TOPLEFT", -50, 2)
 		Purchase:CreateBackdrop()
 		Purchase.Backdrop:SetPoint("TOPLEFT", 50, 0)
 		Purchase.Backdrop:SetPoint("BOTTOMRIGHT", 0, 0)
@@ -269,7 +269,7 @@ function Bags:CreateContainer(storagetype, ...)
 		BankBagsContainer:Size(Container:GetWidth(), BankSlotsFrame.Bag1:GetHeight() + ButtonSpacing + ButtonSpacing)
 		BankBagsContainer:SetTemplate()
 		BankBagsContainer:CreateShadow()
-		BankBagsContainer:SetPoint("BOTTOMLEFT", TukuiBank, "TOPLEFT", 0, 2)
+		BankBagsContainer:SetPoint("BOTTOMLEFT", Container, "TOPLEFT", 0, 2)
 		BankBagsContainer:SetFrameLevel(Container:GetFrameLevel())
 		BankBagsContainer:SetFrameStrata(Container:GetFrameStrata())
 
@@ -539,10 +539,6 @@ function Bags:OpenBag(id)
 
 	if (id == 4) then
 		Bags:UpdateAllBags()
-		
-		if BankFrame:IsShown() then
-			Bags:UpdateAllBankBags()
-		end
 	end
 end
 
@@ -690,6 +686,7 @@ function Bags:OnEvent(event, ...)
 		local Bank = self.Bank
 
 		Bank:Show()
+		self:UpdateAllBankBags()
 	end
 end
 
