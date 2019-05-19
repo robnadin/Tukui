@@ -16,10 +16,17 @@ function MicroMenu:Enable()
 			ShowUIPanel(SpellBookFrame)
 		end,
 		notCheckable = true},
+		
+		{text = QUESTLOG_BUTTON,
+		func = function()
+			ShowUIPanel(QuestLogFrame)
+		end,
+		notCheckable = true},
 
-		{text = WORLD_MAP.." / "..QUESTLOG_BUTTON,
+		{text = WORLD_MAP,
 		func = function()
 			ShowUIPanel(WorldMapFrame)
+			MaximizeUIPanel(WorldMapFrame)
 		end,
 		notCheckable = true},
 
