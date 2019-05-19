@@ -173,7 +173,7 @@ function Loading:OnEvent(event, addon)
 		--HideUIPanel(SpellBookFrame)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		-- OBJECTIVE TRACKER
-			--T["Miscellaneous"]["ObjectiveTracker"]:Enable()
+			T["Miscellaneous"]["ObjectiveTracker"]:Enable()
 	end
 end
 
