@@ -133,16 +133,6 @@ local OnEnter = function(self)
 
 	local col = T.RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b)
 
-	local _, _, standingID, barMin, barMax, barValue = GetGuildFactionInfo()
-
-	if standingID ~= 8 then -- Not Max Rep
-		barMax = barMax - barMin
-		barValue = barValue - barMin
-		barMin = 0
-		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(string.format("%s:|r |cFFFFFFFF%s/%s (%s%%)",col..COMBAT_FACTION_CHANGE, T.ShortValue(barValue), T.ShortValue(barMax), math.ceil((barValue / barMax) * 100)))
-	end
-
 	if online > 1 then
 		local Count = 0
 
@@ -176,6 +166,12 @@ local OnEnter = function(self)
 				end
 
 				Count = Count + 1
+			end
+			
+			if i == 40 then
+				GameTooltip:AddLine(" ")
+				GameTooltip:AddLine("...")
+				break -- too many members online
 			end
 		end
 	end
