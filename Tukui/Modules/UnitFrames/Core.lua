@@ -701,11 +701,10 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 	local MaxPower = max
 	local Nameplate = self:GetParent()
 	local PowerBar = Nameplate.Power
-	local CastBar = Nameplate.Castbar
 	local Health = Nameplate.Health
 	local IsPowerHidden = PowerBar.IsHidden
 
-	if (not CastBar:IsShown()) and (CurrentPower and CurrentPower == 0) and (MaxPower and MaxPower == 0) then
+	if (CurrentPower and CurrentPower == 0) and (MaxPower and MaxPower == 0) then
 		
 		if (not IsPowerHidden) then
 			Health:ClearAllPoints()
