@@ -97,12 +97,6 @@ C["Loot"] = {
 	["Font"] = "Tukui",
 }
 
-C["Merchant"] = {
-	["AutoSellGrays"] = true,
-	["AutoRepair"] = true,
-	["UseGuildRepair"] = false,
-}
-
 C["Misc"] = {
 	["ThreatBarEnable"] = true,
 	["AltPowerBarEnable"] = true,

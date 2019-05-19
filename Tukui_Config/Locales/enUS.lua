@@ -275,23 +275,6 @@ TukuiConfig["enUS"] = {
 		},
 	},
 
-	["Merchant"] = {
-		["AutoSellGrays"] = {
-			["Name"] = "Auto Sell Grays",
-			["Desc"] = "When visiting a vendor, automatically sell gray quality items",
-		},
-
-		["AutoRepair"] = {
-			["Name"] = "Auto Repair",
-			["Desc"] = "When visiting a repair merchant, automatically repair our gear",
-		},
-
-		["UseGuildRepair"] = {
-			["Name"] = "Use Guild Repair",
-			["Desc"] = "When using 'Auto Repair', use funds from the Guild bank",
-		},
-	},
-
 	["Misc"] = {
 		["ThreatBarEnable"] = {
 			["Name"] = "Enable Threat Bar",

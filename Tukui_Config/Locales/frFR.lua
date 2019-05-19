@@ -282,23 +282,6 @@ TukuiConfig["frFR"] = {
 		},
 	},
 
-	["Merchant"] = {
-		["AutoSellGrays"] = {
-			["Name"] = "Vendre automatiquement les objets gris",
-			["Desc"] = "Lors de la visite d'un vendeur , vendre automatiquement les objets de qualitée grise",
-		},
-
-		["AutoRepair"] = {
-			["Name"] = "Réparation Automatique",
-			["Desc"] = "Lors de la visite d'un marchand, réparer automatiquement votre équipement",
-		},
-
-		["UseGuildRepair"] = {
-			["Name"] = "Utilisation des réparations de guilde",
-			["Desc"] = "En utilisant 'Réparation Automatique', utiliser les fonds de la banque de guilde",
-		},
-	},
-
 	["Misc"] = {
 		["ThreatBarEnable"] = {
 			["Name"] = "Activer la barre de menace",

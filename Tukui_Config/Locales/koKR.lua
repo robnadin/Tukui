@@ -275,23 +275,6 @@ TukuiConfig["koKR"] = {
 		},
 	},
 
-	["Merchant"] = {
-		["AutoSellGrays"] = {
-			["Name"] = "회색템 자동 판매",
-			["Desc"] = "상인을 만나면 자동으로 회색템 판매",
-		},
-
-		["AutoRepair"] = {
-			["Name"] = "자동수리",
-			["Desc"] = "수리 상인을 만나면, 자동으로 아이템 수리",
-		},
-
-		["UseGuildRepair"] = {
-			["Name"] = "길드 수리 사용",
-			["Desc"] = "자동수리 활성화 시, 길드 지원금으로 수리",
-		},
-	},
-
 	["Misc"] = {
 		["ThreatBarEnable"] = {
 			["Name"] = "위협바 사용",

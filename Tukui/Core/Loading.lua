@@ -87,7 +87,7 @@ function Loading:OnEvent(event, addon)
 			T["Inventory"]["Loot"]:Enable()
 
 			-- Merchant
-			--T["Inventory"]["Merchant"]:Enable()
+			T["Inventory"]["Merchant"]:Enable()
 
 		-- ACTION BARS
 			if (C.ActionBars.Enable) then
