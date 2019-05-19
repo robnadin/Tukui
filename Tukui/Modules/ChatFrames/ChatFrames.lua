@@ -170,12 +170,6 @@ function TukuiChat:StyleFrame(frame)
 	_G[format("ChatFrame%sEditBoxMid", ID)]:Kill()
 	_G[format("ChatFrame%sEditBoxRight", ID)]:Kill()
 
-	-- Kill off editbox artwork
-	local A, B, C = select(6, EditBox:GetRegions())
-	A:Kill()
-	B:Kill()
-	--C:Kill()
-
 	-- Justify loot frame text at the right
 	if (not Frame.isDocked and ID == 4 and TabText:GetText() == LOOT) then
 		Frame:SetJustifyH("RIGHT")
