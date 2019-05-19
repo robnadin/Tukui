@@ -3,6 +3,10 @@ local T, C, L = select(2, ...):unpack()
 local WorldMap = CreateFrame("Frame")
 
 function WorldMap:OnUpdate(elapsed)
+	if not WorldMapFrame:IsShown() then
+		return
+	end
+	
 	WorldMap.Interval = WorldMap.Interval - elapsed
 
 	if WorldMap.Interval < 0 then
@@ -26,7 +30,7 @@ function WorldMap:OnUpdate(elapsed)
 			WorldMap.Coords.PlayerText:SetText(" ")
 		end
 
-		WorldMap.Interval = 2
+		WorldMap.Interval = 1
 	end
 end
 
@@ -38,7 +42,7 @@ function WorldMap:CreateCoords()
 	self.Coords:FontString("PlayerText", C.Medias.Font, 12, "THINOUTLINE")
 	self.Coords.PlayerText:SetTextColor(1, 1, 1)
 	self.Coords.PlayerText:SetPoint("BOTTOMLEFT", Map, "BOTTOMLEFT", 5, 5)
-	self.Coords.PlayerText:SetText("Player:   0, 0")
+	self.Coords.PlayerText:SetText("")
 end
 
 function WorldMap:SkinMap()
@@ -77,7 +81,7 @@ function WorldMap:SkinMap()
 end
 
 function WorldMap:Enable()
-	self.Interval = 2
+	self.Interval = 1
 	self:CreateCoords()
 	self:HookScript("OnUpdate", WorldMap.OnUpdate)
 	self:SkinMap()
