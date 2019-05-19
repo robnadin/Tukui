@@ -362,12 +362,7 @@ function Loot:LOOT_OPENED(_, autoloot)
 
 			LootFrameSlots.quality = Quality
 			LootFrameSlots.name:SetText(Item)
-			
-			if Texture then
-				LootFrameSlots.icon:SetTexture(Texture)
-			else
-				LootFrameSlots.icon:SetTexture("")
-			end
+			LootFrameSlots.icon:SetTexture(Texture)
 
 			LootFrameSlots:Enable()
 			LootFrameSlots:Show()
@@ -378,7 +373,7 @@ function Loot:LOOT_OPENED(_, autoloot)
 
 		LootFrameSlots.name:SetText("Empty Slot")
 		LootFrameSlots.name:SetTextColor(Color.r, Color.g, Color.b)
-		LootFrameSlots.icon:SetTexture([[Interface\Icons\INV_Misc_Herb_AncientLichen]])
+		LootFrameSlots.icon:SetTexture([[Interface\Icons\Inv_misc_questionmark]])
 
 		LootFrameSlots.count:Hide()
 		LootFrameSlots.drop:Hide()
