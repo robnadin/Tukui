@@ -365,6 +365,8 @@ function Loot:LOOT_OPENED(_, autoloot)
 			
 			if Texture then
 				LootFrameSlots.icon:SetTexture(Texture)
+			else
+				LootFrameSlots.icon:SetTexture("")
 			end
 
 			LootFrameSlots:Enable()
