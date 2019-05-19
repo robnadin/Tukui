@@ -47,6 +47,8 @@ function TukuiUnitFrames:DisableBlizzard()
 	end
 
 	if C["Raid"].Enable and CompactRaidFrameManager then
+		-- BROKEN SECURE GROUP HEADER, FORCE PARTY/RAID FRAMES DISABLE
+		--[[
 		-- Disable Blizzard Raid Frames.
 		CompactRaidFrameManager:UnregisterAllEvents()
 		CompactRaidFrameManager:Hide()
@@ -57,6 +59,7 @@ function TukuiUnitFrames:DisableBlizzard()
 		-- Hide Raid Interface Options.
 		InterfaceOptionsFrameCategoriesButton10:SetHeight(0.00001)
 		InterfaceOptionsFrameCategoriesButton10:SetAlpha(0)
+		--]]
 	end
 end
 
@@ -810,7 +813,6 @@ function TukuiUnitFrames:Style(unit)
 		TukuiUnitFrames.Pet(self)
 	elseif (unit:find("raid")) then
 		if Parent:match("Party") then
-			print"found"
 			TukuiUnitFrames.Party(self)
 		else
 			TukuiUnitFrames.Raid(self)
