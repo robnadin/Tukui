@@ -362,7 +362,10 @@ function Loot:LOOT_OPENED(_, autoloot)
 
 			LootFrameSlots.quality = Quality
 			LootFrameSlots.name:SetText(Item)
-			LootFrameSlots.icon:SetTexture(Texture)
+			
+			if Texture then
+				LootFrameSlots.icon:SetTexture(Texture)
+			end
 
 			LootFrameSlots:Enable()
 			LootFrameSlots:Show()
