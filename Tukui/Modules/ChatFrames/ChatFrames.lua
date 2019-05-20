@@ -373,35 +373,13 @@ function TukuiChat:Setup()
 
 		if i == 2 then
 			CombatLogQuickButtonFrame_Custom:StripTextures()
-		else
-			if C.Chat.ShortChannelName then
-				local am = Frame.AddMessage
-
-				Frame.AddMessage = function(frame, text, ...)
-					return am(frame, text:gsub('|h%[(%d+)%. .-%]|h', '|h%1|h'), ...)
-				end
-			end
 		end
 	end
 
 	local CubeLeft = T["Panels"].CubeLeft
 
-	-- Remember last channel
-	ChatTypeInfo.WHISPER.sticky = 1
-	ChatTypeInfo.BN_WHISPER.sticky = 1
-	ChatTypeInfo.OFFICER.sticky = 1
-	ChatTypeInfo.RAID_WARNING.sticky = 1
-	ChatTypeInfo.CHANNEL.sticky = 1
-
 	ChatConfigFrameDefaultButton:Kill()
 	ChatFrameMenuButton:Kill()
-
-	--QuickJoinToastButton:ClearAllPoints()
-	--QuickJoinToastButton:SetPoint("BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", -1, -18)
-	--QuickJoinToastButton:EnableMouse(false)
-	--QuickJoinToastButton.ClearAllPoints = Noop
-	--QuickJoinToastButton.SetPoint = Noop
-	--QuickJoinToastButton:SetAlpha(0)
 
 	ChatMenu:ClearAllPoints()
 	ChatMenu:SetPoint("BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", 0, 16)
@@ -413,7 +391,18 @@ function TukuiChat:Setup()
 	VoiceChatPromptActivateChannel:SetPoint(unpack(TukuiChat.VoiceAlertPosition))
 	VoiceChatPromptActivateChannel.ClearAllPoints = Noop
 	VoiceChatPromptActivateChannel.SetPoint = Noop
+	
+	-- Remember last channel
+	ChatTypeInfo.WHISPER.sticky = 1
+	ChatTypeInfo.BN_WHISPER.sticky = 1
+	ChatTypeInfo.OFFICER.sticky = 1
+	ChatTypeInfo.RAID_WARNING.sticky = 1
+	ChatTypeInfo.CHANNEL.sticky = 1
+	
+	-- Enable nicknames classcolor
+	SetCVar("chatClassColorOverride", 0)
 
+	-- Short Channel Names
 	if C.Chat.ShortChannelName then
 		--guild
 		CHAT_GUILD_GET = "|Hchannel:GUILD|hG|h %s "
