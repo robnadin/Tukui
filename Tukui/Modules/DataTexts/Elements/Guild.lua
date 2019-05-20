@@ -20,9 +20,11 @@ local totalOnline = 0
 local function BuildGuildTable()
 	totalOnline = 0
 	wipe(guildTable)
-	local _, name, rank, level, zone, note, officernote, connected, status, class, isMobile
+	local _, name, server, name_server, rank, level, zone, note, officernote, connected, status, class, isMobile
 	for i = 1, GetNumGuildMembers() do
-		name, rank, _, level, _, zone, note, officernote, connected, status, class, _, _, isMobile = GetGuildRosterInfo(i)
+		name_server, rank, _, level, _, zone, note, officernote, connected, status, class, _, _, isMobile = GetGuildRosterInfo(i)
+		server = string.gsub(GetRealmName("player"), "%s+", "")
+		name = string.gsub(name_server, "-"..server, "")
 
 		if status == 1 then
 			status = "|cffff0000["..AFK.."]|r"
@@ -145,13 +147,6 @@ local OnEnter = function(self)
 			name, rank, level, zone, note, officernote, connected, status, class, isMobile = unpack(guildTable[i])
 
 			if connected and name ~= UnitName("player") then
-				if Count > ((T.ScreenHeight / 10) / 2) then
-					GameTooltip:AddLine(" ")
-					GameTooltip:AddLine(format("+ "..INSPECT_GUILD_NUM_MEMBERS, online - Count),ttsubh.r,ttsubh.g,ttsubh.b)
-
-					break
-				end
-
 				if GetRealZoneText() == zone then zonec = activezone else zonec = inactivezone end
 				classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class], GetQuestDifficultyColor(level)
 
@@ -172,7 +167,8 @@ local OnEnter = function(self)
 			
 			if Count > MaxOnlineGuildMembersToDisplay then
 				GameTooltip:AddLine(" ")
-				GameTooltip:AddLine("...")
+				GameTooltip:AddLine(format("+ "..INSPECT_GUILD_NUM_MEMBERS, online - Count),ttsubh.r,ttsubh.g,ttsubh.b)
+				
 				break -- too many members online
 			end
 		end
