@@ -41,6 +41,36 @@ T.SlashHandler = function(cmd)
 		local Install = T["Install"]
 
 		Install:Launch()
+	elseif (arg1 == "load" or arg1 == "unload") then
+		local Loaded, Reason = LoadAddOn(arg2)
+		
+		if (Reason == "MISSING") then
+			T.Print("["..arg2.."] is not installed")
+
+			return
+		end
+		
+		if arg1 == "load" then
+			if (IsAddOnLoaded(arg2)) then
+				T.Print("["..arg2.."] is already loaded")
+
+				return
+			end
+
+			EnableAddOn(arg2)
+		else
+			DisableAddOn(arg2)
+		end
+		
+		ReloadUI()
+	elseif (arg1 == "br" or arg1 == "report") then
+		if arg2 == "enable" then
+			EnableAddOn("Blizzard_PTRFeedback")
+		else
+			DisableAddOn("Blizzard_PTRFeedback")
+		end
+		
+		ReloadUI()
 	elseif (arg1 == "status" or arg1 == "debug") then
 		local Status = TukuiStatus
 
