@@ -58,7 +58,6 @@ function WorldMap:SkinMap()
 	local ZoonButton = WorldMapZoomOutButton
 	local MagnifyButton = WorldMapMagnifyingGlassButton
 	
-	Frame:SetScale(T.UIScale)
 	Frame:CreateBackdrop()
 	Frame.Backdrop:ClearAllPoints()
 	Frame.Backdrop:SetAllPoints(Map)
