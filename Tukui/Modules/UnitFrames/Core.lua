@@ -909,6 +909,7 @@ function TukuiUnitFrames:CreateUnits()
 		SetCVar("nameplateMinScale", 1)
 		SetCVar("nameplateSelectedScale", 1)
 		SetCVar("nameplateSelfScale", 1)
+		SetCVar("nameplateMaxDistance", 100)
 
 		oUF:SpawnNamePlates()
 	end
