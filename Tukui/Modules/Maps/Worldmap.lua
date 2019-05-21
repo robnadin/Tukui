@@ -1,11 +1,10 @@
 local T, C, L = select(2, ...):unpack()
 
 local WorldMap = CreateFrame("Frame")
+local WorldMapFrame = WorldMapFrame
 
 function WorldMap:OnUpdate(elapsed)
 	if not WorldMapFrame:IsShown() then
-		WorldMap.Interval = 0
-		
 		return
 	end
 	
@@ -14,6 +13,7 @@ function WorldMap:OnUpdate(elapsed)
 	if WorldMap.Interval < 0 then
 		local UnitMap = C_Map.GetBestMapForUnit("player")
 		local X, Y = 0, 0
+		local MouseX, MouseY = GetCursorPosition()
 
 		if UnitMap then
 			local GetPlayerMapPosition = C_Map.GetPlayerMapPosition(UnitMap, "player")
@@ -31,8 +31,27 @@ function WorldMap:OnUpdate(elapsed)
 		else
 			WorldMap.Coords.PlayerText:SetText(" ")
 		end
+		
+		-- Mouse Coords
+		local Scale = WorldMapFrame:GetCanvas():GetEffectiveScale()
+		MouseX = MouseX / Scale
+		MouseY = MouseY / Scale
+		
+		local Width = WorldMapFrame:GetCanvas():GetWidth()
+		local Height = WorldMapFrame:GetCanvas():GetHeight()
+		local Left = WorldMapFrame:GetCanvas():GetLeft()
+		local Top = WorldMapFrame:GetCanvas():GetTop()
+		
+		MouseX = math.floor((MouseX - Left) / Width * 100)
+		MouseY = math.floor((Top - MouseY) / Height * 100)
+		
+		if MouseX ~= 0 and MouseY ~= 0 then
+			WorldMap.Coords.CursorText:SetText(MOUSE_LABEL..":   "..MouseX..", "..MouseY)
+		else
+			WorldMap.Coords.CursorText:SetText(" ")
+		end
 
-		WorldMap.Interval = 1
+		WorldMap.Interval = 0.1
 	end
 end
 
@@ -45,6 +64,10 @@ function WorldMap:CreateCoords()
 	self.Coords.PlayerText:SetTextColor(1, 1, 1)
 	self.Coords.PlayerText:SetPoint("BOTTOMLEFT", Map, "BOTTOMLEFT", 5, 5)
 	self.Coords.PlayerText:SetText("")
+	self.Coords:FontString("CursorText", C.Medias.Font, 12, "THINOUTLINE")
+	self.Coords.CursorText:SetTextColor(1, 1, 1)
+	self.Coords.CursorText:SetPoint("BOTTOMRIGHT", Map, "BOTTOMRIGHT", -5, 5)
+	self.Coords.CursorText:SetText("")
 end
 
 function WorldMap:SkinMap()
@@ -83,7 +106,7 @@ function WorldMap:SkinMap()
 end
 
 function WorldMap:Enable()
-	self.Interval = 1
+	self.Interval = 0.1
 	self:CreateCoords()
 	self:HookScript("OnUpdate", WorldMap.OnUpdate)
 	self:SkinMap()
