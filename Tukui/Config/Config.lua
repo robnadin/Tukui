@@ -104,8 +104,8 @@ C["Misc"] = {
 
 C["NamePlates"] = {
 	["Enable"] = true,
-	["Width"] = 138,
-	["Height"] = 14,
+	["Width"] = 120,
+	["Height"] = 10,
 	["Font"] = "Tukui Outline",
 	["OnlySelfDebuffs"] = true,
 }
