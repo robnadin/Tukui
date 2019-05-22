@@ -23,7 +23,6 @@
 	<Script file="ActionBars\BarPet.lua"/>
 	<Script file="ActionBars\BarStance.lua"/>
 	<Script file="ActionBars\Buttons.lua"/>
-	<Script file="ActionBars\Extra.lua"/>
 	<Script file="ActionBars\Bindings.lua"/>
 
 	<!-- Cooldowns -->

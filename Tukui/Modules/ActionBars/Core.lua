@@ -7,8 +7,6 @@ local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
 local NUM_PET_ACTION_SLOTS = NUM_PET_ACTION_SLOTS
 local NUM_STANCE_SLOTS = NUM_STANCE_SLOTS
 local MainMenuBar, MainMenuBarArtFrame = MainMenuBar, MainMenuBarArtFrame
-local OverrideActionBar = OverrideActionBar
-local PossessBarFrame = PossessBarFrame
 local ShapeshiftBarLeft, ShapeshiftBarMiddle, ShapeshiftBarRight = ShapeshiftBarLeft, ShapeshiftBarMiddle, ShapeshiftBarRight
 local Panels = T["Panels"]
 
@@ -37,11 +35,8 @@ function TukuiActionBars:DisableBlizzard()
 		end
 	end)
 
-	if T.WoWBuild < 28724 then
-		-- Avoid Hiding Buttons on open/close spellbook
-		MultiActionBar_HideAllGrids = function() end
-		MultiActionBar_ShowAllGrids = function() end
-	end
+	MultiActionBar_HideAllGrids = function() end
+	MultiActionBar_ShowAllGrids = function() end
 
 	ActionBarButtonEventsFrame:UnregisterEvent("ACTIONBAR_HIDEGRID")
 end
@@ -296,8 +291,6 @@ function TukuiActionBars:AddHooks()
 	hooksecurefunc("ActionButton_UpdateFlyout", self.StyleFlyout)
 	hooksecurefunc("SpellButton_OnClick", self.StyleFlyout)
 	hooksecurefunc("ActionButton_UpdateHotkeys", self.UpdateHotKey)
-	--hooksecurefunc(ExtraActionButton1.style, "SetTexture", self.DisableExtraButtonTexture)
-	--hooksecurefunc(ZoneAbilityFrame.SpellButton.Style, "SetTexture", self.DisableExtraButtonTexture)
 	hooksecurefunc("PetActionButton_SetHotkeys", self.UpdateHotKey)
 end
 
@@ -313,9 +306,7 @@ function TukuiActionBars:Enable()
 	self:CreateStanceBar()
 	self:ShowGrid()
 	self:CreateToggleButtons()
-	self:CreateVehicleButtons()
 	self:Bindings()
-	self:SetUpExtraActionButton()
 	self:AddHooks()
 	self:LoadVariables()
 end
