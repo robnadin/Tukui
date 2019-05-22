@@ -35,6 +35,12 @@ function MicroMenu:Enable()
 			ToggleFriendsFrame(1)
 		end,
 		notCheckable = true},
+		
+		{text = TALENTS,
+		func = function()
+			ToggleTalentFrame()
+		end,
+		notCheckable = true},
 
 		{text = COMPACT_UNIT_FRAME_PROFILE_AUTOACTIVATEPVE.." / "..COMPACT_UNIT_FRAME_PROFILE_AUTOACTIVATEPVP,
 		func = function()
