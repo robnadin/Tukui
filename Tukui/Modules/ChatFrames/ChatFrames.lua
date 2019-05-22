@@ -35,8 +35,6 @@ end
 
 function TukuiChat:MoveAudioButtons()
 	ChatFrameChannelButton:Kill()
-	--ChatFrameToggleVoiceDeafenButton:Kill()
-	--ChatFrameToggleVoiceMuteButton:Kill()
 end
 
 function TukuiChat:NoMouseAlpha()
@@ -156,15 +154,8 @@ function TukuiChat:StyleFrame(frame)
 	_G[format("ChatFrame%sTabSelectedMiddle", ID)]:Kill()
 	_G[format("ChatFrame%sTabSelectedRight", ID)]:Kill()
 
-	--_G[format("ChatFrame%sButtonFrameUpButton", ID)]:Kill()
-	--_G[format("ChatFrame%sButtonFrameDownButton", ID)]:Kill()
-	--_G[format("ChatFrame%sButtonFrameBottomButton", ID)]:Kill()
 	_G[format("ChatFrame%sButtonFrameMinimizeButton", ID)]:Kill()
 	_G[format("ChatFrame%sButtonFrame", ID)]:Kill()
-
-	--_G[format("ChatFrame%sEditBoxFocusLeft", ID)]:Kill()
-	--_G[format("ChatFrame%sEditBoxFocusMid", ID)]:Kill()
-	--_G[format("ChatFrame%sEditBoxFocusRight", ID)]:Kill()
 
 	_G[format("ChatFrame%sEditBoxLeft", ID)]:Kill()
 	_G[format("ChatFrame%sEditBoxMid", ID)]:Kill()
