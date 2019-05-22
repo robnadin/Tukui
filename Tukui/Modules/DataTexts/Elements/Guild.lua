@@ -181,7 +181,9 @@ local OnLeave = function() GameTooltip:Hide() end
 local OnMouseDown = function(self, btn)
 	if btn ~= "LeftButton" then return end
 
-	ToggleCommunitiesFrame()
+	if IsInGuild() then
+		ToggleFriendsFrame(3)
+	end
 end
 
 
