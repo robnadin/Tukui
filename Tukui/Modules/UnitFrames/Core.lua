@@ -368,61 +368,6 @@ local function clearbit(x, p)
 	return hasbit(x, p) and x - p or x
 end
 
-function TukuiUnitFrames:UpdateTotemOverride(event, slot)
-	if slot > 4 then
-		return
-	end
-
-	local Bar = self.Totems
-
-	if Bar.PreUpdate then Bar:PreUpdate(slot) end
-
-	local Totem = Bar[slot]
-	local HaveTotem, Name, Start, Duration, Icon = GetTotemInfo(slot)
-	local SpellID = select(7, GetSpellInfo(Name))
-
-	local Colors = T["Colors"]
-
-	if (HaveTotem) then
-		Totem:Show()
-
-		if Totem.Icon then
-			Totem.Icon:SetTexture(Icon)
-		end
-
-		if (Totem.Cooldown) then
-			Totem.Cooldown:SetCooldown(Start, Duration)
-		end
-
-		-- Workaround to allow right-click destroy totem
-		for i = 1, 4 do
-			local BlizzardTotem = _G["TotemFrameTotem"..i]
-			local Cooldown = _G["TotemFrameTotem"..i.."IconCooldown"]
-
-			if BlizzardTotem:IsShown() then
-				local CancelButtonSlot = BlizzardTotem.slot
-				local CancelButton = _G["TotemFrameTotem"..CancelButtonSlot]
-
-				CancelButton:ClearAllPoints()
-				CancelButton:SetAllPoints(Bar[i])
-				CancelButton:SetAlpha(0)
-
-				Cooldown:SetAlpha(0)
-			end
-		end
-	else
-		Totem:Hide()
-
-		if Totem.Icon then
-			Totem.Icon:SetTexture(nil)
-		end
-	end
-
-	if Bar.PostUpdate then
-		return Bar:PostUpdate(slot, HaveTotem, Name, Start, Duration, Icon)
-	end
-end
-
 function TukuiUnitFrames:CreateAuraTimer(elapsed)
 	if (self.TimeLeft) then
 		self.Elapsed = (self.Elapsed or 0) + elapsed
