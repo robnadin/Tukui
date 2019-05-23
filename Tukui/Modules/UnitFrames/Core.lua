@@ -43,9 +43,7 @@ TukuiUnitFrames.RaidBuffsTrackingPosition = {
 
 TukuiUnitFrames.NameplatesVars = {
 	nameplateMaxAlpha = 1,
-	nameplateMaxAlphaDistance = 40,	
 	nameplateMinAlpha = 1,
-	nameplateMinAlphaDistance = 0,
 	nameplateSelectedAlpha = 1,
 	nameplateMaxDistance = 80,
 	nameplateMaxScale = 1,
@@ -163,28 +161,8 @@ function TukuiUnitFrames:Highlight()
 	end
 end
 
-function TukuiUnitFrames:HighlightPlate()
-	if not self then
-		return
-	end
-	
-	local Shadow = self.Shadow
-
-	if Shadow then
-		if UnitIsUnit("target", self.unit) then
-			if not Shadow:IsShown() then
-				Shadow:Show()
-			end
-
-			Shadow:SetBackdropBorderColor(1, 1, 0, 1)
-		else
-			if C.General.HideShadows then
-				Shadow:Hide()
-			else
-				Shadow:SetBackdropBorderColor(0, 0, 0, 1)
-			end
-		end
-	end
+function TukuiUnitFrames:HighlightPlate(event)
+	-- need rewrite
 end
 
 function TukuiUnitFrames:UpdateShadow(height)

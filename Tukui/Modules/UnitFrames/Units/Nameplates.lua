@@ -13,7 +13,13 @@ function TukuiUnitFrames:Nameplates()
 	self:SetPoint("CENTER", 0, 0)
 	self:SetBackdrop(TukuiUnitFrames.Backdrop)
 	self:SetBackdropColor(0, 0, 0)
+	
 	self:CreateShadow()
+	self.Shadow:SetBackdrop( {
+		edgeFile = C.Medias.Glow, edgeSize = T.Scale(4),
+		insets = {left = T.Scale(4), right = T.Scale(4), top = T.Scale(4), bottom = T.Scale(4)},
+	})
+	self.Shadow:SetBackdropBorderColor(0, 0, 0, 1)
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetFrameStrata(self:GetFrameStrata())
@@ -84,10 +90,6 @@ function TukuiUnitFrames:Nameplates()
 	self.Name = Name
 	self.Power = Power
 	self.RaidTargetIndicator = RaidIcon
-	self.Shadow:SetBackdrop( {
-		edgeFile = C.Medias.Glow, edgeSize = T.Scale(4),
-		insets = {left = T.Scale(4), right = T.Scale(4), top = T.Scale(4), bottom = T.Scale(4)},
-	})
 
 	-- Needed on nameplate else if will bug on AOE multi nameplates. (I'm not sure about this)
 	self:EnableMouse(false)
