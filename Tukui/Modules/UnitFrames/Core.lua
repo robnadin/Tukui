@@ -41,6 +41,21 @@ TukuiUnitFrames.RaidBuffsTrackingPosition = {
 	BOTTOM = {0, 0},
 }
 
+TukuiUnitFrames.NameplatesVars = {
+	nameplateMaxAlpha = 1,
+	nameplateMaxAlphaDistance = 40,	
+	nameplateMinAlpha = 1,
+	nameplateMinAlphaDistance = 0,
+	nameplateSelectedAlpha = 1,
+	nameplateMaxDistance = 80,
+	nameplateMaxScale = 1,
+	nameplateMinScale = 1,
+	nameplateSelectedScale = 1,
+	nameplateSelfScale = 1,
+	nameplateSelfAlpha = 1,
+	nameplateOccludedAlphaMult = 1,
+}
+
 function TukuiUnitFrames:DisableBlizzard()
 	if not C.UnitFrames.Enable then
 		return
@@ -149,6 +164,10 @@ function TukuiUnitFrames:Highlight()
 end
 
 function TukuiUnitFrames:HighlightPlate()
+	if not self then
+		return
+	end
+	
 	local Shadow = self.Shadow
 
 	if Shadow then
@@ -846,17 +865,7 @@ function TukuiUnitFrames:CreateUnits()
 	end
 
 	if C.NamePlates.Enable then
-		SetCVar("nameplateGlobalScale", 1)
-		SetCVar("NamePlateHorizontalScale", 1)
-		SetCVar("NamePlateVerticalScale", 1)
-		SetCVar("nameplateLargerScale", 1)
-		SetCVar("nameplateMaxScale", 1)
-		SetCVar("nameplateMinScale", 1)
-		SetCVar("nameplateSelectedScale", 1)
-		SetCVar("nameplateSelfScale", 1)
-		SetCVar("nameplateMaxDistance", 100)
-
-		oUF:SpawnNamePlates()
+		oUF:SpawnNamePlates("Tukui", TukuiUnitFrames.HighlightPlate, TukuiUnitFrames.NameplatesVars)
 	end
 end
 
