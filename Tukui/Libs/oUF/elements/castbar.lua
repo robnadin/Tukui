@@ -88,8 +88,8 @@ local oUF = ns.oUF
 
 local GetNetStats = GetNetStats
 local GetTime = GetTime
-local UnitCastingInfo = UnitCastingInfo
-local UnitChannelInfo = UnitChannelInfo
+local UnitCastingInfo = CastingInfo
+local UnitChannelInfo = ChannelInfo
 
 local function updateSafeZone(self)
 	local safeZone = self.SafeZone
@@ -108,8 +108,7 @@ local function UNIT_SPELLCAST_START(self, event, unit)
 	if(self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
-	local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = CastingInfo()
-	--local name, text, texture, startTime, endTime, _, castID, notInterruptible, spellID = UnitCastingInfo(unit)
+	local name, text, texture, startTime, endTime, _, castID, notInterruptible, spellID = UnitCastingInfo(unit)
 	if(not name) then
 		return element:Hide()
 	end
@@ -125,7 +124,7 @@ local function UNIT_SPELLCAST_START(self, event, unit)
 	element.casting = true
 	element.notInterruptible = notInterruptible
 	element.holdTime = 0
-	--element.spellID = spellID
+	element.spellID = spellID
 
 	element:SetMinMaxValues(0, max)
 	element:SetValue(0)
@@ -219,56 +218,11 @@ local function UNIT_SPELLCAST_INTERRUPTED(self, event, unit, castID)
 	end
 end
 
-local function UNIT_SPELLCAST_INTERRUPTIBLE(self, event, unit)
-	if(self.unit ~= unit and self.realUnit ~= unit) then return end
-
-	local element = self.Castbar
-	local shield = element.Shield
-	if(shield) then
-		shield:Hide()
-	end
-
-	element.notInterruptible = nil
-
-	--[[ Callback: Castbar:PostCastInterruptible(unit)
-	Called after the element has been updated when a spell cast has become interruptible.
-
-	* self - the Castbar widget
-	* unit - unit for which the update has been triggered (string)
-	--]]
-	if(element.PostCastInterruptible) then
-		return element:PostCastInterruptible(unit)
-	end
-end
-
-local function UNIT_SPELLCAST_NOT_INTERRUPTIBLE(self, event, unit)
-	if(self.unit ~= unit and self.realUnit ~= unit) then return end
-
-	local element = self.Castbar
-	local shield = element.Shield
-	if(shield) then
-		shield:Show()
-	end
-
-	element.notInterruptible = true
-
-	--[[ Callback: Castbar:PostCastNotInterruptible(unit)
-	Called after the element has been updated when a spell cast has become non-interruptible.
-
-	* self - the Castbar widget
-	* unit - unit for which the update has been triggered (string)
-	--]]
-	if(element.PostCastNotInterruptible) then
-		return element:PostCastNotInterruptible(unit)
-	end
-end
-
 local function UNIT_SPELLCAST_DELAYED(self, event, unit)
 	if(self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
-	local name, _, _, startTime = CastingInfo(unit)
-	--local name, _, _, startTime = UnitCastingInfo(unit)
+	local name, _, _, startTime = UnitCastingInfo(unit)
 	if(not startTime or not element:IsShown()) then return end
 
 	local duration = GetTime() - (startTime / 1000)
@@ -317,8 +271,7 @@ local function UNIT_SPELLCAST_CHANNEL_START(self, event, unit, _, spellID)
 	if(self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
-	local name, _, texture, startTime, endTime, _, notInterruptible = ChannelInfo()
-	--local name, _, texture, startTime, endTime, _, notInterruptible = UnitChannelInfo(unit)
+	local name, _, texture, startTime, endTime, _, notInterruptible = UnitChannelInfo(unit)
 	if(not name) then
 		return
 	end
@@ -382,7 +335,7 @@ local function UNIT_SPELLCAST_CHANNEL_UPDATE(self, event, unit)
 	if(self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
-	local name, _, _, startTime, endTime = ChannelInfo(unit)
+	local name, _, _, startTime, endTime = UnitChannelInfo(unit)
 	if(not name or not element:IsShown()) then
 		return
 	end
@@ -540,8 +493,6 @@ local function Enable(self, unit)
 			self:RegisterEvent('UNIT_SPELLCAST_FAILED', UNIT_SPELLCAST_FAILED)
 			self:RegisterEvent('UNIT_SPELLCAST_STOP', UNIT_SPELLCAST_STOP)
 			self:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED', UNIT_SPELLCAST_INTERRUPTED)
-			--self:RegisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE', UNIT_SPELLCAST_INTERRUPTIBLE)
-			--self:RegisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE', UNIT_SPELLCAST_NOT_INTERRUPTIBLE)
 			self:RegisterEvent('UNIT_SPELLCAST_DELAYED', UNIT_SPELLCAST_DELAYED)
 			self:RegisterEvent('UNIT_SPELLCAST_CHANNEL_START', UNIT_SPELLCAST_CHANNEL_START)
 			self:RegisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE', UNIT_SPELLCAST_CHANNEL_UPDATE)
@@ -581,8 +532,6 @@ local function Enable(self, unit)
 			safeZone:SetColorTexture(1, 0, 0)
 		end
 
-		element:Hide()
-
 		return true
 	end
 end
@@ -596,8 +545,6 @@ local function Disable(self)
 		self:UnregisterEvent('UNIT_SPELLCAST_FAILED', UNIT_SPELLCAST_FAILED)
 		self:UnregisterEvent('UNIT_SPELLCAST_STOP', UNIT_SPELLCAST_STOP)
 		self:UnregisterEvent('UNIT_SPELLCAST_INTERRUPTED', UNIT_SPELLCAST_INTERRUPTED)
-		--self:UnregisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE', UNIT_SPELLCAST_INTERRUPTIBLE)
-		--self:UnregisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE', UNIT_SPELLCAST_NOT_INTERRUPTIBLE)
 		self:UnregisterEvent('UNIT_SPELLCAST_DELAYED', UNIT_SPELLCAST_DELAYED)
 		self:UnregisterEvent('UNIT_SPELLCAST_CHANNEL_START', UNIT_SPELLCAST_CHANNEL_START)
 		self:UnregisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE', UNIT_SPELLCAST_CHANNEL_UPDATE)
