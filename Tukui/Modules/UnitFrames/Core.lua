@@ -161,7 +161,7 @@ function TukuiUnitFrames:Highlight()
 	end
 end
 
-function TukuiUnitFrames:HighlightPlate(event)
+function TukuiUnitFrames:NameplatesPostUpdate(event, ...)
 	-- need rewrite
 end
 
@@ -843,7 +843,7 @@ function TukuiUnitFrames:CreateUnits()
 	end
 
 	if C.NamePlates.Enable then
-		oUF:SpawnNamePlates("Tukui", TukuiUnitFrames.HighlightPlate, TukuiUnitFrames.NameplatesVars)
+		oUF:SpawnNamePlates("Tukui", TukuiUnitFrames.NameplatesPostUpdate, TukuiUnitFrames.NameplatesVars)
 	end
 end
 
