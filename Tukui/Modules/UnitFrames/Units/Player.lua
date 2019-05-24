@@ -76,6 +76,15 @@ function TukuiUnitFrames:Player()
 	if (C.UnitFrames.Smooth) then
 		Power.Smooth = true
 	end
+	
+	Power.Prediction = CreateFrame("StatusBar", nil, Power)
+	Power.Prediction:SetReverseFill(true)
+	Power.Prediction:SetPoint("TOP")
+	Power.Prediction:SetPoint("BOTTOM")
+	Power.Prediction:SetPoint("RIGHT", Power:GetStatusBarTexture(), "RIGHT")
+	Power.Prediction:SetWidth(C.UnitFrames.Portrait and 214 or 250)
+	Power.Prediction:SetStatusBarTexture(PowerTexture)
+	Power.Prediction:SetStatusBarColor(1, 1, 1, .3)
 
 	Power.PostUpdate = TukuiUnitFrames.PostUpdatePower
 
@@ -274,6 +283,8 @@ function TukuiUnitFrames:Player()
 	self.LeaderIndicator = Leader
 	self.MasterLooterIndicator = MasterLooter
 	self.RaidTargetIndicator = RaidIcon
+	self.PowerPrediction = {}
+	self.PowerPrediction.mainBar = Power.Prediction
 
 	-- Classes
 	TukuiUnitFrames.AddClassFeatures[Class](self)
