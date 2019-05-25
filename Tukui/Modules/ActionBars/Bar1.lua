@@ -45,8 +45,8 @@ function TukuiActionBars:CreateBar1()
 
 	if (C.ActionBars.SwitchBarOnStance) then
 		Rogue = "[bonusbar:1] 7;"
-		Druid = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;";
-		Warrior = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;",
+		Druid = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;"
+		Warrior = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;"
 	end
 
 	ActionBar1.Page = {
