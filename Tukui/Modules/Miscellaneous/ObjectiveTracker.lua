@@ -54,16 +54,36 @@ function ObjectiveTracker:Skin()
 	end
 	
 	self.HeaderBar = HeaderBar
+	self.HeaderText = HeaderText
+end
+
+function ObjectiveTracker:SkinQuestTimer()
+	local Timer = QuestTimerFrame
+	local HeaderBar = self.HeaderBar
+	local HeaderTimerBar = CreateFrame("StatusBar", nil, QuestTimerFrame)
+	
+	HeaderTimerBar:Size(QuestWatchFrame:GetWidth(), 2)
+	HeaderTimerBar:SetPoint("TOPLEFT", QuestWatchFrame, 0, 56)
+	HeaderTimerBar:SetStatusBarTexture(C.Medias.Blank)
+	HeaderTimerBar:SetStatusBarColor(unpack(CustomClassColor))
+	HeaderTimerBar:SetTemplate()
+	HeaderTimerBar:CreateShadow()
+	
+	Timer:StripTextures()
+	Timer:SetParent(UIParent)
+	Timer:ClearAllPoints()
+	Timer:SetPoint("TOPLEFT", HeaderBar, "TOPLEFT", -205, 80)
 end
 
 function ObjectiveTracker:AddHooks()
-
+	
 end
 
 function ObjectiveTracker:Enable()
 	self:CreateHolder()
 	self:SetDefaultPosition()
 	self:Skin()
+	self:SkinQuestTimer()
 	self:AddHooks()
 end
 
