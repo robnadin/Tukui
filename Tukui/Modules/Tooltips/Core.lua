@@ -151,20 +151,16 @@ function Tooltip:OnTooltipSetUnit()
 		if Title then
 			Name = Title
 		end
-
-		if(Realm and Realm ~= "") then
-			if IsShiftKeyDown() then
-				Name = Name.."-"..Realm
-			elseif(Relationship == LE_REALM_RELATION_COALESCED) then
-				Name = Name..FOREIGN_SERVER_LABEL
-			elseif(Relationship == LE_REALM_RELATION_VIRTUAL) then
-				Name = Name..INTERACTIVE_SERVER_LABEL
-			end
-		end
 	end
 
 	if Name then
-		Line1:SetFormattedText("%s%s%s", Color, Name, "|r")
+		if (UnitIsPlayer(Unit) and Guild) then
+			Guild = " |cff00ff00["..Guild.."]|r"
+		else
+			Guild = ""
+		end
+		
+		Line1:SetFormattedText("%s%s%s%s", Color, Name, (UnitIsPlayer(Unit) and Guild) or "", "|r")
 	end
 
 	if (UnitIsPlayer(Unit) and UnitIsFriend("player", Unit)) then
@@ -176,14 +172,6 @@ function Tooltip:OnTooltipSetUnit()
 	end
 
 	local Offset = 2
-	if ((UnitIsPlayer(Unit) and Guild)) then
-		if(GuildRealm and IsShiftKeyDown()) then
-			Guild = Guild.."-"..GuildRealm
-		end
-
-		Line2:SetFormattedText("%s", IsInGuild() and GetGuildInfo("player") == Guild and "|cff0090ff".. Guild .."|r" or "|cff00ff10".. Guild .."|r")
-		Offset = Offset + 1
-	end
 
 	for i = Offset, NumLines do
 		local Line = _G["GameTooltipTextLeft"..i]
