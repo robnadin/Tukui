@@ -27,27 +27,12 @@ local Update = function(self, t)
 	tslu = 1
 end
 
-local OnEnter = function(self)
-	if InCombatLockdown() then
-		return
-	end
-
-	local _, _, HomeLatency, WorldLatency = GetNetStats()
-	local Latency = MAINMENUBAR_LATENCY_LABEL, HomeLatency, WorldLatency
-
-	GameTooltip:SetOwner(self:GetTooltipAnchor())
-	GameTooltip:ClearLines()
-	GameTooltip:AddLine(Latency.." "..HomeLatency)
-	GameTooltip:Show()
-end
-
 local OnLeave = function()
 	GameTooltip:Hide()
 end
 
 local Enable = function(self)
 	self:SetScript("OnUpdate", Update)
-	self:SetScript("OnEnter", OnEnter)
 	self:SetScript("OnLeave", OnLeave)
 	self:Update(1)
 end
@@ -55,7 +40,6 @@ end
 local Disable = function(self)
 	self.Text:SetText("")
 	self:SetScript("OnUpdate", nil)
-	self:SetScript("OnEnter", nil)
 	self:SetScript("OnLeave", nil)
 end
 
