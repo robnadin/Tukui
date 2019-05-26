@@ -49,6 +49,8 @@ function Install:Step1()
 	if (ActionBars) then
 		SetActionBarToggles(1, 1, 1, 1)
 	end
+	
+	self:Hide()
 end
 
 function Install:Step2()
@@ -59,6 +61,8 @@ function Install:Step2()
 	end
 
 	Chat:Install()
+	
+	self:Hide()
 end
 
 function Install:PrintStep(number)
@@ -105,6 +109,10 @@ function Install:PrintStep(number)
 		else
 			self.RightButton.Text:SetText(NEXT)
 			self.CloseButton:Show()
+			self.MiddleButton:Show()
+		end
+		
+		if (self.MiddleButton:IsVisible()) then
 			self.MiddleButton:Show()
 		end
 
