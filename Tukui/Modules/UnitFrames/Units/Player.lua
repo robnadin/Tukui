@@ -106,6 +106,47 @@ function TukuiUnitFrames:Player()
 
 		self.Portrait = Portrait
 	end
+	
+	if (C.UnitFrames.PlayerAuras) then
+		local Buffs = CreateFrame("Frame", self:GetName()..'Buffs', self)
+		local Debuffs = CreateFrame("Frame", self:GetName()..'Debuffs', self)
+
+		Buffs:SetFrameStrata(self:GetFrameStrata())
+		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 4)
+
+		Buffs:SetHeight(26)
+		Buffs:SetWidth(252)
+		Buffs.size = 26
+		Buffs.num = 36
+		Buffs.numRow = 9
+
+		Debuffs:SetFrameStrata(self:GetFrameStrata())
+		Debuffs:SetHeight(26)
+		Debuffs:SetWidth(252)
+		Debuffs:SetPoint("BOTTOMLEFT", Buffs, "TOPLEFT", -2, 2)
+		Debuffs.size = 26
+		Debuffs.num = 36
+		Debuffs.numRow = 9
+
+		Buffs.spacing = 2
+		Buffs.initialAnchor = "TOPLEFT"
+		Buffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
+		Buffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
+		Buffs.PostUpdate = TukuiUnitFrames.UpdateDebuffsHeaderPosition
+		Buffs.onlyShowPlayer = C.UnitFrames.OnlySelfBuffs
+		Buffs.isCancellable = true
+
+		Debuffs.spacing = 2
+		Debuffs.initialAnchor = "TOPRIGHT"
+		Debuffs["growth-y"] = "UP"
+		Debuffs["growth-x"] = "LEFT"
+		Debuffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
+		Debuffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
+		Debuffs.onlyShowPlayer = C.UnitFrames.OnlySelfDebuffs
+
+		self.Buffs = Buffs
+		self.Debuffs = Debuffs
+	end
 
 	local Combat = Health:CreateTexture(nil, "OVERLAY", 1)
 	Combat:Size(19, 19)

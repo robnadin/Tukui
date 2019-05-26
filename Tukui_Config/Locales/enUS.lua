@@ -561,6 +561,11 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Display boss frames while doing pve",
 		},
 
+		["PlayerAuras"] = {
+			["Name"] = "Player Auras",
+			["Desc"] = "Display buffs and debuffs on player",
+		},
+
 		["TargetAuras"] = {
 			["Name"] = "Target Auras",
 			["Desc"] = "Display buffs and debuffs on target",

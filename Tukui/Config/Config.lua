@@ -176,6 +176,7 @@ C["UnitFrames"] = {
 	["Smooth"] = true,
 	["TargetEnemyHostileColor"] = true,
 	["CombatLog"] = false,
+	["PlayerAuras"] = true,
 	["TargetAuras"] = true,
 	["BossAuras"] = true,
 	["OnlySelfDebuffs"] = false,

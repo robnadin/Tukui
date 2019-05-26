@@ -568,6 +568,11 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Afficher les cadres de monstre en faisant pve",
 		},
 
+		["PlayerAuras"] = {
+			["Name"] = "Auras du joueur",
+			["Desc"] = "Afficher les buffs et les debuffs sur son personnage",
+		},
+
 		["TargetAuras"] = {
 			["Name"] = "Auras de la cible",
 			["Desc"] = "Afficher les buffs et les debuffs sur la cible",
