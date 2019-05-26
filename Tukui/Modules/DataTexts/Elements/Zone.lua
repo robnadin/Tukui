@@ -33,7 +33,9 @@ local Update = function(self)
 end
 
 local OnEnter = function(self)
-	if InCombatLockdown() then
+	local UnitMap = C_Map.GetBestMapForUnit("player")
+	
+	if not UnitMap or InCombatLockdown() then
 		return
 	end
 
@@ -42,7 +44,7 @@ local OnEnter = function(self)
 
 	local Text = GetRealZoneText()
 	local PVPType, IsSubZonePvP, FactionName = GetZonePVPInfo()
-	local X, Y = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit("player"), "player"):GetXY()
+	local X, Y = C_Map.GetPlayerMapPosition(UnitMap, "player"):GetXY()
 	local XText, YText, Label, Location, Color
 
 	if (not X) and (not Y) then
