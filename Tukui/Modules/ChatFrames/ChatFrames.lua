@@ -11,7 +11,7 @@ local UIFrameFadeRemoveFrame = UIFrameFadeRemoveFrame
 TukuiChat.VoiceAlertPosition = {"BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", 0, 14}
 
 -- Set name for right chat
-TukuiChat.RightChatName = COMBAT.." | "..LOOT.." | "..COMBAT_XP_GAIN.." | Battle.net"
+TukuiChat.RightChatName = SLASH_CONSOLE1
 
 -- Update editbox border color
 function TukuiChat:UpdateEditBoxColor()
@@ -310,10 +310,6 @@ function TukuiChat:Install()
 		"IGNORED",
 		"SKILL",
 		"CURRENCY", 
-		"TRADESKILLS",
-		"OPENING",
-		"PET_INFO",
-		"COMBAT_MISC_INFO",
 	}
 	-- ChatFrame1, need to do it this way, else it crash on WoW Classic
 	for index, value in pairs(Transfers) do
