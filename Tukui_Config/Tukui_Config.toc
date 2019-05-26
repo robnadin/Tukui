@@ -10,4 +10,3 @@
 Tukui_Config.lua
 Locales\enUS.lua
 Locales\frFR.lua
-Locales\koKR.lua
