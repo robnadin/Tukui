@@ -10,6 +10,9 @@ local UIFrameFadeRemoveFrame = UIFrameFadeRemoveFrame
 -- Set default position for Voice Activation Alert
 TukuiChat.VoiceAlertPosition = {"BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", 0, 14}
 
+-- Set name for right chat
+TukuiChat.RightChatName = COMBAT.." | "..LOOT.." | "..COMBAT_XP_GAIN.." | Battle.net"
+
 -- Update editbox border color
 function TukuiChat:UpdateEditBoxColor()
 	local EditBox = ChatEdit_ChooseBoxForSend()
@@ -162,7 +165,7 @@ function TukuiChat:StyleFrame(frame)
 	_G[format("ChatFrame%sEditBoxRight", ID)]:Kill()
 
 	-- Justify loot frame text at the right
-	if (not Frame.isDocked and ID == 4 and TabText:GetText() == LOOT) then
+	if (not Frame.isDocked and ID == 4 and TabText:GetText() == self.RightChatName) then
 		Frame:SetJustifyH("RIGHT")
 	end
 
@@ -286,32 +289,59 @@ end
 
 function TukuiChat:Install()
 	-- Create our custom chatframes
-	FCF_ResetChatWindows()
+	ResetChatWindows()
 	FCF_SetLocked(ChatFrame1, 1)
 	FCF_DockFrame(ChatFrame2)
 	FCF_SetLocked(ChatFrame2, 1)
 	FCF_OpenNewWindow(GENERAL)
 	FCF_SetLocked(ChatFrame3, 1)
 	FCF_DockFrame(ChatFrame3)
-	FCF_OpenNewWindow(LOOT)
+	FCF_OpenNewWindow(self.RightChatName)
 	FCF_UnDockFrame(ChatFrame4)
+	
+	local Transfers = {
+		"COMBAT_XP_GAIN",
+		"COMBAT_HONOR_GAIN",
+		"COMBAT_FACTION_CHANGE",
+		"LOOT",
+		"MONEY",
+		"SYSTEM",
+		"ERRORS",
+		"IGNORED",
+		"SKILL",
+		"CURRENCY", 
+		"TRADESKILLS",
+		"OPENING",
+		"PET_INFO",
+		"COMBAT_MISC_INFO",
+	}
+	-- ChatFrame1, need to do it this way, else it crash on WoW Classic
+	for index, value in pairs(Transfers) do
+		for eventIndex, eventValue in pairs(ChatTypeGroup[value]) do
+			if Transfers[eventValue] then
+				ChatFrame1:UnregisterEvent(eventValue)
+			end
+		end
+		
+		RemoveChatWindowMessages(1, value)
+		ChatFrame1.messageTypeList[value] = nil
+	end
 
-	-- Set more chat groups
-	--ChatFrame_RemoveAllMessageGroups(ChatFrame1)
 	ChatFrame_RemoveChannel(ChatFrame1, "General")
 	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
 	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
 
-	-- Move ChatFrame1 Globals Channels to ChatFrame3
-	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
-
 	-- ChatFrame 3
+	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
 	ChatFrame_AddChannel(ChatFrame3, "General")
 	ChatFrame_AddChannel(ChatFrame3, "Trade")
 	ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
 
-	-- Setup the right chat
+	-- ChatFrame 4 [right chat]
 	ChatFrame_RemoveAllMessageGroups(ChatFrame4)
+	for index, value in pairs(Transfers) do
+		ChatFrame_AddMessageGroup(ChatFrame4, value)
+	end
 
 	-- Enable Classcolor
 	ToggleChatColorNamesByClassGroup(true, "SAY")
