@@ -33,11 +33,11 @@ local OnEnter = function(self)
 	end
 
 	local _, _, HomeLatency, WorldLatency = GetNetStats()
-	local Latency = format(MAINMENUBAR_LATENCY_LABEL, HomeLatency, WorldLatency)
+	local Latency = MAINMENUBAR_LATENCY_LABEL, HomeLatency, WorldLatency
 
 	GameTooltip:SetOwner(self:GetTooltipAnchor())
 	GameTooltip:ClearLines()
-	GameTooltip:AddLine(Latency)
+	GameTooltip:AddLine(Latency.." "..HomeLatency)
 	GameTooltip:Show()
 end
 
