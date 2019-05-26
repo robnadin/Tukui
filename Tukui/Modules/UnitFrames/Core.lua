@@ -771,22 +771,22 @@ function TukuiUnitFrames:CreateUnits()
 	local Movers = T["Movers"]
 
 	if C.UnitFrames.Enable then
-		local Player = oUF:Spawn("player")
+		local Player = oUF:Spawn("player", "TukuiPlayerFrame")
 		Player:SetPoint("BOTTOMLEFT", TukuiUnitFrames.Anchor, "TOPLEFT", 0, 8)
 		Player:SetParent(Panels.PetBattleHider)
 		Player:Size(250, 57)
 
-		local Target = oUF:Spawn("target")
+		local Target = oUF:Spawn("target", "TukuiTargetFrame")
 		Target:SetPoint("BOTTOMRIGHT", TukuiUnitFrames.Anchor, "TOPRIGHT", 0, 8)
 		Target:SetParent(Panels.PetBattleHider)
 		Target:Size(250, 57)
 
-		local TargetOfTarget = oUF:Spawn("targettarget")
+		local TargetOfTarget = oUF:Spawn("targettarget", "TukuiTargetTargetFrame")
 		TargetOfTarget:SetPoint("BOTTOM", TukuiUnitFrames.Anchor, "TOP", 0, 8)
 		TargetOfTarget:SetParent(Panels.PetBattleHider)
 		TargetOfTarget:Size(129, 36)
 
-		local Pet = oUF:Spawn("pet")
+		local Pet = oUF:Spawn("pet", "TukuiPetFrame")
 		Pet:SetParent(Panels.PetBattleHider)
 		Pet:SetPoint("BOTTOM", TukuiUnitFrames.Anchor, "TOP", 0, 49)
 		Pet:Size(129, 36)
@@ -800,7 +800,7 @@ function TukuiUnitFrames:CreateUnits()
 			local Boss = {}
 
 			for i = 1, 5 do
-				Boss[i] = oUF:Spawn("boss"..i, nil)
+				Boss[i] = oUF:Spawn("boss"..i, "TukuiBossFrame"..i)
 				Boss[i]:SetParent(Panels.PetBattleHider)
 				if (i == 1) then
 					Boss[i]:SetPoint("BOTTOMRIGHT", TukuiUnitFrames.Anchor, "TOPRIGHT", 0, 200)
