@@ -44,11 +44,10 @@ oUF.colors.class = {
 	["WARRIOR"]     = { 0.78, 0.61, 0.43 },
 }
 
-oUF.colors.totems = {
-	[1] = oUF.colors.class[Class], -- Totem 1
-	[2] = oUF.colors.class[Class], -- Totem 2
-	[3] = oUF.colors.class[Class], -- Totem 3
-	[4] = oUF.colors.class[Class], -- Totem 4
+oUF.colors.happiness = {
+	[1] = {.69,.31,.31},
+	[2] = {.65,.63,.35},
+	[3] = {.33,.59,.33},
 }
 
 oUF.colors.specpowertypes = {

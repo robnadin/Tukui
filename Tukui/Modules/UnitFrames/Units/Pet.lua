@@ -38,6 +38,10 @@ function TukuiUnitFrames:Pet()
 	Health.colorDisconnected = true
 	Health.colorClass = true
 	Health.colorReaction = true
+	
+	if T.MyClass == "HUNTER" then
+		Health.colorHappiness = true
+	end
 
 	if C.UnitFrames.Smooth then
 		Health.Smooth = true

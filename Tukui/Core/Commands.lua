@@ -89,6 +89,19 @@ T.SlashHandler = function(cmd)
 		local Movers = T["Movers"]
 
 		Movers:StartOrStopMoving()
+	elseif (arg1 == "ph" or arg1 == "happiness") then
+		local Happiness, DamagePercentage, LoyaltyRate = GetPetHappiness()
+		
+		if not Happiness then
+			T.Print("No Pet")
+		else
+			local Happy = ({"Unhappy", "Content", "Happy"})[Happiness]
+			local Loyalty = LoyaltyRate > 0 and "gaining" or "losing"
+			
+			T.Print("Pet is " .. Happy)
+			T.Print("Pet is doing " .. DamagePercentage .. "% damage")
+			T.Print("Pet is " .. Loyalty .. " loyalty")
+		end
 	elseif (arg1 == "" or arg1 == "help") then
 		print(" ")
 		print("|cffff8000".. L.Help.Title .."|r")
