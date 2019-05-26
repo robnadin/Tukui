@@ -41,18 +41,20 @@ function TukuiActionBars:CreateBar1()
 	local PetSize = C.ActionBars.PetButtonSize
 	local Spacing = C.ActionBars.ButtonSpacing
 	local ActionBar1 = Panels.ActionBar1
-	local Druid, Rogue, Warrior = "", "", ""
+	local Druid, Rogue, Warrior, Priest = "", "", "", ""
 
 	if (C.ActionBars.SwitchBarOnStance) then
 		Rogue = "[bonusbar:1] 7;"
 		Druid = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;"
 		Warrior = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;"
+		Priest = "[bonusbar:1] 7;"
 	end
 
 	ActionBar1.Page = {
 		["DRUID"] = Druid,
 		["ROGUE"] = Rogue,
 		["WARRIOR"] = Warrior,
+		["PRIEST"] = Priest,
 		["DEFAULT"] = "[bar:6] 6;[bar:5] 5;[bar:4] 4;[bar:3] 3;[bar:2] 2;[overridebar] 14;[shapeshift] 13;[vehicleui] 12;[possessbar] 12;",
 	}
 
