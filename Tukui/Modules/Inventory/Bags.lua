@@ -136,6 +136,13 @@ function Bags:HideBlizzard()
 	end
 end
 
+function Bags:DisplayCloseButtonTooltip()
+	GameTooltip:SetOwner(self)
+	GameTooltip:SetAnchorType("ANCHOR_TOPRIGHT", 6, 9)
+	GameTooltip:AddLine("RIGHT-CLICK to toggle bags") -- LOCALIZE ME PLZ
+	GameTooltip:Show()
+end
+
 function Bags:CreateContainer(storagetype, ...)
 	local Container = CreateFrame("Frame", "Tukui".. storagetype, UIParent)
 	Container:SetScale(1)
@@ -170,6 +177,7 @@ function Bags:CreateContainer(storagetype, ...)
 		ToggleBagsContainer.Text:SetFontObject(Font)
 		ToggleBagsContainer.Text:SetText("X")
 		ToggleBagsContainer.Text:SetTextColor(.5, .5, .5)
+		ToggleBagsContainer:SetScript("OnEnter", Bags.DisplayCloseButtonTooltip)
 		ToggleBagsContainer:SetScript("OnMouseUp", function(self, button)
 			local Purchase = BankFramePurchaseInfo
 
