@@ -202,7 +202,7 @@ function Bags:CreateContainer(storagetype, ...)
 					end
 						
 					if GameTooltip:IsShown() then
-						GameTooltip:Hide()
+						GameTooltip_Hide()
 					end
 				else
 					ReplaceBags = 0

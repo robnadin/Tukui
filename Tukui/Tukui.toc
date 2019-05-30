@@ -1,7 +1,7 @@
 ## Interface: 11302
 ## Author: Tukz & Hydra
 ## X-Maintainer: Tukz & Azilroka
-## Version: 0.04
+## Version: 0.05
 ## Title: |cffff8000Tukui Classic|r
 ## Notes: UI of awesomeness!
 ## SavedVariables: TukuiData
