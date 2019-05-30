@@ -137,10 +137,14 @@ function Bags:HideBlizzard()
 end
 
 function Bags:DisplayCloseButtonTooltip()
-	GameTooltip:SetOwner(self)
-	GameTooltip:SetAnchorType("ANCHOR_TOPRIGHT", 6, 9)
-	GameTooltip:AddLine("RIGHT-CLICK to toggle bags") -- LOCALIZE ME PLZ
-	GameTooltip:Show()
+	local Container = TukuiBag.BagsContainer
+	
+	if not Container:IsVisible() then
+		GameTooltip:SetOwner(self)
+		GameTooltip:SetAnchorType("ANCHOR_TOPRIGHT", 6, 9)
+		GameTooltip:AddLine("RIGHT-CLICK to toggle bags") -- LOCALIZE ME PLZ
+		GameTooltip:Show()
+	end
 end
 
 function Bags:CreateContainer(storagetype, ...)
@@ -194,6 +198,10 @@ function Bags:CreateContainer(storagetype, ...)
 
 					if Purchase:IsShown() then
 						BanksContainer:SetPoint("BOTTOMLEFT", Purchase, "TOPLEFT", 50, 2)
+					end
+						
+					if GameTooltip:IsShown() then
+						GameTooltip:Hide()
 					end
 				else
 					ReplaceBags = 0
