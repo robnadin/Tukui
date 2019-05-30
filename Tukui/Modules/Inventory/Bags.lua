@@ -580,10 +580,10 @@ function Bags:OpenAllBankBags()
 			self.Bank.MoverApplied = true
 		end
 
-		for i = 5, 11 do
+		for i = 5, 10 do
 			if (not IsBagOpen(i)) then
 
-				--self:OpenBag(i, 1)
+				self:OpenBag(i, 1)
 			end
 		end
 	end
@@ -648,12 +648,14 @@ function Bags:OnEvent(event, ...)
 		-- We need to hide buttons from a bag when closing it because they are not parented to the original frame
 		local Container = _G["ContainerFrame"..Bag]
 		local Size = Container.size
+		
+		if Size then
+			for i = 1, Size do
+				local Button = _G["ContainerFrame"..Bag.."Item"..i]
 
-		for i = 1, Size do
-			local Button = _G["ContainerFrame"..Bag.."Item"..i]
-
-			if Button then
-				Button:Hide()
+				if Button then
+					Button:Hide()
+				end
 			end
 		end
 
