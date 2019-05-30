@@ -155,7 +155,7 @@ function Bags:CreateContainer(storagetype, ...)
 		BagsContainer:SetParent(Container)
 		BagsContainer:SetWidth(10)
 		BagsContainer:SetHeight(10)
-		BagsContainer:SetPoint("BOTTOMRIGHT", Container, "TOPRIGHT", 0, 27)
+		BagsContainer:SetPoint("BOTTOMRIGHT", Container, "TOPRIGHT", 0, 1)
 		BagsContainer:Hide()
 		BagsContainer:SetTemplate()
 		BagsContainer:CreateShadow()
@@ -217,10 +217,7 @@ function Bags:CreateContainer(storagetype, ...)
 			Button:SetTemplate()
 			Button.IconBorder:SetAlpha(0)
 			Button:SkinButton()
-			
-			if T.WoWBuild < 29664 then
-				Button:SetCheckedTexture("")
-			end
+			Button:SetCheckedTexture("")
 
 			if LastButtonBag then
 				Button:SetPoint("LEFT", LastButtonBag, "RIGHT", ButtonSpacing, 0)
@@ -276,9 +273,7 @@ function Bags:CreateContainer(storagetype, ...)
 		for i = 1, 6 do
 			local Bag = BankSlotsFrame["Bag"..i]
 			
-			if T.WoWBuild < 28724 then
-				Bag.HighlightFrame:Kill() -- Bugged Texture on Bank Bag Slot
-			end
+			Bag.HighlightFrame:SetAlpha(0)
 
 			Bag:SetParent(BankBagsContainer)
 			Bag:SetWidth(ButtonSize)
@@ -287,6 +282,7 @@ function Bags:CreateContainer(storagetype, ...)
 			Bag.IconBorder:SetAlpha(0)
 			Bag.icon:SetTexCoord(unpack(T.IconCoord))
 			Bag.icon:SetInside()
+			
 			Bag:SkinButton()
 			Bag:ClearAllPoints()
 
