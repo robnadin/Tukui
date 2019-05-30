@@ -70,17 +70,13 @@ local OnEnter = function(self)
 	end
 end
 
-local OnLeave = function()
-	GameTooltip:Hide()
-end
-
 local Enable = function(self)
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:SetScript("OnEvent", Update)
-	self:SetScript("OnEnter", OnEnter)
+	self:SetScript("OnEnter", GameTooltip_Hide)
 	self:SetScript("OnLeave", OnLeave)
 	self:Update()
 end

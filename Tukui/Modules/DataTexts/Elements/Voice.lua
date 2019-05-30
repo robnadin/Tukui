@@ -53,11 +53,6 @@ local OnMouseUp = function(self, btn)
 	end
 end
 
-local OnLeave = function()
-	GameTooltip:Hide()
-end
-
-
 local OnEnter = function(self)
 	GameTooltip:SetOwner(self:GetTooltipAnchor())
 	GameTooltip:ClearLines()
@@ -97,7 +92,7 @@ end
 local Enable = function(self)
 	self.Text:SetText(L.DataText.Voice)
 	self:SetScript("OnMouseUp", OnMouseUp)
-	self:SetScript("OnEnter", OnEnter)
+	self:SetScript("OnEnter", GameTooltip_Hide)
 	self:SetScript("OnLeave", OnLeave)
 end
 

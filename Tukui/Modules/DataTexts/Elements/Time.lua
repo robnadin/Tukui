@@ -134,15 +134,11 @@ local OnEnter = function(self)
 	GameTooltip:Show()
 end
 
-local OnLeave = function()
-	GameTooltip:Hide()
-end
-
 local Enable = function(self)
 	self:SetScript("OnUpdate", Update)
 	self:SetScript("OnMouseUp", GameTimeFrame_OnClick)
 	self:SetScript("OnEnter", OnEnter)
-	self:SetScript("OnLeave", OnLeave)
+	self:SetScript("OnLeave", GameTooltip_Hide)
 	self:Update(1)
 	RequestRaidInfo()
 end

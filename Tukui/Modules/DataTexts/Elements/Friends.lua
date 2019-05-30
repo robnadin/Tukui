@@ -16,10 +16,6 @@ local OnMouseUp = function(self, btn)
 	end
 end
 
-local OnLeave = function()
-	GameTooltip:Hide()
-end
-
 local OnEnter = function(self)
 	if InCombatLockdown() then
 		return
@@ -84,7 +80,7 @@ local Enable = function(self)
 	self:SetScript("OnMouseDown", OnMouseDown)
 	self:SetScript("OnMouseUp", OnMouseUp)
 	self:SetScript("OnEnter", OnEnter)
-	self:SetScript("OnLeave", OnLeave)
+	self:SetScript("OnLeave", GameTooltip_Hide)
 	self:SetScript("OnEvent", Update)
 
 	self:Update()

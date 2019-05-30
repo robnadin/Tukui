@@ -140,7 +140,7 @@
 					</OnEnter>
 					<OnLeave>
 						Lib_UIDropDownMenu_StartCounting(self:GetParent():GetParent());
-						GameTooltip:Hide();
+						GameTooltip_Hide();
 					</OnLeave>
 				</Scripts>
 			</Button>
@@ -178,7 +178,7 @@
 			<OnLeave>
 				_G[self:GetName().."Highlight"]:Hide();
 				Lib_UIDropDownMenu_StartCounting(self:GetParent());
-				GameTooltip:Hide();
+				GameTooltip_Hide();
 			</OnLeave>
 		</Scripts>
 		<ButtonText name="$parentNormalText">

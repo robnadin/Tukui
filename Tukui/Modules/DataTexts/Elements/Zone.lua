@@ -100,10 +100,6 @@ local OnEnter = function(self)
 	GameTooltip:Show()
 end
 
-local OnLeave = function()
-	GameTooltip:Hide()
-end
-
 local Enable = function(self)
 	self:RegisterEvent("ZONE_CHANGED")
 	self:RegisterEvent("ZONE_CHANGED_INDOORS")
@@ -111,7 +107,7 @@ local Enable = function(self)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:SetScript("OnEvent", Update)
 	self:SetScript("OnEnter", OnEnter)
-	self:SetScript("OnLeave", OnLeave)
+	self:SetScript("OnLeave", GameTooltip_Hide)
 	self:Update()
 end
 

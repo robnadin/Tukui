@@ -144,10 +144,6 @@ local ControlOnEnter = function(self)
 	GameTooltip:Show()
 end
 
-local ControlOnLeave = function(self)
-	GameTooltip:Hide()
-end
-
 local SetControlInformation = function(control, group, option)
 	if (not TukuiConfig[Locale] or not TukuiConfig[Locale][group]) then
 		control.Label:SetText(option) -- Set what info we can for it
@@ -170,11 +166,11 @@ local SetControlInformation = function(control, group, option)
 	if control.Box then
 		control.Box.Tooltip = Info.Desc
 		control.Box:HookScript("OnEnter", ControlOnEnter)
-		control.Box:HookScript("OnLeave", ControlOnLeave)
+		control.Box:HookScript("OnLeave", GameTooltip_Hide)
 	else
 		control.Tooltip = Info.Desc
 		control:HookScript("OnEnter", ControlOnEnter)
-		control:HookScript("OnLeave", ControlOnLeave)
+		control:HookScript("OnLeave", GameTooltip_Hide)
 	end
 end
 

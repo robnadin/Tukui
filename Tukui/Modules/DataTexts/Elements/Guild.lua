@@ -79,7 +79,7 @@ end
 local OnMouseUp = function(self, btn)
 	if btn ~= "RightButton" or not IsInGuild() then return end
 
-	GameTooltip:Hide()
+	GameTooltip_Hide()
 
 	local classc, levelc, grouped
 	local menuCountWhispers = 0
@@ -176,8 +176,6 @@ local OnEnter = function(self)
 	GameTooltip:Show()
 end
 
-local OnLeave = function() GameTooltip:Hide() end
-
 local OnMouseDown = function(self, btn)
 	if btn ~= "LeftButton" then return end
 
@@ -209,7 +207,7 @@ local Enable = function(self)
 
 	self:SetScript("OnMouseDown", OnMouseDown)
 	self:SetScript("OnMouseUp", OnMouseUp)
-	self:SetScript("OnLeave", OnLeave)
+	self:SetScript("OnLeave", GameTooltip_Hide)
 	self:SetScript("OnEnter", OnEnter)
 	self:SetScript("OnEvent", Update)
 	self:Update()

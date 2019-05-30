@@ -45,17 +45,13 @@ local OnEnter = function(self)
 	end
 end
 
-local OnLeave = function()
-	GameTooltip:Hide()
-end
-
 local Enable = function(self)
 	self:RegisterEvent("MERCHANT_SHOW")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	self:SetScript("OnEvent", Update)
 	self:SetScript("OnEnter", OnEnter)
-	self:SetScript("OnLeave", OnLeave)
+	self:SetScript("OnLeave", GameTooltip_Hide)
 	self:SetScript("OnMouseDown", function() ToggleCharacter("PaperDollFrame") end)
 	self:Update()
 end

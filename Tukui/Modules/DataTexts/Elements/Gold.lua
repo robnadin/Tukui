@@ -64,10 +64,6 @@ local OnEnter = function(self)
 	end
 end
 
-local OnLeave = function()
-	GameTooltip:Hide()
-end
-
 local Update = function(self, event)
 	if (not IsLoggedIn()) then
 		return
@@ -118,7 +114,7 @@ local Enable = function(self)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:SetScript("OnMouseDown", OnMouseDown)
 	self:SetScript("OnEnter", OnEnter)
-	self:SetScript("OnLeave", OnLeave)
+	self:SetScript("OnLeave", GameTooltip_Hide)
 	self:SetScript("OnEvent", Update)
 	self:Update()
 end

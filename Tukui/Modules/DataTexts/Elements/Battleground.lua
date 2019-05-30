@@ -42,10 +42,6 @@ function BGFrame:OnEnter()
 	GameTooltip:Show()
 end
 
-function BGFrame:OnLeave()
-	GameTooltip:Hide()
-end
-
 function BGFrame:OnUpdate(t)
 	int = int - t
 
@@ -121,7 +117,7 @@ function BGFrame:Enable()
 	BGFrame:SetScript("OnUpdate", BGFrame.OnUpdate)
 	BGFrame:SetScript("OnEvent", BGFrame.OnEvent)
 	BGFrame:SetScript("OnEnter", BGFrame.OnEnter)
-	BGFrame:SetScript("OnLeave", BGFrame.OnLeave)
+	BGFrame:SetScript("OnLeave", GameTooltip_Hide)
 end
 
 DataText.BGFrame = BGFrame

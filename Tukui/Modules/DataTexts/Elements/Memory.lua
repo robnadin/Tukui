@@ -94,10 +94,6 @@ local OnEnter = function(self)
 	end
 end
 
-local OnLeave = function()
-	GameTooltip:Hide()
-end
-
 local OnMouseUp = function()
 	collectgarbage("collect")
 end
@@ -113,7 +109,7 @@ local Enable = function(self)
 	self:SetScript("OnEvent", ResetData)
 	self:SetScript("OnUpdate", Update)
 	self:SetScript("OnEnter", OnEnter)
-	self:SetScript("OnLeave", OnLeave)
+	self:SetScript("OnLeave", GameTooltip_Hide)
 	self:SetScript("OnMouseUp", OnMouseUp)
 	self:Update(10)
 end

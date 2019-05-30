@@ -170,7 +170,7 @@ function Loot:OnLeave()
 	self.drop:SetStatusBarColor(0, 0, 0, 0)
 	self.drop:Hide()
 
-	GameTooltip:Hide()
+	GameTooltip_Hide()
 	ResetCursor()
 end
 
