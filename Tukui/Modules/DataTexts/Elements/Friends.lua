@@ -46,7 +46,7 @@ local OnMouseUp = function(self, btn)
 	if (Click == "RightButton") then
 		-- menu here for invites
 	else
-		ToggleFriendsFrame()
+		ToggleFriendsFrame(1)
 	end
 end
 
