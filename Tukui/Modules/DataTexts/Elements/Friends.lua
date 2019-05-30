@@ -6,40 +6,6 @@ local format = format
 local BNGetGameAccountInfo = BNGetGameAccountInfo
 local BNGetFriendInfo = BNGetFriendInfo
 
---[[
-C_FriendList={
-  IsFriend=<function>,
-  DelIgnoreByIndex=<function>,
-  IsIgnored=<function>,
-  SortWho=<function>,
-  GetIgnoreName=<function>,
-  ShowFriends=<function>,
-  GetSelectedIgnore=<function>,
-  SetWhoToUi=<function>,
-  AddOrRemoveFriend=<function>,
-  DelIgnore=<function>,
-  AddIgnore=<function>,
-  GetFriendInfoByIndex=<function>,
-  SendWho=<function>,
-  GetSelectedFriend=<function>,
-  GetNumIgnores=<function>,
-  IsIgnoredByGuid=<function>,
-  SetFriendNotes=<function>,
-  RemoveFriendByIndex=<function>,
-  GetFriendInfo=<function>,
-  GetWhoInfo=<function>,
-  RemoveFriend=<function>,
-  AddOrDelIgnore=<function>,
-  GetNumWhoResults=<function>,
-  SetFriendNotesByIndex=<function>,
-  AddFriend=<function>,
-  SetSelectedFriend=<function>,
-  SetSelectedIgnore=<function>,
-  GetNumFriends=<function>,
-  GetNumOnlineFriends=<function>
-}
-]]
-
 local OnMouseUp = function(self, btn)
 	local Click = btn
 
@@ -55,11 +21,38 @@ local OnLeave = function()
 end
 
 local OnEnter = function(self)
-	if not InCombatLockdown() then
+	if InCombatLockdown() then
 		return
 	end
 	
-	-- rewrite needed for classic
+	local NumFriends = C_FriendList.GetNumFriends()
+	local NumFriendsOnline = C_FriendList.GetNumOnlineFriends()
+	local FriendInfo = {}
+	
+	GameTooltip:SetOwner(self:GetTooltipAnchor())
+	GameTooltip:ClearLines()
+	GameTooltip:AddDoubleLine(FRIENDS, NumFriendsOnline.."/"..NumFriends)
+	GameTooltip:AddLine(" ")
+	
+	for i = 1, NumFriends do
+		FriendInfo = C_FriendList.GetFriendInfoByIndex(i)
+		
+		local Online = FriendInfo.connected
+
+		if Online then
+			local Name = FriendInfo.name
+			local Level = FriendInfo.level
+			local Area = FriendInfo.area
+			local Class = string.upper(FriendInfo.className)
+			local ClassR, ClassG, ClassB = unpack(T.Colors.class[Class])
+			local LevelColor = GetQuestDifficultyColor(Level)
+			local FormatedName = format("|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r", LevelColor.r*255, LevelColor.g*255, LevelColor.b*255, Level, ClassR*255, ClassG*255, ClassB*255, Name)
+			
+			GameTooltip:AddDoubleLine(FormatedName, Area)
+		end
+	end
+	
+	GameTooltip:Show()
 end
 
 local Update = function(self, event)
