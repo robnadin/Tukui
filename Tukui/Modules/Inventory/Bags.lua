@@ -182,6 +182,7 @@ function Bags:CreateContainer(storagetype, ...)
 		ToggleBagsContainer.Text:SetText("X")
 		ToggleBagsContainer.Text:SetTextColor(.5, .5, .5)
 		ToggleBagsContainer:SetScript("OnEnter", Bags.DisplayCloseButtonTooltip)
+		ToggleBagsContainer:SetScript("OnLeave", GameTooltip_Hide)
 		ToggleBagsContainer:SetScript("OnMouseUp", function(self, button)
 			local Purchase = BankFramePurchaseInfo
 
