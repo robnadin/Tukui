@@ -28,8 +28,6 @@ function BGFrame:OnEnter()
 			GameTooltip:AddDoubleLine(HONORABLE_KILLS, HonorableKills, 1, 1, 1)
 			GameTooltip:AddDoubleLine(DEATHS, Deaths, 1, 1, 1)
 			GameTooltip:AddDoubleLine(HONOR, format("%d", HonorGained), 1, 1, 1)
-			GameTooltip:AddDoubleLine(DAMAGE, DamageDone, 1, 1, 1)
-			GameTooltip:AddDoubleLine(HEALS, HealingDone, 1, 1, 1)
 
 			for j = 1, NumExtraStats do
 				GameTooltip:AddDoubleLine(GetBattlefieldStatInfo(j), GetBattlefieldStatData(i, j), 1,1,1)
