@@ -11,7 +11,7 @@ function BGFrame:OnEnter()
 	local NumExtraStats = GetNumBattlefieldStats()
 
 	for i = 1, NumScores do
-		local Name, KillingBlows, HonorableKills, Deaths, HonorGained, _, _, _, _, DamageDone, HealingDone = GetBattlefieldScore(i)
+		local Name, KillingBlows, HonorableKills, Deaths, HonorGained = GetBattlefieldScore(i)
 
 		if (Name and Name == MyName) then
 			local CurrentMapID = C_Map.GetBestMapForUnit("player")
