@@ -65,6 +65,7 @@ function Minimap:StyleMinimap()
 	local GuildInstanceDifficulty = GuildInstanceDifficulty
 	local HelpOpenTicketButton = HelpOpenTicketButton
 	local BGFrame = MiniMapBattlefieldFrame
+	local BGFrameBorder = MiniMapBattlefieldBorder
 
 	self:SetMaskTexture(C.Medias.Blank)
 	self:CreateBackdrop()
@@ -92,6 +93,7 @@ function Minimap:StyleMinimap()
 	
 	BGFrame:ClearAllPoints()
 	BGFrame:Point("BOTTOMRIGHT", Minimap, 3, 0)
+	BGFrameBorder:Hide()
 
 	HelpOpenTicketButton:SetParent(Minimap.Ticket)
 	HelpOpenTicketButton:SetFrameLevel(Minimap.Ticket:GetFrameLevel() + 1)
