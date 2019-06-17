@@ -64,6 +64,7 @@ function Minimap:StyleMinimap()
 	local MiniMapInstanceDifficulty = MiniMapInstanceDifficulty
 	local GuildInstanceDifficulty = GuildInstanceDifficulty
 	local HelpOpenTicketButton = HelpOpenTicketButton
+	local BGFrame = MiniMapBattlefieldFrame
 
 	self:SetMaskTexture(C.Medias.Blank)
 	self:CreateBackdrop()
@@ -88,6 +89,9 @@ function Minimap:StyleMinimap()
 	Mail:SetFrameLevel(self:GetFrameLevel() + 2)
 	MailBorder:Hide()
 	MailIcon:SetTexture("Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\Mail")
+	
+	BGFrame:ClearAllPoints()
+	BGFrame:Point("BOTTOMRIGHT", Minimap, 3, 0)
 
 	HelpOpenTicketButton:SetParent(Minimap.Ticket)
 	HelpOpenTicketButton:SetFrameLevel(Minimap.Ticket:GetFrameLevel() + 1)
