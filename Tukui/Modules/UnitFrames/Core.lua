@@ -737,9 +737,9 @@ function TukuiUnitFrames:Style(unit)
 		TukuiUnitFrames.Pet(self)
 	elseif (unit:find("raid")) then
 		if Parent:match("Party") then
-			TukuiUnitFrames.Party(self)
+			--TukuiUnitFrames.Party(self)
 		else
-			TukuiUnitFrames.Raid(self)
+			--TukuiUnitFrames.Raid(self)
 		end
 	elseif unit:match("nameplate") then
 		TukuiUnitFrames.Nameplates(self)
@@ -817,23 +817,27 @@ function TukuiUnitFrames:CreateUnits()
 		
 		-- BROKEN : SECUREGROUPHEADERS
 		if C.Party.Enable then
-			--local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
-			--Party:SetParent(Panels.PetBattleHider)
-			--Party:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -(UIParent:GetHeight() / 2) + 200)
+			--[[
+			local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
+			Party:SetParent(Panels.PetBattleHider)
+			Party:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -(UIParent:GetHeight() / 2) + 200)
 
-			--TukuiUnitFrames.Headers.Party = Party
+			TukuiUnitFrames.Headers.Party = Party
 
-			--Movers:RegisterFrame(Party)
+			Movers:RegisterFrame(Party)
+			--]]
 		end
 
 		if C.Raid.Enable then
-			--local Raid = oUF:SpawnHeader(TukuiUnitFrames:GetRaidFramesAttributes())
-			--Raid:SetParent(Panels.PetBattleHider)
-			--Raid:Point("TOPLEFT", UIParent, "TOPLEFT", 30, -30)
+			--[[
+			local Raid = oUF:SpawnHeader(TukuiUnitFrames:GetRaidFramesAttributes())
+			Raid:SetParent(Panels.PetBattleHider)
+			Raid:Point("TOPLEFT", UIParent, "TOPLEFT", 30, -30)
 
-			--TukuiUnitFrames.Headers.Raid = Raid
+			TukuiUnitFrames.Headers.Raid = Raid
 
-			--Movers:RegisterFrame(Raid)
+			Movers:RegisterFrame(Raid)
+			--]]
 		end
 
 		Movers:RegisterFrame(Player)
