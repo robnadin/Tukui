@@ -46,24 +46,17 @@ function BGFrame:OnUpdate(t)
 	int = int - t
 
 	if (int < 0) then
-		local Amount
 		local NumScores = GetNumBattlefieldScores()
 
 		RequestBattlefieldScoreData()
 
 		for i = 1, NumScores do
-			local Name, KillingBlows, _, _, HonorGained, _, _, _, _, DamageDone, HealingDone = GetBattlefieldScore(i)
-
-			if (HealingDone > DamageDone) then
-				Amount = (DataText.NameColor..L.DataText.Healing.."|r"..DataText.ValueColor..HealingDone.."|r")
-			else
-				Amount = (DataText.NameColor..L.DataText.Damage.."|r"..DataText.ValueColor..DamageDone.."|r")
-			end
+			local Name, KillingBlows, HonorableKills, Deaths, HonorGained = GetBattlefieldScore(i)
 
 			if (Name and Name == MyName) then
-				self.Text1:SetText(Amount)
-				self.Text2:SetText(DataText.NameColor..L.DataText.Honor.."|r"..DataText.ValueColor..format("%d", HonorGained).."|r")
-				self.Text3:SetText(DataText.NameColor..L.DataText.KillingBlow.."|r"..DataText.ValueColor..KillingBlows.."|r")
+				self.Text1:SetText(DataText.NameColor..COMBAT_TEXT_SHOW_HONOR_GAINED_TEXT.."|r"..DataText.ValueColor..HonorableKills.."|r")
+				self.Text2:SetText(DataText.NameColor..HONOR.."|r"..DataText.ValueColor..format("%d", HonorGained).."|r")
+				self.Text3:SetText(DataText.NameColor..KILLING_BLOWS.."|r"..DataText.ValueColor..KillingBlows.."|r")
 			end
 		end
 
