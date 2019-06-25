@@ -60,8 +60,6 @@ function TukuiUnitFrames:DisableBlizzard()
 	end
 
 	if C["Raid"].Enable and CompactRaidFrameManager then
-		-- BROKEN SECURE GROUP HEADER, FORCE PARTY/RAID FRAMES DISABLE
-		--[[
 		-- Disable Blizzard Raid Frames.
 		CompactRaidFrameManager:UnregisterAllEvents()
 		CompactRaidFrameManager:Hide()
@@ -72,7 +70,6 @@ function TukuiUnitFrames:DisableBlizzard()
 		-- Hide Raid Interface Options.
 		InterfaceOptionsFrameCategoriesButton10:SetHeight(0.00001)
 		InterfaceOptionsFrameCategoriesButton10:SetAlpha(0)
-		--]]
 	end
 end
 
@@ -140,13 +137,7 @@ function TukuiUnitFrames:MouseOnPlayer()
 end
 
 function TukuiUnitFrames:Highlight()
-	if UnitIsUnit("focus", self.unit) then
-		if C.General.HideShadows then
-			self.Shadow:SetBackdrop( {edgeFile = C.Medias.Glow, edgeSize = T.Scale(4) })
-		end
-
-		self.Shadow:SetBackdropBorderColor(0, 1, 0, 1)
-	elseif UnitIsUnit("target", self.unit) then
+	if UnitIsUnit("target", self.unit) then
 		if C.General.HideShadows then
 			self.Shadow:SetBackdrop( {edgeFile = C.Medias.Glow, edgeSize = T.Scale(4) })
 		end
@@ -737,9 +728,9 @@ function TukuiUnitFrames:Style(unit)
 		TukuiUnitFrames.Pet(self)
 	elseif (unit:find("raid")) then
 		if Parent:match("Party") then
-			--TukuiUnitFrames.Party(self)
+			TukuiUnitFrames.Party(self)
 		else
-			--TukuiUnitFrames.Raid(self)
+			TukuiUnitFrames.Raid(self)
 		end
 	elseif unit:match("nameplate") then
 		TukuiUnitFrames.Nameplates(self)
@@ -817,7 +808,6 @@ function TukuiUnitFrames:CreateUnits()
 		
 		-- BROKEN : SECUREGROUPHEADERS
 		if C.Party.Enable then
-			--[[
 			local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
 			Party:SetParent(Panels.PetBattleHider)
 			Party:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -(UIParent:GetHeight() / 2) + 200)
@@ -825,11 +815,9 @@ function TukuiUnitFrames:CreateUnits()
 			TukuiUnitFrames.Headers.Party = Party
 
 			Movers:RegisterFrame(Party)
-			--]]
 		end
 
 		if C.Raid.Enable then
-			--[[
 			local Raid = oUF:SpawnHeader(TukuiUnitFrames:GetRaidFramesAttributes())
 			Raid:SetParent(Panels.PetBattleHider)
 			Raid:Point("TOPLEFT", UIParent, "TOPLEFT", 30, -30)
@@ -837,7 +825,6 @@ function TukuiUnitFrames:CreateUnits()
 			TukuiUnitFrames.Headers.Raid = Raid
 
 			Movers:RegisterFrame(Raid)
-			--]]
 		end
 
 		Movers:RegisterFrame(Player)

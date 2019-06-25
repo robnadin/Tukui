@@ -131,9 +131,5 @@ function TukuiUnitFrames:Party()
 	self.ReadyCheckIndicator = ReadyCheck
 	self.RaidTargetIndicator = RaidIcon
 	self.Range = Range
-	self.Highlight = Highlight
 	self:Tag(Name, "[level] [Tukui:NameLong]")
-
-	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight)
-	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight)
 end

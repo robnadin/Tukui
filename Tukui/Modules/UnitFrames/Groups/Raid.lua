@@ -138,13 +138,6 @@ function TukuiUnitFrames:Raid()
 		self.RaidDebuffs = RaidDebuffs
 	end
 	--]]
-	
-	local Highlight = CreateFrame("Frame", nil, self)
-	Highlight:SetPoint("TOPLEFT", self, "TOPLEFT")
-	Highlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT")
-	Highlight:SetBackdrop(TukuiUnitFrames.HighlightBorder)
-	Highlight:SetFrameLevel(0)
-	Highlight:Hide()
 
 	self:Tag(Name, "[Tukui:GetRaidNameColor][Tukui:NameShort]")
 	self.Health.bg = Health.Background
@@ -155,9 +148,4 @@ function TukuiUnitFrames:Raid()
 	self.ReadyCheckIndicator = ReadyCheck
 	self.Range = Range
 	self.RaidTargetIndicator = RaidIcon
-	self.Highlight = Highlight
-
-	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight)
-	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight)
-	--self:RegisterEvent("PLAYER_FOCUS_CHANGED", TukuiUnitFrames.Highlight)
 end

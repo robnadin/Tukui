@@ -144,7 +144,6 @@ function Loading:OnEvent(event, addon)
 
 		-- Because peoples seem to not know about this?
 			print(T.WelcomeMessage)
-			T.Print("Please note that our party & raid frames are currently disabled in this build due to a Blizzard bug. Using default party & raid frames for now.")
 
 		-- Taint Fix
 		--ShowUIPanel(SpellBookFrame)
