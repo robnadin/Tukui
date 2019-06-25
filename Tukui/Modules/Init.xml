@@ -62,7 +62,6 @@
 	<Script file="DataTexts\Core.lua"/>
 	<Script file="DataTexts\Anchors.lua"/>
 	<Script file="DataTexts\Elements\Armor.lua"/>
-	<Script file="DataTexts\Elements\Avoidance.lua"/>
 	<Script file="DataTexts\Elements\Bags.lua"/>
 	<Script file="DataTexts\Elements\Crit.lua"/>
 	<Script file="DataTexts\Elements\DPS.lua"/>
