@@ -174,10 +174,14 @@ local function CreateShadow(self, ShadowScale)
 	local Scale = ShadowScale or 1
 
 	local Shadow = CreateFrame("Frame", nil, self)
+	
+	if not C.General.HideShadows then
+		Shadow:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = T.Scale(4)})
+	end
+
 	Shadow:SetFrameStrata("BACKGROUND")
 	Shadow:SetFrameLevel(Level)
 	Shadow:SetOutside(self, 4, 4)
-	Shadow:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = T.Scale(4)})
 	Shadow:SetBackdropBorderColor(0, 0, 0, .8)
 	Shadow:SetScale(T.Scale(Scale))
 	
