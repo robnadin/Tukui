@@ -14,7 +14,17 @@ function TukuiUnitFrames:Raid()
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 	self:SetBackdrop(TukuiUnitFrames.Backdrop)
 	self:SetBackdropColor(0, 0, 0)
+	
 	self:CreateShadow()
+	
+	-- We need a shadow for highlighting target
+	if C.General.HideShadows then
+		self.Shadow:SetBackdrop( {
+			edgeFile = C.Medias.Glow, edgeSize = T.Scale(4),
+			insets = {left = T.Scale(4), right = T.Scale(4), top = T.Scale(4), bottom = T.Scale(4)},
+		})
+		self.Shadow:Hide()
+	end
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetPoint("TOPLEFT")
@@ -148,4 +158,7 @@ function TukuiUnitFrames:Raid()
 	self.ReadyCheckIndicator = ReadyCheck
 	self.Range = Range
 	self.RaidTargetIndicator = RaidIcon
+	
+	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
+	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight, true)
 end

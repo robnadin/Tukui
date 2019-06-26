@@ -14,7 +14,17 @@ function TukuiUnitFrames:Party()
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 	self:SetBackdrop(TukuiUnitFrames.Backdrop)
 	self:SetBackdropColor(0, 0, 0)
+	
 	self:CreateShadow()
+	
+	-- We need a shadow for highlighting target
+	if C.General.HideShadows then
+		self.Shadow:SetBackdrop( {
+			edgeFile = C.Medias.Glow, edgeSize = T.Scale(4),
+			insets = {left = T.Scale(4), right = T.Scale(4), top = T.Scale(4), bottom = T.Scale(4)},
+		})
+		self.Shadow:Hide()
+	end
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetPoint("TOPLEFT")
@@ -107,13 +117,6 @@ function TukuiUnitFrames:Party()
 	RaidIcon:SetPoint("CENTER", Health, "CENTER")
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
 
-	local Highlight = CreateFrame("Frame", nil, self)
-	Highlight:SetPoint("TOPLEFT", self, "TOPLEFT")
-	Highlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT")
-	Highlight:SetBackdrop(TukuiUnitFrames.HighlightBorder)
-	Highlight:SetFrameLevel(0)
-	Highlight:Hide()
-
 	local Range = {
 		insideAlpha = 1,
 		outsideAlpha = C["Party"].RangeAlpha,
@@ -132,4 +135,7 @@ function TukuiUnitFrames:Party()
 	self.RaidTargetIndicator = RaidIcon
 	self.Range = Range
 	self:Tag(Name, "[level] [Tukui:NameLong]")
+	
+	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
+	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight, true)
 end
