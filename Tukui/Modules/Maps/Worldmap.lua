@@ -60,11 +60,13 @@ function WorldMap:CreateCoords()
 	
 	self.Coords = CreateFrame("Frame", nil, WorldMapFrame)
 	self.Coords:SetFrameLevel(90)
-	self.Coords:FontString("PlayerText", C.Medias.Font, 12, "THINOUTLINE")
+	self.Coords.PlayerText = self.Coords:CreateFontString(nil, "OVERLAY")
+	self.Coords.PlayerText:SetFontTemplate(C.Medias.Font, 12)
 	self.Coords.PlayerText:SetTextColor(1, 1, 1)
 	self.Coords.PlayerText:SetPoint("BOTTOMLEFT", Map, "BOTTOMLEFT", 5, 5)
 	self.Coords.PlayerText:SetText("")
-	self.Coords:FontString("CursorText", C.Medias.Font, 12, "THINOUTLINE")
+	self.Coords.CursorText = self.Coords:CreateFontString(nil, "OVERLAY")
+	self.Coords.CursorText:SetFontTemplate(C.Medias.Font, 12)
 	self.Coords.CursorText:SetTextColor(1, 1, 1)
 	self.Coords.CursorText:SetPoint("BOTTOMRIGHT", Map, "BOTTOMRIGHT", -5, 5)
 	self.Coords.CursorText:SetText("")
@@ -91,13 +93,13 @@ function WorldMap:SkinMap()
 	
 	Borders:SetAlpha(0)
 	
-	ContinentButton:SetParent(T.Panels.Hider)
+	ContinentButton:SetParent(T.Hider)
 	
-	ZoneButton:SetParent(T.Panels.Hider)
+	ZoneButton:SetParent(T.Hider)
 	
-	WorldMapZoomOutButton:SetParent(T.Panels.Hider)
+	WorldMapZoomOutButton:SetParent(T.Hider)
 	
-	MagnifyButton:SetParent(T.Panels.Hider)
+	MagnifyButton:SetParent(T.Hider)
 	
 	CloseButton:ClearAllPoints()
 	CloseButton:SetPoint("TOPRIGHT", -10, -72)

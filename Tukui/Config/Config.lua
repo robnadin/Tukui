@@ -82,8 +82,6 @@ C["Cooldowns"] = {
 
 C["DataTexts"] = {
 	["Battleground"] = true,
-	["LocalTime"] = true,
-	["Time24HrFormat"] = false,
 	["NameColor"] = {1, 1, 1},
 	["ValueColor"] = {1, 1, 1},
 	["Font"] = "Tukui",

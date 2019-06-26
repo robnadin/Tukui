@@ -234,16 +234,6 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Activer textes de données affichant des informations de champ de bataille",
 		},
 
-		["LocalTime"] = {
-			["Name"] = "Heure locale",
-			["Desc"] = "Utilisez heure locale dans le texte de données de temps , plutot que le temps du serveur",
-		},
-
-		["Time24HrFormat"] = {
-			["Name"] = "Format de l'heure sur 24 heures",
-			["Desc"] = "Permettre de définir le texte de données de temps au format 24 heures.",
-		},
-
 		["NameColor"] = {
 			["Name"] = "Libellé de couleur",
 			["Desc"] = "Définir une couleur de l'étiquette d'un texte de données, généralement le nom"..RestoreDefault,

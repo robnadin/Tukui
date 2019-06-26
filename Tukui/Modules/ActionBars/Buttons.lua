@@ -166,7 +166,6 @@ local OnClick = function(self, button)
 		end
 	else
 		-- Visibility
-		RegisterStateDriver(Bar, "visibility", "[vehicleui][petbattle][overridebar] hide; show")
 		Bar:Show()
 
 		if (Num == 4) then

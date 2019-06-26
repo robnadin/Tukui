@@ -34,6 +34,4 @@ function TukuiActionBars:CreateBar4()
 
 		ActionBar4["Button"..i] = Button
 	end
-
-	RegisterStateDriver(ActionBar4, "visibility", "[vehicleui][petbattle][overridebar] hide; show")
 end

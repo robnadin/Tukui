@@ -32,7 +32,6 @@ function TukuiActionBars:UpdateBar1()
 	]])
 
 	RegisterStateDriver(ActionBar1, "page", ActionBar1.GetBar())
-	RegisterStateDriver(ActionBar1, "visibility", "[petbattle] hide; show")
 end
 
 function TukuiActionBars:CreateBar1()

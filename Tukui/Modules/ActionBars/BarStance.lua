@@ -40,8 +40,6 @@ function TukuiActionBars:CreateStanceBar()
 		end
 	end
 
-	RegisterStateDriver(StanceBar, "visibility", "[vehicleui][petbattle] hide; show")
-
 	StanceBar:RegisterEvent("PLAYER_ENTERING_WORLD")
 	StanceBar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
 	StanceBar:RegisterEvent("UPDATE_SHAPESHIFT_USABLE")
@@ -61,6 +59,4 @@ function TukuiActionBars:CreateStanceBar()
 	end)
 
 	Movers:RegisterFrame(StanceBar)
-
-	RegisterStateDriver(StanceBar, "visibility", "[vehicleui][petbattle][overridebar] hide; show")
 end

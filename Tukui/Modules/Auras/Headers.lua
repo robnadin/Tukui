@@ -15,12 +15,11 @@ function TukuiAuras:CreateHeaders()
 	local Panels = T["Panels"]
 	local Movers = T["Movers"]
 	local Headers = TukuiAuras.Headers
-	local Parent = Panels.PetBattleHider
 
 	for i = 1, 2 do
 		local Header
 
-		Header = CreateFrame("Frame", TukuiAuras.HeaderNames[i], Parent, "SecureAuraHeaderTemplate")
+		Header = CreateFrame("Frame", TukuiAuras.HeaderNames[i], UIParent, "SecureAuraHeaderTemplate")
 		Header:SetClampedToScreen(true)
 		Header:SetMovable(true)
 		Header:SetAttribute("minHeight", 30)
@@ -30,8 +29,8 @@ function TukuiAuras:CreateHeaders()
 		Header:CreateBackdrop()
 		Header.Backdrop:SetBackdropBorderColor(1, 0, 0)
 		Header.Backdrop:Hide()
-
-		Header.Backdrop:FontString("Text", C.Medias.Font, 12)
+		Header.Backdrop.Text = Header.Backdrop:CreateFontString(nil, "OVERLAY")
+		Header.Backdrop.Text:SetFontTemplate(C.Medias.Font, 12)
 		Header.Backdrop.Text:SetPoint("CENTER")
 
 		if (i == 1) then

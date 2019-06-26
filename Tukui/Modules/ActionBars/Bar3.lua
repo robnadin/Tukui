@@ -38,6 +38,4 @@ function TukuiActionBars:CreateBar3()
 	end
 
 	Movers:RegisterFrame(ActionBar3)
-
-	RegisterStateDriver(ActionBar3, "visibility", "[vehicleui][petbattle][overridebar] hide; show")
 end

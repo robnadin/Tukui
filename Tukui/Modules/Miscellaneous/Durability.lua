@@ -14,7 +14,8 @@ function Durability:OnHide()
 end
 
 function Durability:Enable()
-	self:FontString("Warning", C.Medias.Font, 18, "THINOUTLINE")
+	self.Warning = self:CreateFontString(nil, "OVERLAY")
+	self.Warning:SetFontTemplate(C.Medias.Font, 18)
 	self.Warning:SetPoint("TOP", UIParent, "TOP", 0, -8)
 	self.Warning:SetText(L.Miscellaneous.Repair)
 	self.Warning:SetTextColor(1, 0, 0)

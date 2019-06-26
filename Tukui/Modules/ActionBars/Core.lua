@@ -17,7 +17,7 @@ local Frames = {
 }
 
 function TukuiActionBars:DisableBlizzard()
-	local Hider = Panels.Hider
+	local Hider = T.Hider
 
 	SetCVar("alwaysShowActionBars", 1)
 

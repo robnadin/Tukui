@@ -183,16 +183,8 @@ function TukuiChat:StyleFrame(frame)
 	Frame.IsSkinned = true
 end
 
-function TukuiChat:KillPetBattleCombatLog(Frame)
-	if (_G[Frame:GetName().."Tab"]:GetText():match(PET_BATTLE_COMBAT_LOG)) then
-		return FCF_Close(Frame)
-	end
-end
-
 function TukuiChat:StyleTempFrame()
 	local Frame = FCF_GetCurrentChatFrame()
-
-	TukuiChat:KillPetBattleCombatLog(Frame)
 
 	-- Make sure it's not skinned already
 	if Frame.IsSkinned then

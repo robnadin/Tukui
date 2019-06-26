@@ -768,21 +768,21 @@ function TukuiUnitFrames:CreateUnits()
 	if C.UnitFrames.Enable then
 		local Player = oUF:Spawn("player", "TukuiPlayerFrame")
 		Player:SetPoint("BOTTOMLEFT", TukuiUnitFrames.Anchor, "TOPLEFT", 0, 8)
-		Player:SetParent(Panels.PetBattleHider)
+		Player:SetParent(UIParent)
 		Player:Size(250, 57)
 
 		local Target = oUF:Spawn("target", "TukuiTargetFrame")
 		Target:SetPoint("BOTTOMRIGHT", TukuiUnitFrames.Anchor, "TOPRIGHT", 0, 8)
-		Target:SetParent(Panels.PetBattleHider)
+		Target:SetParent(UIParent)
 		Target:Size(250, 57)
 
 		local TargetOfTarget = oUF:Spawn("targettarget", "TukuiTargetTargetFrame")
 		TargetOfTarget:SetPoint("BOTTOM", TukuiUnitFrames.Anchor, "TOP", 0, 8)
-		TargetOfTarget:SetParent(Panels.PetBattleHider)
+		TargetOfTarget:SetParent(UIParent)
 		TargetOfTarget:Size(129, 36)
 
 		local Pet = oUF:Spawn("pet", "TukuiPetFrame")
-		Pet:SetParent(Panels.PetBattleHider)
+		Pet:SetParent(UIParent)
 		Pet:SetPoint("BOTTOM", TukuiUnitFrames.Anchor, "TOP", 0, 49)
 		Pet:Size(129, 36)
 
@@ -796,7 +796,7 @@ function TukuiUnitFrames:CreateUnits()
 
 			for i = 1, 5 do
 				Boss[i] = oUF:Spawn("boss"..i, "TukuiBossFrame"..i)
-				Boss[i]:SetParent(Panels.PetBattleHider)
+				Boss[i]:SetParent(UIParent)
 				if (i == 1) then
 					Boss[i]:SetPoint("BOTTOMRIGHT", TukuiUnitFrames.Anchor, "TOPRIGHT", 0, 200)
 				else
@@ -813,7 +813,7 @@ function TukuiUnitFrames:CreateUnits()
 		-- BROKEN : SECUREGROUPHEADERS
 		if C.Party.Enable then
 			local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
-			Party:SetParent(Panels.PetBattleHider)
+			Party:SetParent(UIParent)
 			Party:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -(UIParent:GetHeight() / 2) + 200)
 
 			TukuiUnitFrames.Headers.Party = Party
@@ -823,7 +823,7 @@ function TukuiUnitFrames:CreateUnits()
 
 		if C.Raid.Enable then
 			local Raid = oUF:SpawnHeader(TukuiUnitFrames:GetRaidFramesAttributes())
-			Raid:SetParent(Panels.PetBattleHider)
+			Raid:SetParent(UIParent)
 			Raid:Point("TOPLEFT", UIParent, "TOPLEFT", 30, -30)
 
 			TukuiUnitFrames.Headers.Raid = Raid

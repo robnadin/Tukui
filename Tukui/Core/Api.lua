@@ -1,208 +1,52 @@
-----------------------------------------------------------------
--- API of Tukui
-----------------------------------------------------------------
-
 local T, C, L = select(2, ...):unpack()
-local floor = math.floor
-local class = select(2, UnitClass("player"))
-local Noop = function() return end
 
+-- Lib Globals
+local _G = _G
+local select = select
+local unpack = unpack
+local type = type
+local assert = assert
+local getmetatable = getmetatable
+
+-- WoW Globals
+local CreateFrame = CreateFrame
+local CreateTexture = CreateTexture
+local UIFrameFadeOut = UIFrameFadeOut
+local UIFrameFadeIn = UIFrameFadeIn
+
+-- Locals
+local Noop = function() return end
+local Hider = CreateFrame("Frame", nil, UIParent)
+
+-- UI Scaling
 T.Mult = 768 / string.match(T.Resolution, "%d+x(%d+)") / GetCVar("uiScale")
 T.Scale = function(x) return T.Mult * math.floor(x / T.Mult + .5) end
 
--- [[ API FUNCTIONS ]] --
+----------------------------------------------------------------
+-- Kills
+----------------------------------------------------------------
 
-local function SetFadeInTemplate(self, FadeTime, Alpha)
-	UIFrameFadeIn(self, FadeTime, self:GetAlpha(), Alpha)
-end
-
-local function SetFadeOutTemplate(self, FadeTime, Alpha)
-	UIFrameFadeOut(self, FadeTime, self:GetAlpha(), Alpha)
-end
-
-local function SetFontTemplate(self, Font, FontSize, ShadowOffsetX, ShadowOffsetY)
-	self:SetFont(Font, T.Scale(FontSize), "THINOUTLINE")
-	self:SetShadowColor(0, 0, 0, 1)
-	self:SetShadowOffset(T.Scale(ShadowOffsetX or 1), -T.Scale(ShadowOffsetY or 1))
-end
-
-local function Size(frame, width, height)
-	frame:SetSize(T.Scale(width), T.Scale(height or width))
-end
-
-local function Width(frame, width)
-	frame:SetWidth(T.Scale(width))
-end
-
-local function Height(frame, height)
-	frame:SetHeight(T.Scale(height))
-end
-
-local function Point(obj, arg1, arg2, arg3, arg4, arg5)
-	-- anyone has a more elegant way for this?
-	if type(arg1) == "number" then arg1 = T.Scale(arg1) end
-	if type(arg2) == "number" then arg2 = T.Scale(arg2) end
-	if type(arg3) == "number" then arg3 = T.Scale(arg3) end
-	if type(arg4) == "number" then arg4 = T.Scale(arg4) end
-	if type(arg5) == "number" then arg5 = T.Scale(arg5) end
-
-	obj:SetPoint(arg1, arg2, arg3, arg4, arg5)
-end
-
-local function SetOutside(obj, anchor, xOffset, yOffset)
-	xOffset = xOffset or 1
-	yOffset = yOffset or 1
-	anchor = anchor or obj:GetParent()
-
-	if obj:GetPoint() then obj:ClearAllPoints() end
-
-	obj:Point("TOPLEFT", anchor, "TOPLEFT", -xOffset, yOffset)
-	obj:Point("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", xOffset, -yOffset)
-end
-
-local function SetInside(obj, anchor, xOffset, yOffset)
-	xOffset = xOffset or 1
-	yOffset = yOffset or 1
-	anchor = anchor or obj:GetParent()
-
-	if obj:GetPoint() then obj:ClearAllPoints() end
-
-	obj:Point("TOPLEFT", anchor, "TOPLEFT", xOffset, -yOffset)
-	obj:Point("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -xOffset, yOffset)
-end
-
-local function SetTemplate(f, t, tex)
-	local balpha = 1
-	if t == "Transparent" then balpha = 0.8 end
-	local borderr, borderg, borderb = unpack(C.General.BorderColor)
-	local backdropr, backdropg, backdropb = unpack(C.General.BackdropColor)
-	local backdropa = balpha
-	local texture = C.Medias.Blank
-
-	if tex then
-		texture = C.Medias.Normal
-	end
-
-	f:SetBackdrop({
-		bgFile = texture,
-		edgeFile = C.Medias.Blank,
-		tile = false, tileSize = 0, edgeSize = T.Mult,
-	})
-
-	f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
-	f:SetBackdropBorderColor(borderr, borderg, borderb)
-end
-
-local function CreateBackdrop(f, t, tex)
-	if f.Backdrop then return end
-	if not t then t = "Default" end
-
-	local b = CreateFrame("Frame", nil, f)
-	b:SetOutside()
-	b:SetTemplate(t, tex)
-
-	if f:GetFrameLevel() - 1 >= 0 then
-		b:SetFrameLevel(f:GetFrameLevel() - 1)
+local function Kill(self)
+	if (self.UnregisterAllEvents) then
+		self:UnregisterAllEvents()
+		self:SetParent(Hider)
 	else
-		b:SetFrameLevel(0)
+		self.Show = self.Hide
 	end
 
-	f.Backdrop = b
+	self:Hide()
 end
 
-local function CreateShadow(f, t)
-	if f.Shadow then return end
-
-	local Level = f:GetFrameLevel()
-
-	if Level < 0 then
-		Level = 0
-	end
-
-	local shadow = CreateFrame("Frame", nil, f)
-	shadow:SetFrameLevel(Level)
-	shadow:SetFrameStrata(f:GetFrameStrata())
-	shadow:Point("TOPLEFT", -4, 4)
-	shadow:Point("BOTTOMRIGHT", 4, -4)
-
-	if C["General"].HideShadows then
-		shadow:SetBackdrop( {
-			edgeFile = nil, edgeSize = 0,
-		})
-	else
-		shadow:SetBackdrop( {
-			edgeFile = C.Medias.Glow, edgeSize = T.Scale(4),
-		})
-	end
-
-	shadow:SetBackdropColor(0, 0, 0, 0)
-	shadow:SetBackdropBorderColor(0, 0, 0, 0.8)
-
-	f.Shadow = shadow
-end
-
-local function Kill(object)
-	if object.UnregisterAllEvents then
-		object:UnregisterAllEvents()
-	end
-	object.Show = Noop
-	object:Hide()
-end
-
-local function StyleButton(button)
-	if button.SetHighlightTexture and not button.hover then
-		local hover = button:CreateTexture()
-		hover:SetColorTexture(1, 1, 1, 0.3)
-		hover:SetInside(button, 1, 1)
-		button.hover = hover
-		button:SetHighlightTexture(hover)
-	end
-
-	if button.SetPushedTexture and not button.pushed then
-		local pushed = button:CreateTexture()
-		pushed:SetColorTexture(0.9, 0.8, 0.1, 0.3)
-		pushed:SetInside(button, 1, 1)
-		button.pushed = pushed
-		button:SetPushedTexture(pushed)
-	end
-
-	if button.SetCheckedTexture and not button.checked then
-		local checked = button:CreateTexture()
-		checked:SetColorTexture(0,1,0,.3)
-		checked:SetInside(button, 1, 1)
-		button.checked = checked
-		button:SetCheckedTexture(checked)
-	end
-
-	local cooldown = button:GetName() and _G[button:GetName().."Cooldown"]
-	if cooldown then
-		cooldown:ClearAllPoints()
-		cooldown:SetInside(button, 1, 1)
-	end
-end
-
-local function FontString(parent, name, fontName, fontHeight, fontStyle)
-	local fs = parent:CreateFontString(nil, "OVERLAY")
-	fs:SetFont(fontName, fontHeight, fontStyle)
-	fs:SetJustifyH("LEFT")
-	fs:SetShadowColor(0, 0, 0)
-	fs:SetShadowOffset(T.Mult, -T.Mult)
-
-	if not name then
-		parent.Text = fs
-	else
-		parent[name] = fs
-	end
-
-	return fs
-end
-
-local function StripTextures(Object, Kill, Text)
-	for i=1, Object:GetNumRegions() do
-		local Region = select(i, Object:GetRegions())
-		if Region:GetObjectType() == "Texture" then
-			if Kill then
+local function StripTextures(self, Kill)
+	for i = 1, self:GetNumRegions() do
+		local Region = select(i, self:GetRegions())
+		if (Region and Region:GetObjectType() == "Texture") then
+			if (Kill and type(Kill) == "boolean") then
 				Region:Kill()
+			elseif (Region:GetDrawLayer() == Kill) then
+				Region:SetTexture(nil)
+			elseif (Kill and type(Kill) == "string" and Region:GetTexture() ~= Kill) then
+				Region:SetTexture(nil)
 			else
 				Region:SetTexture(nil)
 			end
@@ -210,152 +54,360 @@ local function StripTextures(Object, Kill, Text)
 	end
 end
 
-local function SkinButton(Frame, Strip)
-	if Frame:GetName() then
-		local Left = _G[Frame:GetName().."Left"]
-		local Middle = _G[Frame:GetName().."Middle"]
-		local Right = _G[Frame:GetName().."Right"]
+----------------------------------------------------------------
+-- Fading
+----------------------------------------------------------------
 
+local function SetFadeInTemplate(self, FadeTime, Alpha)
+	securecall(UIFrameFadeIn, self, FadeTime, self:GetAlpha(), Alpha)
+end
 
-		if Left then Left:SetAlpha(0) end
-		if Middle then Middle:SetAlpha(0) end
-		if Right then Right:SetAlpha(0) end
+local function SetFadeOutTemplate(self, FadeTime, Alpha)
+	securecall(UIFrameFadeOut, self, FadeTime, self:GetAlpha(), Alpha)
+end
+
+----------------------------------------------------------------
+-- Fonts
+----------------------------------------------------------------
+
+local function SetFontTemplate(self, Font, FontSize, ShadowOffsetX, ShadowOffsetY)
+	self:SetFont(Font, T.Scale(FontSize), "THINOUTLINE")
+	self:SetShadowColor(0, 0, 0, 1)
+	self:SetShadowOffset(T.Scale(ShadowOffsetX or 1), -T.Scale(ShadowOffsetY or 1))
+end
+
+----------------------------------------------------------------
+-- Sizing & Pointing
+----------------------------------------------------------------
+
+local function Size(self, WidthSize, HeightSize)
+	self:SetSize(T.Scale(WidthSize), T.Scale(HeightSize or WidthSize))
+end
+
+local function Width(self, WidthSize)
+	self:SetWidth(T.Scale(WidthSize))
+end
+
+local function Height(self, HeightSize)
+	self:SetHeight(T.Scale(HeightSize))
+end
+
+local function Point(self, arg1, arg2, arg3, arg4, arg5)
+	if arg2 == nil then
+		arg2 = self:GetParent()
 	end
 
-	if Frame.Left then Frame.Left:SetAlpha(0) end
-	if Frame.Right then Frame.Right:SetAlpha(0) end
-	if Frame.Middle then Frame.Middle:SetAlpha(0) end
-	if Frame.SetNormalTexture then Frame:SetNormalTexture("") end
-	if Frame.SetHighlightTexture then Frame:SetHighlightTexture("") end
-	if Frame.SetPushedTexture then Frame:SetPushedTexture("") end
-	if Frame.SetDisabledTexture then Frame:SetDisabledTexture("") end
+	if type(arg1) == "number" then arg1 = T.Scale(arg1) end
+	if type(arg2) == "number" then arg2 = T.Scale(arg2) end
+	if type(arg3) == "number" then arg3 = T.Scale(arg3) end
+	if type(arg4) == "number" then arg4 = T.Scale(arg4) end
+	if type(arg5) == "number" then arg5 = T.Scale(arg5) end
 
-	if Strip then StripTextures(Frame) end
+	self:SetPoint(arg1, arg2, arg3, arg4, arg5)
+end
 
-	Frame:SetTemplate()
+local function SetOutside(self, Anchor, OffsetX, OffsetY)
+	OffsetX = OffsetX or 1
+	OffsetY = OffsetY or 1
+	
+	Anchor = Anchor or self:GetParent()
 
-	Frame:HookScript("OnEnter", function(self)
-		local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+	if self:GetPoint() then
+		self:ClearAllPoints()
+	end
 
-		self:SetBackdropColor(Color.r * .15, Color.g * .15, Color.b * .15)
-		self:SetBackdropBorderColor(Color.r, Color.g, Color.b)
+	self:Point("TOPLEFT", Anchor, "TOPLEFT", -OffsetX, OffsetY)
+	self:Point("BOTTOMRIGHT", Anchor, "BOTTOMRIGHT", OffsetX, -OffsetY)
+end
+
+local function SetInside(self, Anchor, OffsetX, OffsetY)
+	OffsetX = OffsetX or 1
+	OffsetY = OffsetY or 1
+	
+	Anchor = Anchor or self:GetParent()
+
+	if self:GetPoint() then
+		self:ClearAllPoints()
+	end
+
+	self:Point("TOPLEFT", Anchor, "TOPLEFT", OffsetX, -OffsetY)
+	self:Point("BOTTOMRIGHT", Anchor, "BOTTOMRIGHT", -OffsetX, OffsetY)
+end
+
+----------------------------------------------------------------
+-- Borders & Backdrop
+----------------------------------------------------------------
+
+local function SetTemplate(self, Template, Texture)
+	local BackgroundAlpha = (Template == "Transparent" and 0.8) or (1)
+
+	local BorderR, BorderG, BorderB = unpack(C.General.BorderColor)
+	local BackdropR, BackdropG, BackdropB = unpack(C.General.BackdropColor)
+	local Texture = C.Medias.Blank
+
+	self:SetBackdrop({bgFile = Texture or C.Medias.Blank, edgeFile = C.Medias.Blank, tile = false, tileSize = 0, edgeSize = T.Mult})
+	self:SetBackdropColor(BackdropR, BackdropG, BackdropB, BackgroundAlpha)
+	self:SetBackdropBorderColor(BorderR, BorderG, BorderB)
+end
+
+local function CreateBackdrop(self, Template, Texture)
+	if self.Backdrop then
+		return
+	end
+
+	local Level = (self:GetFrameLevel() - 1 >= 0 and self:GetFrameLevel() - 1) or (0)
+
+	local Backdrop = CreateFrame("Frame", nil, self)
+	Backdrop:SetOutside()
+	Backdrop:SetTemplate(Template, Texture)
+	Backdrop:SetFrameLevel(Level)
+
+	self.Backdrop = Backdrop
+end
+
+local function CreateShadow(self, ShadowScale)
+	if (self.Shadow) then
+		return
+	end
+
+	local Level = (self:GetFrameLevel() - 1 >= 0 and self:GetFrameLevel() - 1) or (0)
+	local Scale = ShadowScale or 1
+
+	local Shadow = CreateFrame("Frame", nil, self)
+	Shadow:SetFrameStrata("BACKGROUND")
+	Shadow:SetFrameLevel(Level)
+	Shadow:SetOutside(self, 4, 4)
+	Shadow:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = T.Scale(4)})
+	Shadow:SetBackdropBorderColor(0, 0, 0, .8)
+	Shadow:SetScale(T.Scale(Scale))
+	
+	self.Shadow = Shadow
+end
+
+local function CreateGlow(self, Scale, EdgeSize, R, G, B, Alpha)
+	if (self.Glow) then
+		return
+	end
+
+	local Level = (self:GetFrameLevel() - 1 >= 0 and self:GetFrameLevel() - 1) or (0)
+	
+	local Glow = CreateFrame("Frame", nil, self)
+	Glow:SetFrameStrata("BACKGROUND")
+	Glow:SetFrameLevel(Level)
+	Glow:SetOutside(self, 4, 4)
+	Glow:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = T.Scale(EdgeSize)})
+	Glow:SetScale(T.Scale(Scale))
+	Glow:SetBackdropBorderColor(R, G, B, Alpha)
+
+	self.Glow = Glow
+end
+
+----------------------------------------------------------------
+-- Action Bars
+----------------------------------------------------------------
+
+local function StyleButton(self)
+	local Cooldown = self:GetName() and _G[self:GetName().."Cooldown"]
+	
+	if (self.SetHighlightTexture and not self.Highlight) then
+		local Highlight = self:CreateTexture()
+		
+		Highlight:SetColorTexture(1, 1, 1, 0.3)
+		Highlight:SetInside(self, 1, 1)
+		Highlight:SetSnapToPixelGrid(false)
+		Highlight:SetTexelSnappingBias(0)
+		
+		self.Highlight = Highlight
+		self:SetHighlightTexture(Highlight)
+	end
+
+	if (self.SetPushedTexture and not self.Pushed) then
+		local Pushed = self:CreateTexture()
+		
+		Pushed:SetColorTexture(0.9, 0.8, 0.1, 0.3)
+		Pushed:SetInside(self, 1, 1)
+		Pushed:SetSnapToPixelGrid(false)
+		Pushed:SetTexelSnappingBias(0)
+		
+		self.Pushed = Pushed
+		self:SetPushedTexture(Pushed)
+	end
+
+	if (self.SetCheckedTexture and not self.Checked) then
+		local Checked = self:CreateTexture()
+		
+		Checked:SetColorTexture(0, 1, 0, 0.3)
+		Checked:SetInside(self, 1, 1)
+		Checked:SetSnapToPixelGrid(false)
+		Checked:SetTexelSnappingBias(0)
+		
+		self.Checked = Checked
+		self:SetCheckedTexture(Checked)
+	end
+
+	if (Cooldown) then
+		Cooldown:ClearAllPoints()
+		Cooldown:SetInside()
+		Cooldown:SetDrawEdge(true)
+	end
+end
+
+----------------------------------------------------------------
+-- Skinning
+----------------------------------------------------------------
+
+local function SkinButton(self, BackdropStyle, Shadows, Strip)
+	-- Unskin everything
+	if self.Left then self.Left:SetAlpha(0) end
+	if self.Middle then self.Middle:SetAlpha(0) end
+	if self.Right then self.Right:SetAlpha(0) end
+	if self.TopLeft then self.TopLeft:SetAlpha(0) end
+	if self.TopMiddle then self.TopMiddle:SetAlpha(0) end
+	if self.TopRight then self.TopRight:SetAlpha(0) end
+	if self.MiddleLeft then self.MiddleLeft:SetAlpha(0) end
+	if self.MiddleMiddle then self.MiddleMiddle:SetAlpha(0) end
+	if self.MiddleRight then self.MiddleRight:SetAlpha(0) end
+	if self.BottomLeft then self.BottomLeft:SetAlpha(0) end
+	if self.BottomMiddle then self.BottomMiddle:SetAlpha(0) end
+	if self.BottomRight then self.BottomRight:SetAlpha(0) end
+	if self.LeftSeparator then self.LeftSeparator:SetAlpha(0) end
+	if self.RightSeparator then self.RightSeparator:SetAlpha(0) end
+	if self.SetNormalTexture then self:SetNormalTexture("") end
+	if self.SetHighlightTexture then self:SetHighlightTexture("") end
+	if self.SetPushedTexture then self:SetPushedTexture("") end
+	if self.SetDisabledTexture then self:SetDisabledTexture("") end
+	if Strip then self:StripTexture() end
+	
+	-- Push our style
+	self:SetTemplate(BackdropStyle)
+
+	if (Shadows) then
+		self:CreateShadow()
+	end
+
+	self:HookScript("OnEnter", function()
+		local Class = select(2, UnitClass("player"))
+		local Color = T.Colors.class[Class]
+		local R, G, B = Color[1], Color[2], Color[3]
+
+		self:SetBackdropColor(R * .15, G * .15, B * .15)
+		self:SetBackdropBorderColor(R, G, B)
 	end)
 
-	Frame:HookScript("OnLeave", function(self)
+	self:HookScript("OnLeave", function()
 		self:SetBackdropColor(C.General.BackdropColor[1], C.General.BackdropColor[2], C.General.BackdropColor[3])
 		self:SetBackdropBorderColor(C.General.BorderColor[1], C.General.BorderColor[2], C.General.BorderColor[3])
 	end)
 end
 
-local function SkinCloseButton(Frame, Reposition)
-	if Reposition then
-		Frame:Point("TOPRIGHT", Reposition, "TOPRIGHT", 2, 2)
-	end
+local function SkinCloseButton(self, OffsetX, OffsetY, CloseSize)
+	self:SetNormalTexture("")
+	self:SetPushedTexture("")
+	self:SetHighlightTexture("")
+	self:SetDisabledTexture("")
 
-	Frame:SetNormalTexture("")
-	Frame:SetPushedTexture("")
-	Frame:SetHighlightTexture("")
-	Frame:SetDisabledTexture("")
-
-	Frame.Text = Frame:CreateFontString(nil, "OVERLAY")
-	Frame.Text:SetFont(C.Medias.Font, 12, "OUTLINE")
-	Frame.Text:SetPoint("CENTER", 0, 1)
-	Frame.Text:SetText("X")
-	Frame.Text:SetTextColor(.5, .5, .5)
+	self.Text = self:CreateFontString(nil, "OVERLAY")
+	self.Text:SetFont(C.Medias.Font, 12, "OUTLINE")
+	self.Text:SetPoint("CENTER", 0, 1)
+	self.Text:SetText("X")
+	self.Text:SetTextColor(.5, .5, .5)
 end
 
-local function SkinEditBox(Frame)
-	local Left, Middle, Right, Mid = _G[Frame:GetName().."Left"], _G[Frame:GetName().."Middle"], _G[Frame:GetName().."Right"], _G[Frame:GetName().."Mid"]
+local function SkinEditBox(self)
+	local Left = _G[self:GetName().."Left"]
+	local Middle = _G[self:GetName().."Middle"]
+	local Right = _G[self:GetName().."Right"]
+	local Mid = _G[self:GetName().."Mid"]
 
 	if Left then Left:Kill() end
 	if Middle then Middle:Kill() end
 	if Right then Right:Kill() end
 	if Mid then Mid:Kill() end
 
-	Frame:CreateBackdrop()
+	self:CreateBackdrop()
 
-	if Frame:GetName() and Frame:GetName():find("Silver") or Frame:GetName():find("Copper") then
-		Frame.Backdrop:Point("BOTTOMRIGHT", -12, -2)
+	if self:GetName() and self:GetName():find("Silver") or self:GetName():find("Copper") then
+		self.Backdrop:Point("BOTTOMRIGHT", -12, -2)
 	end
 end
 
-local function SkinArrowButton(Button, Vertical)
-	Button:SetTemplate()
-	Button:Size(Button:GetWidth() - 7, Button:GetHeight() - 7)
+local function SkinArrowButton(self, Vertical)
+	self:SetTemplate()
+	self:Size(self:GetWidth() - 7, self:GetHeight() - 7)
 
 	if Vertical then
-		Button:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.72, 0.65, 0.29, 0.65, 0.72)
+		self:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.72, 0.65, 0.29, 0.65, 0.72)
 
-		if Button:GetPushedTexture() then
-			Button:GetPushedTexture():SetTexCoord(0.3, 0.35, 0.3, 0.8, 0.65, 0.35, 0.65, 0.8)
+		if self:GetPushedTexture() then
+			self:GetPushedTexture():SetTexCoord(0.3, 0.35, 0.3, 0.8, 0.65, 0.35, 0.65, 0.8)
 		end
 
-		if Button:GetDisabledTexture() then
-			Button:GetDisabledTexture():SetTexCoord(0.3, 0.29, 0.3, 0.75, 0.65, 0.29, 0.65, 0.75)
+		if self:GetDisabledTexture() then
+			self:GetDisabledTexture():SetTexCoord(0.3, 0.29, 0.3, 0.75, 0.65, 0.29, 0.65, 0.75)
 		end
 	else
-		Button:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.81, 0.65, 0.29, 0.65, 0.81)
+		self:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.81, 0.65, 0.29, 0.65, 0.81)
 
-		if Button:GetPushedTexture() then
-			Button:GetPushedTexture():SetTexCoord(0.3, 0.35, 0.3, 0.81, 0.65, 0.35, 0.65, 0.81)
+		if self:GetPushedTexture() then
+			self:GetPushedTexture():SetTexCoord(0.3, 0.35, 0.3, 0.81, 0.65, 0.35, 0.65, 0.81)
 		end
 
-		if Button:GetDisabledTexture() then
-			Button:GetDisabledTexture():SetTexCoord(0.3, 0.29, 0.3, 0.75, 0.65, 0.29, 0.65, 0.75)
+		if self:GetDisabledTexture() then
+			self:GetDisabledTexture():SetTexCoord(0.3, 0.29, 0.3, 0.75, 0.65, 0.29, 0.65, 0.75)
 		end
 	end
 
-	Button:GetNormalTexture():ClearAllPoints()
-	Button:GetNormalTexture():SetInside()
+	self:GetNormalTexture():ClearAllPoints()
+	self:GetNormalTexture():SetInside()
 
-	if Button:GetDisabledTexture() then
-		Button:GetDisabledTexture():SetAllPoints(Button:GetNormalTexture())
+	if self:GetDisabledTexture() then
+		self:GetDisabledTexture():SetAllPoints(self:GetNormalTexture())
 	end
 
-	if Button:GetPushedTexture() then
-		Button:GetPushedTexture():SetAllPoints(Button:GetNormalTexture())
+	if self:GetPushedTexture() then
+		self:GetPushedTexture():SetAllPoints(self:GetNormalTexture())
 	end
 
-	Button:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
-	Button:GetHighlightTexture():SetAllPoints(Button:GetNormalTexture())
+	self:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
+	self:GetHighlightTexture():SetAllPoints(self:GetNormalTexture())
 end
 
-local function SkinDropDown(Frame, Width)
-	local Button = _G[Frame:GetName().."Button"]
-	local Text = _G[Frame:GetName().."Text"]
+local function SkinDropDown(self, Width)
+	local Button = _G[self:GetName().."Button"]
+	local Text = _G[self:GetName().."Text"]
 
-	Frame:StripTextures()
-	Frame:Width(Width or 155)
+	self:StripTextures()
+	self:Width(Width or 155)
 
 	Text:ClearAllPoints()
 	Text:Point("RIGHT", Button, "LEFT", -2, 0)
 
 	Button:ClearAllPoints()
-	Button:Point("RIGHT", Frame, "RIGHT", -10, 3)
+	Button:Point("RIGHT", self, "RIGHT", -10, 3)
 	Button.SetPoint = Noop
 
 	Button:SkinArrowButton(true)
 
-	Frame:CreateBackdrop()
-	Frame.Backdrop:Point("TOPLEFT", 20, -2)
-	Frame.Backdrop:Point("BOTTOMRIGHT", Button, "BOTTOMRIGHT", 2, -2)
+	self:CreateBackdrop()
+	self.Backdrop:Point("TOPLEFT", 20, -2)
+	self.Backdrop:Point("BOTTOMRIGHT", Button, "BOTTOMRIGHT", 2, -2)
 end
 
-local function SkinCheckBox(Frame)
-	Frame:StripTextures()
-	Frame:CreateBackdrop()
-	Frame.Backdrop:SetInside(Frame, 4, 4)
+local function SkinCheckBox(self)
+	self:StripTextures()
+	self:CreateBackdrop()
+	self.Backdrop:SetInside(self, 4, 4)
 
-	if Frame.SetCheckedTexture then
-		Frame:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
+	if self.SetCheckedTexture then
+		self:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
 	end
 
-	if Frame.SetDisabledCheckedTexture then
-		Frame:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
+	if self.SetDisabledCheckedTexture then
+		self:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
 	end
 
 	-- why does the disabled texture is always displayed as checked ?
-	Frame:HookScript("OnDisable", function(self)
+	self:HookScript("OnDisable", function(self)
 		if not self.SetDisabledTexture then return end
 
 		if self:GetChecked() then
@@ -365,9 +417,9 @@ local function SkinCheckBox(Frame)
 		end
 	end)
 
-	Frame.SetNormalTexture = Noop
-	Frame.SetPushedTexture = Noop
-	Frame.SetHighlightTexture = Noop
+	self.SetNormalTexture = Noop
+	self.SetPushedTexture = Noop
+	self.SetHighlightTexture = Noop
 end
 
 local Tabs = {
@@ -379,52 +431,52 @@ local Tabs = {
 	"Right",
 }
 
-local function SkinTab(tab)
-	if (not tab) then
+local function SkinTab(self)
+	if (not self) then
 		return
 	end
 
 	for _, object in pairs(Tabs) do
-		local Texture = _G[tab:GetName()..object]
+		local Texture = _G[self:GetName()..object]
 		if (Texture) then
 			Texture:SetTexture(nil)
 		end
 	end
 
-	if tab.GetHighlightTexture and tab:GetHighlightTexture() then
-		tab:GetHighlightTexture():SetTexture(nil)
+	if self.GetHighlightTexture and self:GetHighlightTexture() then
+		self:GetHighlightTexture():SetTexture(nil)
 	else
-		tab:StripTextures()
+		self:StripTextures()
 	end
 
-	tab.Backdrop = CreateFrame("Frame", nil, tab)
-	tab.Backdrop:SetTemplate()
-	tab.Backdrop:SetFrameLevel(tab:GetFrameLevel() - 1)
-	tab.Backdrop:Point("TOPLEFT", 10, -3)
-	tab.Backdrop:Point("BOTTOMRIGHT", -10, 3)
+	self.Backdrop = CreateFrame("Frame", nil, self)
+	self.Backdrop:SetTemplate()
+	self.Backdrop:SetFrameLevel(self:GetFrameLevel() - 1)
+	self.Backdrop:Point("TOPLEFT", 10, -3)
+	self.Backdrop:Point("BOTTOMRIGHT", -10, 3)
 end
 
-local function SkinScrollBar(frame)
-	local ScrollUpButton = _G[frame:GetName().."ScrollUpButton"]
-	local ScrollDownButton = _G[frame:GetName().."ScrollDownButton"]
-	if _G[frame:GetName().."BG"] then
-		_G[frame:GetName().."BG"]:SetTexture(nil)
+local function SkinScrollBar(self)
+	local ScrollUpButton = _G[self:GetName().."ScrollUpButton"]
+	local ScrollDownButton = _G[self:GetName().."ScrollDownButton"]
+	if _G[self:GetName().."BG"] then
+		_G[self:GetName().."BG"]:SetTexture(nil)
 	end
 
-	if _G[frame:GetName().."Track"] then
-		_G[frame:GetName().."Track"]:SetTexture(nil)
+	if _G[self:GetName().."Track"] then
+		_G[self:GetName().."Track"]:SetTexture(nil)
 	end
 
-	if _G[frame:GetName().."Top"] then
-		_G[frame:GetName().."Top"]:SetTexture(nil)
+	if _G[self:GetName().."Top"] then
+		_G[self:GetName().."Top"]:SetTexture(nil)
 	end
 
-	if _G[frame:GetName().."Bottom"] then
-		_G[frame:GetName().."Bottom"]:SetTexture(nil)
+	if _G[self:GetName().."Bottom"] then
+		_G[self:GetName().."Bottom"]:SetTexture(nil)
 	end
 
-	if _G[frame:GetName().."Middle"] then
-		_G[frame:GetName().."Middle"]:SetTexture(nil)
+	if _G[self:GetName().."Middle"] then
+		_G[self:GetName().."Middle"]:SetTexture(nil)
 	end
 
 	if ScrollUpButton and ScrollDownButton then
@@ -450,29 +502,29 @@ local function SkinScrollBar(frame)
 			ScrollDownButton.texture:Point("BOTTOMRIGHT", -2, 2)
 		end
 
-		if not frame.trackbg then
-			frame.trackbg = CreateFrame("Frame", nil, frame)
-			Point(frame.trackbg, "TOPLEFT", ScrollUpButton, "BOTTOMLEFT", 0, -1)
-			Point(frame.trackbg, "BOTTOMRIGHT", ScrollDownButton, "TOPRIGHT", 0, 1)
-			SetTemplate(frame.trackbg, "Transparent")
+		if not self.trackbg then
+			self.trackbg = CreateFrame("Frame", nil, self)
+			Point(self.trackbg, "TOPLEFT", ScrollUpButton, "BOTTOMLEFT", 0, -1)
+			Point(self.trackbg, "BOTTOMRIGHT", ScrollDownButton, "TOPRIGHT", 0, 1)
+			SetTemplate(self.trackbg, "Transparent")
 		end
 
-		if frame:GetThumbTexture() then
+		if self:GetThumbTexture() then
 			--[[if not thumbTrim then -- This is a global lookup
 				thumbTrim = 3
 			end]]
 			local thumbTrim = 3
 
-			frame:GetThumbTexture():SetTexture(nil)
+			self:GetThumbTexture():SetTexture(nil)
 
-			if not frame.thumbbg then
-				frame.thumbbg = CreateFrame("Frame", nil, frame)
-				frame.thumbbg:Point("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 2, -thumbTrim)
-				frame.thumbbg:Point("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", -2, thumbTrim)
-				frame.thumbbg:SetTemplate("Default", true)
+			if not self.thumbbg then
+				self.thumbbg = CreateFrame("Frame", nil, self)
+				self.thumbbg:Point("TOPLEFT", self:GetThumbTexture(), "TOPLEFT", 2, -thumbTrim)
+				self.thumbbg:Point("BOTTOMRIGHT", self:GetThumbTexture(), "BOTTOMRIGHT", -2, thumbTrim)
+				self.thumbbg:SetTemplate("Default", true)
 
-				if frame.trackbg then
-					frame.thumbbg:SetFrameLevel(frame.trackbg:GetFrameLevel())
+				if self.trackbg then
+					self.thumbbg:SetFrameLevel(self.trackbg:GetFrameLevel())
 				end
 			end
 		end
@@ -480,11 +532,7 @@ local function SkinScrollBar(frame)
 end
 
 ---------------------------------------------------
--- Deprecated API, will be removed: Version + 2
----------------------------------------------------
-
----------------------------------------------------
--- Merge Tukui API with WoW API
+-- Do Magic!
 ---------------------------------------------------
 
 local function AddAPI(object)
@@ -505,7 +553,6 @@ local function AddAPI(object)
 	if not object.StyleButton then mt.StyleButton = StyleButton end
 	if not object.Width then mt.Width = Width end
 	if not object.Height then mt.Height = Height end
-	if not object.FontString then mt.FontString = FontString end
 	if not object.SkinEditBox then mt.SkinEditBox = SkinEditBox end
 	if not object.SkinButton then mt.SkinButton = SkinButton end
 	if not object.SkinCloseButton then mt.SkinCloseButton = SkinCloseButton end
@@ -533,3 +580,7 @@ while Object do
 
 	Object = EnumerateFrames(Object)
 end
+
+Hider:Hide()
+
+T.Hider = Hider

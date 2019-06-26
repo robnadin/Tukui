@@ -41,9 +41,6 @@ function Panels:Enable()
 	DataTextRight:SetFrameStrata("BACKGROUND")
 	DataTextRight:SetFrameLevel(1)
 
-	local Hider = CreateFrame("Frame", nil, UIParent)
-	Hider:Hide()
-
 	BottomLine:SetAlpha(0)
 
 	local LeftChatBG = CreateFrame("Frame", nil, DataTextLeft)
@@ -79,18 +76,11 @@ function Panels:Enable()
 	self.TabsBGLeft = TabsBGLeft
 	self.TabsBGRight = TabsBGRight
 
-	local PetBattleHider = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
-	PetBattleHider:SetAllPoints()
-	PetBattleHider:SetFrameStrata("LOW")
-	RegisterStateDriver(PetBattleHider, "visibility", "[petbattle] hide; show")
-
 	self.BottomLine = BottomLine
 	self.LeftVerticalLine = LeftVerticalLine
 	self.RightVerticalLine = RightVerticalLine
 	self.DataTextLeft = DataTextLeft
 	self.DataTextRight = DataTextRight
-	self.Hider = Hider
-	self.PetBattleHider = PetBattleHider
 end
 
 T["Panels"] = Panels

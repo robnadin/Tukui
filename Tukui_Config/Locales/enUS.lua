@@ -227,16 +227,6 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Enable data texts displaying battleground information",
 		},
 
-		["LocalTime"] = {
-			["Name"] = "Local Time",
-			["Desc"] = "Use local time in the Time data text, rather than realm time",
-		},
-
-		["Time24HrFormat"] = {
-			["Name"] = "24-Hour Time Format",
-			["Desc"] = "Enable to set the Time data text to 24 hour format.",
-		},
-
 		["NameColor"] = {
 			["Name"] = "Label Color",
 			["Desc"] = "Set a color for the label of a data text, usually the name"..RestoreDefault,

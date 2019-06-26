@@ -79,7 +79,8 @@ function Minimap:StyleMinimap()
 	self.Ticket:SetFrameLevel(Minimap:GetFrameLevel() + 4)
 	self.Ticket:SetFrameStrata(Minimap:GetFrameStrata())
 	self.Ticket:Point("BOTTOM", 0, -47)
-	self.Ticket:FontString("Text", C.Medias.Font, 12)
+	self.Ticket.Text = self.Ticket:CreateFontString(nil, "OVERLAY")
+	self.Ticket.Text:SetFontTemplate(C.Medias.Font, 12)
 	self.Ticket.Text:SetPoint("CENTER")
 	self.Ticket.Text:SetText(HELP_TICKET_EDIT)
 	self.Ticket:SetAlpha(0)
@@ -109,7 +110,7 @@ end
 function Minimap:PositionMinimap()
 	local Movers = T["Movers"]
 
-	self:SetParent(T["Panels"].PetBattleHider)
+	self:SetParent(UIParent)
 	self:Point("TOPRIGHT", UIParent, "TOPRIGHT", -30, -30)
 	self:SetMovable(true)
 
@@ -124,7 +125,6 @@ function Minimap:AddMinimapDataTexts()
 	MinimapDataText:Size(self.Backdrop:GetWidth(), 19)
 	MinimapDataText:SetPoint("TOPLEFT", self.Backdrop, "BOTTOMLEFT", 0, 19)
 	MinimapDataText:SetTemplate()
-	MinimapDataText:SetFrameStrata("LOW")
 
 	-- Resize Minimap Backdrop
 	Backdrop:ClearAllPoints()
