@@ -221,7 +221,6 @@ function Tooltip:SetColor()
 	end
 
 	self:SetBackdropColor(unpack(C["General"].BackdropColor))
-	self:SetBackdropBorderColor(unpack(C["General"].BorderColor))
 
 	local Reaction = Unit and UnitReaction(Unit, "player")
 	local Player = Unit and UnitIsPlayer(Unit)
@@ -233,29 +232,35 @@ function Tooltip:SetColor()
 		local Color = T.Colors.class[Class]
 
 		R, G, B = Color[1], Color[2], Color[3]
+		
 		HealthBar:SetStatusBarColor(R, G, B)
-		HealthBar.Backdrop:SetBackdropBorderColor(R, G, B)
-		self:SetBackdropBorderColor(R, G, B)
+		HealthBar.Backdrop:SetBorderColor(R, G, B)
+		
+		self:SetBorderColor(R, G, B)
 	elseif Reaction then
 		local Color = T.Colors.reaction[Reaction]
 
 		R, G, B = Color[1], Color[2], Color[3]
+		
 		HealthBar:SetStatusBarColor(R, G, B)
-		HealthBar.Backdrop:SetBackdropBorderColor(R, G, B)
-		self:SetBackdropBorderColor(R, G, B)
+		HealthBar.Backdrop:SetBorderColor(R, G, B)
+		
+		self:SetBorderColor(R, G, B)
 	else
 		local Link = select(2, self:GetItem())
 		local Quality = Link and select(3, GetItemInfo(Link))
 
 		if (Quality and Quality >= 2) then
 			R, G, B = GetItemQualityColor(Quality)
-			self:SetBackdropBorderColor(R, G, B)
+			
+			self:SetBorderColor(R, G, B)
 		else
 			local Color = T.Colors
 
 			HealthBar:SetStatusBarColor(unpack(Color.reaction[5]))
-			HealthBar.Backdrop:SetBackdropBorderColor(unpack(C["General"].BorderColor))
-			self:SetBackdropBorderColor(unpack(C["General"].BorderColor))
+			HealthBar.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
+			
+			self:SetBorderColor(unpack(C["General"].BorderColor))
 		end
 	end
 end
@@ -277,7 +282,7 @@ function Tooltip:OnUpdate(elapsed)
 	-- This ensures that default anchored world frame tips have the proper color.
 	if (Owner == "UIParent" and Anchor == "ANCHOR_CURSOR") then
 		self:SetBackdropColor(unpack(C["General"].BackdropColor))
-		self:SetBackdropBorderColor(unpack(C["General"].BorderColor))
+		self:SetBorderColor(unpack(C["General"].BorderColor))
 	end
 end
 

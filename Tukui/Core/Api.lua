@@ -139,15 +139,62 @@ end
 ----------------------------------------------------------------
 
 local function SetTemplate(self, Template, Texture)
+	if (self.BorderIsCreated) then
+		return
+	end
+	
 	local BackgroundAlpha = (Template == "Transparent" and 0.8) or (1)
-
 	local BorderR, BorderG, BorderB = unpack(C.General.BorderColor)
 	local BackdropR, BackdropG, BackdropB = unpack(C.General.BackdropColor)
-	local Texture = C.Medias.Blank
-
-	self:SetBackdrop({bgFile = Texture or C.Medias.Blank, edgeFile = C.Medias.Blank, tile = false, tileSize = 0, edgeSize = T.Mult})
+	
+	self:SetBackdrop({bgFile = Texture or C.Medias.Blank})
 	self:SetBackdropColor(BackdropR, BackdropG, BackdropB, BackgroundAlpha)
-	self:SetBackdropBorderColor(BorderR, BorderG, BorderB)
+
+	self.FrameRaised = CreateFrame("Frame", nil, self)
+	self.FrameRaised:SetFrameLevel(self:GetFrameLevel() + 1)
+	self.FrameRaised:SetAllPoints()
+
+	self.BorderTop = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	self.BorderTop:Size(1, 1)
+	self.BorderTop:Point("TOPLEFT", self, "TOPLEFT", 0, 0)
+	self.BorderTop:Point("TOPRIGHT", self, "TOPRIGHT", 0, 0)
+	self.BorderTop:SetSnapToPixelGrid(false)
+	self.BorderTop:SetTexelSnappingBias(0)
+	
+	self.BorderBottom = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	self.BorderBottom:Size(1, 1)
+	self.BorderBottom:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
+	self.BorderBottom:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
+	self.BorderBottom:SetSnapToPixelGrid(false)
+	self.BorderBottom:SetTexelSnappingBias(0)
+
+	self.BorderLeft = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	self.BorderLeft:Size(1, 1)
+	self.BorderLeft:Point("TOPLEFT", self, "TOPLEFT", 0, 0)
+	self.BorderLeft:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
+	self.BorderLeft:SetSnapToPixelGrid(false)
+	self.BorderLeft:SetTexelSnappingBias(0)
+
+	self.BorderRight = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	self.BorderRight:Size(1, 1)
+	self.BorderRight:Point("TOPRIGHT", self, "TOPRIGHT", 0, 0)
+	self.BorderRight:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
+	self.BorderRight:SetSnapToPixelGrid(false)
+	self.BorderRight:SetTexelSnappingBias(0)
+	
+	self.BorderTop:SetColorTexture(BorderR, BorderG, BorderB, BorderA)
+	self.BorderBottom:SetColorTexture(BorderR, BorderG, BorderB, BorderA)
+	self.BorderLeft:SetColorTexture(BorderR, BorderG, BorderB, BorderA)
+	self.BorderRight:SetColorTexture(BorderR, BorderG, BorderB, BorderA)
+	
+	self.BorderIsCreated = true
+end
+
+local function SetBorderColor(self, R, G, B, Alpha)
+	self.BorderTop:SetColorTexture(R, G, B, Alpha)
+	self.BorderBottom:SetColorTexture(R, G, B, Alpha)
+	self.BorderRight:SetColorTexture(R, G, B, Alpha)
+	self.BorderLeft:SetColorTexture(R, G, B, Alpha)
 end
 
 local function CreateBackdrop(self, Template, Texture)
@@ -294,13 +341,15 @@ local function SkinButton(self, BackdropStyle, Shadows, Strip)
 		local Color = T.Colors.class[Class]
 		local R, G, B = Color[1], Color[2], Color[3]
 
-		self:SetBackdropColor(R * .15, G * .15, B * .15)
-		self:SetBackdropBorderColor(R, G, B)
+		self:SetBackdropColor(R * .3, G * .3, B * .3)
+		self:SetBorderColor(R, G, B, 1)
 	end)
 
 	self:HookScript("OnLeave", function()
+		local R, G, B = C.General.BorderColor[1], C.General.BorderColor[2], C.General.BorderColor[3]
+			
 		self:SetBackdropColor(C.General.BackdropColor[1], C.General.BackdropColor[2], C.General.BackdropColor[3])
-		self:SetBackdropBorderColor(C.General.BorderColor[1], C.General.BorderColor[2], C.General.BorderColor[3])
+		self:SetBorderColor(R, G, B, 1)
 	end)
 end
 
@@ -551,6 +600,7 @@ local function AddAPI(object)
 	if not object.SetInside then mt.SetInside = SetInside end
 	if not object.SetTemplate then mt.SetTemplate = SetTemplate end
 	if not object.CreateBackdrop then mt.CreateBackdrop = CreateBackdrop end
+	if not object.SetBorderColor then mt.SetBorderColor = SetBorderColor end
 	if not object.StripTextures then mt.StripTextures = StripTextures end
 	if not object.CreateShadow then mt.CreateShadow = CreateShadow end
 	if not object.Kill then mt.Kill = Kill end

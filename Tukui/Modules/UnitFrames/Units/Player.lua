@@ -23,7 +23,7 @@ function TukuiUnitFrames:Player()
 	Panel:SetTemplate()
 	Panel:Size(250, 21)
 	Panel:Point("BOTTOM", self, "BOTTOM", 0, 0)
-	Panel:SetBackdropBorderColor(0, 0, 0, 0)
+	Panel:SetBorderColor(0, 0, 0, 0)
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetFrameStrata(self:GetFrameStrata())
@@ -98,7 +98,7 @@ function TukuiUnitFrames:Player()
 		Portrait:CreateBackdrop()
 
 		Portrait.Backdrop:SetOutside(Portrait, -1, 1)
-		Portrait.Backdrop:SetBackdropBorderColor(unpack(C["General"].BorderColor))
+		Portrait.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
 
 		Health:ClearAllPoints()
 		Health:SetPoint("TOPLEFT", Portrait:GetWidth() + 1, 0)
@@ -276,7 +276,7 @@ function TukuiUnitFrames:Player()
 		ComboPoints:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 1)
 		ComboPoints:SetBackdrop(TukuiUnitFrames.Backdrop)
 		ComboPoints:SetBackdropColor(0, 0, 0)
-		ComboPoints:SetBackdropBorderColor(unpack(C["General"].BorderColor))
+		ComboPoints:SetBorderColor(unpack(C["General"].BorderColor))
 
 		for i = 1, 5 do
 			ComboPoints[i] = CreateFrame("StatusBar", nil, ComboPoints)

@@ -145,8 +145,8 @@ function TukuiAuras:UpdateAura(index)
 
 		if (self.Filter == "HARMFUL") then
 			local Color = DebuffTypeColor[DType or "none"]
-			self:SetBackdropBorderColor(Color.r * 3/5, Color.g * 3/5, Color.b * 3/5)
-			self.Holder:SetBackdropBorderColor(Color.r * 3/5, Color.g * 3/5, Color.b * 3/5)
+			self:SetBorderColor(Color.r * 3/5, Color.g * 3/5, Color.b * 3/5)
+			self.Holder:SetBorderColor(Color.r * 3/5, Color.g * 3/5, Color.b * 3/5)
 		end
 
 		self.Icon:SetTexture(Texture)

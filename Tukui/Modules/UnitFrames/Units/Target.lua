@@ -23,7 +23,7 @@ function TukuiUnitFrames:Target()
 	Panel:Size(250, 21)
 	Panel:Point("BOTTOM", self, "BOTTOM", 0, 0)
 	Panel:SetFrameLevel(3)
-	Panel:SetBackdropBorderColor(0, 0, 0, 0)
+	Panel:SetBorderColor(0, 0, 0, 0)
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetFrameStrata(self:GetFrameStrata())
@@ -88,7 +88,7 @@ function TukuiUnitFrames:Target()
 		Portrait:CreateBackdrop()
 
 		Portrait.Backdrop:SetOutside(Portrait, -1, 1)
-		Portrait.Backdrop:SetBackdropBorderColor(unpack(C["General"].BorderColor))
+		Portrait.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
 
 		Health:ClearAllPoints()
 		Health:SetPoint("TOPLEFT")

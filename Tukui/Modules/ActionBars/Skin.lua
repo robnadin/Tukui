@@ -93,9 +93,9 @@ function TukuiActionBars:SkinButton()
 
 	if (Border and C.ActionBars.EquipBorder) then
 		if (Border:IsShown()) then
-			Button:SetBackdropBorderColor(.08, .70, 0)
+			Button:SetBorderColor(.08, .70, 0)
 		else
-			Button:SetBackdropBorderColor(unpack(C['General'].BorderColor))
+			Button:SetBorderColor(unpack(C['General'].BorderColor))
 		end
 	end
 

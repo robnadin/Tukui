@@ -138,11 +138,11 @@ function Loot:SkinStandardLootFrameButtons(i)
 			end
 
 			if (QuestID and not IsActive) then
-				Button.Backdrop:SetBackdropBorderColor(0.97, 0.85, 0.31) -- Quest item
+				Button.Backdrop:SetBorderColor(0.97, 0.85, 0.31) -- Quest item
 			elseif (QuestID or IsQuestItem) then
-				Button.Backdrop:SetBackdropBorderColor(0.97, 0.85, 0.31) -- Quest item
+				Button.Backdrop:SetBorderColor(0.97, 0.85, 0.31) -- Quest item
 			else
-				Button.Backdrop:SetBackdropBorderColor(unpack(C.General.BorderColor)) -- Recolor if the previous item in the slot was a quest item
+				Button.Backdrop:SetBorderColor(unpack(C.General.BorderColor)) -- Recolor if the previous item in the slot was a quest item
 			end
 		end
 	end
@@ -393,8 +393,9 @@ function Loot:Enable()
 	end
 
 	if C.Loot.StandardLoot then
-		self:SkinStandardLootFrame()
-		self:AddStandardLootHooks()
+		-- BROKEN
+		--self:SkinStandardLootFrame()
+		--self:AddStandardLootHooks()
 
 		return
 	end

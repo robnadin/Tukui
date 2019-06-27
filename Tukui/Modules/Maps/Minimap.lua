@@ -39,14 +39,6 @@ function Minimap:DisableMinimapElements()
 	North:SetTexture(nil)
 end
 
-function Minimap:OnMove(enabled)
-	if enabled then
-		self:SetBackdropBorderColor(1, 0, 0)
-	else
-		self:SetBackdropBorderColor(unpack(C["General"].BorderColor))
-	end
-end
-
 function Minimap:OnMouseClick(button)
 	if (button == "RightButton") or (button == "MiddleButton") then
 		Miscellaneous.DropDown.Open(Miscellaneous.MicroMenu.Buttons, Miscellaneous.MicroMenu, "cursor", T.Scale(-160), 0, "MENU", 2)

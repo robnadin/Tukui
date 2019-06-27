@@ -85,7 +85,7 @@ function TukuiUnitFrames:Raid()
 	Panel:Point("TOPRIGHT", Power, "BOTTOMRIGHT", 0, -1)
 	Panel:SetPoint("BOTTOM", 0, 0)
 	Panel:SetTemplate()
-	Panel:SetBackdropBorderColor(C["General"].BorderColor[1] * 0.7, C["General"].BorderColor[2] * 0.7, C["General"].BorderColor[3] * 0.7)
+	Panel:SetBorderColor(0, 0, 0, 0)
 
 	local Name = Panel:CreateFontString(nil, "OVERLAY", 1)
 	Name:SetPoint("CENTER")

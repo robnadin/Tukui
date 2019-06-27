@@ -20,7 +20,6 @@ function TukuiUnitFrames:Pet()
 	Panel:SetTemplate()
 	Panel:Size(129, 17)
 	Panel:Point("BOTTOM", self, "BOTTOM", 0, 0)
-	Panel:SetBackdropBorderColor(0, 0, 0, 0)
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:Height(13)
