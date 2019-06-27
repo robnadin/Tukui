@@ -53,6 +53,7 @@ function GameMenu:Enable()
 
 		Menu:SetTemplate("Transparent")
 		Menu:CreateShadow()
+		Menu:Width(196)
 		
 		if T.TocVersion >= 80200 then
 			Menu.Border:StripTextures()
