@@ -1066,7 +1066,7 @@ function TukuiConfig:CreateConfigWindow()
 	end
 
 	local CreditText = Scrollable:CreateFontString(nil, "OVERLAY")
-	CreditText:SetFont(C.Medias.Font, 14)
+	CreditText:SetFont(C.Medias.Font, 12)
 	CreditText:SetText(CreditString)
 	CreditText:Point("LEFT", Scrollable, "RIGHT", 4, 0)
 
