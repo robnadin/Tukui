@@ -19,7 +19,7 @@ C["Medias"] = {
 	["Logo"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\Logo]],
 
 	-- colors
-	["BorderColor"] = C.General.BorderColor or { .5, .5, .5 },
+	["BorderColor"] = C.General.BorderColor or { 0, 0, 0 },
 	["BackdropColor"] = C.General.BackdropColor or { .1,.1,.1 },
 
 	-- sound
