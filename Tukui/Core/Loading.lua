@@ -41,6 +41,9 @@ end
 
 function Loading:OnEvent(event, addon)
 	if (event == "PLAYER_LOGIN") then
+		-- LOAD SETTINGS
+			self:LoadCustomSettings()
+
 		-- PANELS
 			T["Panels"]:Enable()
 
