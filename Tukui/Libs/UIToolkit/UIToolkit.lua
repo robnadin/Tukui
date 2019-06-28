@@ -58,7 +58,7 @@ Toolkit.Settings.ArrowDown = ""
 Toolkit.API.Kill = function(self)
 	if (self.UnregisterAllEvents) then
 		self:UnregisterAllEvents()
-		self:SetParent(Hider)
+		self:SetParent(Toolkit.Frames.Hider)
 	else
 		self.Show = self.Hide
 	end
