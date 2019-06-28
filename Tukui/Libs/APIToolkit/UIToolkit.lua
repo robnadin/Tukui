@@ -8,8 +8,8 @@ with every UIs when they want to use this API.
 Starting with WoW Classic and WoW 9.0, Tukui staff will make an API toolkit for
 everyone. Every developers who use our API is invited to participate for their need.
 
-The library will be called APIToolkit (not set in stone for now) and will be available
-to download at www.tukui.org/APIToolkit
+The library will be called UIToolkit (not set in stone for now) and will be available
+to download at www.tukui.org/toolkit
 
 --]]
 
@@ -30,24 +30,32 @@ local UIFrameFadeIn = UIFrameFadeIn
 -- Locals
 local Resolution = GetCVar("gxWindowedResolution")
 local Noop = function() return end
-local Toolkit = CreateFrame("Frame", "APIToolkit", UIParent)
+local Toolkit = CreateFrame("Frame", "UIToolkit", UIParent)
+local Tabs = {"LeftDisabled", "MiddleDisabled", "RightDisabled", "Left", "Middle", "Right"}
+
+-- Tables
+Toolkit.Settings = {}
+Toolkit.API = {}
+Toolkit.Functions = {}
+Toolkit.Frames = {}
 
 -- Toolkit Parameters
-Toolkit.Mult = 768 / string.match(Resolution, "%d+x(%d+)") / GetCVar("uiScale")
-Toolkit.Scale = function(x) return Toolkit.Mult * math.floor(x / Toolkit.Mult + .5) end
-Toolkit.DefaultTexture = "Interface\\Buttons\\WHITE8x8"
-Toolkit.ShadowGlowTexture = ""
-Toolkit.DefaultFont = "STANDARD_TEXT_FONT"
-Toolkit.BackdropColor = { .1,.1,.1 }
-Toolkit.BorderColor = { 0, 0, 0 }
-Toolkit.ArrowUp = ""
-Toolkit.ArrowDown = ""
+Toolkit.Settings.Mult = 768 / string.match(Resolution, "%d+x(%d+)") / GetCVar("uiScale")
+Toolkit.Settings.DefaultTexture = "Interface\\Buttons\\WHITE8x8"
+Toolkit.Settings.ShadowGlowTexture = ""
+Toolkit.Settings.DefaultFont = "STANDARD_TEXT_FONT"
+Toolkit.Settings.BackdropColor = { .1,.1,.1 }
+Toolkit.Settings.BorderColor = { 0, 0, 0 }
+Toolkit.Settings.ArrowUp = ""
+Toolkit.Settings.ArrowDown = ""
 
 ----------------------------------------------------------------
--- Kills
+-- API
 ----------------------------------------------------------------
 
-local function Kill(self)
+-- Kills --
+
+Toolkit.API.Kill = function(self)
 	if (self.UnregisterAllEvents) then
 		self:UnregisterAllEvents()
 		self:SetParent(Hider)
@@ -58,7 +66,7 @@ local function Kill(self)
 	self:Hide()
 end
 
-local function StripTextures(self, Kill)
+Toolkit.API.StripTextures = function(self, Kill)
 	for i = 1, self:GetNumRegions() do
 		local Region = select(i, self:GetRegions())
 		if (Region and Region:GetObjectType() == "Texture") then
@@ -75,59 +83,53 @@ local function StripTextures(self, Kill)
 	end
 end
 
-----------------------------------------------------------------
--- Fading
-----------------------------------------------------------------
+-- Fading --
 
-local function SetFadeInTemplate(self, FadeTime, Alpha)
+Toolkit.API.SetFadeInTemplate = function(self, FadeTime, Alpha)
 	securecall(UIFrameFadeIn, self, FadeTime, self:GetAlpha(), Alpha)
 end
 
-local function SetFadeOutTemplate(self, FadeTime, Alpha)
+Toolkit.API.SetFadeOutTemplate = function(self, FadeTime, Alpha)
 	securecall(UIFrameFadeOut, self, FadeTime, self:GetAlpha(), Alpha)
 end
 
-----------------------------------------------------------------
--- Fonts
-----------------------------------------------------------------
+-- Fonts --
 
-local function SetFontTemplate(self, Font, FontSize, ShadowOffsetX, ShadowOffsetY)
-	self:SetFont(Font, Toolkit.Scale(FontSize), "THINOUTLINE")
+Toolkit.API.SetFontTemplate = function(self, Font, FontSize, ShadowOffsetX, ShadowOffsetY)
+	self:SetFont(Font, Toolkit.Functions.Scale(FontSize), "THINOUTLINE")
 	self:SetShadowColor(0, 0, 0, 1)
-	self:SetShadowOffset(Toolkit.Scale(ShadowOffsetX or 1), -Toolkit.Scale(ShadowOffsetY or 1))
+	self:SetShadowOffset(Toolkit.Functions.Scale(ShadowOffsetX or 1), -Toolkit.Functions.Scale(ShadowOffsetY or 1))
 end
 
-----------------------------------------------------------------
--- Sizing & Pointing
-----------------------------------------------------------------
+-- Sizing & Pointing --
 
-local function Size(self, WidthSize, HeightSize)
-	self:SetSize(Toolkit.Scale(WidthSize), Toolkit.Scale(HeightSize or WidthSize))
+Toolkit.API.Size = function(self, WidthSize, HeightSize)
+	self:SetSize(Toolkit.Functions.Scale(WidthSize), Toolkit.Functions.Scale(HeightSize or WidthSize))
 end
 
-local function Width(self, WidthSize)
-	self:SetWidth(Toolkit.Scale(WidthSize))
+Toolkit.API.Width = function(self, WidthSize)
+	self:SetWidth(Toolkit.Functions.Scale(WidthSize))
 end
 
-local function Height(self, HeightSize)
-	self:SetHeight(Toolkit.Scale(HeightSize))
+Toolkit.API.Height = function(self, HeightSize)
+	self:SetHeight(Toolkit.Functions.Scale(HeightSize))
 end
 
-local function Point(self, arg1, arg2, arg3, arg4, arg5)
+Toolkit.API.Point = function(self, arg1, arg2, arg3, arg4, arg5)
 	if arg2 == nil then
 		arg2 = self:GetParent()
 	end
 
-	if type(arg1) == "number" then arg1 = Toolkit.Scale(arg1) end
-	if type(arg2) == "number" then arg2 = Toolkit.Scale(arg2) end
-	if type(arg3) == "number" then arg3 = Toolkit.Scale(arg3) end
-	if type(arg4) == "number" then arg4 = Toolkit.Scale(arg4) end
-	if type(arg5) == "number" then arg5 = Toolkit.Scale(arg5) end
+	if type(arg1) == "number" then arg1 = Toolkit.Functions.Scale(arg1) end
+	if type(arg2) == "number" then arg2 = Toolkit.Functions.Scale(arg2) end
+	if type(arg3) == "number" then arg3 = Toolkit.Functions.Scale(arg3) end
+	if type(arg4) == "number" then arg4 = Toolkit.Functions.Scale(arg4) end
+	if type(arg5) == "number" then arg5 = Toolkit.Functions.Scale(arg5) end
 
 	self:SetPoint(arg1, arg2, arg3, arg4, arg5)
 end
 
-local function SetOutside(self, Anchor, OffsetX, OffsetY)
+Toolkit.API.SetOutside = function(self, Anchor, OffsetX, OffsetY)
 	OffsetX = OffsetX or 1
 	OffsetY = OffsetY or 1
 	
@@ -141,7 +143,7 @@ local function SetOutside(self, Anchor, OffsetX, OffsetY)
 	self:Point("BOTTOMRIGHT", Anchor, "BOTTOMRIGHT", OffsetX, -OffsetY)
 end
 
-local function SetInside(self, Anchor, OffsetX, OffsetY)
+Toolkit.API.SetInside = function(self, Anchor, OffsetX, OffsetY)
 	OffsetX = OffsetX or 1
 	OffsetY = OffsetY or 1
 	
@@ -155,20 +157,18 @@ local function SetInside(self, Anchor, OffsetX, OffsetY)
 	self:Point("BOTTOMRIGHT", Anchor, "BOTTOMRIGHT", -OffsetX, OffsetY)
 end
 
-----------------------------------------------------------------
--- Borders & Backdrop
-----------------------------------------------------------------
+-- Borders & Backdrop --
 
-local function SetTemplate(self, BackgroundTemplate, BackgroundTexture, BorderTemplate)
+Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, BorderTemplate)
 	if (self.BorderIsCreated) then
 		return
 	end
 	
 	local BackgroundAlpha = (BackgroundTemplate == "Transparent" and 0.8) or (1)
-	local BorderR, BorderG, BorderB = unpack(Toolkit.BorderColor)
-	local BackdropR, BackdropG, BackdropB = unpack(Toolkit.BackdropColor)
+	local BorderR, BorderG, BorderB = unpack(Toolkit.Settings.BorderColor)
+	local BackdropR, BackdropG, BackdropB = unpack(Toolkit.Settings.BackdropColor)
 	
-	self:SetBackdrop({bgFile = BackgroundTexture or Toolkit.DefaultTexture})
+	self:SetBackdrop({bgFile = BackgroundTexture or Toolkit.Settings.DefaultTexture})
 	self:SetBackdropColor(BackdropR, BackdropG, BackdropB, BackgroundAlpha)
 
 	self.FrameRaised = CreateFrame("Frame", nil, self)
@@ -275,14 +275,14 @@ local function SetTemplate(self, BackgroundTemplate, BackgroundTexture, BorderTe
 	self.BorderIsCreated = true
 end
 
-local function SetBorderColor(self, R, G, B, Alpha)
+Toolkit.API.SetBorderColor = function(self, R, G, B, Alpha)
 	self.BorderTop:SetColorTexture(R, G, B, Alpha)
 	self.BorderBottom:SetColorTexture(R, G, B, Alpha)
 	self.BorderRight:SetColorTexture(R, G, B, Alpha)
 	self.BorderLeft:SetColorTexture(R, G, B, Alpha)
 end
 
-local function CreateBackdrop(self, Template, Texture)
+Toolkit.API.CreateBackdrop = function(self, Template, Texture)
 	if self.Backdrop then
 		return
 	end
@@ -297,7 +297,7 @@ local function CreateBackdrop(self, Template, Texture)
 	self.Backdrop = Backdrop
 end
 
-local function CreateShadow(self, ShadowScale)
+Toolkit.API.CreateShadow = function(self, ShadowScale)
 	if (self.Shadow) then
 		return
 	end
@@ -306,17 +306,17 @@ local function CreateShadow(self, ShadowScale)
 	local Scale = ShadowScale or 1
 	local Shadow = CreateFrame("Frame", nil, self)
 
-	Shadow:SetBackdrop({edgeFile = Toolkit.ShadowGlowTexture, edgeSize = Toolkit.Scale(4)})
+	Shadow:SetBackdrop({edgeFile = Toolkit.Settings.ShadowGlowTexture, edgeSize = Toolkit.Functions.Scale(4)})
 	Shadow:SetFrameStrata("BACKGROUND")
 	Shadow:SetFrameLevel(Level)
 	Shadow:SetOutside(self, 4, 4)
 	Shadow:SetBackdropBorderColor(0, 0, 0, .8)
-	Shadow:SetScale(Toolkit.Scale(Scale))
+	Shadow:SetScale(Toolkit.Functions.Scale(Scale))
 	
 	self.Shadow = Shadow
 end
 
-local function CreateGlow(self, Scale, EdgeSize, R, G, B, Alpha)
+Toolkit.API.CreateGlow = function(self, Scale, EdgeSize, R, G, B, Alpha)
 	if (self.Glow) then
 		return
 	end
@@ -327,18 +327,16 @@ local function CreateGlow(self, Scale, EdgeSize, R, G, B, Alpha)
 	Glow:SetFrameStrata("BACKGROUND")
 	Glow:SetFrameLevel(Level)
 	Glow:SetOutside(self, 4, 4)
-	Glow:SetBackdrop({edgeFile = Toolkit.ShadowGlowTexture, edgeSize = Toolkit.Scale(EdgeSize)})
-	Glow:SetScale(Toolkit.Scale(Scale))
+	Glow:SetBackdrop({edgeFile = Toolkit.Settings.ShadowGlowTexture, edgeSize = Toolkit.Functions.Scale(EdgeSize)})
+	Glow:SetScale(Toolkit.Functions.Scale(Scale))
 	Glow:SetBackdropBorderColor(R, G, B, Alpha)
 
 	self.Glow = Glow
 end
 
-----------------------------------------------------------------
--- Action Bars
-----------------------------------------------------------------
+-- Action Bars --
 
-local function StyleButton(self)
+Toolkit.API.StyleButton = function(self)
 	local Cooldown = self:GetName() and _G[self:GetName().."Cooldown"]
 	
 	if (self.SetHighlightTexture and not self.Highlight) then
@@ -384,11 +382,9 @@ local function StyleButton(self)
 	end
 end
 
-----------------------------------------------------------------
--- Skinning
-----------------------------------------------------------------
+-- Skinning --
 
-local function SkinButton(self, BackdropStyle, Shadows, Strip)
+Toolkit.API.SkinButton = function(self, BackdropStyle, Shadows, Strip)
 	-- Unskin everything
 	if self.Left then self.Left:SetAlpha(0) end
 	if self.Middle then self.Middle:SetAlpha(0) end
@@ -425,27 +421,25 @@ local function SkinButton(self, BackdropStyle, Shadows, Strip)
 	end)
 
 	self:HookScript("OnLeave", function()
-		local R, G, B = Toolkit.BorderColor[1], Toolkit.BorderColor[2], Toolkit.BorderColor[3]
-			
-		self:SetBackdropColor(Toolkit.BackdropColor[1], Toolkit.BackdropColor[2], Toolkit.BackdropColor[3])
-		self:SetBorderColor(R, G, B, 1)
+		self:SetBackdropColor(Toolkit.Settings.BackdropColor[1], Toolkit.Settings.BackdropColor[2], Toolkit.Settings.BackdropColor[3], 1)
+		self:SetBorderColor(Toolkit.Settings.BorderColor[1], Toolkit.Settings.BorderColor[2], Toolkit.Settings.BorderColor[3], 1)
 	end)
 end
 
-local function SkinCloseButton(self, OffsetX, OffsetY, CloseSize)
+Toolkit.API.SkinCloseButton = function(self, OffsetX, OffsetY, CloseSize)
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
 	self:SetHighlightTexture("")
 	self:SetDisabledTexture("")
 
 	self.Text = self:CreateFontString(nil, "OVERLAY")
-	self.Text:SetFont(Toolkit.DefaultFont, 12, "OUTLINE")
+	self.Text:SetFont(Toolkit.Settings.DefaultFont, 12, "OUTLINE")
 	self.Text:SetPoint("CENTER", 0, 1)
 	self.Text:SetText("X")
 	self.Text:SetTextColor(.5, .5, .5)
 end
 
-local function SkinEditBox(self)
+Toolkit.API.SkinEditBox = function(self)
 	local Left = _G[self:GetName().."Left"]
 	local Middle = _G[self:GetName().."Middle"]
 	local Right = _G[self:GetName().."Right"]
@@ -463,7 +457,7 @@ local function SkinEditBox(self)
 	end
 end
 
-local function SkinArrowButton(self, Vertical)
+Toolkit.API.SkinArrowButton = function(self, Vertical)
 	self:SetTemplate()
 	self:Size(self:GetWidth() - 7, self:GetHeight() - 7)
 
@@ -504,7 +498,7 @@ local function SkinArrowButton(self, Vertical)
 	self:GetHighlightTexture():SetAllPoints(self:GetNormalTexture())
 end
 
-local function SkinDropDown(self, Width)
+Toolkit.API.SkinDropDown = function(self, Width)
 	local Button = _G[self:GetName().."Button"]
 	local Text = _G[self:GetName().."Text"]
 
@@ -525,7 +519,7 @@ local function SkinDropDown(self, Width)
 	self.Backdrop:Point("BOTTOMRIGHT", Button, "BOTTOMRIGHT", 2, -2)
 end
 
-local function SkinCheckBox(self)
+Toolkit.API.SkinCheckBox = function(self)
 	self:StripTextures()
 	self:CreateBackdrop()
 	self.Backdrop:SetInside(self, 4, 4)
@@ -554,16 +548,7 @@ local function SkinCheckBox(self)
 	self.SetHighlightTexture = Noop
 end
 
-local Tabs = {
-	"LeftDisabled",
-	"MiddleDisabled",
-	"RightDisabled",
-	"Left",
-	"Middle",
-	"Right",
-}
-
-local function SkinTab(self)
+Toolkit.API.SkinTab = function(self)
 	if (not self) then
 		return
 	end
@@ -588,7 +573,7 @@ local function SkinTab(self)
 	self.Backdrop:Point("BOTTOMRIGHT", -10, 3)
 end
 
-local function SkinScrollBar(self)
+Toolkit.API.SkinScrollBar = function(self)
 	local ScrollUpButton = _G[self:GetName().."ScrollUpButton"]
 	local ScrollDownButton = _G[self:GetName().."ScrollDownButton"]
 	if _G[self:GetName().."BG"] then
@@ -617,10 +602,10 @@ local function SkinScrollBar(self)
 
 		if not ScrollUpButton.texture then
 			ScrollUpButton.texture = ScrollUpButton:CreateTexture(nil, "OVERLAY")
-			Point(ScrollUpButton.texture, "TOPLEFT", 2, -2)
-			Point(ScrollUpButton.texture, "BOTTOMRIGHT", -2, 2)
-			ScrollUpButton.texture:SetTexture(Toolkit.ArrowUp)
-			ScrollUpButton.texture:SetVertexColor(unpack(Toolkit.BorderColor))
+			ScrollUpButton.texture:Point("TOPLEFT", 2, -2)
+			ScrollUpButton.texture:Point("BOTTOMRIGHT", -2, 2)
+			ScrollUpButton.texture:SetTexture(Toolkit.Settings.ArrowUp)
+			ScrollUpButton.texture:SetVertexColor(unpack(Toolkit.Settings.BorderColor))
 		end
 
 		ScrollDownButton:StripTextures()
@@ -628,17 +613,17 @@ local function SkinScrollBar(self)
 
 		if not ScrollDownButton.texture then
 			ScrollDownButton.texture = ScrollDownButton:CreateTexture(nil, "OVERLAY")
-			ScrollDownButton.texture:SetTexture(Toolkit.ArrowDown)
-			ScrollDownButton.texture:SetVertexColor(unpack(Toolkit.BorderColor))
+			ScrollDownButton.texture:SetTexture(Toolkit.Settings.ArrowDown)
+			ScrollDownButton.texture:SetVertexColor(unpack(Toolkit.Settings.BorderColor))
 			ScrollDownButton.texture:Point("TOPLEFT", 2, -2)
 			ScrollDownButton.texture:Point("BOTTOMRIGHT", -2, 2)
 		end
 
 		if not self.trackbg then
 			self.trackbg = CreateFrame("Frame", nil, self)
-			Point(self.trackbg, "TOPLEFT", ScrollUpButton, "BOTTOMLEFT", 0, -1)
-			Point(self.trackbg, "BOTTOMRIGHT", ScrollDownButton, "TOPRIGHT", 0, 1)
-			SetTemplate(self.trackbg, "Transparent")
+			self.trackbg:Point("TOPLEFT", ScrollUpButton, "BOTTOMLEFT", 0, -1)
+			self.trackbg:Point("BOTTOMRIGHT", ScrollDownButton, "TOPRIGHT", 0, 1)
+			self.trackbg:SetTemplate("Transparent")
 		end
 
 		if self:GetThumbTexture() then
@@ -664,42 +649,39 @@ local function SkinScrollBar(self)
 end
 
 ---------------------------------------------------
--- Do Magic!
+-- Functions
 ---------------------------------------------------
-
-local function AddAPI(object)
-	local mt = getmetatable(object).__index
-
-	if not object.SetFadeInTemplate then mt.SetFadeInTemplate = SetFadeInTemplate end
-	if not object.SetFadeOutTemplate then mt.SetFadeOutTemplate = SetFadeOutTemplate end
-	if not object.SetFontTemplate then mt.SetFontTemplate = SetFontTemplate end
-	if not object.Size then mt.Size = Size end
-	if not object.Point then mt.Point = Point end
-	if not object.SetOutside then mt.SetOutside = SetOutside end
-	if not object.SetInside then mt.SetInside = SetInside end
-	if not object.SetTemplate then mt.SetTemplate = SetTemplate end
-	if not object.CreateBackdrop then mt.CreateBackdrop = CreateBackdrop end
-	if not object.SetBorderColor then mt.SetBorderColor = SetBorderColor end
-	if not object.StripTextures then mt.StripTextures = StripTextures end
-	if not object.CreateShadow then mt.CreateShadow = CreateShadow end
-	if not object.Kill then mt.Kill = Kill end
-	if not object.StyleButton then mt.StyleButton = StyleButton end
-	if not object.Width then mt.Width = Width end
-	if not object.Height then mt.Height = Height end
-	if not object.SkinEditBox then mt.SkinEditBox = SkinEditBox end
-	if not object.SkinButton then mt.SkinButton = SkinButton end
-	if not object.SkinCloseButton then mt.SkinCloseButton = SkinCloseButton end
-	if not object.SkinArrowButton then mt.SkinArrowButton = SkinArrowButton end
-	if not object.SkinDropDown then mt.SkinDropDown = SkinDropDown end
-	if not object.SkinCheckBox then mt.SkinCheckBox = SkinCheckBox end
-	if not object.SkinTab then mt.SkinTab = SkinTab end
-	if not object.SkinScrollBar then mt.SkinScrollBar = SkinScrollBar end
+		
+Toolkit.Functions.Scale = function(x) 
+	local Value = Toolkit.Settings.Mult * math.floor(x / Toolkit.Settings.Mult + .5)
+		
+	return Value
 end
 
-local function Enable()
-	local Handled = {["Frame"] = true}
+Toolkit.Functions.AddAPI = function(object)
+	local mt = getmetatable(object).__index
 
+	for API, FUNCTIONS in pairs(Toolkit.API) do
+		if not object[API] then mt[API] = Toolkit.API[API] end
+	end
+end
+
+Toolkit.Functions.AddFrames = function(self)
+	-- Create an hidden frame for hiding stuff
+	self.Frames.Hider = CreateFrame("Frame", nil, UIParent)
+	self.Frames.Hider:Hide()
+end
+
+---------------------------------------------------
+-- Toolkit init
+---------------------------------------------------
+
+Toolkit.Enable = function(self)
+	local Handled = {["Frame"] = true}
 	local Object = CreateFrame("Frame")
+	local AddAPI = self.Functions.AddAPI
+	local AddFrames = self.Functions.AddFrames
+	
 	AddAPI(Object)
 	AddAPI(Object:CreateTexture())
 	AddAPI(Object:CreateFontString())
@@ -709,17 +691,12 @@ local function Enable()
 	while Object do
 		if not Object:IsForbidden() and not Handled[Object:GetObjectType()] then
 			AddAPI(Object)
+			
 			Handled[Object:GetObjectType()] = true
 		end
 
 		Object = EnumerateFrames(Object)
 	end
 	
-	-- Our hider frame
-	local Hider = CreateFrame("Frame", nil, UIParent)
-	Hider:Hide()
-
-	Toolkit.Hider = Hider
+	AddFrames(self)
 end
-
-Toolkit.Enable = Enable

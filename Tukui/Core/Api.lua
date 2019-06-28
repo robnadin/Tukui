@@ -1,24 +1,26 @@
 local T, C, L = select(2, ...):unpack()
-local Toolkit = APIToolkit
+local Toolkit = UIToolkit
+local Settings = Toolkit.Settings
+local API = Toolkit.API
+local Functions = Toolkit.Functions
+local Frames = Toolkit.Frames
 
 -- Settings we want to use for our API
-Toolkit.Mult = T.Mult
-Toolkit.Scale = T.Scale
-Toolkit.DefaultTexture = C.Medias.Blank
-Toolkit.DefaultFont = C.Medias.Font
-Toolkit.BackdropColor = { .1,.1,.1 }
-Toolkit.BorderColor = { 0, 0, 0 }
-Toolkit.ArrowUp = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]]
-Toolkit.ArrowDown = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]
+Settings.DefaultTexture = C.Medias.Blank
+Settings.DefaultFont = C.Medias.Font
+Settings.BackdropColor = { .1,.1,.1 }
+Settings.BorderColor = { 0, 0, 0 }
+Settings.ArrowUp = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]]
+Settings.ArrowDown = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]
 
 if C.General.HideShadows then
-	Toolkit.ShadowGlowTexture = ""
+	Settings.ShadowGlowTexture = ""
 else
-	Toolkit.ShadowGlowTexture = C.Medias.Glow
+	Settings.ShadowGlowTexture = C.Medias.Glow
 end
 
 -- Enable the API
 Toolkit:Enable()
 
 -- I want to use Toolkit Hider Frame in all my frames, register it to Tukui
-T.Hider = Toolkit.Hider
+T.Hider = Frames.Hider
