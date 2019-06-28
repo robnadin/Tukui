@@ -8,5 +8,5 @@
 	<Include file="DropDownMenu\UIDropDownMenuTemplates.xml"/>
 	<Script file="DropDownMenu\EasyMenu.lua"/>
 	<Script file="DropDownMenu\UIDropDownMenu.lua"/>
-	<Script file="APIToolkit\UIToolkit.lua"/>
+	<Script file="UIToolkit\UIToolkit.lua"/>
 </Ui>
