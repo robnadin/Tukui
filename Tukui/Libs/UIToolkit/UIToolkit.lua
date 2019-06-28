@@ -1,13 +1,5 @@
 --[[
 
-BUGS TO FIXES:
-Changing UIScale break borders, need 2X ReloadUI() when changing UIScale else UI look like crap.
-
-]]
-
-
---[[
-
 Since WotLK, lots of peoples were using our API in multiples new UI.
 However, lots of peoples edited it, and now there is too many deviated API.
 This make addons/plugins authors a hard time to make their stuff compatibles
@@ -34,9 +26,13 @@ local CreateFrame = CreateFrame
 local CreateTexture = CreateTexture
 local UIFrameFadeOut = UIFrameFadeOut
 local UIFrameFadeIn = UIFrameFadeIn
+local SystemApply = VideoOptionsFrameApply
+local SystemOkay = VideoOptionsFrameApply
+local SystemUseScale = Advanced_UseUIScale
 
 -- Locals
 local Resolution = GetCVar("gxWindowedResolution")
+local Formula = 768 / string.match(Resolution, "%d+x(%d+)")
 local Noop = function() return end
 local Toolkit = CreateFrame("Frame", "UIToolkit", UIParent)
 local Tabs = {"LeftDisabled", "MiddleDisabled", "RightDisabled", "Left", "Middle", "Right"}
@@ -48,7 +44,6 @@ Toolkit.Functions = {}
 Toolkit.Frames = {}
 
 -- Toolkit Parameters
-Toolkit.Settings.Mult = 768 / string.match(Resolution, "%d+x(%d+)") / GetCVar("uiScale")
 Toolkit.Settings.DefaultTexture = "Interface\\Buttons\\WHITE8x8"
 Toolkit.Settings.ShadowGlowTexture = ""
 Toolkit.Settings.DefaultFont = "STANDARD_TEXT_FONT"
@@ -660,8 +655,9 @@ end
 -- Functions
 ---------------------------------------------------
 		
-Toolkit.Functions.Scale = function(x) 
-	local Value = Toolkit.Settings.Mult * math.floor(x / Toolkit.Settings.Mult + .5)
+Toolkit.Functions.Scale = function(size)
+	local Mult = Formula / UIParent:GetScale()
+	local Value = Mult * math.floor(size / Mult + .5)
 		
 	return Value
 end
@@ -680,6 +676,13 @@ Toolkit.Functions.AddFrames = function(self)
 	self.Frames.Hider:Hide()
 end
 
+Toolkit.Functions.AddHooks = function(self)
+	-- We need to ReloadUI() if a Blizzard system option is change to be sure UI look perfect.
+	SystemApply:HookScript("OnClick", ReloadUI)
+	SystemOkay:HookScript("OnClick", ReloadUI)
+	SystemUseScale:HookScript("OnClick", ReloadUI)
+end
+
 ---------------------------------------------------
 -- Toolkit init
 ---------------------------------------------------
@@ -689,7 +692,8 @@ Toolkit.Enable = function(self)
 	local Object = CreateFrame("Frame")
 	local AddAPI = self.Functions.AddAPI
 	local AddFrames = self.Functions.AddFrames
-	
+	local AddHooks = self.Functions.AddHooks
+
 	AddAPI(Object)
 	AddAPI(Object:CreateTexture())
 	AddAPI(Object:CreateFontString())
@@ -707,4 +711,5 @@ Toolkit.Enable = function(self)
 	end
 	
 	AddFrames(self)
+	AddHooks(self)
 end
