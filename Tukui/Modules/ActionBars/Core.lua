@@ -183,6 +183,7 @@ function TukuiActionBars:AddPanels()
 		A7.Backdrop:SetTemplate()
 
 		A1.Backdrop:SetFrameLevel(A4:GetFrameLevel())
+		A1.Backdrop.BorderTop:SetColorTexture(0, 0, 0, 0)
 
 		if not C.General.HideShadows then
 			A1.Backdrop:CreateShadow()

@@ -88,25 +88,32 @@ end
 function ActionBars:ShowTopButtons(bar)
 	local Button
 	local Value = bar.NextColumnToHide or 6
+	local MainBar = T.Panels["ActionBar1"]
 
 	for i = 7, (Value + 6) do
 		Button = bar["Button"..i]
 
 		Button:Show()
 	end
-
+	
+	MainBar.Backdrop.BorderTop:SetColorTexture(0, 0, 0, 0) -- Fix a border display bug
+	
 	bar:Height((MultiBarBottomLeftButton1:GetWidth() * 2) + (C.ActionBars.ButtonSpacing * 3))
 end
 
 function ActionBars:HideTopButtons()
+	local MainBar = T.Panels["ActionBar1"]
 	local Bar2 = T.Panels["ActionBar2"]
 	local Bar3 = T.Panels["ActionBar3"]
+	local R, G, B = unpack(C["General"].BorderColor)
 
 	for i = 7, 12 do
 		Bar2["Button"..i]:Hide()
 		Bar3["Button"..i]:Hide()
 	end
-
+	
+	MainBar.Backdrop.BorderTop:SetColorTexture(R, G, B, 1) -- Fix a border display bug
+	
 	Bar2:Height((MultiBarBottomLeftButton1:GetWidth() * 1) + (C.ActionBars.ButtonSpacing * 2))
 	Bar3:Height((MultiBarBottomRightButton1:GetWidth() * 1) + (C.ActionBars.ButtonSpacing * 2))
 end
