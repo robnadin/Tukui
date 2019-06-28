@@ -20,11 +20,6 @@ TukuiConfig["enUS"] = {
 			["Desc"] = "Display or hide shadows on certain Tukui frames",
 		},
 
-		["Scaling"] = {
-			["Name"] = "UI Scale",
-			["Desc"] = "Define how big the user interface is displayed",
-		},
-
 		["Themes"] = {
 			["Name"] = "Theme",
 			["Desc"] = "Applying a theme changes user interface look and feel",

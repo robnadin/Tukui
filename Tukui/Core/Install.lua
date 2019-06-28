@@ -75,6 +75,12 @@ function Install:PrintStep(number)
 
 		if (number > self.MaxStepNumber) then
 			TukuiData[GetRealmName()][UnitName("Player")].InstallDone = true
+			
+			local UIScale = min(2, max(0.64, 768 / string.match(T.Resolution, "%d+x(%d+)")))
+			
+			SetCVar("useUiScale", 1)
+			SetCVar("uiScale", UIScale)
+			
 			ReloadUI()
 		end
 

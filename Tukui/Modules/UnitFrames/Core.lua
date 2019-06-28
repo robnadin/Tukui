@@ -673,8 +673,8 @@ function TukuiUnitFrames:GetPartyFramesAttributes()
 			self:SetWidth(header:GetAttribute("initial-width"))
 			self:SetHeight(header:GetAttribute("initial-height"))
 		]],
-		"initial-width", T.Scale(180),
-		"initial-height", T.Scale(24),
+		"initial-width", 180,
+		"initial-height", 24,
 		"showSolo", false,
 		"showParty", true,
 		"showPlayer", C["Party"].ShowPlayer,
@@ -682,7 +682,7 @@ function TukuiUnitFrames:GetPartyFramesAttributes()
 		"groupFilter", "1,2,3,4,5,6,7,8",
 		"groupingOrder", "1,2,3,4,5,6,7,8",
 		"groupBy", "GROUP",
-		"yOffset", T.Scale(-50)
+		"yOffset", -50
 end
 
 function TukuiUnitFrames:GetRaidFramesAttributes()
@@ -697,21 +697,21 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
 			self:SetWidth(header:GetAttribute("initial-width"))
 			self:SetHeight(header:GetAttribute("initial-height"))
 		]],
-		"initial-width", T.Scale(66),
-		"initial-height", T.Scale(50),
+		"initial-width", 66,
+		"initial-height", 50,
 		"showParty", true,
 		"showRaid", true,
 		"showPlayer", true,
 		"showSolo", false,
-		"xoffset", T.Scale(4),
-		"yOffset", T.Scale(-4),
+		"xoffset", 4,
+		"yOffset", -4,
 		"point", "TOP",
 		"groupFilter", "1,2,3,4,5,6,7,8",
 		"groupingOrder", "1,2,3,4,5,6,7,8",
 		"groupBy", C["Raid"].GroupBy.Value,
 		"maxColumns", math.ceil(40 / 5),
 		"unitsPerColumn", C["Raid"].MaxUnitPerColumn,
-		"columnSpacing", T.Scale(4),
+		"columnSpacing", 4,
 		"columnAnchorPoint", "LEFT"
 end
 
@@ -912,7 +912,7 @@ end
 function TukuiUnitFrames:Enable()
 	self.Backdrop = {
 		bgFile = C.Medias.Blank,
-		insets = {top = -T.Mult, left = -T.Mult, bottom = -T.Mult, right = -T.Mult},
+		insets = {top = -1, left = -1, bottom = -1, right = -1},
 	}
 
 	oUF:RegisterStyle("Tukui", TukuiUnitFrames.Style)

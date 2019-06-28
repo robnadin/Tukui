@@ -20,8 +20,8 @@ function TukuiUnitFrames:Party()
 	-- We need a shadow for highlighting target
 	if C.General.HideShadows then
 		self.Shadow:SetBackdrop( {
-			edgeFile = C.Medias.Glow, edgeSize = T.Scale(4),
-			insets = {left = T.Scale(4), right = T.Scale(4), top = T.Scale(4), bottom = T.Scale(4)},
+			edgeFile = C.Medias.Glow, edgeSize = 4,
+			insets = {left = 4, right = 4, top = 4, bottom = 4},
 		})
 		self.Shadow:Hide()
 	end

@@ -12,7 +12,7 @@ function MirrorTimers:Update()
 			local Text = _G[Bar:GetName().."Text"]
 			local Backdrop = {
 				bgFile = C.Medias.Blank,
-				insets = {top = -T.Mult, left = -T.Mult, bottom = -T.Mult, right = -T.Mult},
+				insets = {top = -1, left = -1, bottom = -1, right = -1},
 			}
 
 			Bar:StripTextures()

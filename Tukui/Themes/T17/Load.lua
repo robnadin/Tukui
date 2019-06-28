@@ -141,7 +141,7 @@ function T17:GetTooltipAnchor()
 	local From
 	local Anchor = "ANCHOR_TOP"
 	local X = 0
-	local Y = T.Scale(5)
+	local Y = 5
 
 	if (Position >= 1 and Position <= 3) then
 		Anchor = "ANCHOR_TOPLEFT"
@@ -151,7 +151,7 @@ function T17:GetTooltipAnchor()
 		From = T.Panels.DataTextRight
 	elseif (Position == 7 and MapDT) then
 		Anchor = "ANCHOR_BOTTOMLEFT"
-		Y = T.Scale(-5)
+		Y = -5
 		From = MapDT
 	end
 

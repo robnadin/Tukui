@@ -2,7 +2,6 @@
 	<Script file="Media.lua"/>
 	<Script file="API.lua"/>
 	<Script file="Popup.lua"/>
-	<Script file="Graphic.lua"/>
 	<Script file="Core.lua"/>
 	<Script file="Commands.lua"/>
 	<Script file="Animation.lua"/>

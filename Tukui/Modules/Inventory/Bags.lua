@@ -91,7 +91,7 @@ function Bags:SkinBagButton()
 
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
-	self:SetBackdrop({ edgeFile = C.Medias.Blank, edgeSize = T.Mult })
+	self:SetBackdrop({ edgeFile = C.Medias.Blank, edgeSize = 1 })
 	self:SetBackdropBorderColor(unpack(C.General.BorderColor))
 	self:StyleButton()
 	self.IconOverlay:SetAlpha(0)

@@ -9,18 +9,6 @@ C["General"] = {
 	["BorderColor"] = {0, 0, 0},
 	["HideShadows"] = false,
 	["AFKSaver"] = true,
-	["Scaling"] = {
-		["Options"] = {
-			["Pixel Perfection"] = "Pixel Perfection",
-			["Smallest"] = "Smallest",
-			["Small"] = "Small",
-			["Medium"] = "Medium",
-			["Large"] = "Large",
-			["Oversize"] = "Oversize",
-		},
-
-		["Value"] = "Pixel Perfection",
-	},
 	["Themes"] = {
 		["Options"] = {
 			["Tukui"] = "Tukui",
