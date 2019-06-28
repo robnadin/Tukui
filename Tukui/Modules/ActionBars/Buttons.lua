@@ -96,7 +96,9 @@ function ActionBars:ShowTopButtons(bar)
 		Button:Show()
 	end
 	
-	MainBar.Backdrop.BorderTop:SetColorTexture(0, 0, 0, 0) -- Fix a border display bug
+	if MainBar.Backdrop.BorderTop then
+		MainBar.Backdrop.BorderTop:SetColorTexture(0, 0, 0, 0) -- Fix a border display bug
+	end
 	
 	bar:Height((MultiBarBottomLeftButton1:GetWidth() * 2) + (C.ActionBars.ButtonSpacing * 3))
 end
@@ -112,7 +114,9 @@ function ActionBars:HideTopButtons()
 		Bar3["Button"..i]:Hide()
 	end
 	
-	MainBar.Backdrop.BorderTop:SetColorTexture(R, G, B, 1) -- Fix a border display bug
+	if MainBar.Backdrop.BorderTop then
+		MainBar.Backdrop.BorderTop:SetColorTexture(R, G, B, 1) -- Fix a border display bug
+	end
 	
 	Bar2:Height((MultiBarBottomLeftButton1:GetWidth() * 1) + (C.ActionBars.ButtonSpacing * 2))
 	Bar3:Height((MultiBarBottomRightButton1:GetWidth() * 1) + (C.ActionBars.ButtonSpacing * 2))
