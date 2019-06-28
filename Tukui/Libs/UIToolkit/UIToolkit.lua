@@ -1,5 +1,13 @@
 --[[
 
+BUGS TO FIXES:
+Changing UIScale break borders, need 2X ReloadUI() when changing UIScale else UI look like crap.
+
+]]
+
+
+--[[
+
 Since WotLK, lots of peoples were using our API in multiples new UI.
 However, lots of peoples edited it, and now there is too many deviated API.
 This make addons/plugins authors a hard time to make their stuff compatibles
