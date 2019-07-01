@@ -276,7 +276,7 @@ function TukuiUnitFrames:Player()
 		ComboPoints:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 1)
 		ComboPoints:SetBackdrop(TukuiUnitFrames.Backdrop)
 		ComboPoints:SetBackdropColor(0, 0, 0)
-		ComboPoints:SetBorderColor(unpack(C["General"].BorderColor))
+		ComboPoints:SetBackdropBorderColor(unpack(C["General"].BorderColor))
 
 		for i = 1, 5 do
 			ComboPoints[i] = CreateFrame("StatusBar", nil, ComboPoints)
