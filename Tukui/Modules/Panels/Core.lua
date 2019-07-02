@@ -32,14 +32,14 @@ function Panels:Enable()
 	DataTextLeft:SetPoint("LEFT", BottomLine, 4, -1)
 	DataTextLeft:SetTemplate()
 	DataTextLeft:SetFrameStrata("BACKGROUND")
-	DataTextLeft:SetFrameLevel(1)
+	DataTextLeft:SetFrameLevel(2)
 
 	local DataTextRight = CreateFrame("Frame", "TukuiRightDataTextBox", UIParent)
 	DataTextRight:Size(370, 23)
 	DataTextRight:SetPoint("RIGHT", BottomLine, -4, -1)
 	DataTextRight:SetTemplate()
 	DataTextRight:SetFrameStrata("BACKGROUND")
-	DataTextRight:SetFrameLevel(1)
+	DataTextRight:SetFrameLevel(2)
 
 	BottomLine:SetAlpha(0)
 

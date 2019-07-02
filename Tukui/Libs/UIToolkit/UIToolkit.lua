@@ -56,8 +56,9 @@ Toolkit.UIScales = {
 
 -- Toolkit Default Parameters
 Toolkit.Settings.UIScale = Toolkit.UIScales["Pixel Perfection"]
-Toolkit.Settings.DefaultTexture = "Interface\\Buttons\\WHITE8x8"
-Toolkit.Settings.ShadowGlowTexture = ""
+Toolkit.Settings.NormalTexture = "Interface\\Buttons\\WHITE8x8"
+Toolkit.Settings.GlowTexture = ""
+Toolkit.Settings.ShadowTexture = ""
 Toolkit.Settings.DefaultFont = "STANDARD_TEXT_FONT"
 Toolkit.Settings.BackdropColor = { .1,.1,.1 }
 Toolkit.Settings.BorderColor = { 0, 0, 0 }
@@ -183,7 +184,7 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 	local BorderR, BorderG, BorderB = unpack(Toolkit.Settings.BorderColor)
 	local BackdropR, BackdropG, BackdropB = unpack(Toolkit.Settings.BackdropColor)
 	
-	self:SetBackdrop({bgFile = BackgroundTexture or Toolkit.Settings.DefaultTexture})
+	self:SetBackdrop({bgFile = BackgroundTexture or Toolkit.Settings.NormalTexture})
 	self:SetBackdropColor(BackdropR, BackdropG, BackdropB, BackgroundAlpha)
 
 	self.FrameRaised = CreateFrame("Frame", nil, self)
@@ -321,7 +322,7 @@ Toolkit.API.CreateShadow = function(self, ShadowScale)
 	local Scale = ShadowScale or 1
 	local Shadow = CreateFrame("Frame", nil, self)
 
-	Shadow:SetBackdrop({edgeFile = Toolkit.Settings.ShadowGlowTexture, edgeSize = Toolkit.Functions.Scale(4)})
+	Shadow:SetBackdrop({edgeFile = Toolkit.Settings.ShadowTexture, edgeSize = Toolkit.Functions.Scale(4)})
 	Shadow:SetFrameStrata("BACKGROUND")
 	Shadow:SetFrameLevel(Level)
 	Shadow:SetOutside(self, 4, 4)
@@ -342,7 +343,7 @@ Toolkit.API.CreateGlow = function(self, Scale, EdgeSize, R, G, B, Alpha)
 	Glow:SetFrameStrata("BACKGROUND")
 	Glow:SetFrameLevel(Level)
 	Glow:SetOutside(self, 4, 4)
-	Glow:SetBackdrop({edgeFile = Toolkit.Settings.ShadowGlowTexture, edgeSize = Toolkit.Functions.Scale(EdgeSize)})
+	Glow:SetBackdrop({edgeFile = Toolkit.Settings.GlowTexture, edgeSize = Toolkit.Functions.Scale(EdgeSize)})
 	Glow:SetScale(Toolkit.Functions.Scale(Scale))
 	Glow:SetBackdropBorderColor(R, G, B, Alpha)
 
@@ -692,6 +693,12 @@ Toolkit.Functions.AddHooks = function(self)
 
 end
 
+Toolkit.Functions.OnEvent = function(self, event, ...)
+	-- Make sure we use our toolkit uiscale before loading everything else
+	SetCVar("uiScale", Toolkit.Settings.UIScale)
+	SetCVar("useUiScale", 1)
+end
+
 Toolkit.Functions.HideBlizzard = function(self)
 	Advanced_UseUIScale:Hide()
 	Advanced_UIScaleSlider:Hide()
@@ -729,6 +736,9 @@ Toolkit.Enable = function(self)
 	AddHooks(self)
 	HideBlizzard()
 end
+
+Toolkit:RegisterEvent("PLAYER_LOGIN")
+Toolkit:SetScript("OnEvent", Toolkit.Functions.OnEvent)
 
 ---------------------------------------------------
 -- Rewrite WoW Globals Functions

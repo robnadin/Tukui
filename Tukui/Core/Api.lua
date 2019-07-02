@@ -15,18 +15,13 @@ end
 
 -- Settings we want to use for our API
 Settings.UIScale = C.General.Scaling.Value
-Settings.DefaultTexture = C.Medias.Blank
+Settings.NormalTexture = C.Medias.Blank
+Settings.ShadowTexture = C.Medias.Glow
 Settings.DefaultFont = C.Medias.Font
 Settings.BackdropColor = { .1,.1,.1 }
 Settings.BorderColor = { 0, 0, 0 }
 Settings.ArrowUp = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]]
 Settings.ArrowDown = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]
-
-if C.General.HideShadows then
-	Settings.ShadowGlowTexture = ""
-else
-	Settings.ShadowGlowTexture = C.Medias.Glow
-end
 
 -- Enable the API
 Toolkit:Enable()

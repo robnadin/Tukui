@@ -296,6 +296,10 @@ function TukuiActionBars:AddHooks()
 end
 
 function TukuiActionBars:Enable()
+	if not C.ActionBars.Enable then
+		return
+	end
+	
 	self:DisableBlizzard()
 	self:AddPanels()
 	self:CreateBar1()

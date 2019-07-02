@@ -3,6 +3,10 @@ local T, C, L = select(2, ...):unpack()
 local TukuiAuras = CreateFrame("Frame")
 
 function TukuiAuras:Enable()
+	if not C.Auras.Enable then
+		return
+	end
+	
 	self:DisableBlizzardAuras()
 	self:CreateHeaders()
 

@@ -1,7 +1,6 @@
 local T, C, L = select(2, ...):unpack()
 
 local Loading = CreateFrame("Frame")
-local Toolkit = UIToolkit
 
 function Loading:LoadCustomSettings()
 	local Settings
@@ -40,52 +39,36 @@ function Loading:LoadCustomSettings()
 	end
 end
 
-function Loading:OnEvent(event, addon)
+function Loading:Enable()
+	local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
+	local Toolkit = UIToolkit
+
+	if IsConfigLoaded then
+		self:LoadCustomSettings()
+
+		Toolkit.Settings.UIScale = C.General.Scaling.Value
+
+		SetCVar("uiScale", C.General.Scaling.Value)
+		SetCVar("useUiScale", 1)
+	end
+
+	if C.General.HideShadows then
+		Toolkit.Settings.ShadowTexture = ""
+	end
+end
+
+function Loading:OnEvent(event)
 	if (event == "PLAYER_LOGIN") then
-		-- LOAD SETTINGS
-			self:LoadCustomSettings()
-		
-		-- MAKE SURE UI USE PROPER UIScale
-			Toolkit.Settings.UIScale = C.General.Scaling.Value
-			SetCVar("uiScale", C.General.Scaling.Value)
-			SetCVar("useUiScale", 1)
-
-		-- PANELS
+			T["Loading"]:Enable()
 			T["Panels"]:Enable()
-
-		-- INVENTORY
-			-- Bags
-			if (C.Bags.Enable) then
-				T["Inventory"]["Bags"]:Enable()
-			end
-
-			-- Loot Frame
+			T["Inventory"]["Bags"]:Enable()
 			T["Inventory"]["Loot"]:Enable()
-
-			-- Merchant
 			T["Inventory"]["Merchant"]:Enable()
-
-		-- ACTION BARS
-			if (C.ActionBars.Enable) then
-				T["ActionBars"]:Enable()
-			end
-
-		-- COOLDOWNS
+			T["ActionBars"]:Enable()
 			T["Cooldowns"]:Enable()
-
-		-- MISCELLANEOUS
-			if C["Misc"].ExperienceEnable then
-				T["Miscellaneous"]["Experience"]:Enable()
-			end
-
-			if C["Misc"].ReputationEnable then
-				T["Miscellaneous"]["Reputation"]:Enable()
-			end
-
-			if C["Misc"].ErrorFilterEnable then
-				T["Miscellaneous"]["ErrorFilter"]:Enable()
-			end
-
+			T["Miscellaneous"]["Experience"]:Enable()
+			T["Miscellaneous"]["Reputation"]:Enable()
+			T["Miscellaneous"]["ErrorFilter"]:Enable()
 			T["Miscellaneous"]["MirrorTimers"]:Enable()
 			T["Miscellaneous"]["DropDown"]:Enable()
 			T["Miscellaneous"]["CollectGarbage"]:Enable()
@@ -95,37 +78,17 @@ function Loading:OnEvent(event, addon)
 			--T["Miscellaneous"]["UIWidgets"]:Enable()
 			T["Miscellaneous"]["AFK"]:Enable()
 			T["Miscellaneous"]["MicroMenu"]:Enable()
-
-		-- BUFFS
-			if (C.Auras.Enable) then
-				T["Auras"]:Enable()
-			end
-
-		-- Maps
+			T["Auras"]:Enable()
 			T["Maps"]["Minimap"]:Enable()
 			--T["Maps"]["Zonemap"]:Enable()
 			T["Maps"]["Worldmap"]:Enable()
-
-		-- DATATEXTS
 			T["DataTexts"]:Enable()
-
-		-- CHAT
 			T["Chat"]:Enable()
-
-		-- UNITFRAMES
 			T["UnitFrames"]:Enable()
-
-		-- TOOLTIPS
 			T["Tooltips"]:Enable()
 
-		-- Because peoples seem to not know about this?
 			print(T.WelcomeMessage)
-
-		-- Taint Fix
-		--ShowUIPanel(SpellBookFrame)
-		--HideUIPanel(SpellBookFrame)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
-		-- OBJECTIVE TRACKER
 			T["Miscellaneous"]["ObjectiveTracker"]:Enable()
 	end
 end
