@@ -91,8 +91,7 @@ function Bags:SkinBagButton()
 
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
-	self:SetBackdrop({ edgeFile = C.Medias.Blank, edgeSize = 1 })
-	self:SetBackdropBorderColor(unpack(C.General.BorderColor))
+	self:SetTemplate()
 	self:StyleButton()
 	self.IconOverlay:SetAlpha(0)
 
@@ -349,17 +348,10 @@ function Bags:SlotUpdate(id, button)
 		IconQuestTexture:SetAlpha(0)
 	end
 
-	-- Letting you style this
-	if IsProfBag then
-
-	else
-		--button:SetBackdropColor(unpack(C["General"].BackdropColor))
-	end
-
 	if Rarity and Rarity > 1 then
-		button:SetBackdropBorderColor(GetItemQualityColor(Rarity))
+		button:SetBorderColor(GetItemQualityColor(Rarity))
 	else
-		button:SetBackdropBorderColor(unpack(C["General"].BorderColor))
+		button:SetBorderColor(unpack(C["General"].BorderColor))
 	end
 end
 
