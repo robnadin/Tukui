@@ -13,6 +13,7 @@ function TukuiConfig:SetOption(group, option, value)
 	local C
 	local Realm = GetRealmName()
 	local Name = UnitName("Player")
+	local Toolkit = UIToolkit
 
 	if (TukuiConfigPerAccount) then
 		C = TukuiConfigShared.Account
@@ -23,9 +24,16 @@ function TukuiConfig:SetOption(group, option, value)
 	if (not C[group]) then
 		C[group] = {}
 	end
-
+	
 	C[group][option] = value -- Save our setting
 
+	-- Need to update Toolkit UIScale
+	if (group == "General" and option == "Scaling") then
+		Toolkit.Settings.UIScale = C.General.Scaling.Value
+		
+		ReloadUI()
+	end
+	
 	if (not self.Functions[group]) then
 		return
 	end

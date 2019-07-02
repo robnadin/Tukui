@@ -9,6 +9,11 @@ C["General"] = {
 	["BorderColor"] = {0, 0, 0},
 	["HideShadows"] = false,
 	["AFKSaver"] = true,
+	["Scaling"] = {
+		["Options"] = {},
+		["Value"] = 0.71,
+	},
+
 	["Themes"] = {
 		["Options"] = {
 			["Tukui"] = "Tukui",

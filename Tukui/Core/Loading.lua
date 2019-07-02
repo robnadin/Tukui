@@ -1,6 +1,7 @@
 local T, C, L = select(2, ...):unpack()
 
 local Loading = CreateFrame("Frame")
+local Toolkit = UIToolkit
 
 function Loading:LoadCustomSettings()
 	local Settings
@@ -43,6 +44,11 @@ function Loading:OnEvent(event, addon)
 	if (event == "PLAYER_LOGIN") then
 		-- LOAD SETTINGS
 			self:LoadCustomSettings()
+		
+		-- MAKE SURE UI USE PROPER UIScale
+			Toolkit.Settings.UIScale = C.General.Scaling.Value
+			SetCVar("uiScale", C.General.Scaling.Value)
+			SetCVar("useUiScale", 1)
 
 		-- PANELS
 			T["Panels"]:Enable()
