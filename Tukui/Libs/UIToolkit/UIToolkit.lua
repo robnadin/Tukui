@@ -26,9 +26,9 @@ local CreateFrame = CreateFrame
 local CreateTexture = CreateTexture
 local UIFrameFadeOut = UIFrameFadeOut
 local UIFrameFadeIn = UIFrameFadeIn
-local SystemApply = VideoOptionsFrameApply
-local SystemOkay = VideoOptionsFrameApply
-local SystemUseScale = Advanced_UseUIScale
+local Advanced_UseUIScale = Advanced_UseUIScale
+local Advanced_UIScaleSlider = Advanced_UIScaleSlider
+local Reload = C_UI.Reload
 
 -- Locals
 local Resolution = GetCVar("gxWindowedResolution")
@@ -42,8 +42,20 @@ Toolkit.Settings = {}
 Toolkit.API = {}
 Toolkit.Functions = {}
 Toolkit.Frames = {}
+Toolkit.UIScales = {
+	["Pixel Perfection"] = min(1, max(0.65, 768 / string.match(Resolution, "%d+x(%d+)"))),
+	["65%"] = 0.65,
+	["70%"] = 0.70,
+	["75%"] = 0.75,
+	["80%"] = 0.80,
+	["85%"] = 0.85,
+	["90%"] = 0.90,
+	["95%"] = 0.95,
+	["100%"] = 1,
+}
 
--- Toolkit Parameters
+-- Toolkit Default Parameters
+Toolkit.Settings.UIScale = Toolkit.UIScales["Pixel Perfection"]
 Toolkit.Settings.DefaultTexture = "Interface\\Buttons\\WHITE8x8"
 Toolkit.Settings.ShadowGlowTexture = ""
 Toolkit.Settings.DefaultFont = "STANDARD_TEXT_FONT"
@@ -677,10 +689,12 @@ Toolkit.Functions.AddFrames = function(self)
 end
 
 Toolkit.Functions.AddHooks = function(self)
-	-- We need to ReloadUI() if a Blizzard system option is change to be sure UI look perfect.
-	SystemApply:HookScript("OnClick", ReloadUI)
-	SystemOkay:HookScript("OnClick", ReloadUI)
-	SystemUseScale:HookScript("OnClick", ReloadUI)
+
+end
+
+Toolkit.Functions.HideBlizzard = function(self)
+	Advanced_UseUIScale:Hide()
+	Advanced_UIScaleSlider:Hide()
 end
 
 ---------------------------------------------------
@@ -693,6 +707,7 @@ Toolkit.Enable = function(self)
 	local AddAPI = self.Functions.AddAPI
 	local AddFrames = self.Functions.AddFrames
 	local AddHooks = self.Functions.AddHooks
+	local HideBlizzard = self.Functions.HideBlizzard
 
 	AddAPI(Object)
 	AddAPI(Object:CreateTexture())
@@ -712,4 +727,20 @@ Toolkit.Enable = function(self)
 	
 	AddFrames(self)
 	AddHooks(self)
+	HideBlizzard()
+end
+
+---------------------------------------------------
+-- Rewrite WoW Globals Functions
+---------------------------------------------------
+
+C_UI.Reload = function()
+	-- We always need to set an UIScale before reloading
+	local Scale = Toolkit.Settings.UIScale
+
+	SetCVar("useUiScale", 1)
+	SetCVar("uiScale", Scale)
+	
+	-- Reload now
+	Reload()
 end
