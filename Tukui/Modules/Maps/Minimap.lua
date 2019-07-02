@@ -103,7 +103,7 @@ function Minimap:PositionMinimap()
 	local Movers = T["Movers"]
 
 	self:SetParent(UIParent)
-	self:Point("TOPRIGHT", UIParent, "TOPRIGHT", -30, -30)
+	self:Point("TOPRIGHT", UIParent, "TOPRIGHT", -28, -28)
 	self:SetMovable(true)
 
 	Movers:RegisterFrame(self)
