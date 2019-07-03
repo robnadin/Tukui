@@ -697,8 +697,6 @@ Toolkit.Functions.OnEvent = function(self, event, ...)
 		-- Make sure we use our toolkit uiscale before loading everything else
 		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)
-	elseif event == "DISPLAY_SIZE_CHANGED" then
-		--print"Game resolution was changed, please reload your UI"
 	end
 end
 
@@ -741,7 +739,6 @@ Toolkit.Enable = function(self)
 end
 
 Toolkit:RegisterEvent("PLAYER_LOGIN")
-Toolkit:RegisterEvent("DISPLAY_SIZE_CHANGED")
 Toolkit:SetScript("OnEvent", Toolkit.Functions.OnEvent)
 
 ---------------------------------------------------
