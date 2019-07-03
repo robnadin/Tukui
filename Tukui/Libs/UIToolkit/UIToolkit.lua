@@ -664,7 +664,7 @@ end
 Toolkit.Functions.IsValidScale = function(self)
 	if (type(self) ~= "number") then
 		return false
-	elseif (self <= 1 and self >= 0.64) then
+	elseif (self <= 1.15 and self >= 0.64) then
 		return true
 	else
 		return false
