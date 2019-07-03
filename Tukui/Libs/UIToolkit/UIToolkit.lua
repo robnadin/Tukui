@@ -698,7 +698,7 @@ Toolkit.Functions.OnEvent = function(self, event, ...)
 		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)
 	elseif event == "DISPLAY_SIZE_CHANGED" then
-		print"Game resolution was changed, please reload your UI"
+		--print"Game resolution was changed, please reload your UI"
 	end
 end
 
