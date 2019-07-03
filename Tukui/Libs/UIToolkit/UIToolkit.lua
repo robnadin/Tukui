@@ -54,7 +54,7 @@ Toolkit.UIScales = {
 }
 
 -- Toolkit Default Parameters
-Toolkit.Settings.UIScale = Toolkit.UIScales["70%"]
+Toolkit.Settings.UIScale = Toolkit.UIScales["75%"]
 Toolkit.Settings.NormalTexture = "Interface\\Buttons\\WHITE8x8"
 Toolkit.Settings.GlowTexture = ""
 Toolkit.Settings.ShadowTexture = ""

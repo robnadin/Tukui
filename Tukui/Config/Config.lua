@@ -11,7 +11,7 @@ C["General"] = {
 	["AFKSaver"] = true,
 	["Scaling"] = {
 		["Options"] = {},
-		["Value"] = 0.71,
+		["Value"] = 0.75,
 	},
 
 	["Themes"] = {
