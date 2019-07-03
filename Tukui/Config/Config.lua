@@ -9,10 +9,7 @@ C["General"] = {
 	["BorderColor"] = {0, 0, 0},
 	["HideShadows"] = false,
 	["AFKSaver"] = true,
-	["Scaling"] = {
-		["Options"] = {},
-		["Value"] = 0.75,
-	},
+	["UIScale"] = 0.75,
 
 	["Themes"] = {
 		["Options"] = {

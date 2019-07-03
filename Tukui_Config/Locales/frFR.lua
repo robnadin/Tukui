@@ -27,6 +27,11 @@ TukuiConfig["frFR"] = {
 			["Desc"] = "Afficher ou masquer les ombres sur certains cadres de Tukui",
 		},
 
+		["UIScale"] = {
+			["Name"] = "Échelle de l'interface",
+			["Desc"] = "Agrandie ou diminue la grosseur de l'interface",
+		},
+
 		["Themes"] = {
 			["Name"] = "Thème",
 			["Desc"] = "L'application d'un thème modifie l'interface",

@@ -7,14 +7,8 @@ local Scales = Toolkit.UIScales
 local Frames = Toolkit.Frames
 local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
 
-if IsConfigLoaded then
-	-- Update Scaling Options from Toolkit Default
-	C.General.Scaling.Options = Scales
-	C.General.Scaling.Value = Scales["75%"]
-end
-
 -- Settings we want to use for our API
-Settings.UIScale = C.General.Scaling.Value
+Settings.UIScale = C.General.UIScale
 Settings.NormalTexture = C.Medias.Blank
 Settings.ShadowTexture = C.Medias.Glow
 Settings.DefaultFont = C.Medias.Font

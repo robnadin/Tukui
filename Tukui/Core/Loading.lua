@@ -46,7 +46,7 @@ function Loading:Enable()
 	if IsConfigLoaded then
 		self:LoadCustomSettings()
 
-		Toolkit.Settings.UIScale = C.General.Scaling.Value
+		Toolkit.Settings.UIScale = C.General.UIScale
 
 		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)

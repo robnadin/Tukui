@@ -42,19 +42,9 @@ Toolkit.Settings = {}
 Toolkit.API = {}
 Toolkit.Functions = {}
 Toolkit.Frames = {}
-Toolkit.UIScales = {
-	["65%"] = 0.65,
-	["70%"] = 0.70,
-	["75%"] = 0.75,
-	["80%"] = 0.80,
-	["85%"] = 0.85,
-	["90%"] = 0.90,
-	["95%"] = 0.95,
-	["100%"] = 1,
-}
 
 -- Toolkit Default Parameters
-Toolkit.Settings.UIScale = Toolkit.UIScales["75%"]
+Toolkit.Settings.UIScale = 0.75
 Toolkit.Settings.NormalTexture = "Interface\\Buttons\\WHITE8x8"
 Toolkit.Settings.GlowTexture = ""
 Toolkit.Settings.ShadowTexture = ""
