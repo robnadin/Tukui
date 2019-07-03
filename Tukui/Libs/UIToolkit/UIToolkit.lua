@@ -632,9 +632,6 @@ Toolkit.API.SkinScrollBar = function(self)
 		end
 
 		if self:GetThumbTexture() then
-			--[[if not thumbTrim then -- This is a global lookup
-				thumbTrim = 3
-			end]]
 			local thumbTrim = 3
 
 			self:GetThumbTexture():SetTexture(nil)
@@ -664,6 +661,16 @@ Toolkit.Functions.Scale = function(size)
 	return Value
 end
 
+Toolkit.Functions.IsValidScale = function(self)
+	if (type(self) ~= "number") then
+		return false
+	elseif (self <= 1 and self >= 0.64) then
+		return true
+	else
+		return false
+	end
+end
+
 Toolkit.Functions.AddAPI = function(object)
 	local mt = getmetatable(object).__index
 
@@ -684,7 +691,9 @@ end
 
 Toolkit.Functions.OnEvent = function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
-		-- Make sure we use our toolkit uiscale before loading everything else
+		local Value = Toolkit.Settings.UIScale
+		local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
+
 		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)
 	end
@@ -736,8 +745,8 @@ Toolkit:SetScript("OnEvent", Toolkit.Functions.OnEvent)
 ---------------------------------------------------
 
 C_UI.Reload = function()
-	-- We always need to set an UIScale before reloading
-	local Scale = Toolkit.Settings.UIScale
+	local Value = Toolkit.Settings.UIScale
+	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
 
 	SetCVar("useUiScale", 1)
 	SetCVar("uiScale", Scale)
