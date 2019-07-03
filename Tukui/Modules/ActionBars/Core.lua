@@ -287,12 +287,22 @@ function TukuiActionBars:UpdateStanceBar(...)
 	end
 end
 
+function TukuiActionBars:UpdateActionBarsScale()
+	-- Sometime Blizz rescale right screen bars, we don't want that
+	local LeftBar = MultiBarLeft
+	local RightBar = MultiBarRight
+	
+	LeftBar:SetScale(1)
+	RightBar:SetScale(1)
+end
+
 function TukuiActionBars:AddHooks()
 	hooksecurefunc("ActionButton_Update", self.SkinButton)
 	hooksecurefunc("ActionButton_UpdateFlyout", self.StyleFlyout)
 	hooksecurefunc("SpellButton_OnClick", self.StyleFlyout)
 	hooksecurefunc("ActionButton_UpdateHotkeys", self.UpdateHotKey)
 	hooksecurefunc("PetActionButton_SetHotkeys", self.UpdateHotKey)
+	hooksecurefunc("MultiActionBar_Update", self.UpdateActionBarsScale)
 end
 
 function TukuiActionBars:Enable()
