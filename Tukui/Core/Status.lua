@@ -43,7 +43,7 @@ function Status:ShowWindow()
 	self.Addons:SetText("Other AddOns Enabled: "..self.Addons.Value)
 
 	self.UIScale = self:CreateFontString(nil, "OVERLAY")
-	self.UIScale.Value = C.General.Scaling.Value.." ("..T.UIScale..")"
+	self.UIScale.Value = C.General.UIScale
 	self.UIScale:SetFont(C.Medias.Font, 12, "THINOUTLINE")
 	self.UIScale:SetPoint("TOP", self.Addons, 0, -20)
 	self.UIScale:SetText("Scaling: "..self.UIScale.Value)
@@ -90,16 +90,10 @@ function Status:ShowWindow()
 	self.Class:SetPoint("TOP", self.Race, 0, -20)
 	self.Class:SetText("Class: "..self.Class.Value)
 
-	self.Spec = self:CreateFontString(nil, "OVERLAY")
-	self.Spec.Value = select(2, GetSpecializationInfo(GetSpecialization()))
-	self.Spec:SetFont(C.Medias.Font, 12, "THINOUTLINE")
-	self.Spec:SetPoint("TOP", self.Class, 0, -20)
-	self.Spec:SetText("Specialization: "..self.Spec.Value)
-
 	self.Level = self:CreateFontString(nil, "OVERLAY")
 	self.Level.Value = UnitLevel("player")
 	self.Level:SetFont(C.Medias.Font, 12, "THINOUTLINE")
-	self.Level:SetPoint("TOP", self.Spec, 0, -20)
+	self.Level:SetPoint("TOP", self.Class, 0, -20)
 	self.Level:SetText("Level: "..self.Level.Value)
 
 	self.Zone = self:CreateFontString(nil, "OVERLAY")
