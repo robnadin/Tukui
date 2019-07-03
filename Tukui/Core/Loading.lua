@@ -48,7 +48,7 @@ function Loading:Enable()
 
 		Toolkit.Settings.UIScale = C.General.Scaling.Value
 
-		SetCVar("uiScale", C.General.Scaling.Value)
+		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)
 	end
 

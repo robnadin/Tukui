@@ -43,7 +43,6 @@ Toolkit.API = {}
 Toolkit.Functions = {}
 Toolkit.Frames = {}
 Toolkit.UIScales = {
-	["Pixel Perfection"] = min(1, max(0.65, 768 / string.match(Resolution, "%d+x(%d+)"))),
 	["65%"] = 0.65,
 	["70%"] = 0.70,
 	["75%"] = 0.75,
@@ -55,7 +54,7 @@ Toolkit.UIScales = {
 }
 
 -- Toolkit Default Parameters
-Toolkit.Settings.UIScale = Toolkit.UIScales["Pixel Perfection"]
+Toolkit.Settings.UIScale = Toolkit.UIScales["70%"]
 Toolkit.Settings.NormalTexture = "Interface\\Buttons\\WHITE8x8"
 Toolkit.Settings.GlowTexture = ""
 Toolkit.Settings.ShadowTexture = ""

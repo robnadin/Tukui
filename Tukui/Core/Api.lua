@@ -10,7 +10,7 @@ local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
 if IsConfigLoaded then
 	-- Update Scaling Options from Toolkit Default
 	C.General.Scaling.Options = Scales
-	C.General.Scaling.Value = Scales["Pixel Perfection"]
+	C.General.Scaling.Value = Scales["70%"]
 end
 
 -- Settings we want to use for our API
