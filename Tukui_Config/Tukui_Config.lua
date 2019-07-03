@@ -20,19 +20,16 @@ function TukuiConfig:SetOption(group, option, value)
 	else
 		C = TukuiConfigShared[Realm][Name]
 	end
-
+	
 	if (not C[group]) then
 		C[group] = {}
 	end
 	
-	C[group][option] = value -- Save our setting
-
-	-- Need to update Toolkit UIScale
-	if (group == "General" and option == "Scaling") then
-		Toolkit.Settings.UIScale = C.General.Scaling.Value
-		
-		ReloadUI()
+	if (group == "General" and option == "UIScale") then
+		value = Toolkit.Functions.IsValidScale(value) and value or 0.75
 	end
+	
+	C[group][option] = value -- Save our setting
 	
 	if (not self.Functions[group]) then
 		return
