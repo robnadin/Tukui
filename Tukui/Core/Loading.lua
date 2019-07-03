@@ -41,7 +41,7 @@ end
 
 function Loading:Enable()
 	local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
-	local Toolkit = UIToolkit
+	local Toolkit = T00LKIT
 
 	if IsConfigLoaded then
 		self:LoadCustomSettings()

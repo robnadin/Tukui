@@ -1,5 +1,5 @@
 local T, C, L = select(2, ...):unpack()
-local Toolkit = UIToolkit
+local Toolkit = T00LKIT
 local Settings = Toolkit.Settings
 local API = Toolkit.API
 local Functions = Toolkit.Functions

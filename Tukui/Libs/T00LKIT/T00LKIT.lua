@@ -8,7 +8,7 @@ with every UIs when they want to use this API.
 Starting with WoW Classic and WoW 9.0, Tukui staff will make an API toolkit for
 everyone. Every developers who use our API is invited to participate for their need.
 
-The library will be called UIToolkit (not set in stone for now) and will be available
+The library will be called T00LKIT and will be available
 to download at www.tukui.org/toolkit
 
 --]]
@@ -34,7 +34,7 @@ local Reload = C_UI.Reload
 local Resolution = GetCVar("gxWindowedResolution")
 local Formula = 768 / string.match(Resolution, "%d+x(%d+)")
 local Noop = function() return end
-local Toolkit = CreateFrame("Frame", "UIToolkit", UIParent)
+local Toolkit = CreateFrame("Frame", "T00LKIT", UIParent)
 local Tabs = {"LeftDisabled", "MiddleDisabled", "RightDisabled", "Left", "Middle", "Right"}
 
 -- Tables
