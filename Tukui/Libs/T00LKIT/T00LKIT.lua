@@ -1,17 +1,49 @@
---[[
+--[[--------------------------------------------------------------------------------------
 
-Since WotLK, lots of peoples were using our API in multiples new UI.
-However, lots of peoples edited it, and now there is too many deviated API.
-This make addons/plugins authors a hard time to make their stuff compatibles
-with every UIs when they want to use this API.
+Since WotLK, lots of peoples were using our API in multiples new UI. However, lots of 
+peoples edited it, and there is now too many deviated API. This make addons/plugins
+authors a hard time to make their addons compatible with all existing users interfaces
+because of all of these deviated API.
 
-Starting with WoW Classic and WoW 9.0, Tukui staff will make an API toolkit for
-everyone. Every developers who use our API is invited to participate for their need.
+Starting with WoW Classic and WoW 9.0, Tukui staff will make an API toolkit for everyone. 
+Every developers who use our API is invited to participate for their need.
 
-The library will be called T00LKIT and will be available
-to download at www.tukui.org/toolkit
+The library will be called T00LKIT, available to download at www.tukui.org/toolkit
 
---]]
+Please use our official toolkit instead of copy/pasting/editing your own API. Just copy
+this file inside your addon and load it.
+
+Thank you
+
+--]]--------------------------------------------------------------------------------------
+
+
+--[[--------------------------------------------------------------------------------------
+
+Usage example in Tukui [Tukui\Core\Toolkit.lua]:
+	
+	local T, C, L = select(2, ...):unpack()
+	local Toolkit = T00LKIT
+	local Settings = Toolkit.Settings
+	local API = Toolkit.API
+	local Functions = Toolkit.Functions
+	local Scales = Toolkit.UIScales
+	local Frames = Toolkit.Frames
+
+	-- Settings we want to use for T00LKIT
+	Settings.UIScale = C.General.UIScale
+	Settings.NormalTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\Blank"
+	Settings.ShadowTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\Glow"
+	Settings.DefaultFont = "Interface\\AddOns\\Tukui\\Medias\\Fonts\\normal_font.ttf"
+	Settings.BackdropColor = { .1,.1,.1 }
+	Settings.BorderColor = { 0, 0, 0 }
+	Settings.ArrowUp = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowUp"
+	Settings.ArrowDown = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown"
+
+	-- Enable the API
+	Toolkit:Enable()
+
+--]]--------------------------------------------------------------------------------------
 
 -- Lib Globals
 local _G = _G
