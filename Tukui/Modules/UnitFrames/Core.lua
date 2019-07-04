@@ -451,7 +451,7 @@ function TukuiUnitFrames:PostCreateAura(button)
 	button.Animation.FadeOut:SetFromAlpha(1)
 	button.Animation.FadeOut:SetToAlpha(0)
 	button.Animation.FadeOut:SetDuration(.6)
-	button.Animation.FadeOut:SetEasing("IN_OUT")
+	button.Animation.FadeOut:SetSmoothing("IN_OUT")
 end
 
 function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isDebuff, duration, timeLeft)

@@ -231,7 +231,7 @@ function TukuiAuras:Skin()
 		FadeOut:SetFromAlpha(1)
 		FadeOut:SetToAlpha(0.5)
 		FadeOut:SetDuration(0.6)
-		FadeOut:SetEasing("IN_OUT")
+		FadeOut:SetSmoothing("IN_OUT")
 
 		self.Animation = Animation
 	end
