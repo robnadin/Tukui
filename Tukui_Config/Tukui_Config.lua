@@ -13,7 +13,7 @@ function TukuiConfig:SetOption(group, option, value)
 	local C
 	local Realm = GetRealmName()
 	local Name = UnitName("Player")
-	local Toolkit = UIToolkit
+	local Toolkit = T00LKIT
 
 	if (TukuiConfigPerAccount) then
 		C = TukuiConfigShared.Account
