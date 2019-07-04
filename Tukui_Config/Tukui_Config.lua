@@ -1083,10 +1083,12 @@ function TukuiConfig:CreateConfigWindow()
 		if (not ConfigFrame:IsVisible()) then
 			return
 		end
+			
+		local Parent = self:GetParent()
 
-		self:ClearAllPoints()
-		self:SetPoint("CENTER", CreditFrame)
-		self.Anim:Play()
+		Parent:ClearAllPoints()
+		Parent:SetPoint("CENTER", CreditFrame)
+		Parent.Anim:Play()
 	end)
 
 	Scrollable.Anim:Play()
