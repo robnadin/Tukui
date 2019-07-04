@@ -169,11 +169,11 @@ function Install:Launch()
 
 	self.StatusBar.Anim = CreateAnimationGroup(self.StatusBar):CreateAnimation("Progress")
 	self.StatusBar.Anim:SetDuration(0.3)
-	self.StatusBar.Anim:SetSmoothing("InOut")
+	self.StatusBar.Anim:SetEasing("InOut")
 
 	self.StatusBar.Anim2 = CreateAnimationGroup(self.StatusBar):CreateAnimation("Color")
 	self.StatusBar.Anim2:SetDuration(0.3)
-	self.StatusBar.Anim2:SetSmoothing("InOut")
+	self.StatusBar.Anim2:SetEasing("InOut")
 	self.StatusBar.Anim2:SetColorType("StatusBar")
 
 	self.Logo = self.StatusBar:CreateTexture(nil, "OVERLAY")

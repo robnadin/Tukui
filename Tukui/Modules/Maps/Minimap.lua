@@ -150,7 +150,7 @@ function Minimap:AddZoneAndCoords()
 
 	MinimapZone.Anim = CreateAnimationGroup(MinimapZone):CreateAnimation("Fade")
 	MinimapZone.Anim:SetDuration(0.3)
-	MinimapZone.Anim:SetSmoothing("InOut")
+	MinimapZone.Anim:SetEasing("InOut")
 	MinimapZone.Anim:SetChange(1)
 
 	MinimapCoords:SetTemplate()
@@ -166,7 +166,7 @@ function Minimap:AddZoneAndCoords()
 
 	MinimapCoords.Anim = CreateAnimationGroup(MinimapCoords):CreateAnimation("Fade")
 	MinimapCoords.Anim:SetDuration(0.3)
-	MinimapCoords.Anim:SetSmoothing("InOut")
+	MinimapCoords.Anim:SetEasing("InOut")
 	MinimapCoords.Anim:SetChange(1)
 
 	-- Update zone text
