@@ -4,7 +4,6 @@
 	<Script file="Popup.lua"/>
 	<Script file="Core.lua"/>
 	<Script file="Commands.lua"/>
-	<Script file="Animation.lua"/>
 	<Script file="Colors.lua"/>
 	<Script file="Install.lua"/>
 	<Script file="VersionCheck.lua"/>

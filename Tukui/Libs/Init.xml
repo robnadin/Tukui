@@ -9,4 +9,5 @@
 	<Script file="DropDownMenu\EasyMenu.lua"/>
 	<Script file="DropDownMenu\UIDropDownMenu.lua"/>
 	<Script file="T00LKIT\T00LKIT.lua"/>
+	<Script file="LibAnim\LibAnim.lua"/>
 </Ui>
