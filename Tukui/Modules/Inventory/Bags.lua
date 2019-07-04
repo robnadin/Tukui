@@ -694,8 +694,11 @@ function Bags:Enable()
 		return
 	end
 
-	--SetSortBagsRightToLeft(false)
+	-- SetSortBagsRightToLeft(false)
 	SetInsertItemsLeftToRight(true)
+	
+	-- Bug with mouse click
+	GroupLootContainer:EnableMouse(false)
 
 	Font = T.GetFont(C["Bags"].Font)
 	FontPath = _G[Font]:GetFont()
