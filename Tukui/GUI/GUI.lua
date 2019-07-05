@@ -28,6 +28,13 @@ local type = type
 	color
 ]]
 
+-- IMO :SetFontTemplate should let you set the flag too
+local StyleFont = function(fs, font, size)
+	fs:SetFont(font, size)
+	fs:SetShadowColor(0, 0, 0)
+	fs:SetShadowOffset(1, -1)
+end
+
 local Font = C.Medias.Font
 local Texture = C.Medias.Normal
 local Blank = C.Medias.Blank
@@ -133,7 +140,8 @@ local CreateSwitch = function(self, group, option, text)
 	
 	Switch.Label = Switch:CreateFontString(nil, "OVERLAY")
 	Switch.Label:Point("LEFT", Switch, "RIGHT", Spacing, 0)
-	Switch.Label:SetFontTemplate(Font, 12)
+	--Switch.Label:SetFontTemplate(Font, 12)
+	StyleFont(Switch.Label, Font, 12)
 	Switch.Label:SetText(text)
 	
 	if Value then
@@ -274,7 +282,8 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	EditBox:SetBackdropColor(unpack(MediumColor))
 	
 	EditBox.Box = CreateFrame("EditBox", nil, EditBox)
-	EditBox.Box:SetFontTemplate(Font, 12)
+	--EditBox.Box:SetFontTemplate(Font, 12)
+	StyleFont(EditBox.Box, Font, 12)
 	EditBox.Box:Point("TOPLEFT", EditBox, Spacing, -2)
 	EditBox.Box:Point("BOTTOMRIGHT", EditBox, -Spacing, 2)
 	EditBox.Box:SetJustifyH("CENTER")
@@ -315,7 +324,8 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	
 	Slider.Label = Slider:CreateFontString(nil, "OVERLAY")
 	Slider.Label:Point("LEFT", Slider, "RIGHT", Spacing, 0)
-	Slider.Label:SetFontTemplate(Font, 12)
+	--Slider.Label:SetFontTemplate(Font, 12)
+	StyleFont(Slider.Label, Font, 12)
 	Slider.Label:SetText(text)
 	
 	local Thumb = Slider:GetThumbTexture() 
@@ -442,7 +452,8 @@ GUI.CreateWindow = function(self, name, default)
 	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("CENTER", Button, 0, 0)
-	Button.Label:SetFontTemplate(Font, 14)
+	--Button.Label:SetFontTemplate(Font, 14)
+	StyleFont(Button.Label, Font, 14)
 	Button.Label:SetText(name)
 	
 	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
@@ -527,7 +538,8 @@ GUI.Create = function(self)
 	
 	self.Header.Label = self.Header:CreateFontString(nil, "OVERLAY")
 	self.Header.Label:Point("CENTER", self.Header, 0, 0)
-	self.Header.Label:SetFontTemplate(Font, 16)
+	--self.Header.Label:SetFontTemplate(Font, 16)
+	StyleFont(self.Header.Label, Font, 16)
 	self.Header.Label:SetText("|cffff8000Tukui|r settings")
 	
 	-- Button list
@@ -551,8 +563,9 @@ GUI.Create = function(self)
 	self.Close:SetScript("OnMouseUp", CloseOnMouseUp)
 	
 	self.Close.Label = self.Close:CreateFontString(nil, "OVERLAY")
-	self.Close.Label:Point("CENTER", self.Close, 3, 0)
-	self.Close.Label:SetFontTemplate(Font, 16)
+	self.Close.Label:Point("CENTER", self.Close, 0, 0)
+	--self.Close.Label:SetFontTemplate(Font, 16)
+	StyleFont(self.Close.Label, Font, 16)
 	self.Close.Label:SetText("×")
 	
 	self:UnpackQueue()
@@ -573,7 +586,8 @@ GUI.Create = function(self)
 	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("CENTER", Button, 0, 0)
-	Button.Label:SetFontTemplate(Font, 14)
+	--Button.Label:SetFontTemplate(Font, 14)
+	StyleFont(Button.Label, Font, 14)
 	Button.Label:SetText("Apply")
 	
 	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
