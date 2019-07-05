@@ -477,7 +477,7 @@ GUI.CreateWindow = function(self, name, default)
 end
 
 local CloseOnEnter = function(self)
-	self.Label:SetTextColor(1, 0.1, 0.1)
+	self.Label:SetTextColor(1, 0.2, 0.2)
 end
 
 local CloseOnLeave = function(self)
@@ -495,6 +495,11 @@ GUI.Create = function(self)
 	self:SetTemplate()
 	self:SetBackdropColor(unpack(MediumColor))
 	self:SetAlpha(0)
+	self:EnableMouse(true)
+	self:SetMovable(true)
+	self:RegisterForDrag("LeftButton")
+	self:SetScript("OnDragStart", self.StartMoving)
+	self:SetScript("OnDragStop", self.StopMovingOrSizing)
 	self:Hide()
 	
 	-- Animation
@@ -546,9 +551,9 @@ GUI.Create = function(self)
 	self.Close:SetScript("OnMouseUp", CloseOnMouseUp)
 	
 	self.Close.Label = self.Close:CreateFontString(nil, "OVERLAY")
-	self.Close.Label:Point("CENTER", self.Close, 1, 0)
-	self.Close.Label:SetFontTemplate(Font, 14)
-	self.Close.Label:SetText("x")
+	self.Close.Label:Point("CENTER", self.Close, 3, 0)
+	self.Close.Label:SetFontTemplate(Font, 16)
+	self.Close.Label:SetText("×")
 	
 	self:UnpackQueue()
 	
