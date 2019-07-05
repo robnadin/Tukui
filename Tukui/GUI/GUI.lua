@@ -18,6 +18,7 @@ local type = type
 	Create widgets
 	Global/PerChar settings
 	highlights?
+	draggable
 	
 	Widget list:
 	checkbox(?)
@@ -478,6 +479,18 @@ GUI.CreateWindow = function(self, name, default)
 	return Window
 end
 
+local CloseOnEnter = function(self)
+	self.Label:SetTextColor(1, 0.1, 0.1)
+end
+
+local CloseOnLeave = function(self)
+	self.Label:SetTextColor(1, 1, 1)
+end
+
+local CloseOnMouseUp = function()
+	GUI.FadeOut:Play()
+end
+
 GUI.Create = function(self)
 	-- Main Window
 	self:Size(WindowWidth, WindowHeight)
@@ -526,6 +539,19 @@ GUI.Create = function(self)
 	self.WindowParent = CreateFrame("Frame", nil, self)
 	self.WindowParent:Size(WidgetListWidth, WidgetListHeight)
 	self.WindowParent:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
+	
+	-- Close
+	self.Close = CreateFrame("Frame", nil, self.Header)
+	self.Close:Size(HeaderHeight, HeaderHeight)
+	self.Close:Point("RIGHT", self.Header, 0, 0)
+	self.Close:SetScript("OnEnter", CloseOnEnter)
+	self.Close:SetScript("OnLeave", CloseOnLeave)
+	self.Close:SetScript("OnMouseUp", CloseOnMouseUp)
+	
+	self.Close.Label = self.Close:CreateFontString(nil, "OVERLAY")
+	self.Close.Label:Point("CENTER", self.Close, 0, 0)
+	self.Close.Label:SetFontTemplate(Font, 14)
+	self.Close.Label:SetText("x")
 	
 	self:UnpackQueue()
 	
