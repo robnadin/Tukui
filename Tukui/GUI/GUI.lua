@@ -153,8 +153,8 @@ end
 GUI.Widgets.CreateSwitch = CreateSwitch
 
 -- Sliders
-local SliderWidth = 95
-local EditboxWidth = 45
+local SliderWidth = 94
+local EditboxWidth = 46
 
 local Round = function(num, dec)
 	local Mult = 10 ^ (dec or 0)
@@ -395,7 +395,7 @@ local SortWidgets = function(self)
 		if (i == 1) then
 			self.Widgets[i]:Point("TOPLEFT", self, Spacing, -Spacing)
 		else
-			self.Widgets[i]:Point("TOPLEFT", self.Widgets[i-1], "BOTTOMLEFT", 0, -Spacing)
+			self.Widgets[i]:Point("TOPLEFT", self.Widgets[i-1], "BOTTOMLEFT", 0, -(Spacing - 1))
 		end
 	end
 	
