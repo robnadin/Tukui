@@ -13,19 +13,19 @@ function Loading:LoadCustomSettings()
 		Settings = TukuiConfigShared[Realm][Name]
 	end]]
 	
-	if TukuiConfigPerAccount then
+	--if TukuiConfigPerAccount then
 		if (not TukuiSettings) then
 			TukuiSettings = {}
 		end
 		
 		Settings = TukuiSettings
-	else
+	--[[else
 		if (not TukuiSettingsPerChar) then
 			TukuiSettingsPerChar = {}
 		end
 		
 		Settings = TukuiSettingsPerChar
-	end
+	end]]
 	
 	for group, options in pairs(Settings) do
 		if C[group] then

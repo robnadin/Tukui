@@ -17,18 +17,21 @@ local type = type
 	To do:
 	Create widgets
 	Global/PerChar settings
+	highlights?
 	
 	Widget list:
 	checkbox(?)
-	switch
-	slider
+	-switch
+	-slider
 	dropdown (for textures, fonts, and misc)
+	color
 ]]
 
 local Font = C.Medias.Font
 local Texture = C.Medias.Normal
 local Blank = C.Medias.Blank
 
+local MediumColor = {0.15, 0.15, 0.15} -- The default 0.1, 0.1, 0.1 is so dark to my eyes. But all of this styling is ultimately in your hands.
 local LightColor = {0.175, 0.175, 0.175}
 local BrightColor = {0.35, 0.35, 0.35}
 
@@ -69,11 +72,11 @@ local SetValue = function(group, option, value)
 	
 	local Settings
 	
-	if TukuiConfigPerAccount then -- NYI
+	--if TukuiConfigPerAccount then -- NYI
 		Settings = TukuiSettings
-	else
-		Settings = TukuiSettingsPerChar
-	end
+	--else
+	--	Settings = TukuiSettingsPerChar
+	--end
 	
 	if (not Settings[group]) then
 		Settings[group] = {}
@@ -109,6 +112,7 @@ local CreateSwitch = function(self, group, option, text)
 	local Switch = CreateFrame("Frame", nil, self)
 	Switch:Size(SwitchWidth, WidgetHeight)
 	Switch:SetTemplate(nil, Texture)
+	Switch:SetBackdropColor(unpack(MediumColor))
 	Switch:SetScript("OnMouseUp", SwitchOnMouseUp)
 	Switch.Value = Value
 	Switch.Group = group
@@ -269,6 +273,7 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	local EditBox = CreateFrame("Frame", nil, self)
 	EditBox:Size(EditboxWidth, WidgetHeight)
 	EditBox:SetTemplate(nil, Texture)
+	EditBox:SetBackdropColor(unpack(MediumColor))
 	
 	EditBox.Box = CreateFrame("EditBox", nil, EditBox)
 	EditBox.Box:SetFontTemplate(Font, 12)
@@ -302,6 +307,7 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	Slider:SetOrientation("HORIZONTAL")
 	Slider:SetValueStep(stepvalue)
 	Slider:SetTemplate(nil, Texture)
+	Slider:SetBackdropColor(unpack(MediumColor))
 	Slider:SetMinMaxValues(minvalue, maxvalue)
 	Slider:SetValue(Value)
 	Slider:EnableMouseWheel(true)
@@ -429,6 +435,7 @@ GUI.CreateWindow = function(self, name, default)
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
 	Button:SetTemplate()
+	Button:SetBackdropColor(unpack(MediumColor))
 	Button:SetScript("OnMouseUp", MenuButtonOnMouseUp)
 	Button:SetScript("OnEnter", MenuButtonOnEnter)
 	Button:SetScript("OnLeave", MenuButtonOnLeave)
@@ -476,6 +483,7 @@ GUI.Create = function(self)
 	self:Size(WindowWidth, WindowHeight)
 	self:Point("CENTER", UIParent, 0, 0)
 	self:SetTemplate()
+	self:SetBackdropColor(unpack(MediumColor))
 	self:SetAlpha(0)
 	self:Hide()
 	
@@ -525,10 +533,12 @@ GUI.Create = function(self)
 		self:DisplayWindow(self.DefaultWindow)
 	end
 	
+	-- Apply
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
 	Button:Point("BOTTOM", self.ButtonList, 0, Spacing)
 	Button:SetTemplate()
+	Button:SetBackdropColor(unpack(MediumColor))
 	Button:SetScript("OnMouseUp", ReloadUI)
 	Button:SetScript("OnEnter", MenuButtonOnEnter)
 	Button:SetScript("OnLeave", MenuButtonOnLeave)

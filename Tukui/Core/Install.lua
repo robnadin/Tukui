@@ -13,11 +13,11 @@ function Install:ResetData()
 
 	TukuiData[GetRealmName()][UnitName("Player")] = {}
 
-	if TukuiConfigPerAccount then
+	--if TukuiConfigPerAccount then
 		TukuiSettings = {}
-	else
-		TukuiSettingsPerChar = {}
-	end
+	--else
+	--	TukuiSettingsPerChar = {}
+	--end
 
 	ReloadUI()
 end
