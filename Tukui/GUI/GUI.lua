@@ -14,8 +14,8 @@ local type = type
 	I'll refine as the process goes on.
 	
 	To do:
-	GUI initialization
 	Create widgets
+	Global/PerChar settings
 	
 	Widget list:
 	checkbox(?)
@@ -28,6 +28,14 @@ local Font = C.Medias.Font
 local Texture = C.Medias.Normal
 
 local LightColor = {0.175, 0.175, 0.175}
+local BrightColor = {0.35, 0.35, 0.35}
+
+-- You can switch this, I just don't know what kind of colors you want to be using, so I picked something.
+local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+local R, G, B = Color.r, Color.g, Color.b
+
+local Realm = GetRealmName()
+local Name = UnitName("Player")
 
 local WindowWidth = 480
 local WindowHeight = 360
@@ -46,13 +54,99 @@ local MenuButtonHeight = 20
 local WidgetListWidth = (WindowWidth - ButtonListWidth) - (Spacing * 3) + 1
 local WidgetListHeight = ButtonListHeight
 
+local WidgetHeight = 20 -- All widgets are the same height
+
 local GUI = CreateFrame("Frame", nil, UIParent) -- Feel free to give a global name, It's available as T.GUI right now
 GUI.Windows = {}
 GUI.Buttons = {}
 GUI.Queue = {}
 GUI.Widgets = {}
 
-GUI.AddOptions = function(self, func)
+local SetValue = function(group, option, value)
+	C[group][option] = value
+	
+	local Settings
+	
+	if TukuiConfigPerAccount then -- NYI
+		Settings = TukuiSettings
+	else
+		Settings = TukuiSettingsPerChar
+	end
+	
+	if (not Settings[group]) then
+		Settings[group] = {}
+	end
+	
+	Settings[group][option] = value
+end
+
+-- Switches
+local SwitchWidth = 46
+
+local SwitchOnMouseUp = function(self)
+	self.Thumb:ClearAllPoints()
+	
+	if self.Value then
+		self.Thumb:Point("RIGHT", self, 0, 0)
+		self.Movement:SetOffset(-27, 0)
+		self.Value = false
+	else
+		self.Thumb:Point("LEFT", self, 0, 0)
+		self.Movement:SetOffset(27, 0)
+		self.Value = true
+	end
+	
+	self.Movement:Play()
+	
+	SetValue(self.Group, self.Option, self.Value)
+end
+
+local CreateSwitch = function(self, group, option, text)
+	local Value = C[group][option]
+	
+	local Switch = CreateFrame("Frame", nil, self)
+	Switch:Size(SwitchWidth, WidgetHeight)
+	Switch:SetTemplate(nil, Texture)
+	Switch:SetScript("OnMouseUp", SwitchOnMouseUp)
+	Switch.Value = Value
+	Switch.Group = group
+	Switch.Option = option
+	
+	Switch.Thumb = CreateFrame("Frame", nil, Switch)
+	Switch.Thumb:Size(WidgetHeight, WidgetHeight)
+	Switch.Thumb:SetTemplate(nil, Texture)
+	Switch.Thumb:SetBackdropColor(unpack(BrightColor))
+	
+	Switch.Movement = CreateAnimationGroup(Switch.Thumb):CreateAnimation("Move")
+	Switch.Movement:SetDuration(0.1)
+	Switch.Movement:SetEasing("in-sinusoidal")
+	
+	Switch.TrackTexture = Switch:CreateTexture(nil, "ARTWORK")
+	Switch.TrackTexture:Point("TOPLEFT", Switch, 0, -1)
+	Switch.TrackTexture:Point("BOTTOMRIGHT", Switch.Thumb, 0, 1)
+	Switch.TrackTexture:SetTexture(Texture)
+	Switch.TrackTexture:SetVertexColor(R, G, B)
+	
+	Switch.Label = Switch:CreateFontString(nil, "OVERLAY")
+	Switch.Label:Point("LEFT", Switch, "RIGHT", Spacing, 0)
+	Switch.Label:SetFontTemplate(Font, 12)
+	Switch.Label:SetText(text)
+	
+	if Value then
+		Switch.Thumb:Point("RIGHT", Switch, 0, 0)
+	else
+		Switch.Thumb:Point("LEFT", Switch, 0, 0)
+	end
+	
+	tinsert(self.Widgets, Switch)
+	
+	return Switch
+end
+
+GUI.Widgets.CreateSwitch = CreateSwitch
+
+-- GUI functions
+GUI.AddWidgets = function(self, func)
 	if (type(func) ~= "function") then
 		return
 	end
@@ -86,11 +180,27 @@ GUI.SortMenuButtons = function(self)
 	end
 end
 
+local SortWidgets = function(self)
+	for i = 1, #self.Widgets do
+		if (i == 1) then
+			self.Widgets[i]:Point("TOPLEFT", self, Spacing, -Spacing)
+		else
+			self.Widgets[i]:Point("TOPLEFT", self.Widgets[i-1], "BOTTOMLEFT", 0, -Spacing)
+		end
+	end
+	
+	self.Sorted = true
+end
+
 GUI.DisplayWindow = function(self, name)
 	for WindowName, Window in pairs(self.Windows) do
 		if (WindowName ~= name) then
 			Window:Hide()
 		else
+			if (not Window.Sorted) then
+				SortWidgets(Window)
+			end
+			
 			Window:Show()
 		end
 	end
@@ -108,7 +218,7 @@ local MenuButtonOnLeave = function(self)
 	self.Highlight:Hide()
 end
 
-GUI.CreateWindow = function(self, name)
+GUI.CreateWindow = function(self, name, default)
 	if self.Windows[name] then
 		return
 	end
@@ -141,10 +251,21 @@ GUI.CreateWindow = function(self, name)
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
 	Window.Widgets = {}
+	Window:Hide()
 	
 	self.Windows[name] = Window
 	
+	for key, func in pairs(self.Widgets) do
+		Window[key] = func
+	end
+	
+	if default then
+		self.DefaultWindow = name
+	end
+	
 	self:SortMenuButtons()
+	
+	return Window
 end
 
 GUI.Create = function(self)
@@ -194,10 +315,33 @@ GUI.Create = function(self)
 	self.WindowParent = CreateFrame("Frame", nil, self)
 	self.WindowParent:Size(WidgetListWidth, WidgetListHeight)
 	self.WindowParent:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
-	self.WindowParent:SetTemplate()
-	self.WindowParent:SetBackdropColor(unpack(LightColor))
+	--self.WindowParent:SetTemplate()
+	--self.WindowParent:SetBackdropColor(unpack(LightColor))
 	
 	self:UnpackQueue()
+	
+	if self.DefaultWindow then
+		self:DisplayWindow(self.DefaultWindow)
+	end
+	
+	local Button = CreateFrame("Frame", nil, self.ButtonList)
+	Button:Size(MenuButtonWidth, MenuButtonHeight)
+	Button:Point("BOTTOM", self.ButtonList, 0, Spacing)
+	Button:SetTemplate()
+	Button:SetScript("OnMouseUp", ReloadUI)
+	Button:SetScript("OnEnter", MenuButtonOnEnter)
+	Button:SetScript("OnLeave", MenuButtonOnLeave)
+	
+	Button.Label = Button:CreateFontString(nil, "OVERLAY")
+	Button.Label:Point("CENTER", Button, 0, 0)
+	Button.Label:SetFontTemplate(Font, 14)
+	Button.Label:SetText("Apply")
+	
+	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
+	Button.Highlight:SetAllPoints()
+	Button.Highlight:SetTexture(Texture)
+	Button.Highlight:SetVertexColor(0.3, 0.3, 0.3, 0.3)
+	Button.Highlight:Hide()
 	
 	self.Created = true
 end
@@ -261,9 +405,13 @@ local Options = function(self)
 	self:CreateWindow("Actionbars")
 	self:CreateWindow("Minimap")
 	self:CreateWindow("UnitFrames")
-	self:CreateWindow("UnitFrames")
-	self:CreateWindow("Party")
-	self:CreateWindow("Raid")
 end
 
-GUI:AddOptions(Options)
+GUI:AddWidgets(Options)
+
+-- More real example
+GUI:AddWidgets(function(self)
+	local TestWindow = self:CreateWindow("Test", true)
+	
+	local Switch = TestWindow:CreateSwitch("ActionBars", "Enable", "Enable Actionbars")
+end)

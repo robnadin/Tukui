@@ -7,12 +7,26 @@ function Loading:LoadCustomSettings()
 	local Name = UnitName("Player")
 	local Realm = GetRealmName()
 
-	if (TukuiConfigPerAccount) then
+	--[[if (TukuiConfigPerAccount) then
 		Settings = TukuiConfigShared.Account
 	else
 		Settings = TukuiConfigShared[Realm][Name]
+	end]]
+	
+	if TukuiConfigPerAccount then
+		if (not TukuiSettings) then
+			TukuiSettings = {}
+		end
+		
+		Settings = TukuiSettings
+	else
+		if (not TukuiSettingsPerChar) then
+			TukuiSettingsPerChar = {}
+		end
+		
+		Settings = TukuiSettingsPerChar
 	end
-
+	
 	for group, options in pairs(Settings) do
 		if C[group] then
 			local Count = 0
@@ -40,10 +54,10 @@ function Loading:LoadCustomSettings()
 end
 
 function Loading:Enable()
-	local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
+	--local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
 	local Toolkit = T00LKIT
 
-	if IsConfigLoaded then
+	--if IsConfigLoaded then
 		self:LoadCustomSettings()
 		
 		local Value = C.General.UIScale
@@ -53,7 +67,7 @@ function Loading:Enable()
 
 		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)
-	end
+	--end
 
 	if C.General.HideShadows then
 		Toolkit.Settings.ShadowTexture = ""

@@ -4,8 +4,8 @@
 ## Version: 0.07
 ## Title: |cffff8000Tukui Classic|r
 ## Notes: UI of awesomeness!
-## SavedVariables: TukuiData
-## SavedVariablesPerCharacter: TukuiDataPerChar
+## SavedVariables: TukuiData, TukuiSettings
+## SavedVariablesPerCharacter: TukuiDataPerChar, TukuiSettingsPerChar
 ## OptionalDeps: Tukui_Config, Clique
 ## X-oUF: TukuiUnitFrameFramework
 ## X-Website: http://www.tukui.org
