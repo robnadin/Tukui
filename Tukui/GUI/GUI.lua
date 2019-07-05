@@ -199,6 +199,10 @@ GUI.Create = function(self)
 end
 
 GUI.Toggle = function(self)
+	if InCombatLockdown() then
+		return
+	end
+	
 	if (not self.Created) then
 		self:Create()
 	end
@@ -216,11 +220,19 @@ GUI.VARIABLES_LOADED = function(self, event)
 end
 
 GUI.PLAYER_REGEN_DISABLED = function(self, event)
-	
+	if self:IsShown() then
+		self:SetAlpha(0)
+		self:Hide()
+		self.CombatClosed = true
+	end
 end
 
 GUI.PLAYER_REGEN_ENABLED = function(self, event)
-	
+	if self.CombatClosed then -- This is up to you, if you want it to re-open if it was combat closed
+		self:Show()
+		self:SetAlpha(1)
+		self.CombatClosed = false
+	end
 end
 
 GUI:RegisterEvent("VARIABLES_LOADED")
