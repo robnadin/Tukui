@@ -1,16 +1,18 @@
 local T, C, L = select(2, ...):unpack()
 
+-- /run Tukui[1].GUI:Toggle() -- Try me!
+
 local sort = table.sort
 local tinsert = table.insert
 local tremove = table.remove
 local unpack = unpack
 local pairs = pairs
+local type = type
 
 --[[
 	Note: I'm going to be laying out a bunch of basics here, don't worry too much yet about how things look.
 	I'll refine as the process goes on.
-
-
+	
 	To do:
 	GUI initialization
 	Create widgets
@@ -48,6 +50,7 @@ local GUI = CreateFrame("Frame", nil, UIParent) -- Feel free to give a global na
 GUI.Windows = {}
 GUI.Buttons = {}
 GUI.Queue = {}
+GUI.Widgets = {}
 
 GUI.AddOptions = function(self, func)
 	if (type(func) ~= "function") then
@@ -112,7 +115,7 @@ GUI.CreateWindow = function(self, name)
 	
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
-	Button:SetTemplate(nil, Texture)
+	Button:SetTemplate()
 	Button:SetScript("OnMouseUp", MenuButtonOnMouseUp)
 	Button:SetScript("OnEnter", MenuButtonOnEnter)
 	Button:SetScript("OnLeave", MenuButtonOnLeave)
@@ -137,6 +140,7 @@ GUI.CreateWindow = function(self, name)
 	Window:Point("CENTER", self.WindowParent, 0, 0)
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
+	Window.Widgets = {}
 	
 	self.Windows[name] = Window
 	
@@ -244,9 +248,7 @@ end)
 
 T.GUI = GUI -- Do we need a global name? This is all the access anyone would really need
 
--- /run Tukui[1].GUI:Toggle()
-
--- Below here is just to test some scripts
+-- Below here is just to test
 local Testing = true
 
 if (not Testing) then
