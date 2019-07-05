@@ -40,9 +40,6 @@ local BrightColor = {0.35, 0.35, 0.35}
 local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 local R, G, B = Color.r, Color.g, Color.b
 
-local Realm = GetRealmName()
-local Name = UnitName("Player")
-
 local WindowWidth = 480
 local WindowHeight = 360
 
@@ -549,7 +546,7 @@ GUI.Create = function(self)
 	self.Close:SetScript("OnMouseUp", CloseOnMouseUp)
 	
 	self.Close.Label = self.Close:CreateFontString(nil, "OVERLAY")
-	self.Close.Label:Point("CENTER", self.Close, 0, 0)
+	self.Close.Label:Point("CENTER", self.Close, 1, 0)
 	self.Close.Label:SetFontTemplate(Font, 14)
 	self.Close.Label:SetText("x")
 	
