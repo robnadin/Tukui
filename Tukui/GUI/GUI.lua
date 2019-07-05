@@ -2,6 +2,7 @@ local T, C, L = select(2, ...):unpack()
 
 local sort = table.sort
 local tinsert = table.insert
+local tremove = table.remove
 local unpack = unpack
 
 --[[
@@ -45,6 +46,25 @@ local WidgetListHeight = ButtonListHeight
 local GUI = CreateFrame("Frame", nil, UIParent) -- Feel free to give a global name, It's available as T.GUI right now
 GUI.Windows = {}
 GUI.Buttons = {}
+GUI.Queue = {}
+
+GUI.AddOptions = function(self, func)
+	if (type(func) ~= "function") then
+		return
+	end
+	
+	tinsert(self.Queue, func)
+end
+
+GUI.UnpackQueue = function(self)
+	local Function
+	
+	for i = 1, #self.Queue do
+		Function = tremove(self.Queue, 1)
+		
+		Function(self)
+	end
+end
 
 GUI.SortMenuButtons = function(self)
 	sort(self.Buttons, function(a, b)
@@ -57,7 +77,7 @@ GUI.SortMenuButtons = function(self)
 		if (i == 1) then
 			self.Buttons[i]:Point("TOPLEFT", self.ButtonList, Spacing, -Spacing)
 		else
-			self.Buttons[i]:Point("TOP", self.Buttons[i-1], "BOTTOM", 0, -2)
+			self.Buttons[i]:Point("TOP", self.Buttons[i-1], "BOTTOM", 0, -(Spacing - 1))
 		end
 	end
 end
@@ -67,23 +87,27 @@ GUI.CreateWindow = function(self, name)
 		return
 	end
 	
-	local Button = CreateFrame("Frame", nil, self)
+	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
-	Button:Point("CENTER", UIParent, 0, 0)
-	Button:SetTemplate()
+	Button:SetTemplate(nil, Texture)
 	Button.Name = name
+	
+	Button.Label = Button:CreateFontString(nil, "OVERLAY")
+	Button.Label:Point("CENTER", Button, 0, 0)
+	Button.Label:SetFontTemplate(Font, 14)
+	Button.Label:SetText(name)
 	
 	tinsert(self.Buttons, Button)
 	
-	local Window = CreateFrame("Frame", nil, self)
+	local Window = CreateFrame("Frame", nil, self.WindowParent)
 	Window:Size(WidgetListWidth, WidgetListHeight)
-	Window:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
+	Window:Point("CENTER", self.WindowParent, 0, 0)
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
 	
 	self.Windows[name] = Window
 	
-	SortMenuButtons()
+	self:SortMenuButtons()
 end
 
 GUI.Create = function(self)
@@ -119,7 +143,7 @@ GUI.Create = function(self)
 	
 	self.Header.Label = self.Header:CreateFontString(nil, "OVERLAY")
 	self.Header.Label:Point("CENTER", self.Header, 0, 0)
-	self.Header.Label:SetFontTemplate(Font, 14)
+	self.Header.Label:SetFontTemplate(Font, 16)
 	self.Header.Label:SetText("|cffff8000Tukui|r settings")
 	
 	-- Button list
@@ -127,14 +151,16 @@ GUI.Create = function(self)
 	self.ButtonList:Size(ButtonListWidth, ButtonListHeight)
 	self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
 	self.ButtonList:SetTemplate()
-	self.Header:SetBackdropColor(unpack(LightColor))
+	self.ButtonList:SetBackdropColor(unpack(LightColor))
 	
 	-- Widget list
-	self.WidgetList = CreateFrame("Frame", nil, self)
-	self.WidgetList:Size(WidgetListWidth, WidgetListHeight)
-	self.WidgetList:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
-	self.WidgetList:SetTemplate()
-	self.Header:SetBackdropColor(unpack(LightColor))
+	self.WindowParent = CreateFrame("Frame", nil, self)
+	self.WindowParent:Size(WidgetListWidth, WidgetListHeight)
+	self.WindowParent:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
+	self.WindowParent:SetTemplate()
+	self.WindowParent:SetBackdropColor(unpack(LightColor))
+	
+	self:UnpackQueue()
 	
 	self.Created = true
 end
@@ -152,6 +178,45 @@ GUI.Toggle = function(self)
 	end
 end
 
+GUI.VARIABLES_LOADED = function(self, event)
+	self:UnregisterEvent(event)
+end
+
+GUI.PLAYER_REGEN_DISABLED = function(self, event)
+	
+end
+
+GUI.PLAYER_REGEN_ENABLED = function(self, event)
+	
+end
+
+GUI:RegisterEvent("VARIABLES_LOADED")
+GUI:RegisterEvent("PLAYER_REGEN_DISABLED")
+GUI:RegisterEvent("PLAYER_REGEN_ENABLED")
+GUI:SetScript("OnEvent", function(self, event)
+	self[event](self, event)
+end)
+
 T.GUI = GUI -- Do we need a global name? This is all the access anyone would really need
 
 -- /run Tukui[1].GUI:Toggle()
+
+-- Below here is just to test some scripts
+local Testing = true
+
+if (not Testing) then
+	return
+end
+
+local Options = function(self)
+	self:CreateWindow("General")
+	self:CreateWindow("Tooltips")
+	self:CreateWindow("Actionbars")
+	self:CreateWindow("Minimap")
+	self:CreateWindow("UnitFrames")
+	self:CreateWindow("UnitFrames")
+	self:CreateWindow("Party")
+	self:CreateWindow("Raid")
+end
+
+GUI:AddOptions(Options)
