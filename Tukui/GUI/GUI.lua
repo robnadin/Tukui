@@ -4,6 +4,7 @@ local sort = table.sort
 local tinsert = table.insert
 local tremove = table.remove
 local unpack = unpack
+local pairs = pairs
 
 --[[
 	Note: I'm going to be laying out a bunch of basics here, don't worry too much yet about how things look.
@@ -82,6 +83,28 @@ GUI.SortMenuButtons = function(self)
 	end
 end
 
+GUI.DisplayWindow = function(self, name)
+	for WindowName, Window in pairs(self.Windows) do
+		if (WindowName ~= name) then
+			Window:Hide()
+		else
+			Window:Show()
+		end
+	end
+end
+
+local MenuButtonOnMouseUp = function(self)
+	self.Parent:DisplayWindow(self.Name)
+end
+
+local MenuButtonOnEnter = function(self)
+	self.Highlight:Show()
+end
+
+local MenuButtonOnLeave = function(self)
+	self.Highlight:Hide()
+end
+
 GUI.CreateWindow = function(self, name)
 	if self.Windows[name] then
 		return
@@ -90,12 +113,22 @@ GUI.CreateWindow = function(self, name)
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
 	Button:SetTemplate(nil, Texture)
+	Button:SetScript("OnMouseUp", MenuButtonOnMouseUp)
+	Button:SetScript("OnEnter", MenuButtonOnEnter)
+	Button:SetScript("OnLeave", MenuButtonOnLeave)
 	Button.Name = name
+	Button.Parent = self
 	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("CENTER", Button, 0, 0)
 	Button.Label:SetFontTemplate(Font, 14)
 	Button.Label:SetText(name)
+	
+	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
+	Button.Highlight:SetAllPoints()
+	Button.Highlight:SetTexture(Texture)
+	Button.Highlight:SetVertexColor(0.3, 0.3, 0.3, 0.3)
+	Button.Highlight:Hide()
 	
 	tinsert(self.Buttons, Button)
 	
