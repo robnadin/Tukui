@@ -115,7 +115,7 @@ T.SlashHandler = function(cmd)
 		print(L.Help.Status)
 		print(" ")
 	elseif (arg1 == "c" or arg1 == "config") then
-		local Config = TukuiConfig
+		--[[local Config = TukuiConfig
 
 		if (not TukuiConfig) then
 			T.Print(L.Others.ConfigNotFound)
@@ -131,7 +131,9 @@ T.SlashHandler = function(cmd)
 			TukuiConfigFrame:Hide()
 		else
 			TukuiConfigFrame:Show()
-		end
+		end]]
+		
+		T.GUI:Toggle()
 	elseif (arg1 == "gold") and (arg2 == "reset") then
 		local MyRealm = GetRealmName()
 		local MyName = UnitName("player")
