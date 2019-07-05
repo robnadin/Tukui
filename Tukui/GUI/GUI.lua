@@ -5,6 +5,7 @@ local T, C, L = select(2, ...):unpack()
 local sort = table.sort
 local tinsert = table.insert
 local tremove = table.remove
+local floor = floor
 local unpack = unpack
 local pairs = pairs
 local type = type
@@ -26,6 +27,7 @@ local type = type
 
 local Font = C.Medias.Font
 local Texture = C.Medias.Normal
+local Blank = C.Medias.Blank
 
 local LightColor = {0.175, 0.175, 0.175}
 local BrightColor = {0.35, 0.35, 0.35}
@@ -123,7 +125,7 @@ local CreateSwitch = function(self, group, option, text)
 	
 	Switch.TrackTexture = Switch:CreateTexture(nil, "ARTWORK")
 	Switch.TrackTexture:Point("TOPLEFT", Switch, 0, -1)
-	Switch.TrackTexture:Point("BOTTOMRIGHT", Switch.Thumb, 0, 1)
+	Switch.TrackTexture:Point("BOTTOMRIGHT", Switch.Thumb, "BOTTOMLEFT", 0, 1)
 	Switch.TrackTexture:SetTexture(Texture)
 	Switch.TrackTexture:SetVertexColor(R, G, B)
 	
@@ -144,6 +146,207 @@ local CreateSwitch = function(self, group, option, text)
 end
 
 GUI.Widgets.CreateSwitch = CreateSwitch
+
+-- Sliders
+local SliderWidth = 95
+local EditboxWidth = 45
+
+local Round = function(num, dec)
+	local Mult = 10 ^ (dec or 0)
+	
+	return floor(num * Mult + 0.5) / Mult
+end
+
+local SliderOnValueChanged = function(self)
+	local Value = self:GetValue()
+	local Step = self.EditBox.StepValue
+	
+	if (Step >= 1) then
+		Value = floor(Value)
+	else
+		if (Step <= 0.01) then
+			Value = Round(Value, 2)
+		else
+			Value = Round(Value, 1)
+		end
+	end
+	
+	self.EditBox.Value = Value
+	self.EditBox:SetText(Value)
+	
+	SetValue(self.EditBox.Group, self.EditBox.Option, Value)
+end
+
+local SliderOnMouseWheel = function(self, delta)
+	local Value = self.EditBox.Value
+	local Step = self.EditBox.StepValue
+	
+	if (delta < 0) then
+		Value = Value - Step
+	else
+		Value = Value + Step
+	end
+	
+	if (Step >= 1) then
+		Value = floor(Value)
+	else
+		if (Step <= 0.01) then
+			Value = Round(Value, 2)
+		else
+			Value = Round(Value, 1)
+		end
+	end
+	
+	if (Value < self.EditBox.MinValue) then
+		Value = self.EditBox.MinValue
+	elseif (Value > self.EditBox.MaxValue) then
+		Value = self.EditBox.MaxValue
+	end
+	
+	self.EditBox.Value = Value
+	
+	self:SetValue(Value)
+	self.EditBox:SetText(Value)
+end
+
+local EditBoxOnEnterPressed = function(self)
+	self.Value = self:GetNumber()
+	
+	if (self.Value ~= self.Value) then
+		self.Slider:SetValue(self.Value)
+		SliderOnValueChanged(self.Slider)
+	else
+		self.Slider:SetValue(self.Value)
+		SliderOnValueChanged(self.Slider)
+	end
+	
+	self:SetAutoFocus(false)
+	self:ClearFocus()
+end
+
+local EditBoxOnMouseDown = function(self)
+	self:SetAutoFocus(true)
+	self:SetText(self.Value)
+end
+
+local EditBoxOnEditFocusLost = function(self)
+	if (self.Value > self.MaxValue) then
+		self.Value = self.MaxValue
+	elseif (self.Value < self.MinValue) then
+		self.Value = self.MinValue
+	end
+	
+	self:SetText(self.Value)
+end
+
+local EditBoxOnMouseWheel = function(self, delta)
+	if self:HasFocus() then
+		self:SetAutoFocus(false)
+		self:ClearFocus()
+	end
+	
+	if (delta > 0) then
+		self.Value = self.Value + self.StepValue
+		
+		if (self.Value > self.MaxValue) then
+			self.Value = self.MaxValue
+		end
+	else
+		self.Value = self.Value - self.StepValue
+		
+		if (self.Value < self.MinValue) then
+			self.Value = self.MinValue
+		end
+	end
+	
+	self:SetText(self.Value)
+	self.Slider:SetValue(self.Value)
+end
+
+local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue, text)
+	local Value = C[group][option]
+	
+	local EditBox = CreateFrame("Frame", nil, self)
+	EditBox:Size(EditboxWidth, WidgetHeight)
+	EditBox:SetTemplate(nil, Texture)
+	
+	EditBox.Box = CreateFrame("EditBox", nil, EditBox)
+	EditBox.Box:SetFontTemplate(Font, 12)
+	EditBox.Box:Point("TOPLEFT", EditBox, Spacing, -2)
+	EditBox.Box:Point("BOTTOMRIGHT", EditBox, -Spacing, 2)
+	EditBox.Box:SetJustifyH("CENTER")
+	EditBox.Box:SetMaxLetters(4)
+	EditBox.Box:SetNumeric(true)
+	EditBox.Box:SetAutoFocus(false)
+	EditBox.Box:EnableKeyboard(true)
+	EditBox.Box:EnableMouse(true)
+	EditBox.Box:EnableMouseWheel(true)
+	EditBox.Box:SetText(Value)
+	EditBox.Box:SetScript("OnMouseWheel", EditBoxOnMouseWheel)
+	EditBox.Box:SetScript("OnMouseDown", EditBoxOnMouseDown)
+	EditBox.Box:SetScript("OnEscapePressed", EditBoxOnEnterPressed)
+	EditBox.Box:SetScript("OnEnterPressed", EditBoxOnEnterPressed)
+	EditBox.Box:SetScript("OnEditFocusLost", EditBoxOnEditFocusLost)
+	EditBox.Box.Group = group
+	EditBox.Box.Option = option
+	EditBox.Box.MinValue = minvalue
+	EditBox.Box.MaxValue = maxvalue
+	EditBox.Box.StepValue = stepvalue
+	EditBox.Box.Value = Value
+	EditBox.Box.Parent = EditBox
+	
+	local Slider = CreateFrame("Slider", nil, EditBox)
+	Slider:Point("LEFT", EditBox, "RIGHT", Spacing, 0)
+	Slider:Size(SliderWidth, WidgetHeight)
+	Slider:SetThumbTexture(Texture)
+	Slider:SetOrientation("HORIZONTAL")
+	Slider:SetValueStep(stepvalue)
+	Slider:SetTemplate(nil, Texture)
+	Slider:SetMinMaxValues(minvalue, maxvalue)
+	Slider:SetValue(Value)
+	Slider:EnableMouseWheel(true)
+	Slider:SetScript("OnMouseWheel", SliderOnMouseWheel)
+	Slider:SetScript("OnValueChanged", SliderOnValueChanged)
+	Slider.EditBox = EditBox.Box
+	
+	Slider.Label = Slider:CreateFontString(nil, "OVERLAY")
+	Slider.Label:Point("LEFT", Slider, "RIGHT", Spacing, 0)
+	Slider.Label:SetFontTemplate(Font, 12)
+	Slider.Label:SetText(text)
+	
+	local Thumb = Slider:GetThumbTexture() 
+	Thumb:Size(8, WidgetHeight)
+	Thumb:SetTexture(Blank)
+	Thumb:SetVertexColor(0, 0, 0)
+	
+	Slider.NewTexture = Slider:CreateTexture(nil, "OVERLAY")
+	Slider.NewTexture:Point("TOPLEFT", Slider:GetThumbTexture(), 0, -1)
+	Slider.NewTexture:Point("BOTTOMRIGHT", Slider:GetThumbTexture(), 0, 1)
+	Slider.NewTexture:SetTexture(Blank)
+	Slider.NewTexture:SetVertexColor(0, 0, 0)
+	
+	Slider.NewTexture2 = Slider:CreateTexture(nil, "OVERLAY")
+	Slider.NewTexture2:Point("TOPLEFT", Slider.NewTexture, 1, 0)
+	Slider.NewTexture2:Point("BOTTOMRIGHT", Slider.NewTexture, -1, 0)
+	Slider.NewTexture2:SetTexture(Blank)
+	Slider.NewTexture2:SetVertexColor(unpack(BrightColor))
+	
+	Slider.Progress = Slider:CreateTexture(nil, "ARTWORK")
+	Slider.Progress:Point("TOPLEFT", Slider, 1, -1)
+	Slider.Progress:Point("BOTTOMRIGHT", Slider.NewTexture, "BOTTOMLEFT", 0, 0)
+	Slider.Progress:SetTexture(Texture)
+	Slider.Progress:SetVertexColor(R, G, B)
+	
+	EditBox.Box.Slider = Slider
+	
+	Slider:Show()
+	
+	tinsert(self.Widgets, EditBox)
+	
+	return EditBox
+end
+
+GUI.Widgets.CreateSlider = CreateSlider
 
 -- GUI functions
 GUI.AddWidgets = function(self, func)
@@ -315,8 +518,6 @@ GUI.Create = function(self)
 	self.WindowParent = CreateFrame("Frame", nil, self)
 	self.WindowParent:Size(WidgetListWidth, WidgetListHeight)
 	self.WindowParent:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
-	--self.WindowParent:SetTemplate()
-	--self.WindowParent:SetBackdropColor(unpack(LightColor))
 	
 	self:UnpackQueue()
 	
@@ -413,5 +614,6 @@ GUI:AddWidgets(Options)
 GUI:AddWidgets(function(self)
 	local TestWindow = self:CreateWindow("Test", true)
 	
-	local Switch = TestWindow:CreateSwitch("ActionBars", "Enable", "Enable Actionbars")
+	TestWindow:CreateSwitch("ActionBars", "Enable", "Enable Actionbars")
+	TestWindow:CreateSlider("ActionBars", "NormalButtonSize", 20, 36, 1, "Normal Button Size")
 end)
