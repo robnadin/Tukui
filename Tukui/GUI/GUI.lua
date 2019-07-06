@@ -49,6 +49,7 @@ local ArrowDown = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown
 local LightColor = {0.175, 0.175, 0.175}
 local BGColor = {0.2, 0.2, 0.2}
 local BrightColor = {0.35, 0.35, 0.35}
+local HeaderColor = {0.43, 0.43, 0.43}
 
 -- You can switch this, I just don't know what kind of colors you want to be using, so I picked something.
 local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
@@ -158,7 +159,7 @@ local CreateSection = function(self, text)
 	Section:Point("TOPLEFT", Anchor, 0, 0)
 	Section:Point("BOTTOMRIGHT", Anchor, 0, 0)
 	Section:SetTemplate(nil, Texture)
-	Section:SetBackdropColor(unpack(BrightColor))
+	Section:SetBackdropColor(unpack(HeaderColor))
 	
 	Section.Label = Section:CreateFontString(nil, "OVERLAY")
 	Section.Label:Point("CENTER", Section, LabelSpacing, 0)
@@ -851,7 +852,7 @@ end
 
 local AddScrollBar = function(self)
 	local MaxValue = (#self.Widgets - (self:GetParent().WindowCount - 1))
-	print(MaxValue)
+	
 	local ScrollBar = CreateFrame("Slider", nil, self)
 	ScrollBar:Point("TOPRIGHT", self, -Spacing, -Spacing)
 	ScrollBar:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
@@ -1043,7 +1044,7 @@ GUI.Create = function(self)
 	self.Header:Size(HeaderWidth, HeaderHeight)
 	self.Header:Point("TOP", self, 0, -Spacing)
 	self.Header:SetTemplate(nil, Texture)
-	self.Header:SetBackdropColor(unpack(BrightColor))
+	self.Header:SetBackdropColor(unpack(HeaderColor))
 	
 	self.Header.Label = self.Header:CreateFontString(nil, "OVERLAY")
 	self.Header.Label:Point("CENTER", self.Header, 0, 0)
@@ -1156,9 +1157,12 @@ end
 local General = function(self)
 	local Window = self:CreateWindow("General", true)
 	
+	Window:CreateSection("Styling")
 	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
 	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
 	Window:CreateSlider("General", "UIScale", 0.64, 1.15, 0.01, "Set ui scale")
+	
+	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set ui theme")
 end
 
@@ -1189,23 +1193,33 @@ end
 local Auras = function(self)
 	local Window = self:CreateWindow("Auras")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("Auras", "Enable", "Enable auras module")
+	
+	Window:CreateSection("Styling")
 	Window:CreateSwitch("Auras", "Flash", "Flash auras at low duration")
 	Window:CreateSwitch("Auras", "ClassicTimer", "ClassicTimer")
 	Window:CreateSwitch("Auras", "HideBuffs", "HideBuffs")
 	Window:CreateSwitch("Auras", "HideDebuffs", "HideDebuffs")
 	Window:CreateSwitch("Auras", "Animation", "Animation")
 	Window:CreateSlider("Auras", "BuffsPerRow", 6, 20, 1, "BuffsPerRow")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("Auras", "Font", "Set aura font", "Font")
 end
 
 local Bags = function(self)
 	local Window = self:CreateWindow("Bags")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("Bags", "Enable", "Enable bag module")
+	
+	Window:CreateSection("Sizing")
 	Window:CreateSlider("Bags", "ButtonSize", 20, 36, 1, "Set bag slot size")
 	Window:CreateSlider("Bags", "Spacing", 0, 8, 1, "Set bag slot spacing")
 	Window:CreateSlider("Bags", "ItemsPerRow", 8, 16, 1, "Set items per row")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("Bags", "Font", "Set bag font", "Font")
 end
 
@@ -1213,11 +1227,16 @@ end
 local Chat = function(self)
 	local Window = self:CreateWindow("Chat")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("Chat", "Enable", "Enable chat module")
 	Window:CreateSwitch("Chat", "WhisperSound", "Enable whisper sound")
+	
+	Window:CreateSection("Styling")
 	Window:CreateSwitch("Chat", "ShortChannelName", "Shorten channel names")
 	Window:CreateSwitch("Chat", "LinkBrackets", "Display URL links in brackets")
 	Window:CreateSlider("Chat", "ScrollByX", 1, 6, 1, "Set lines to scroll")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("Chat", "ChatFont", "Set chat font", "Font")
 	Window:CreateDropdown("Chat", "TabFont", "Set chat tab font", "Font")
 end
@@ -1225,6 +1244,7 @@ end
 local Cooldowns = function(self)
 	local Window = self:CreateWindow("Cooldowns")
 	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("Cooldowns", "Font", "Set cooldown font", "Font")
 end
 
@@ -1233,21 +1253,28 @@ end
 local DataTexts = function(self)
 	local Window = self:CreateWindow("DataTexts")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("DataTexts", "Battleground", "Enable battleground datatext")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("DataTexts", "Font", "Set datatext font", "Font")
 end
 
 local Loot = function(self)
 	local Window = self:CreateWindow("Loot")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("Loot", "Enable", "Enable loot module")
-	Window:CreateSwitch("Loot", "StandardLoot", "StandardLoot")
+	Window:CreateSwitch("Loot", "StandardLoot", "Enable standard loot")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("Loot", "Font", "Set loot font", "Font")
 end
 
 local Misc = function(self)
 	local Window = self:CreateWindow("Misc")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("Misc", "ExperienceEnable", "Enable experience module")
 	Window:CreateSwitch("Misc", "ReputationEnable", "Enable reputation module")
 	Window:CreateSwitch("Misc", "ErrorFilterEnable", "Enable error filter module")
@@ -1257,20 +1284,32 @@ end
 local NamePlates = function(self)
 	local Window = self:CreateWindow("NamePlates")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("NamePlates", "Enable", "Enable nameplate module")
+	
+	Window:CreateSection("Styling")
 	Window:CreateSwitch("NamePlates", "OnlySelfDebuffs", "OnlySelfDebuffs")
+	
+	Window:CreateSection("Sizing")
 	Window:CreateSlider("NamePlates", "Width", 60, 200, 10, "Set nameplate width")
 	Window:CreateSlider("NamePlates", "Height", 2, 20, 1, "Set nameplate height")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("NamePlates", "Font", "Set nameplate font", "Font")
 end
 
 local Party = function(self)
 	local Window = self:CreateWindow("Party")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("Party", "Enable", "Enable party module")
+	
+	Window:CreateSection("Styling")
 	Window:CreateSwitch("Party", "ShowPlayer", "Display self in party")
 	Window:CreateSwitch("Party", "ShowHealthText", "Display health text")
 	Window:CreateSlider("Party", "RangeAlpha", 0, 1, 0.1, "Set out of range alpha")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("Party", "Font", "Set party font", "Font")
 	Window:CreateDropdown("Party", "HealthFont", "Set party health font", "Font")
 end
@@ -1278,15 +1317,21 @@ end
 local Raid = function(self)
 	local Window = self:CreateWindow("Raid")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("Raid", "Enable", "Enable raid module")
+	Window:CreateSwitch("Raid", "ShowPets", "Enable pets")
 	Window:CreateSwitch("Raid", "AuraWatch", "Enable aurawatch module")
 	Window:CreateSwitch("Raid", "AuraWatchTimers", "Enable aurawatch timers")
 	Window:CreateSwitch("Raid", "DebuffWatch", "Enable debuffwatch module")
+	Window:CreateSwitch("Raid", "VerticalHealth", "Enable vertical health")
+	
+	Window:CreateSection("Styling")
 	Window:CreateSwitch("Raid", "ShowHealthText", "Display health text")
 	Window:CreateSwitch("Raid", "ShowPets", "Display pets")
-	Window:CreateSwitch("Raid", "VerticalHealth", "Enable vertical health")
 	Window:CreateSlider("Raid", "RangeAlpha", 0, 1, 0.1, "Set out of range alpha")
 	Window:CreateSlider("Raid", "MaxUnitPerColumn", 1, 15, 1, "Set max units per column")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("Raid", "Font", "Set raid font", "Font")
 	Window:CreateDropdown("Raid", "HealthFont", "Set raid health font", "Font")
 	Window:CreateDropdown("Raid", "GroupBy", "Set raid grouping")
@@ -1295,50 +1340,68 @@ end
 local Tooltips = function(self)
 	local Window = self:CreateWindow("Tooltips")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("Tooltips", "Enable", "Enable tooltip module")
-	Window:CreateSwitch("Tooltips", "HideOnUnitFrames", "Hide tooltip on unitframes")
 	Window:CreateSwitch("Tooltips", "UnitHealthText", "enable unit health text")
+	
+	Window:CreateSection("Styling")
+	Window:CreateSwitch("Tooltips", "HideOnUnitFrames", "Hide tooltip on unitframes")
 	Window:CreateSwitch("Tooltips", "MouseOver", "Display tooltips on the cursor")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("Tooltips", "HealthFont", "Set tooltip health font", "Font")
 end
 
 local Textures = function(self)
 	local Window = self:CreateWindow("Textures")
 	
-	Window:CreateDropdown("Textures", "QuestProgressTexture", "Set quest progress texture", "Texture")
-	Window:CreateDropdown("Textures", "TTHealthTexture", "Set tooltip health texture", "Texture")
+	Window:CreateSection("Unitframe")
 	Window:CreateDropdown("Textures", "UFHealthTexture", "Set unitframe health texture", "Texture")
 	Window:CreateDropdown("Textures", "UFPowerTexture", "Set unitframe power texture", "Texture")
 	Window:CreateDropdown("Textures", "UFCastTexture", "Set unitframe castbar texture", "Texture")
+	
+	Window:CreateSection("Party")
 	Window:CreateDropdown("Textures", "UFPartyHealthTexture", "Set party health texture", "Texture")
 	Window:CreateDropdown("Textures", "UFPartyPowerTexture", "Set party party texture", "Texture")
+	
+	Window:CreateSection("Raid")
 	Window:CreateDropdown("Textures", "UFRaidHealthTexture", "Set raid health texture", "Texture")
 	Window:CreateDropdown("Textures", "UFRaidPowerTexture", "Set raid power texture", "Texture")
+	
+	Window:CreateSection("Nameplates")
 	Window:CreateDropdown("Textures", "NPHealthTexture", "Set nameplate health texture", "Texture")
 	Window:CreateDropdown("Textures", "NPPowerTexture", "Set nameplate power texture", "Texture")
 	Window:CreateDropdown("Textures", "NPCastTexture", "Set nameplate castbar texture", "Texture")
-
+	
+	Window:CreateSection("Misc")
+	Window:CreateDropdown("Textures", "QuestProgressTexture", "Set quest progress texture", "Texture")
+	Window:CreateDropdown("Textures", "TTHealthTexture", "Set tooltip health texture", "Texture")
 end
 
 local UnitFrames = function(self)
 	local Window = self:CreateWindow("UnitFrames")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("UnitFrames", "Enable", "Enable unitframe module")
+	
+	Window:CreateSection("Styling")
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")
+	Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
+	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
+	Window:CreateSwitch("UnitFrames", "BossAuras", "Enable boss auras")
 	Window:CreateSwitch("UnitFrames", "UnlinkCastBar", "UnlinkCastBar")
 	Window:CreateSwitch("UnitFrames", "CastBarIcon", "Display castbar spell icon")
 	Window:CreateSwitch("UnitFrames", "CastBarLatency", "Display castbar latency")
 	Window:CreateSwitch("UnitFrames", "ComboBar", "Enable combo point bar")
 	Window:CreateSwitch("UnitFrames", "Smooth", "Enable smooth health transitions")
 	Window:CreateSwitch("UnitFrames", "CombatLog", "Enable combat feedback text")
-	Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
-	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
-	Window:CreateSwitch("UnitFrames", "BossAuras", "Enable boss auras")
 	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "OnlySelfDebuffs")
 	Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "OnlySelfBuffs")
 	Window:CreateSwitch("UnitFrames", "TargetEnemyHostileColor", "TargetEnemyHostileColor")
 	Window:CreateSwitch("UnitFrames", "Boss", "Enable boss unitframe")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("UnitFrames", "Font", "Set unitframe font", "Font")
 end
 
