@@ -413,7 +413,7 @@ GUI.Widgets.CreateSlider = CreateSlider
 
 -- Dropdown Menu
 local DropdownWidth = 144
-local SelectedHighlightAlpha = 0.3
+local SelectedHighlightAlpha = 0.2
 local LastActiveDropdown
 
 local SetArrowUp = function(self)
@@ -495,6 +495,14 @@ local MenuItemOnMouseUp = function(self)
 	end
 	
 	self.GrandParent.Current:SetText(self.Key)
+end
+
+local MenuItemOnEnter = function(self)
+	self.Highlight:SetAlpha(SelectedHighlightAlpha)
+end
+
+local MenuItemOnLeave = function(self)
+	self.Highlight:SetAlpha(0)
 end
 
 local CreateDropdown = function(self, group, option, label, custom)
@@ -596,6 +604,8 @@ local CreateDropdown = function(self, group, option, label, custom)
 		MenuItem:Size(DropdownWidth - 6, WidgetHeight)
 		MenuItem:SetTemplate()
 		MenuItem:SetScript("OnMouseUp", MenuItemOnMouseUp)
+		MenuItem:SetScript("OnEnter", MenuItemOnEnter)
+		MenuItem:SetScript("OnLeave", MenuItemOnLeave)
 		MenuItem.Key = k
 		MenuItem.Value = v
 		MenuItem.Group = group
