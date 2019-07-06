@@ -5,6 +5,7 @@ local T, C, L = select(2, ...):unpack()
 local sort = table.sort
 local tinsert = table.insert
 local tremove = table.remove
+local match = string.match
 local floor = floor
 local unpack = unpack
 local pairs = pairs
@@ -18,7 +19,7 @@ local type = type
 	Create widgets
 	Global/PerChar settings
 	highlights?
-	draggable
+	scrolling
 	
 	Widget list:
 	checkbox(?)
@@ -39,6 +40,9 @@ local Font = C.Medias.Font
 local Texture = C.Medias.Normal
 local Blank = C.Medias.Blank
 
+local ArrowUp = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowUp"
+local ArrowDown = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown"
+
 local MediumColor = {0.15, 0.15, 0.15} -- The default 0.1, 0.1, 0.1 is so dark to my eyes. But all of this styling is ultimately in your hands.
 local LightColor = {0.175, 0.175, 0.175}
 local BrightColor = {0.35, 0.35, 0.35}
@@ -51,6 +55,7 @@ local WindowWidth = 480
 local WindowHeight = 360
 
 local Spacing = 4
+local LabelSpacing = 6
 
 local HeaderWidth = WindowWidth - (Spacing * 2)
 local HeaderHeight = 22
@@ -88,6 +93,53 @@ local SetValue = function(group, option, value)
 	end
 	
 	Settings[group][option] = value
+end
+
+local TrimHex = function(s)
+	local Subbed = match(s, "|cFF%x%x%x%x%x%x(.-)|r")
+	
+	return Subbed or s
+end
+
+local GetOrderedIndex = function(t)
+    local OrderedIndex = {}
+	
+    for key in pairs(t) do
+        tinsert(OrderedIndex, key)
+    end
+	
+	sort(OrderedIndex, function(a, b)
+		return TrimHex(a) < TrimHex(b)
+	end)
+	
+    return OrderedIndex
+end
+
+local OrderedNext = function(t, state)
+	local OrderedIndex = GetOrderedIndex(t)
+	local Key
+	
+    if (state == nil) then
+        Key = OrderedIndex[1]
+		
+        return Key, t[Key]
+    end
+	
+    for i = 1, #OrderedIndex do
+        if (OrderedIndex[i] == state) then
+            Key = OrderedIndex[i + 1]
+        end
+    end
+	
+    if Key then
+        return Key, t[Key]
+    end
+	
+    return
+end
+
+local PairsByKeys = function(t)
+    return OrderedNext, t, nil
 end
 
 -- Switches
@@ -139,8 +191,7 @@ local CreateSwitch = function(self, group, option, text)
 	Switch.TrackTexture:SetVertexColor(R, G, B)
 	
 	Switch.Label = Switch:CreateFontString(nil, "OVERLAY")
-	Switch.Label:Point("LEFT", Switch, "RIGHT", Spacing, 0)
-	--Switch.Label:SetFontTemplate(Font, 12)
+	Switch.Label:Point("LEFT", Switch, "RIGHT", LabelSpacing, 0)
 	StyleFont(Switch.Label, Font, 12)
 	Switch.Label:SetText(text)
 	
@@ -282,7 +333,6 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	EditBox:SetBackdropColor(unpack(MediumColor))
 	
 	EditBox.Box = CreateFrame("EditBox", nil, EditBox)
-	--EditBox.Box:SetFontTemplate(Font, 12)
 	StyleFont(EditBox.Box, Font, 12)
 	EditBox.Box:Point("TOPLEFT", EditBox, Spacing, -2)
 	EditBox.Box:Point("BOTTOMRIGHT", EditBox, -Spacing, 2)
@@ -323,8 +373,7 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	Slider.EditBox = EditBox.Box
 	
 	Slider.Label = Slider:CreateFontString(nil, "OVERLAY")
-	Slider.Label:Point("LEFT", Slider, "RIGHT", Spacing, 0)
-	--Slider.Label:SetFontTemplate(Font, 12)
+	Slider.Label:Point("LEFT", Slider, "RIGHT", LabelSpacing, 0)
 	StyleFont(Slider.Label, Font, 12)
 	Slider.Label:SetText(text)
 	
@@ -361,6 +410,277 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 end
 
 GUI.Widgets.CreateSlider = CreateSlider
+
+-- Dropdown Menu
+local DropdownWidth = 144
+local SelectedHighlightAlpha = 0.3
+local LastActiveDropdown
+
+local SetArrowUp = function(self)
+	self.Arrow:SetTexture(ArrowUp)
+end
+
+local SetArrowDown = function(self)
+	self.Arrow:SetTexture(ArrowDown)
+end
+
+local CloseLastDropdown = function(compare)
+	if (LastActiveDropdown and LastActiveDropdown.Menu:IsShown() and (LastActiveDropdown ~= compare)) then
+		if (not LastActiveDropdown.Menu.FadeOut:IsPlaying()) then
+			LastActiveDropdown.Menu.FadeOut:Play()
+			SetArrowDown(LastActiveDropdown)
+		end
+	end
+end
+
+local DropdownButtonOnMouseUp = function(self)
+	self.Parent.Texture:SetVertexColor(unpack(BrightColor))
+	
+	if self.Menu:IsVisible() then
+		self.Menu.FadeOut:Play()
+		SetArrowDown(self)
+	else
+		for i = 1, #self.Menu do
+			if self.Parent.CustomType then
+				if (self.Menu[i].Key == self.Parent.Value) then
+					self.Menu[i].Selected:Show()
+				else
+					self.Menu[i].Selected:Hide()
+				end
+			else
+				if (self.Menu[i].Value == self.Parent.Value) then
+					self.Menu[i].Selected:Show()
+				else
+					self.Menu[i].Selected:Hide()
+				end
+			end
+		end
+		
+		CloseLastDropdown(self)
+		self.Menu:Show()
+		self.Menu.FadeIn:Play()
+		SetArrowUp(self)
+	end
+	
+	LastActiveDropdown = self
+end
+
+local DropdownButtonOnMouseDown = function(self)
+	local R, G, B = unpack(BrightColor)
+	
+	self.Parent.Texture:SetVertexColor(R * 0.85, G * 0.85, B * 0.85)
+end
+
+local MenuItemOnMouseUp = function(self)
+	self.Parent.FadeOut:Play()
+	SetArrowDown(self.GrandParent.Button)
+	
+	self.Highlight:SetAlpha(0)
+	
+	if self.GrandParent.CustomType then
+		C[self.Group][self.Option].Value = self.Key
+		SetValue(self.Group, self.Option, C[self.Group][self.Option])
+		
+		self.GrandParent.Value = self.Key
+	else
+		SetValue(self.Group, self.Option, self.Value)
+		
+		self.GrandParent.Value = self.Value
+	end
+	
+	if (self.GrandParent.CustomType == "Texture") then
+		self.GrandParent.Texture:SetTexture(self.Key)
+	elseif (self.GrandParent.CustomType == "Font") then
+		self.GrandParent.Current:SetFont(self.Key, 12)
+	end
+	
+	self.GrandParent.Current:SetText(self.Key)
+end
+
+local CreateDropdown = function(self, group, option, label, custom)
+	local Value
+	local Selections
+	
+	if custom then
+		Value = C[group][option].Value
+		Selections = C[group][option].Options
+	else
+		Value = C[group][option].Value
+		Selections = C[group][option].Options
+	end
+	
+	local Dropdown = CreateFrame("Frame", nil, self)
+	Dropdown:Size(DropdownWidth, WidgetHeight)
+	Dropdown:SetTemplate()
+	Dropdown:SetFrameLevel(self:GetFrameLevel() + 1)
+	Dropdown.Values = Selections
+	Dropdown.Value = Value
+	Dropdown.Type = custom
+	
+	Dropdown.Texture = Dropdown:CreateTexture(nil, "ARTWORK")
+	Dropdown.Texture:Point("TOPLEFT", Dropdown, 1, -1)
+	Dropdown.Texture:Point("BOTTOMRIGHT", Dropdown, -1, 1)
+	Dropdown.Texture:SetVertexColor(unpack(BrightColor))
+	
+	Dropdown.Button = CreateFrame("Frame", nil, Dropdown)
+	Dropdown.Button:Size(DropdownWidth, WidgetHeight)
+	Dropdown.Button:Point("LEFT", Dropdown, 0, 0)
+	Dropdown.Button:SetScript("OnMouseUp", DropdownButtonOnMouseUp)
+	Dropdown.Button:SetScript("OnMouseDown", DropdownButtonOnMouseDown)
+
+	Dropdown.Current = Dropdown:CreateFontString(nil, "ARTWORK")
+	Dropdown.Current:Point("LEFT", Dropdown, Spacing, 0)
+	StyleFont(Dropdown.Current, Font, 12)
+	Dropdown.Current:SetJustifyH("LEFT")
+	Dropdown.Current:Width(DropdownWidth - 4)
+	Dropdown.Current:SetText(Value)
+	
+	Dropdown.Label = Dropdown:CreateFontString(nil, "OVERLAY")
+	Dropdown.Label:Point("LEFT", Dropdown, "RIGHT", LabelSpacing, 0)
+	StyleFont(Dropdown.Label, Font, 12)
+	Dropdown.Label:SetJustifyH("LEFT")
+	Dropdown.Label:Width(DropdownWidth - 4)
+	Dropdown.Label:SetText(label)
+	
+	Dropdown.ArrowAnchor = CreateFrame("Frame", nil, Dropdown)
+	Dropdown.ArrowAnchor:Size(WidgetHeight, WidgetHeight)
+	Dropdown.ArrowAnchor:Point("RIGHT", Dropdown, 0, 0)
+	
+	Dropdown.Button.Arrow = Dropdown.ArrowAnchor:CreateTexture(nil, "OVERLAY")
+	Dropdown.Button.Arrow:Size(10, 10)
+	Dropdown.Button.Arrow:Point("CENTER", Dropdown.ArrowAnchor, 0, 0)
+	Dropdown.Button.Arrow:SetTexture(ArrowDown)
+	Dropdown.Button.Arrow:SetVertexColor(R, G, B)
+	
+	Dropdown.Menu = CreateFrame("Frame", nil, Dropdown)
+	Dropdown.Menu:Point("TOP", Dropdown, "BOTTOM", 0, -2)
+	Dropdown.Menu:Size(DropdownWidth - 6, 1)
+	Dropdown.Menu:SetTemplate()
+	Dropdown.Menu:SetBackdropBorderColor(0, 0, 0)
+	Dropdown.Menu:SetFrameLevel(Dropdown.Menu:GetFrameLevel() + 1)
+	Dropdown.Menu:Hide()
+	Dropdown.Menu:SetAlpha(0)
+	
+	Dropdown.Button.Menu = Dropdown.Menu
+	Dropdown.Button.Parent = Dropdown
+	
+	Dropdown.Menu.Fade = CreateAnimationGroup(Dropdown.Menu)
+	
+	Dropdown.Menu.FadeIn = Dropdown.Menu.Fade:CreateAnimation("Fade")
+	Dropdown.Menu.FadeIn:SetEasing("in-sinusoidal")
+	Dropdown.Menu.FadeIn:SetDuration(0.15)
+	Dropdown.Menu.FadeIn:SetChange(1)
+	
+	Dropdown.Menu.FadeOut = Dropdown.Menu.Fade:CreateAnimation("Fade")
+	Dropdown.Menu.FadeOut:SetEasing("out-sinusoidal")
+	Dropdown.Menu.FadeOut:SetDuration(0.15)
+	Dropdown.Menu.FadeOut:SetChange(0)
+	Dropdown.Menu.FadeOut:SetScript("OnFinished", function(self)
+		self:GetParent():Hide()
+	end)
+	
+	Dropdown.Menu.BG = CreateFrame("Frame", nil, Dropdown.Menu)
+	Dropdown.Menu.BG:Point("TOPLEFT", Dropdown.Menu, -3, 3)
+	Dropdown.Menu.BG:Point("BOTTOMRIGHT", Dropdown.Menu, 3, -3)
+	Dropdown.Menu.BG:SetTemplate()
+	Dropdown.Menu.BG:SetFrameLevel(Dropdown.Menu:GetFrameLevel() - 1)
+	Dropdown.Menu.BG:EnableMouse(true)
+	
+	local Count = 0
+	local LastMenuItem
+	
+	for k, v in PairsByKeys(Selections) do
+		Count = Count + 1
+		
+		local MenuItem = CreateFrame("Frame", nil, Dropdown.Menu)
+		MenuItem:Size(DropdownWidth - 6, WidgetHeight)
+		MenuItem:SetTemplate()
+		MenuItem:SetScript("OnMouseUp", MenuItemOnMouseUp)
+		MenuItem.Key = k
+		MenuItem.Value = v
+		MenuItem.Group = group
+		MenuItem.Option = option
+		MenuItem.Parent = MenuItem:GetParent()
+		MenuItem.GrandParent = MenuItem:GetParent():GetParent()
+		
+		MenuItem.Highlight = MenuItem:CreateTexture(nil, "OVERLAY")
+		MenuItem.Highlight:Point("TOPLEFT", MenuItem, 1, -1)
+		MenuItem.Highlight:Point("BOTTOMRIGHT", MenuItem, -1, 1)
+		MenuItem.Highlight:SetTexture(Blank)
+		MenuItem.Highlight:SetVertexColor(1, 1, 1, SelectedHighlightAlpha)
+		MenuItem.Highlight:SetAlpha(0)
+		
+		MenuItem.Texture = MenuItem:CreateTexture(nil, "ARTWORK")
+		MenuItem.Texture:Point("TOPLEFT", MenuItem, 1, -1)
+		MenuItem.Texture:Point("BOTTOMRIGHT", MenuItem, -1, 1)
+		MenuItem.Texture:SetTexture(Texture)
+		MenuItem.Texture:SetVertexColor(unpack(BrightColor))
+		
+		MenuItem.Selected = MenuItem:CreateTexture(nil, "OVERLAY")
+		MenuItem.Selected:Point("TOPLEFT", MenuItem, 1, -1)
+		MenuItem.Selected:Point("BOTTOMRIGHT", MenuItem, -1, 1)
+		MenuItem.Selected:SetTexture(Blank)
+		MenuItem.Selected:SetVertexColor(R, G, B)
+		MenuItem.Selected:SetAlpha(SelectedHighlightAlpha)
+		
+		MenuItem.Text = MenuItem:CreateFontString(nil, "OVERLAY")
+		MenuItem.Text:Point("LEFT", MenuItem, 5, 0)
+		StyleFont(MenuItem.Text, Font, 12)
+		MenuItem.Text:SetJustifyH("LEFT")
+		MenuItem.Text:SetShadowColor(0, 0, 0)
+		MenuItem.Text:SetShadowOffset(1, -1)
+		MenuItem.Text:SetText(k)
+		
+		if (custom == "Texture") then
+			MenuItem.Texture:SetTexture(k)
+		elseif (custom == "Font") then
+			MenuItem.Text:SetFont(k, 12)
+		end
+		
+		if custom then
+			if (MenuItem.Key == MenuItem.GrandParent.Value) then
+				MenuItem.Selected:Show()
+				MenuItem.GrandParent.Current:SetText(k)
+			else
+				MenuItem.Selected:Hide()
+			end
+		else
+			if (MenuItem.Value == MenuItem.GrandParent.Value) then
+				MenuItem.Selected:Show()
+				MenuItem.GrandParent.Current:SetText(k)
+			else
+				MenuItem.Selected:Hide()
+			end
+		end
+		
+		tinsert(Dropdown.Menu, MenuItem)
+		
+		if LastMenuItem then
+			MenuItem:Point("TOP", LastMenuItem, "BOTTOM", 0, 1)
+		else
+			MenuItem:Point("TOP", Dropdown.Menu, 0, 0)
+		end
+		
+		LastMenuItem = MenuItem
+	end
+	
+	if (custom == "Texture") then
+		Dropdown.Texture:SetTexture(Value)
+	elseif (custom == "Font") then
+		Dropdown.Texture:SetTexture(Texture)
+		StyleFont(Dropdown.Current, Font, 12)
+	else
+		Dropdown.Texture:SetTexture(Texture)
+	end
+	
+	Dropdown.Menu:Height(((WidgetHeight - 1) * Count) + 1)
+	
+	tinsert(self.Widgets, Dropdown)
+	
+	return Dropdown
+end
+
+GUI.Widgets.CreateDropdown = CreateDropdown
 
 -- GUI functions
 GUI.AddWidgets = function(self, func)
@@ -666,6 +986,7 @@ GUI:AddWidgets(Options)
 GUI:AddWidgets(function(self)
 	local TestWindow = self:CreateWindow("Test", true)
 	
-	TestWindow:CreateSwitch("ActionBars", "Enable", "Enable Actionbars")
-	TestWindow:CreateSlider("ActionBars", "NormalButtonSize", 20, 36, 1, "Normal Button Size")
+	TestWindow:CreateSwitch("ActionBars", "Enable", "Enable actionbars module")
+	TestWindow:CreateSlider("ActionBars", "NormalButtonSize", 20, 36, 1, "Set normal button size")
+	TestWindow:CreateDropdown("General", "Themes", "Set the UI theme")
 end)

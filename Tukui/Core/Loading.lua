@@ -33,12 +33,18 @@ function Loading:LoadCustomSettings()
 
 			for option, value in pairs(options) do
 				if (C[group][option] ~= nil) then
-					if (C[group][option] == value) then
+					if (C[group][option].Value and C[group][option].Value == value) then
+						Settings[group][option] = nil
+					elseif (C[group][option] == value) then
 						Settings[group][option] = nil
 					else
 						Count = Count + 1
 
-						C[group][option] = value
+						if C[group][option].Value then
+							C[group][option].Value = value
+						else
+							C[group][option] = value
+						end
 					end
 				end
 			end
