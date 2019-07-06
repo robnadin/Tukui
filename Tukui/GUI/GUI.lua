@@ -219,7 +219,7 @@ end
 GUI.Widgets.CreateSwitch = CreateSwitch
 
 -- Sliders
-local SliderWidth = 94
+local SliderWidth = 84
 local EditboxWidth = 46
 
 local Round = function(num, dec)
@@ -425,7 +425,7 @@ end
 GUI.Widgets.CreateSlider = CreateSlider
 
 -- Dropdown Menu
-local DropdownWidth = 144
+local DropdownWidth = 134
 local SelectedHighlightAlpha = 0.2
 local LastActiveDropdown
 
