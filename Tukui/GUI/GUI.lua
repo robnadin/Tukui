@@ -1241,13 +1241,6 @@ local Chat = function(self)
 	Window:CreateDropdown("Chat", "TabFont", "Set chat tab font", "Font")
 end
 
-local Cooldowns = function(self)
-	local Window = self:CreateWindow("Cooldowns")
-	
-	Window:CreateSection("Font")
-	Window:CreateDropdown("Cooldowns", "Font", "Set cooldown font", "Font")
-end
-
 --["NameColor"] = {1, 1, 1}
 --["ValueColor"] = {1, 1, 1}
 local DataTexts = function(self)
@@ -1279,6 +1272,9 @@ local Misc = function(self)
 	Window:CreateSwitch("Misc", "ReputationEnable", "Enable reputation module")
 	Window:CreateSwitch("Misc", "ErrorFilterEnable", "Enable error filter module")
 	Window:CreateSwitch("Misc", "AutoInviteEnable", "Enable auto invite module")
+	
+	Window:CreateSection("Cooldowns")
+	Window:CreateDropdown("Cooldowns", "Font", "Set cooldown font", "Font")
 end
 
 local NamePlates = function(self)
@@ -1411,7 +1407,6 @@ GUI:AddWidgets(ActionBars)
 GUI:AddWidgets(Auras)
 GUI:AddWidgets(Bags)
 GUI:AddWidgets(Chat)
-GUI:AddWidgets(Cooldowns)
 GUI:AddWidgets(DataTexts)
 GUI:AddWidgets(Loot)
 GUI:AddWidgets(Misc)
