@@ -778,7 +778,7 @@ GUI.CreateWindow = function(self, name, default)
 		return
 	end
 	
-	self.WindowCount = self.WindowCount or 1 -- We start at 1 becuase of the apply button
+	self.WindowCount = self.WindowCount or 1 -- We start at 1 because of the apply button
 	
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
@@ -792,7 +792,6 @@ GUI.CreateWindow = function(self, name, default)
 	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("CENTER", Button, 0, 0)
-	--Button.Label:SetFontTemplate(Font, 14)
 	StyleFont(Button.Label, Font, 14)
 	Button.Label:SetText(name)
 	
@@ -806,7 +805,6 @@ GUI.CreateWindow = function(self, name, default)
 	
 	local Window = CreateFrame("Frame", nil, self.WindowParent)
 	Window:Width(WidgetListWidth)
-	--Window:Point("CENTER", self.WindowParent, 0, 0)
 	Window:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
 	Window:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
 	Window:SetTemplate()
@@ -882,14 +880,12 @@ GUI.Create = function(self)
 	
 	self.Header.Label = self.Header:CreateFontString(nil, "OVERLAY")
 	self.Header.Label:Point("CENTER", self.Header, 0, 0)
-	--self.Header.Label:SetFontTemplate(Font, 16)
 	StyleFont(self.Header.Label, Font, 16)
 	self.Header.Label:SetText("|cffff8000Tukui|r settings")
 	
 	-- Button list
 	self.ButtonList = CreateFrame("Frame", nil, self)
 	self.ButtonList:Width(ButtonListWidth)
-	--self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
 	self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
 	self.ButtonList:Point("TOPLEFT", self.Header, "BOTTOMLEFT", 0, -(Spacing - 1))
 	self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
@@ -911,14 +907,13 @@ GUI.Create = function(self)
 	
 	self.Close.Label = self.Close:CreateFontString(nil, "OVERLAY")
 	self.Close.Label:Point("CENTER", self.Close, 0, 0)
-	--self.Close.Label:SetFontTemplate(Font, 16)
 	StyleFont(self.Close.Label, Font, 16)
 	self.Close.Label:SetText("×")
 	
 	self:UnpackQueue()
 	
 	-- Set the frame height
-	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing))
+	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing) - 2)
 	
 	if self.DefaultWindow then
 		self:DisplayWindow(self.DefaultWindow)
