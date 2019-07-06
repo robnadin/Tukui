@@ -39,14 +39,14 @@ local StyleFont = function(fs, font, size)
 end
 
 local Font = C.Medias.Font
-local Texture = C.Medias.Normal
+local Texture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Status\\ElvUI2"
 local Blank = C.Medias.Blank
 
 local ArrowUp = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowUp"
 local ArrowDown = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown"
 
-local MediumColor = {0.15, 0.15, 0.15} -- The default 0.1, 0.1, 0.1 is so dark to my eyes. But all of this styling is ultimately in your hands.
 local LightColor = {0.175, 0.175, 0.175}
+local BGColor = {0.2, 0.2, 0.2}
 local BrightColor = {0.35, 0.35, 0.35}
 
 -- You can switch this, I just don't know what kind of colors you want to be using, so I picked something.
@@ -179,7 +179,7 @@ local CreateSwitch = function(self, group, option, text)
 	Switch:Point("LEFT", Anchor, 0, 0)
 	Switch:Size(SwitchWidth, WidgetHeight)
 	Switch:SetTemplate(nil, Texture)
-	Switch:SetBackdropColor(unpack(MediumColor))
+	Switch:SetBackdropColor(unpack(BGColor))
 	Switch:SetScript("OnMouseUp", SwitchOnMouseUp)
 	Switch.Value = Value
 	Switch.Group = group
@@ -344,7 +344,7 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	EditBox:Point("LEFT", Anchor, 0, 0)
 	EditBox:Size(EditboxWidth, WidgetHeight)
 	EditBox:SetTemplate(nil, Texture)
-	EditBox:SetBackdropColor(unpack(MediumColor))
+	EditBox:SetBackdropColor(unpack(BGColor))
 	
 	EditBox.Box = CreateFrame("EditBox", nil, EditBox)
 	StyleFont(EditBox.Box, Font, 12)
@@ -377,7 +377,7 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	Slider:SetOrientation("HORIZONTAL")
 	Slider:SetValueStep(stepvalue)
 	Slider:SetTemplate(nil, Texture)
-	Slider:SetBackdropColor(unpack(MediumColor))
+	Slider:SetBackdropColor(unpack(BGColor))
 	Slider:SetMinMaxValues(minvalue, maxvalue)
 	Slider:SetValue(Value)
 	Slider:EnableMouseWheel(true)
@@ -713,10 +713,6 @@ end
 GUI.Widgets.CreateDropdown = CreateDropdown
 
 -- GUI functions
-GUI.SetScroll = function(self, offset)
-	
-end
-
 GUI.AddWidgets = function(self, func)
 	if (type(func) ~= "function") then
 		return
@@ -763,6 +759,43 @@ local SortWidgets = function(self)
 	self.Sorted = true
 end
 
+local WindowOnMouseWheel = function(self, delta)
+	local First = false
+	
+	if (delta == 1) then -- up
+		self.Offset = self.Offset - 1
+		
+		if (self.Offset <= 1) then
+			self.Offset = 1
+		end
+	else -- down
+		self.Offset = self.Offset + 1
+		
+		if (self.Offset > (#self.Widgets - (self:GetParent().WindowCount - 1))) then
+			self.Offset = self.Offset - 1
+		end
+	end
+	
+	for i = 1, #self.Widgets do
+		if (i >= self.Offset) and (i <= self.Offset + (self:GetParent().WindowCount - 1)) then
+			if (not First) then
+				self.Widgets[i]:SetPoint("TOPLEFT", self, Spacing, -(Spacing - 1))
+				First = true
+			else
+				self.Widgets[i]:SetPoint("TOPLEFT", self.Widgets[i-1], "BOTTOMLEFT", 0, -(Spacing - 1))
+			end
+			
+			self.Widgets[i]:Show()
+		else
+			self.Widgets[i]:Hide()
+		end
+	end
+end
+
+local SetScroll = function(self, offset)
+	WindowOnMouseWheel(self, offset)
+end
+
 GUI.DisplayWindow = function(self, name)
 	for WindowName, Window in pairs(self.Windows) do
 		if (WindowName ~= name) then
@@ -770,6 +803,7 @@ GUI.DisplayWindow = function(self, name)
 		else
 			if (not Window.Sorted) then
 				SortWidgets(Window)
+				Window:SetScroll(1)
 			end
 			
 			Window:Show()
@@ -798,8 +832,8 @@ GUI.CreateWindow = function(self, name, default)
 	
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
-	Button:SetTemplate()
-	Button:SetBackdropColor(unpack(MediumColor))
+	Button:SetTemplate(nil, Texture)
+	Button:SetBackdropColor(unpack(BrightColor))
 	Button:SetScript("OnMouseUp", MenuButtonOnMouseUp)
 	Button:SetScript("OnEnter", MenuButtonOnEnter)
 	Button:SetScript("OnLeave", MenuButtonOnLeave)
@@ -814,7 +848,7 @@ GUI.CreateWindow = function(self, name, default)
 	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
 	Button.Highlight:SetAllPoints()
 	Button.Highlight:SetTexture(Texture)
-	Button.Highlight:SetVertexColor(0.3, 0.3, 0.3, 0.3)
+	Button.Highlight:SetVertexColor(0.5, 0.5, 0.5, 0.3)
 	Button.Highlight:Hide()
 	
 	tinsert(self.Buttons, Button)
@@ -825,8 +859,12 @@ GUI.CreateWindow = function(self, name, default)
 	Window:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
+	Window:EnableMouseWheel(true)
+	Window:SetScript("OnMouseWheel", WindowOnMouseWheel)
 	Window:Hide()
 	Window.Widgets = {}
+	Window.Offset = 1
+	Window.SetScroll = SetScroll
 	
 	self.Windows[name] = Window
 	
@@ -872,7 +910,7 @@ GUI.Create = function(self)
 	self:Size(WindowWidth, WindowHeight)
 	self:Point("CENTER", UIParent, 0, 0)
 	self:SetTemplate()
-	self:SetBackdropColor(unpack(MediumColor))
+	self:SetBackdropColor(unpack(BGColor))
 	self:SetAlpha(0)
 	self:EnableMouse(true)
 	self:SetMovable(true)
@@ -902,7 +940,7 @@ GUI.Create = function(self)
 	self.Header:Size(HeaderWidth, HeaderHeight)
 	self.Header:Point("TOP", self, 0, -Spacing)
 	self.Header:SetTemplate(nil, Texture)
-	self.Header:SetBackdropColor(unpack(LightColor))
+	self.Header:SetBackdropColor(unpack(BrightColor))
 	
 	self.Header.Label = self.Header:CreateFontString(nil, "OVERLAY")
 	self.Header.Label:Point("CENTER", self.Header, 0, 0)
@@ -934,8 +972,8 @@ GUI.Create = function(self)
 	-- Apply
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
-	Button:SetTemplate()
-	Button:SetBackdropColor(unpack(MediumColor))
+	Button:SetTemplate(nil, Texture)
+	Button:SetBackdropColor(unpack(BrightColor))
 	Button:SetScript("OnMouseUp", ReloadUI)
 	Button:SetScript("OnEnter", MenuButtonOnEnter)
 	Button:SetScript("OnLeave", MenuButtonOnLeave)
@@ -949,7 +987,7 @@ GUI.Create = function(self)
 	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
 	Button.Highlight:SetAllPoints()
 	Button.Highlight:SetTexture(Texture)
-	Button.Highlight:SetVertexColor(0.3, 0.3, 0.3, 0.3)
+	Button.Highlight:SetVertexColor(0.5, 0.5, 0.5, 0.3)
 	Button.Highlight:Hide()
 	
 	self:UnpackQueue()
