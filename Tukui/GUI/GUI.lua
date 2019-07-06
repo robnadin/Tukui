@@ -26,9 +26,10 @@ local type = type
 	checkbox(?)
 	-switch
 	-slider
-	--dropdown (for textures, fonts, and misc)
-	
+	-dropdown (for textures, fonts, and misc)
 	color
+	
+	Make text the 3rd argument of all widgets for consistency
 ]]
 
 -- IMO :SetFontTemplate should let you set the flag too
@@ -147,6 +148,30 @@ end
 local PairsByKeys = function(t)
     return OrderedNext, t, nil
 end
+
+-- Sections
+local CreateSection = function(self, text)
+	local Anchor = CreateFrame("Frame", nil, self)
+	Anchor:Size(WidgetListWidth - (Spacing * 2), WidgetHeight)
+	
+	local Section = CreateFrame("Frame", nil, Anchor)
+	Section:Point("TOPLEFT", Anchor, 0, 0)
+	Section:Point("BOTTOMRIGHT", Anchor, 0, 0)
+	Section:SetTemplate(nil, Texture)
+	Section:SetBackdropColor(unpack(BrightColor))
+	
+	Section.Label = Section:CreateFontString(nil, "OVERLAY")
+	Section.Label:Point("CENTER", Section, LabelSpacing, 0)
+	StyleFont(Section.Label, Font, 12)
+	Section.Label:SetJustifyH("CENTER")
+	Section.Label:SetText(text)
+	
+	tinsert(self.Widgets, Anchor)
+	
+	return Section
+end
+
+GUI.Widgets.CreateSection = CreateSection
 
 -- Switches
 local SwitchWidth = 46
@@ -763,7 +788,7 @@ local Scroll = function(self)
 	local First = false
 	
 	for i = 1, #self.Widgets do
-		if (i >= self.Offset) and (i <= self.Offset + (self:GetParent().WindowCount - 1)) then
+		if (i >= self.Offset) and (i <= self.Offset + self:GetParent().WindowCount - 1) then
 			if (not First) then
 				self.Widgets[i]:SetPoint("TOPLEFT", self, Spacing, -(Spacing - 1))
 				First = true
@@ -805,7 +830,7 @@ local SetScroll = function(self, offset)
 	
 	if (self.Offset <= 1) then
 		self.Offset = 1
-	elseif (self.Offset > (#self.Widgets - (self:GetParent().WindowCount - 1))) then
+	elseif (self.Offset > (#self.Widgets - self:GetParent().WindowCount - 1)) then
 		self.Offset = self.Offset - 1
 	end
 	
@@ -826,7 +851,7 @@ end
 
 local AddScrollBar = function(self)
 	local MaxValue = (#self.Widgets - (self:GetParent().WindowCount - 1))
-	
+	print(MaxValue)
 	local ScrollBar = CreateFrame("Slider", nil, self)
 	ScrollBar:Point("TOPRIGHT", self, -Spacing, -Spacing)
 	ScrollBar:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
@@ -882,7 +907,7 @@ GUI.DisplayWindow = function(self, name)
 			if (not Window.Sorted) then
 				SortWidgets(Window)
 				
-				if (#Window.Widgets > (self.WindowCount - 1)) then
+				if (#Window.Widgets > self.WindowCount) then
 					AddScrollBar(Window)
 				end
 			end
@@ -941,7 +966,7 @@ GUI.CreateWindow = function(self, name, default)
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
 	Window.Widgets = {}
-	Window.Offset = 1
+	Window.Offset = 0
 	Window:Hide()
 	
 	self.Windows[name] = Window
@@ -1140,17 +1165,24 @@ end
 local ActionBars = function(self)
 	local Window = self:CreateWindow("Actionbars")
 	
+	Window:CreateSection("Enable")
 	Window:CreateSwitch("ActionBars", "Enable", "Enable actionbar module")
-	Window:CreateSwitch("ActionBars", "HotKey", "Enable hotkeys text")
-	Window:CreateSwitch("ActionBars", "EquipBorder", "EquipBorder")
-	Window:CreateSwitch("ActionBars", "Macro", "Enable macro text")
-	Window:CreateSwitch("ActionBars", "ShapeShift", "ShapeShift")
 	Window:CreateSwitch("ActionBars", "Pet", "Enable pet bar")
+	Window:CreateSwitch("ActionBars", "HotKey", "Enable hotkeys text")
+	Window:CreateSwitch("ActionBars", "Macro", "Enable macro text")
+	
+	Window:CreateSection("Styling")
+	Window:CreateSwitch("ActionBars", "EquipBorder", "EquipBorder")
+	Window:CreateSwitch("ActionBars", "ShapeShift", "ShapeShift")
 	Window:CreateSwitch("ActionBars", "SwitchBarOnStance", "Switch bar on stance changes")
 	Window:CreateSwitch("ActionBars", "HideBackdrop", "Hide the actionbar backdrop")
+	
+	Window:CreateSection("Sizing")
 	Window:CreateSlider("ActionBars", "NormalButtonSize", 20, 36, 1, "Set button size")
 	Window:CreateSlider("ActionBars", "PetButtonSize", 20, 36, 1, "Set pet button size")
 	Window:CreateSlider("ActionBars", "ButtonSpacing", 0, 8, 1, "Set button spacing")
+	
+	Window:CreateSection("Font")
 	Window:CreateDropdown("ActionBars", "Font", "Set actionbar font", "Font")
 end
 
