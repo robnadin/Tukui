@@ -854,6 +854,10 @@ local CloseOnMouseUp = function()
 end
 
 GUI.Create = function(self)
+	if self.Created then
+		return
+	end
+	
 	-- Main Window
 	self:Size(WindowWidth, WindowHeight)
 	self:Point("CENTER", UIParent, 0, 0)
@@ -955,10 +959,6 @@ GUI.Toggle = function(self)
 		return
 	end
 	
-	if (not self.Created) then
-		self:Create()
-	end
-	
 	if self:IsShown() then
 		self.FadeOut:Play()
 	else
@@ -968,6 +968,8 @@ GUI.Toggle = function(self)
 end
 
 GUI.VARIABLES_LOADED = function(self, event)
+	self:Create()
+	
 	self:UnregisterEvent(event)
 end
 
