@@ -20,12 +20,14 @@ local type = type
 	Global/PerChar settings
 	highlights?
 	scrolling
+	dropdown scrolling
 	
 	Widget list:
 	checkbox(?)
 	-switch
 	-slider
-	dropdown (for textures, fonts, and misc)
+	--dropdown (for textures, fonts, and misc)
+	
 	color
 ]]
 
@@ -776,6 +778,8 @@ GUI.CreateWindow = function(self, name, default)
 		return
 	end
 	
+	self.WindowCount = self.WindowCount or 1 -- We start at 1 becuase of the apply button
+	
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
 	Button:SetTemplate()
@@ -801,12 +805,14 @@ GUI.CreateWindow = function(self, name, default)
 	tinsert(self.Buttons, Button)
 	
 	local Window = CreateFrame("Frame", nil, self.WindowParent)
-	Window:Size(WidgetListWidth, WidgetListHeight)
-	Window:Point("CENTER", self.WindowParent, 0, 0)
+	Window:Width(WidgetListWidth)
+	--Window:Point("CENTER", self.WindowParent, 0, 0)
+	Window:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
+	Window:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
-	Window.Widgets = {}
 	Window:Hide()
+	Window.Widgets = {}
 	
 	self.Windows[name] = Window
 	
@@ -817,6 +823,8 @@ GUI.CreateWindow = function(self, name, default)
 	if default then
 		self.DefaultWindow = name
 	end
+	
+	self.WindowCount = self.WindowCount + 1
 	
 	self:SortMenuButtons()
 	
@@ -880,7 +888,10 @@ GUI.Create = function(self)
 	
 	-- Button list
 	self.ButtonList = CreateFrame("Frame", nil, self)
-	self.ButtonList:Size(ButtonListWidth, ButtonListHeight)
+	self.ButtonList:Width(ButtonListWidth)
+	--self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
+	self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
+	self.ButtonList:Point("TOPLEFT", self.Header, "BOTTOMLEFT", 0, -(Spacing - 1))
 	self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
 	self.ButtonList:SetTemplate()
 	self.ButtonList:SetBackdropColor(unpack(LightColor))
@@ -906,6 +917,9 @@ GUI.Create = function(self)
 	
 	self:UnpackQueue()
 	
+	-- Set the frame height
+	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing))
+	
 	if self.DefaultWindow then
 		self:DisplayWindow(self.DefaultWindow)
 	end
@@ -922,7 +936,6 @@ GUI.Create = function(self)
 	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("CENTER", Button, 0, 0)
-	--Button.Label:SetFontTemplate(Font, 14)
 	StyleFont(Button.Label, Font, 14)
 	Button.Label:SetText("Apply")
 	
@@ -988,31 +1001,8 @@ if (not Testing) then
 	return
 end
 
-local Options = function(self)
-	self:CreateWindow("General")
-	self:CreateWindow("Tooltips")
-	--self:CreateWindow("Actionbars")
-	self:CreateWindow("Minimap")
-	self:CreateWindow("UnitFrames")
-end
-
---[[
-	["Enable"] = true,
-	["HotKey"] = false,
-	["EquipBorder"] = true,
-	["Macro"] = false,
-	["ShapeShift"] = true,
-	["Pet"] = true,
-	["SwitchBarOnStance"] = true,
-	["NormalButtonSize"] = 27,
-	["PetButtonSize"] = 25,
-	["ButtonSpacing"] = 4,
-	["HideBackdrop"] = false,
-	["Font"] = "Tukui Outline",
---]]
-
 local ActionBars = function(self)
-	local Window = self:CreateWindow("Actionbars")
+	local Window = self:CreateWindow("Actionbars", true)
 	
 	Window:CreateSwitch("ActionBars", "Enable", "Enable actionbar module")
 	Window:CreateSwitch("ActionBars", "HotKey", "Enable hotkeys text")
@@ -1024,18 +1014,178 @@ local ActionBars = function(self)
 	Window:CreateSwitch("ActionBars", "HideBackdrop", "Hide the actionbar backdrop")
 	Window:CreateSlider("ActionBars", "NormalButtonSize", 20, 36, 1, "Set button size")
 	Window:CreateSlider("ActionBars", "PetButtonSize", 20, 36, 1, "Set pet button size")
-	Window:CreateSlider("ActionBars", "ButtonSpacing", -1, 8, 1, "Set button spacing")
+	Window:CreateSlider("ActionBars", "ButtonSpacing", 0, 8, 1, "Set button spacing")
 	Window:CreateDropdown("ActionBars", "Font", "Set actionbar font", "Font")
 end
 
-GUI:AddWidgets(ActionBars)
-GUI:AddWidgets(Options)
-
--- More real example
-GUI:AddWidgets(function(self)
-	local TestWindow = self:CreateWindow("Test", true)
+local Auras = function(self)
+	local Window = self:CreateWindow("Auras")
 	
-	TestWindow:CreateSwitch("ActionBars", "Enable", "Enable actionbars module")
-	TestWindow:CreateSlider("ActionBars", "NormalButtonSize", 20, 36, 1, "Set normal button size")
-	TestWindow:CreateDropdown("General", "Themes", "Set the UI theme")
-end)
+	Window:CreateSwitch("Auras", "Enable", "Enable auras module")
+	Window:CreateSwitch("Auras", "Flash", "Flash auras at low duration")
+	Window:CreateSwitch("Auras", "ClassicTimer", "ClassicTimer")
+	Window:CreateSwitch("Auras", "HideBuffs", "HideBuffs")
+	Window:CreateSwitch("Auras", "HideDebuffs", "HideDebuffs")
+	Window:CreateSwitch("Auras", "Animation", "Animation")
+	Window:CreateSlider("Auras", "BuffsPerRow", 6, 20, 1, "BuffsPerRow")
+	Window:CreateDropdown("Auras", "Font", "Set aura font", "Font")
+end
+
+local Bags = function(self)
+	local Window = self:CreateWindow("Bags")
+	
+	Window:CreateSwitch("Bags", "Enable", "Enable bag module")
+	Window:CreateSlider("Bags", "ButtonSize", 20, 36, 1, "Set bag slot size")
+	Window:CreateSlider("Bags", "Spacing", 0, 8, 1, "Set bag slot spacing")
+	Window:CreateSlider("Bags", "ItemsPerRow", 8, 16, 1, "Set items per row")
+	Window:CreateDropdown("Bags", "Font", "Set bag font", "Font")
+end
+
+-- ["LinkColor"] = {0.08, 1, 0.36}
+local Chat = function(self)
+	local Window = self:CreateWindow("Chat")
+	
+	Window:CreateSwitch("Chat", "Enable", "Enable chat module")
+	Window:CreateSwitch("Chat", "WhisperSound", "Enable whisper sound")
+	Window:CreateSwitch("Chat", "ShortChannelName", "Shorten channel names")
+	Window:CreateSwitch("Chat", "LinkBrackets", "Display URL links in brackets")
+	Window:CreateSlider("Chat", "ScrollByX", 1, 6, 1, "Set lines to scroll")
+	Window:CreateDropdown("Chat", "ChatFont", "Set chat font", "Font")
+	Window:CreateDropdown("Chat", "TabFont", "Set chat tab font", "Font")
+end
+
+local Cooldowns = function(self)
+	local Window = self:CreateWindow("Cooldowns")
+	
+	Window:CreateDropdown("Cooldowns", "Font", "Set cooldown font", "Font")
+end
+
+--["NameColor"] = {1, 1, 1}
+--["ValueColor"] = {1, 1, 1}
+local DataTexts = function(self)
+	local Window = self:CreateWindow("DataTexts")
+	
+	Window:CreateSwitch("DataTexts", "Battleground", "Enable battleground datatext")
+	Window:CreateDropdown("DataTexts", "Font", "Set datatext font", "Font")
+end
+
+local Loot = function(self)
+	local Window = self:CreateWindow("Loot")
+	
+	Window:CreateSwitch("Loot", "Enable", "Enable loot module")
+	Window:CreateSwitch("Loot", "StandardLoot", "StandardLoot")
+	Window:CreateDropdown("Loot", "Font", "Set loot font", "Font")
+end
+
+local Misc = function(self)
+	local Window = self:CreateWindow("Misc")
+	
+	Window:CreateSwitch("Misc", "ExperienceEnable", "Enable experience module")
+	Window:CreateSwitch("Misc", "ReputationEnable", "Enable reputation module")
+	Window:CreateSwitch("Misc", "ErrorFilterEnable", "Enable error filter module")
+	Window:CreateSwitch("Misc", "AutoInviteEnable", "Enable auto invite module")
+end
+
+local NamePlates = function(self)
+	local Window = self:CreateWindow("NamePlates")
+	
+	Window:CreateSwitch("NamePlates", "Enable", "Enable nameplate module")
+	Window:CreateSwitch("NamePlates", "OnlySelfDebuffs", "OnlySelfDebuffs")
+	Window:CreateSlider("NamePlates", "Width", 60, 200, 10, "Set nameplate width")
+	Window:CreateSlider("NamePlates", "Height", 2, 20, 1, "Set nameplate height")
+	Window:CreateDropdown("NamePlates", "Font", "Set nameplate font", "Font")
+end
+
+local Party = function(self)
+	local Window = self:CreateWindow("Party")
+	
+	Window:CreateSwitch("Party", "Enable", "Enable party module")
+	Window:CreateSwitch("Party", "ShowPlayer", "Display self in party")
+	Window:CreateSwitch("Party", "ShowHealthText", "Display health text")
+	Window:CreateSlider("Party", "RangeAlpha", 0, 1, 0.1, "Set out of range alpha")
+	Window:CreateDropdown("Party", "Font", "Set party font", "Font")
+	Window:CreateDropdown("Party", "HealthFont", "Set party health font", "Font")
+end
+
+local Raid = function(self)
+	local Window = self:CreateWindow("Raid")
+	
+	Window:CreateSwitch("Raid", "Enable", "Enable raid module")
+	Window:CreateSwitch("Raid", "AuraWatch", "Enable aurawatch module")
+	Window:CreateSwitch("Raid", "AuraWatchTimers", "Enable aurawatch timers")
+	Window:CreateSwitch("Raid", "DebuffWatch", "Enable debuffwatch module")
+	Window:CreateSwitch("Raid", "ShowHealthText", "Display health text")
+	Window:CreateSwitch("Raid", "ShowPets", "Display pets")
+	Window:CreateSwitch("Raid", "VerticalHealth", "Enable vertical health")
+	Window:CreateSlider("Raid", "RangeAlpha", 0, 1, 0.1, "Set out of range alpha")
+	Window:CreateSlider("Raid", "MaxUnitPerColumn", 1, 15, 1, "Set max units per column")
+	Window:CreateDropdown("Raid", "Font", "Set raid font", "Font")
+	Window:CreateDropdown("Raid", "HealthFont", "Set raid health font", "Font")
+	Window:CreateDropdown("Raid", "GroupBy", "Set raid grouping")
+end
+
+local Tooltips = function(self)
+	local Window = self:CreateWindow("Tooltips")
+	
+	Window:CreateSwitch("Tooltips", "Enable", "Enable tooltip module")
+	Window:CreateSwitch("Tooltips", "HideOnUnitFrames", "Hide tooltip on unitframes")
+	Window:CreateSwitch("Tooltips", "UnitHealthText", "enable unit health text")
+	Window:CreateSwitch("Tooltips", "MouseOver", "Display tooltips on the cursor")
+	Window:CreateDropdown("Tooltips", "HealthFont", "Set tooltip health font", "Font")
+end
+
+local Textures = function(self)
+	local Window = self:CreateWindow("Textures")
+	
+	Window:CreateDropdown("Textures", "QuestProgressTexture", "Set quest progress texture", "Texture")
+	Window:CreateDropdown("Textures", "TTHealthTexture", "Set tooltip health texture", "Texture")
+	Window:CreateDropdown("Textures", "UFHealthTexture", "Set unitframe health texture", "Texture")
+	Window:CreateDropdown("Textures", "UFPowerTexture", "Set unitframe power texture", "Texture")
+	Window:CreateDropdown("Textures", "UFCastTexture", "Set unitframe castbar texture", "Texture")
+	Window:CreateDropdown("Textures", "UFPartyHealthTexture", "Set party health texture", "Texture")
+	Window:CreateDropdown("Textures", "UFPartyPowerTexture", "Set party party texture", "Texture")
+	Window:CreateDropdown("Textures", "UFRaidHealthTexture", "Set raid health texture", "Texture")
+	Window:CreateDropdown("Textures", "UFRaidPowerTexture", "Set raid power texture", "Texture")
+	Window:CreateDropdown("Textures", "NPHealthTexture", "Set nameplate health texture", "Texture")
+	Window:CreateDropdown("Textures", "NPPowerTexture", "Set nameplate power texture", "Texture")
+	Window:CreateDropdown("Textures", "NPCastTexture", "Set nameplate castbar texture", "Texture")
+
+end
+
+local UnitFrames = function(self)
+	local Window = self:CreateWindow("UnitFrames")
+	
+	Window:CreateSwitch("UnitFrames", "Enable", "Enable unitframe module")
+	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
+	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")
+	Window:CreateSwitch("UnitFrames", "UnlinkCastBar", "UnlinkCastBar")
+	Window:CreateSwitch("UnitFrames", "CastBarIcon", "Display castbar spell icon")
+	Window:CreateSwitch("UnitFrames", "CastBarLatency", "Display castbar latency")
+	Window:CreateSwitch("UnitFrames", "ComboBar", "Enable combo point bar")
+	Window:CreateSwitch("UnitFrames", "Smooth", "Enable smooth health transitions")
+	Window:CreateSwitch("UnitFrames", "CombatLog", "Enable combat feedback text")
+	Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
+	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
+	Window:CreateSwitch("UnitFrames", "BossAuras", "Enable boss auras")
+	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "OnlySelfDebuffs")
+	Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "OnlySelfBuffs")
+	Window:CreateSwitch("UnitFrames", "TargetEnemyHostileColor", "TargetEnemyHostileColor")
+	Window:CreateSwitch("UnitFrames", "Boss", "Enable boss unitframe")
+	Window:CreateDropdown("UnitFrames", "Font", "Set unitframe font", "Font")
+end
+
+-- Or you can stick ALL of the options into one function, whichever you prefer
+GUI:AddWidgets(ActionBars)
+GUI:AddWidgets(Auras)
+GUI:AddWidgets(Bags)
+GUI:AddWidgets(Chat)
+GUI:AddWidgets(Cooldowns)
+GUI:AddWidgets(DataTexts)
+GUI:AddWidgets(Loot)
+GUI:AddWidgets(Misc)
+GUI:AddWidgets(NamePlates)
+GUI:AddWidgets(Party)
+GUI:AddWidgets(Raid)
+GUI:AddWidgets(Tooltips)
+GUI:AddWidgets(Textures)
+GUI:AddWidgets(UnitFrames)
