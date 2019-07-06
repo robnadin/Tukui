@@ -78,7 +78,11 @@ GUI.Queue = {}
 GUI.Widgets = {}
 
 local SetValue = function(group, option, value)
-	C[group][option] = value
+	if (type(C[group][option]) == "table") then
+		C[group][option].Value = value
+	else
+		C[group][option] = value
+	end
 	
 	local Settings
 	
@@ -478,7 +482,6 @@ local MenuItemOnMouseUp = function(self)
 	self.Highlight:SetAlpha(0)
 	
 	if self.GrandParent.CustomType then
-		C[self.Group][self.Option].Value = self.Key
 		SetValue(self.Group, self.Option, C[self.Group][self.Option])
 		
 		self.GrandParent.Value = self.Key
@@ -489,9 +492,9 @@ local MenuItemOnMouseUp = function(self)
 	end
 	
 	if (self.GrandParent.CustomType == "Texture") then
-		self.GrandParent.Texture:SetTexture(self.Key)
+		self.GrandParent.Texture:SetTexture(C.Medias[self.Key])
 	elseif (self.GrandParent.CustomType == "Font") then
-		self.GrandParent.Current:SetFont(self.Key, 12)
+		self.GrandParent.Current:SetFont(C.Medias[self.Key], 12)
 	end
 	
 	self.GrandParent.Current:SetText(self.Key)
@@ -506,16 +509,8 @@ local MenuItemOnLeave = function(self)
 end
 
 local CreateDropdown = function(self, group, option, label, custom)
-	local Value
-	local Selections
-	
-	if custom then
-		Value = C[group][option].Value
-		Selections = C[group][option].Options
-	else
-		Value = C[group][option].Value
-		Selections = C[group][option].Options
-	end
+	local Value = C[group][option].Value
+	local Selections = C[group][option].Options
 	
 	local Dropdown = CreateFrame("Frame", nil, self)
 	Dropdown:Size(DropdownWidth, WidgetHeight)
@@ -675,10 +670,10 @@ local CreateDropdown = function(self, group, option, label, custom)
 	end
 	
 	if (custom == "Texture") then
-		Dropdown.Texture:SetTexture(Value)
+		Dropdown.Texture:SetTexture(C.Medias[Value])
 	elseif (custom == "Font") then
 		Dropdown.Texture:SetTexture(Texture)
-		StyleFont(Dropdown.Current, Font, 12)
+		StyleFont(Dropdown.Current, C.Medias[Value], 12)
 	else
 		Dropdown.Texture:SetTexture(Texture)
 	end
