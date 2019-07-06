@@ -281,7 +281,7 @@ local SliderOnMouseWheel = function(self, delta)
 end
 
 local EditBoxOnEnterPressed = function(self)
-	self.Value = self:GetNumber()
+	self.Value = tonumber(self:GetText())
 	
 	if (self.Value ~= self.Value) then
 		self.Slider:SetValue(self.Value)
@@ -352,7 +352,6 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	EditBox.Box:Point("BOTTOMRIGHT", EditBox, -Spacing, 2)
 	EditBox.Box:SetJustifyH("CENTER")
 	EditBox.Box:SetMaxLetters(4)
-	EditBox.Box:SetNumeric(true)
 	EditBox.Box:SetAutoFocus(false)
 	EditBox.Box:EnableKeyboard(true)
 	EditBox.Box:EnableMouse(true)
@@ -557,7 +556,7 @@ local CreateDropdown = function(self, group, option, label, custom)
 	Dropdown.Button:Point("LEFT", Dropdown, 0, 0)
 	Dropdown.Button:SetScript("OnMouseUp", DropdownButtonOnMouseUp)
 	Dropdown.Button:SetScript("OnMouseDown", DropdownButtonOnMouseDown)
-
+	
 	Dropdown.Current = Dropdown:CreateFontString(nil, "ARTWORK")
 	Dropdown.Current:Point("LEFT", Dropdown, Spacing, 0)
 	Dropdown.Current:SetFontObject(T.GetFont("Tukui"))
@@ -613,6 +612,7 @@ local CreateDropdown = function(self, group, option, label, custom)
 	Dropdown.Menu.BG:Point("TOPLEFT", Dropdown.Menu, -3, 3)
 	Dropdown.Menu.BG:Point("BOTTOMRIGHT", Dropdown.Menu, 3, -3)
 	Dropdown.Menu.BG:SetTemplate()
+	Dropdown.Menu.BG:SetBackdropColor(unpack(LightColor))
 	Dropdown.Menu.BG:SetFrameLevel(Dropdown.Menu:GetFrameLevel() - 1)
 	Dropdown.Menu.BG:EnableMouse(true)
 	
@@ -836,8 +836,6 @@ GUI.CreateWindow = function(self, name, default)
 	
 	self.WindowCount = self.WindowCount + 1
 	
-	self:SortMenuButtons()
-	
 	return Window
 end
 
@@ -921,24 +919,15 @@ GUI.Create = function(self)
 	StyleFont(self.Close.Label, Font, 16)
 	self.Close.Label:SetText("×")
 	
-	self:UnpackQueue()
-	
-	-- Set the frame height
-	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing) - 2)
-	
-	if self.DefaultWindow then
-		self:DisplayWindow(self.DefaultWindow)
-	end
-	
 	-- Apply
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
-	Button:Point("BOTTOM", self.ButtonList, 0, Spacing)
 	Button:SetTemplate()
 	Button:SetBackdropColor(unpack(MediumColor))
 	Button:SetScript("OnMouseUp", ReloadUI)
 	Button:SetScript("OnEnter", MenuButtonOnEnter)
 	Button:SetScript("OnLeave", MenuButtonOnLeave)
+	Button.Name = "ZZZ"
 	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("CENTER", Button, 0, 0)
@@ -950,6 +939,19 @@ GUI.Create = function(self)
 	Button.Highlight:SetTexture(Texture)
 	Button.Highlight:SetVertexColor(0.3, 0.3, 0.3, 0.3)
 	Button.Highlight:Hide()
+	
+	self:UnpackQueue()
+	
+	-- Set the frame height
+	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing) - 3)
+	
+	if self.DefaultWindow then
+		self:DisplayWindow(self.DefaultWindow)
+	end
+	
+	tinsert(self.Buttons, Button)
+	
+	self:SortMenuButtons()
 	
 	self.Created = true
 end
@@ -965,12 +967,6 @@ GUI.Toggle = function(self)
 		self:Show()
 		self.FadeIn:Play()
 	end
-end
-
-GUI.VARIABLES_LOADED = function(self, event)
-	self:Create()
-	
-	self:UnregisterEvent(event)
 end
 
 GUI.PLAYER_REGEN_DISABLED = function(self, event)
@@ -989,7 +985,6 @@ GUI.PLAYER_REGEN_ENABLED = function(self, event)
 	end
 end
 
-GUI:RegisterEvent("VARIABLES_LOADED")
 GUI:RegisterEvent("PLAYER_REGEN_DISABLED")
 GUI:RegisterEvent("PLAYER_REGEN_ENABLED")
 GUI:SetScript("OnEvent", function(self, event)
@@ -1005,8 +1000,17 @@ if (not Testing) then
 	return
 end
 
+local General = function(self)
+	local Window = self:CreateWindow("General", true)
+	
+	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
+	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
+	Window:CreateSlider("General", "UIScale", 0.64, 1.15, 0.01, "Set ui scale")
+	Window:CreateDropdown("General", "Themes", "Set ui theme")
+end
+
 local ActionBars = function(self)
-	local Window = self:CreateWindow("Actionbars", true)
+	local Window = self:CreateWindow("Actionbars")
 	
 	Window:CreateSwitch("ActionBars", "Enable", "Enable actionbar module")
 	Window:CreateSwitch("ActionBars", "HotKey", "Enable hotkeys text")
@@ -1179,6 +1183,7 @@ local UnitFrames = function(self)
 end
 
 -- Or you can stick ALL of the options into one function, whichever you prefer
+GUI:AddWidgets(General)
 GUI:AddWidgets(ActionBars)
 GUI:AddWidgets(Auras)
 GUI:AddWidgets(Bags)

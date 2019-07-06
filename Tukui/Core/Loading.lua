@@ -64,6 +64,8 @@ function Loading:Enable()
 	--if IsConfigLoaded then
 		self:LoadCustomSettings()
 		
+		T.GUI:Create()
+		
 		local Value = C.General.UIScale
 		local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
 
