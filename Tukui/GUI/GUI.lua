@@ -713,6 +713,10 @@ end
 GUI.Widgets.CreateDropdown = CreateDropdown
 
 -- GUI functions
+GUI.SetScroll = function(self, offset)
+	
+end
+
 GUI.AddWidgets = function(self, func)
 	if (type(func) ~= "function") then
 		return
@@ -837,6 +841,14 @@ GUI.CreateWindow = function(self, name, default)
 	self.WindowCount = self.WindowCount + 1
 	
 	return Window
+end
+
+GUI.GetWindow = function(self, name)
+	if self.Windows[name] then
+		return self.Windows[name]
+	else
+		return self.Windows[self.DefaultWindow]
+	end
 end
 
 local CloseOnEnter = function(self)
