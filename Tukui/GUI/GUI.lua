@@ -759,22 +759,8 @@ local SortWidgets = function(self)
 	self.Sorted = true
 end
 
-local WindowOnMouseWheel = function(self, delta)
+local Scroll = function(self)
 	local First = false
-	
-	if (delta == 1) then -- up
-		self.Offset = self.Offset - 1
-		
-		if (self.Offset <= 1) then
-			self.Offset = 1
-		end
-	else -- down
-		self.Offset = self.Offset + 1
-		
-		if (self.Offset > (#self.Widgets - (self:GetParent().WindowCount - 1))) then
-			self.Offset = self.Offset - 1
-		end
-	end
 	
 	for i = 1, #self.Widgets do
 		if (i >= self.Offset) and (i <= self.Offset + (self:GetParent().WindowCount - 1)) then
@@ -792,8 +778,100 @@ local WindowOnMouseWheel = function(self, delta)
 	end
 end
 
+local SetOffsetByDelta = function(self, delta)
+	if (delta == 1) then -- up
+		self.Offset = self.Offset - 1
+		
+		if (self.Offset <= 1) then
+			self.Offset = 1
+		end
+	else -- down
+		self.Offset = self.Offset + 1
+		
+		if (self.Offset > (#self.Widgets - (self:GetParent().WindowCount - 1))) then
+			self.Offset = self.Offset - 1
+		end
+	end
+end
+
+local WindowOnMouseWheel = function(self, delta)
+	self:SetOffsetByDelta(delta)
+	self:Scroll()
+	self.ScrollBar:SetValue(self.Offset)
+end
+
 local SetScroll = function(self, offset)
-	WindowOnMouseWheel(self, offset)
+	self.Offset = offset
+	
+	if (self.Offset <= 1) then
+		self.Offset = 1
+	elseif (self.Offset > (#self.Widgets - (self:GetParent().WindowCount - 1))) then
+		self.Offset = self.Offset - 1
+	end
+	
+	self:Scroll()
+end
+
+local WindowScrollBarOnValueChanged = function(self)
+	local Value = Round(self:GetValue())
+	local Parent = self:GetParent()
+	Parent.Offset = Value
+	
+	Parent:Scroll()
+end
+
+local WindowScrollBarOnMouseWheel = function(self, delta)
+	WindowOnMouseWheel(self:GetParent(), delta)
+end
+
+local AddScrollBar = function(self)
+	local MaxValue = (#self.Widgets - (self:GetParent().WindowCount - 1))
+	
+	local ScrollBar = CreateFrame("Slider", nil, self)
+	ScrollBar:Point("TOPRIGHT", self, -Spacing, -Spacing)
+	ScrollBar:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
+	ScrollBar:Width(WidgetHeight)
+	ScrollBar:SetThumbTexture(Texture)
+	ScrollBar:SetOrientation("VERTICAL")
+	ScrollBar:SetValueStep(1)
+	ScrollBar:SetTemplate(nil, Texture)
+	ScrollBar:SetBackdropColor(unpack(BGColor))
+	ScrollBar:SetMinMaxValues(1, MaxValue)
+	ScrollBar:SetValue(1)
+	ScrollBar:EnableMouseWheel(true)
+	ScrollBar:SetScript("OnMouseWheel", WindowScrollBarOnMouseWheel)
+	ScrollBar:SetScript("OnValueChanged", WindowScrollBarOnValueChanged)
+	
+	ScrollBar.Window = self
+	
+	local Thumb = ScrollBar:GetThumbTexture() 
+	Thumb:Size(WidgetHeight, WidgetHeight)
+	Thumb:SetTexture(Blank)
+	Thumb:SetVertexColor(0, 0, 0)
+	
+	ScrollBar.NewTexture = ScrollBar:CreateTexture(nil, "OVERLAY")
+	ScrollBar.NewTexture:Point("TOPLEFT", Thumb, 0, 1)
+	ScrollBar.NewTexture:Point("BOTTOMRIGHT", Thumb, 0, -1)
+	ScrollBar.NewTexture:SetTexture(Blank)
+	ScrollBar.NewTexture:SetVertexColor(0, 0, 0)
+	
+	ScrollBar.NewTexture2 = ScrollBar:CreateTexture(nil, "OVERLAY")
+	ScrollBar.NewTexture2:Point("TOPLEFT", ScrollBar.NewTexture, 1, -1)
+	ScrollBar.NewTexture2:Point("BOTTOMRIGHT", ScrollBar.NewTexture, -1, 1)
+	ScrollBar.NewTexture2:SetTexture(Blank)
+	ScrollBar.NewTexture2:SetVertexColor(unpack(BrightColor))
+	
+	self:EnableMouseWheel(true)
+	self:SetScript("OnMouseWheel", WindowOnMouseWheel)
+	
+	self.Scroll = Scroll
+	self.SetScroll = SetScroll
+	self.SetOffsetByDelta = SetOffsetByDelta
+	self.ScrollBar = ScrollBar
+	
+	self:SetScroll(1)
+	
+	ScrollBar:Show()
 end
 
 GUI.DisplayWindow = function(self, name)
@@ -803,7 +881,10 @@ GUI.DisplayWindow = function(self, name)
 		else
 			if (not Window.Sorted) then
 				SortWidgets(Window)
-				Window:SetScroll(1)
+				
+				if (#Window.Widgets > (self.WindowCount - 1)) then
+					AddScrollBar(Window)
+				end
 			end
 			
 			Window:Show()
@@ -859,12 +940,9 @@ GUI.CreateWindow = function(self, name, default)
 	Window:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
-	Window:EnableMouseWheel(true)
-	Window:SetScript("OnMouseWheel", WindowOnMouseWheel)
-	Window:Hide()
 	Window.Widgets = {}
 	Window.Offset = 1
-	Window.SetScroll = SetScroll
+	Window:Hide()
 	
 	self.Windows[name] = Window
 	
