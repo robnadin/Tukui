@@ -1,6 +1,7 @@
 local T, C, L = select(2, ...):unpack()
 
 local Miscellaneous = T["Miscellaneous"]
+local GUI = T["GUI"]
 local GameMenu = CreateFrame("Frame")
 local Menu = GameMenuFrame
 local Header = GameMenuFrameHeader
@@ -18,21 +19,13 @@ function GameMenu:AddHooks()
 	end
 end
 
-function GameMenu:EnableTukuiConfig()
+function GameMenu:CreateTukuiMenuButton()
 	local Tukui = CreateFrame("Button", nil, Menu, "GameMenuButtonTemplate")
 	Tukui:Size(Logout:GetWidth(), Logout:GetHeight())
 	Tukui:Point("TOPLEFT", Addons, "BOTTOMLEFT", 0, -1)
 	Tukui:SetText("Tukui")
 	Tukui:SetScript("OnClick", function(self)
-		if (not TukuiConfigFrame) then
-			TukuiConfig:CreateConfigWindow()
-		end
-
-		if TukuiConfigFrame:IsVisible() then
-			TukuiConfigFrame:Hide()
-		else
-			TukuiConfigFrame:Show()
-		end
+		GUI:Toggle()
 
 		HideUIPanel(Menu)
 	end)
@@ -42,9 +35,7 @@ function GameMenu:EnableTukuiConfig()
 end
 
 function GameMenu:Enable()
-	if TukuiConfig then
-		self:EnableTukuiConfig()
-	end
+	self:CreateTukuiMenuButton()
 
 	if not AddOnSkins then
 		Header:SetTexture("")
