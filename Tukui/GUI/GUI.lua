@@ -53,7 +53,7 @@ local BrightColor = {0.35, 0.35, 0.35}
 local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 local R, G, B = Color.r, Color.g, Color.b
 
-local WindowWidth = 480
+local WindowWidth = 460
 local WindowHeight = 360
 
 local Spacing = 4
@@ -172,7 +172,11 @@ end
 local CreateSwitch = function(self, group, option, text)
 	local Value = C[group][option]
 	
-	local Switch = CreateFrame("Frame", nil, self)
+	local Anchor = CreateFrame("Frame", nil, self)
+	Anchor:Size(WidgetListWidth - (Spacing * 2), WidgetHeight)
+	
+	local Switch = CreateFrame("Frame", nil, Anchor)
+	Switch:Point("LEFT", Anchor, 0, 0)
 	Switch:Size(SwitchWidth, WidgetHeight)
 	Switch:SetTemplate(nil, Texture)
 	Switch:SetBackdropColor(unpack(MediumColor))
@@ -197,7 +201,7 @@ local CreateSwitch = function(self, group, option, text)
 	Switch.TrackTexture:SetVertexColor(R, G, B)
 	
 	Switch.Label = Switch:CreateFontString(nil, "OVERLAY")
-	Switch.Label:Point("LEFT", Switch, "RIGHT", LabelSpacing, 0)
+	Switch.Label:Point("LEFT", Switch, "RIGHT", Spacing, 0)
 	StyleFont(Switch.Label, Font, 12)
 	Switch.Label:SetText(text)
 	
@@ -207,7 +211,7 @@ local CreateSwitch = function(self, group, option, text)
 		Switch.Thumb:Point("LEFT", Switch, 0, 0)
 	end
 	
-	tinsert(self.Widgets, Switch)
+	tinsert(self.Widgets, Anchor)
 	
 	return Switch
 end
@@ -333,7 +337,11 @@ end
 local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue, text)
 	local Value = C[group][option]
 	
-	local EditBox = CreateFrame("Frame", nil, self)
+	local Anchor = CreateFrame("Frame", nil, self)
+	Anchor:Size(WidgetListWidth - (Spacing * 2), WidgetHeight)
+	
+	local EditBox = CreateFrame("Frame", nil, Anchor)
+	EditBox:Point("LEFT", Anchor, 0, 0)
 	EditBox:Size(EditboxWidth, WidgetHeight)
 	EditBox:SetTemplate(nil, Texture)
 	EditBox:SetBackdropColor(unpack(MediumColor))
@@ -410,7 +418,7 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	
 	Slider:Show()
 	
-	tinsert(self.Widgets, EditBox)
+	tinsert(self.Widgets, Anchor)
 	
 	return EditBox
 end
@@ -527,7 +535,11 @@ local CreateDropdown = function(self, group, option, label, custom)
 		Selections = C[group][option].Options
 	end
 	
-	local Dropdown = CreateFrame("Frame", nil, self)
+	local Anchor = CreateFrame("Frame", nil, self)
+	Anchor:Size(WidgetListWidth - (Spacing * 2), WidgetHeight)
+	
+	local Dropdown = CreateFrame("Frame", nil, Anchor)
+	Dropdown:Point("LEFT", Anchor, 0, 0)
 	Dropdown:Size(DropdownWidth, WidgetHeight)
 	Dropdown:SetTemplate()
 	Dropdown:SetFrameLevel(self:GetFrameLevel() + 1)
@@ -693,7 +705,7 @@ local CreateDropdown = function(self, group, option, label, custom)
 	
 	Dropdown.Menu:Height(((WidgetHeight - 1) * Count) + 1)
 	
-	tinsert(self.Widgets, Dropdown)
+	tinsert(self.Widgets, Anchor)
 	
 	return Dropdown
 end
@@ -803,7 +815,7 @@ GUI.CreateWindow = function(self, name, default)
 	
 	tinsert(self.Buttons, Button)
 	
-	local Window = CreateFrame("Frame", nil, self.WindowParent)
+	local Window = CreateFrame("Frame", nil, self)
 	Window:Width(WidgetListWidth)
 	Window:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
 	Window:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
@@ -891,11 +903,6 @@ GUI.Create = function(self)
 	self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
 	self.ButtonList:SetTemplate()
 	self.ButtonList:SetBackdropColor(unpack(LightColor))
-	
-	-- Widget list
-	self.WindowParent = CreateFrame("Frame", nil, self)
-	self.WindowParent:Size(WidgetListWidth, WidgetListHeight)
-	self.WindowParent:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
 	
 	-- Close
 	self.Close = CreateFrame("Frame", nil, self.Header)
