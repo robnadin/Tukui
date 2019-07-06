@@ -481,8 +481,8 @@ local MenuItemOnMouseUp = function(self)
 	
 	self.Highlight:SetAlpha(0)
 	
-	if self.GrandParent.CustomType then
-		SetValue(self.Group, self.Option, C[self.Group][self.Option])
+	if self.GrandParent.Type then
+		SetValue(self.Group, self.Option, self.Key)
 		
 		self.GrandParent.Value = self.Key
 	else
@@ -491,10 +491,10 @@ local MenuItemOnMouseUp = function(self)
 		self.GrandParent.Value = self.Value
 	end
 	
-	if (self.GrandParent.CustomType == "Texture") then
-		self.GrandParent.Texture:SetTexture(C.Medias[self.Key])
-	elseif (self.GrandParent.CustomType == "Font") then
-		self.GrandParent.Current:SetFont(C.Medias[self.Key], 12)
+	if (self.GrandParent.Type == "Texture") then
+		self.GrandParent.Texture:SetTexture(T.GetTexture(self.Key))
+	elseif (self.GrandParent.Type == "Font") then
+		self.GrandParent.Current:SetFontObject(T.GetFont(self.Key))
 	end
 	
 	self.GrandParent.Current:SetText(self.Key)
@@ -509,8 +509,21 @@ local MenuItemOnLeave = function(self)
 end
 
 local CreateDropdown = function(self, group, option, label, custom)
-	local Value = C[group][option].Value
-	local Selections = C[group][option].Options
+	local Value
+	local Selections
+	
+	if custom then
+		Value = C[group][option]
+		
+		if (custom == "Texture") then
+			Selections = T.TextureTable
+		else
+			Selections = T.FontTable
+		end
+	else
+		Value = C[group][option].Value
+		Selections = C[group][option].Options
+	end
 	
 	local Dropdown = CreateFrame("Frame", nil, self)
 	Dropdown:Size(DropdownWidth, WidgetHeight)
@@ -533,7 +546,7 @@ local CreateDropdown = function(self, group, option, label, custom)
 
 	Dropdown.Current = Dropdown:CreateFontString(nil, "ARTWORK")
 	Dropdown.Current:Point("LEFT", Dropdown, Spacing, 0)
-	StyleFont(Dropdown.Current, Font, 12)
+	Dropdown.Current:SetFontObject(T.GetFont("Tukui"))
 	Dropdown.Current:SetJustifyH("LEFT")
 	Dropdown.Current:Width(DropdownWidth - 4)
 	Dropdown.Current:SetText(Value)
@@ -630,16 +643,14 @@ local CreateDropdown = function(self, group, option, label, custom)
 		
 		MenuItem.Text = MenuItem:CreateFontString(nil, "OVERLAY")
 		MenuItem.Text:Point("LEFT", MenuItem, 5, 0)
-		StyleFont(MenuItem.Text, Font, 12)
+		MenuItem.Text:SetFontObject(T.GetFont("Tukui"))
 		MenuItem.Text:SetJustifyH("LEFT")
-		MenuItem.Text:SetShadowColor(0, 0, 0)
-		MenuItem.Text:SetShadowOffset(1, -1)
 		MenuItem.Text:SetText(k)
 		
 		if (custom == "Texture") then
-			MenuItem.Texture:SetTexture(k)
+			MenuItem.Texture:SetTexture(T.GetTexture(k))
 		elseif (custom == "Font") then
-			MenuItem.Text:SetFont(k, 12)
+			MenuItem.Text:SetFontObject(T.GetFont(k))
 		end
 		
 		if custom then
@@ -670,10 +681,10 @@ local CreateDropdown = function(self, group, option, label, custom)
 	end
 	
 	if (custom == "Texture") then
-		Dropdown.Texture:SetTexture(C.Medias[Value])
+		Dropdown.Texture:SetTexture(T.GetTexture(Value))
 	elseif (custom == "Font") then
 		Dropdown.Texture:SetTexture(Texture)
-		StyleFont(Dropdown.Current, C.Medias[Value], 12)
+		Dropdown.Current:SetFontObject(T.GetFont(Value))
 	else
 		Dropdown.Texture:SetTexture(Texture)
 	end
@@ -980,11 +991,44 @@ end
 local Options = function(self)
 	self:CreateWindow("General")
 	self:CreateWindow("Tooltips")
-	self:CreateWindow("Actionbars")
+	--self:CreateWindow("Actionbars")
 	self:CreateWindow("Minimap")
 	self:CreateWindow("UnitFrames")
 end
 
+--[[
+	["Enable"] = true,
+	["HotKey"] = false,
+	["EquipBorder"] = true,
+	["Macro"] = false,
+	["ShapeShift"] = true,
+	["Pet"] = true,
+	["SwitchBarOnStance"] = true,
+	["NormalButtonSize"] = 27,
+	["PetButtonSize"] = 25,
+	["ButtonSpacing"] = 4,
+	["HideBackdrop"] = false,
+	["Font"] = "Tukui Outline",
+--]]
+
+local ActionBars = function(self)
+	local Window = self:CreateWindow("Actionbars")
+	
+	Window:CreateSwitch("ActionBars", "Enable", "Enable actionbar module")
+	Window:CreateSwitch("ActionBars", "HotKey", "Enable hotkeys text")
+	Window:CreateSwitch("ActionBars", "EquipBorder", "EquipBorder")
+	Window:CreateSwitch("ActionBars", "Macro", "Enable macro text")
+	Window:CreateSwitch("ActionBars", "ShapeShift", "ShapeShift")
+	Window:CreateSwitch("ActionBars", "Pet", "Enable pet bar")
+	Window:CreateSwitch("ActionBars", "SwitchBarOnStance", "Switch bar on stance changes")
+	Window:CreateSwitch("ActionBars", "HideBackdrop", "Hide the actionbar backdrop")
+	Window:CreateSlider("ActionBars", "NormalButtonSize", 20, 36, 1, "Set button size")
+	Window:CreateSlider("ActionBars", "PetButtonSize", 20, 36, 1, "Set pet button size")
+	Window:CreateSlider("ActionBars", "ButtonSpacing", -1, 8, 1, "Set button spacing")
+	Window:CreateDropdown("ActionBars", "Font", "Set actionbar font", "Font")
+end
+
+GUI:AddWidgets(ActionBars)
 GUI:AddWidgets(Options)
 
 -- More real example

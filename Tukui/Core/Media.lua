@@ -7,14 +7,14 @@ local Locale = GetLocale()
 local TukuiFont = CreateFont("TukuiFont")
 TukuiFont:SetFont(C["Medias"].Font, 12)
 TukuiFont:SetShadowColor(0, 0, 0)
-TukuiFont:SetShadowOffset(1.25, -1.25)
+TukuiFont:SetShadowOffset(1, -1)
 
 local TukuiFontOutline = CreateFont("TukuiFontOutline")
 TukuiFontOutline:SetFont(C["Medias"].Font, 12, "THINOUTLINE")
 
 local TukuiUFFont = CreateFont("TukuiUFFont")
 TukuiUFFont:SetShadowColor(0, 0, 0)
-TukuiUFFont:SetShadowOffset(1.25, -1.25)
+TukuiUFFont:SetShadowOffset(1, -1)
 TukuiUFFont:SetFont(C["Medias"].UnitFrameFont, 12)
 
 local TukuiUFFontOutline = CreateFont("TukuiUFFontOutline")
