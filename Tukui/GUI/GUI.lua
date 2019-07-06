@@ -1356,26 +1356,26 @@ local Textures = function(self)
 	local Window = self:CreateWindow("Textures")
 	
 	Window:CreateSection("Unitframe")
-	Window:CreateDropdown("Textures", "UFHealthTexture", "Set unitframe health texture", "Texture")
-	Window:CreateDropdown("Textures", "UFPowerTexture", "Set unitframe power texture", "Texture")
-	Window:CreateDropdown("Textures", "UFCastTexture", "Set unitframe castbar texture", "Texture")
+	Window:CreateDropdown("Textures", "UFHealthTexture", "Unitframe health texture", "Texture")
+	Window:CreateDropdown("Textures", "UFPowerTexture", "Unitframe power texture", "Texture")
+	Window:CreateDropdown("Textures", "UFCastTexture", "Unitframe castbar texture", "Texture")
 	
 	Window:CreateSection("Party")
-	Window:CreateDropdown("Textures", "UFPartyHealthTexture", "Set party health texture", "Texture")
-	Window:CreateDropdown("Textures", "UFPartyPowerTexture", "Set party party texture", "Texture")
+	Window:CreateDropdown("Textures", "UFPartyHealthTexture", "Party health texture", "Texture")
+	Window:CreateDropdown("Textures", "UFPartyPowerTexture", "Party party texture", "Texture")
 	
 	Window:CreateSection("Raid")
-	Window:CreateDropdown("Textures", "UFRaidHealthTexture", "Set raid health texture", "Texture")
-	Window:CreateDropdown("Textures", "UFRaidPowerTexture", "Set raid power texture", "Texture")
+	Window:CreateDropdown("Textures", "UFRaidHealthTexture", "Raid health texture", "Texture")
+	Window:CreateDropdown("Textures", "UFRaidPowerTexture", "Raid power texture", "Texture")
 	
 	Window:CreateSection("Nameplates")
-	Window:CreateDropdown("Textures", "NPHealthTexture", "Set nameplate health texture", "Texture")
-	Window:CreateDropdown("Textures", "NPPowerTexture", "Set nameplate power texture", "Texture")
-	Window:CreateDropdown("Textures", "NPCastTexture", "Set nameplate castbar texture", "Texture")
+	Window:CreateDropdown("Textures", "NPHealthTexture", "Nameplate health texture", "Texture")
+	Window:CreateDropdown("Textures", "NPPowerTexture", "Nameplate power texture", "Texture")
+	Window:CreateDropdown("Textures", "NPCastTexture", "Nameplate castbar texture", "Texture")
 	
 	Window:CreateSection("Misc")
-	Window:CreateDropdown("Textures", "QuestProgressTexture", "Set quest progress texture", "Texture")
-	Window:CreateDropdown("Textures", "TTHealthTexture", "Set tooltip health texture", "Texture")
+	Window:CreateDropdown("Textures", "QuestProgressTexture", "Quest progress texture", "Texture")
+	Window:CreateDropdown("Textures", "TTHealthTexture", "Tooltip health texture", "Texture")
 end
 
 local UnitFrames = function(self)

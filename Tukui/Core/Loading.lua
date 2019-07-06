@@ -58,22 +58,19 @@ function Loading:LoadCustomSettings()
 end
 
 function Loading:Enable()
-	--local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
 	local Toolkit = T00LKIT
 
-	--if IsConfigLoaded then
-		self:LoadCustomSettings()
-		
-		T.GUI:Create()
-		
-		local Value = C.General.UIScale
-		local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
+	self:LoadCustomSettings()
+	
+	local Value = C.General.UIScale
+	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
+	
+	Toolkit.Settings.UIScale = Scale
 
-		Toolkit.Settings.UIScale = Scale
-
-		SetCVar("uiScale", Toolkit.Settings.UIScale)
-		SetCVar("useUiScale", 1)
-	--end
+	SetCVar("uiScale", Toolkit.Settings.UIScale)
+	SetCVar("useUiScale", 1)
+	
+	T.GUI:Create()
 
 	if C.General.HideShadows then
 		Toolkit.Settings.ShadowTexture = ""
@@ -82,43 +79,45 @@ end
 
 function Loading:OnEvent(event)
 	if (event == "PLAYER_LOGIN") then
-			T["Loading"]:Enable()
-			T["Panels"]:Enable()
-			T["Inventory"]["Bags"]:Enable()
-			T["Inventory"]["Loot"]:Enable()
-			T["Inventory"]["Merchant"]:Enable()
-			T["ActionBars"]:Enable()
-			T["Cooldowns"]:Enable()
-			T["Miscellaneous"]["Experience"]:Enable()
-			T["Miscellaneous"]["Reputation"]:Enable()
-			T["Miscellaneous"]["ErrorFilter"]:Enable()
-			T["Miscellaneous"]["MirrorTimers"]:Enable()
-			T["Miscellaneous"]["DropDown"]:Enable()
-			T["Miscellaneous"]["CollectGarbage"]:Enable()
-			T["Miscellaneous"]["GameMenu"]:Enable()
-			T["Miscellaneous"]["StaticPopups"]:Enable()
-			T["Miscellaneous"]["Durability"]:Enable()
-			--T["Miscellaneous"]["UIWidgets"]:Enable()
-			T["Miscellaneous"]["AFK"]:Enable()
-			T["Miscellaneous"]["MicroMenu"]:Enable()
-			T["Auras"]:Enable()
-			T["Maps"]["Minimap"]:Enable()
-			--T["Maps"]["Zonemap"]:Enable()
-			T["Maps"]["Worldmap"]:Enable()
-			T["DataTexts"]:Enable()
-			T["Chat"]:Enable()
-			T["UnitFrames"]:Enable()
-			T["Tooltips"]:Enable()
-
-			print(T.WelcomeMessage)
+		
+		self:Enable()
+		T["Panels"]:Enable()
+		T["Inventory"]["Bags"]:Enable()
+		T["Inventory"]["Loot"]:Enable()
+		T["Inventory"]["Merchant"]:Enable()
+		T["ActionBars"]:Enable()
+		T["Cooldowns"]:Enable()
+		T["Miscellaneous"]["Experience"]:Enable()
+		T["Miscellaneous"]["Reputation"]:Enable()
+		T["Miscellaneous"]["ErrorFilter"]:Enable()
+		T["Miscellaneous"]["MirrorTimers"]:Enable()
+		T["Miscellaneous"]["DropDown"]:Enable()
+		T["Miscellaneous"]["CollectGarbage"]:Enable()
+		T["Miscellaneous"]["GameMenu"]:Enable()
+		T["Miscellaneous"]["StaticPopups"]:Enable()
+		T["Miscellaneous"]["Durability"]:Enable()
+		--T["Miscellaneous"]["UIWidgets"]:Enable()
+		T["Miscellaneous"]["AFK"]:Enable()
+		T["Miscellaneous"]["MicroMenu"]:Enable()
+		T["Auras"]:Enable()
+		T["Maps"]["Minimap"]:Enable()
+		--T["Maps"]["Zonemap"]:Enable()
+		T["Maps"]["Worldmap"]:Enable()
+		T["DataTexts"]:Enable()
+		T["Chat"]:Enable()
+		T["UnitFrames"]:Enable()
+		T["Tooltips"]:Enable()
+		
+		print(T.WelcomeMessage)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
-			T["Miscellaneous"]["ObjectiveTracker"]:Enable()
+		T["Miscellaneous"]["ObjectiveTracker"]:Enable()
+		
+		self:UnregisterEvent(event)
 	end
 end
 
 Loading:RegisterEvent("PLAYER_LOGIN")
 Loading:RegisterEvent("PLAYER_ENTERING_WORLD")
-Loading:RegisterEvent("ADDON_LOADED")
 Loading:SetScript("OnEvent", Loading.OnEvent)
 
 T["Loading"] = Loading
