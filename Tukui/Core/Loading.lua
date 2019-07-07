@@ -69,8 +69,6 @@ function Loading:Enable()
 
 	SetCVar("uiScale", Toolkit.Settings.UIScale)
 	SetCVar("useUiScale", 1)
-	
-	T.GUI:Create()
 
 	if C.General.HideShadows then
 		Toolkit.Settings.ShadowTexture = ""
@@ -111,6 +109,8 @@ function Loading:OnEvent(event)
 		print(T.WelcomeMessage)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		T["Miscellaneous"]["ObjectiveTracker"]:Enable()
+		
+		T["GUI"]:Create()
 		
 		self:UnregisterEvent(event)
 	end

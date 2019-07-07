@@ -154,6 +154,7 @@ end
 local CreateSection = function(self, text)
 	local Anchor = CreateFrame("Frame", nil, self)
 	Anchor:Size(WidgetListWidth - (Spacing * 2), WidgetHeight)
+	Anchor.IsSection = true
 	
 	local Section = CreateFrame("Frame", nil, Anchor)
 	Section:Point("TOPLEFT", Anchor, 0, 0)
@@ -480,7 +481,7 @@ local DropdownButtonOnMouseUp = function(self)
 		SetArrowDown(self)
 	else
 		for i = 1, #self.Menu do
-			if self.Parent.CustomType then
+			if self.Parent.Type then
 				if (self.Menu[i].Key == self.Parent.Value) then
 					self.Menu[i].Selected:Show()
 				else
@@ -674,11 +675,11 @@ local CreateDropdown = function(self, group, option, label, custom)
 		MenuItem.Texture:SetTexture(Texture)
 		MenuItem.Texture:SetVertexColor(unpack(BrightColor))
 		
-		MenuItem.Selected = MenuItem:CreateTexture(nil, "OVERLAY")
+		MenuItem.Selected = CreateFrame("Frame", nil, MenuItem)
 		MenuItem.Selected:Point("TOPLEFT", MenuItem, 1, -1)
 		MenuItem.Selected:Point("BOTTOMRIGHT", MenuItem, -1, 1)
-		MenuItem.Selected:SetTexture(Blank)
-		MenuItem.Selected:SetVertexColor(R, G, B)
+		MenuItem.Selected:SetTemplate()
+		MenuItem.Selected:SetBackdropColor(R, G, B)
 		MenuItem.Selected:SetAlpha(SelectedHighlightAlpha)
 		
 		MenuItem.Text = MenuItem:CreateFontString(nil, "OVERLAY")
@@ -791,10 +792,10 @@ local Scroll = function(self)
 	for i = 1, #self.Widgets do
 		if (i >= self.Offset) and (i <= self.Offset + self:GetParent().WindowCount - 1) then
 			if (not First) then
-				self.Widgets[i]:SetPoint("TOPLEFT", self, Spacing, -(Spacing - 1))
+				self.Widgets[i]:Point("TOPLEFT", self, Spacing, -Spacing)
 				First = true
 			else
-				self.Widgets[i]:SetPoint("TOPLEFT", self.Widgets[i-1], "BOTTOMLEFT", 0, -(Spacing - 1))
+				self.Widgets[i]:Point("TOPLEFT", self.Widgets[i-1], "BOTTOMLEFT", 0, -(Spacing - 1))
 			end
 			
 			self.Widgets[i]:Show()
@@ -826,7 +827,7 @@ local WindowOnMouseWheel = function(self, delta)
 	self.ScrollBar:SetValue(self.Offset)
 end
 
-local SetScroll = function(self, offset)
+local SetOffset = function(self, offset)
 	self.Offset = offset
 	
 	if (self.Offset <= 1) then
@@ -891,13 +892,19 @@ local AddScrollBar = function(self)
 	self:SetScript("OnMouseWheel", WindowOnMouseWheel)
 	
 	self.Scroll = Scroll
-	self.SetScroll = SetScroll
+	self.SetOffset = SetOffset
 	self.SetOffsetByDelta = SetOffsetByDelta
 	self.ScrollBar = ScrollBar
 	
-	self:SetScroll(1)
+	self:SetOffset(1)
 	
 	ScrollBar:Show()
+	
+	for i = 1, #self.Widgets do
+		if self.Widgets[i].IsSection then
+			self.Widgets[i]:Width((WidgetListWidth - WidgetHeight) - (Spacing * 3))
+		end
+	end
 end
 
 GUI.DisplayWindow = function(self, name)
@@ -1338,7 +1345,7 @@ local Tooltips = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("Tooltips", "Enable", "Enable tooltip module")
-	Window:CreateSwitch("Tooltips", "UnitHealthText", "enable unit health text")
+	Window:CreateSwitch("Tooltips", "UnitHealthText", "Enable unit health text")
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Tooltips", "HideOnUnitFrames", "Hide tooltip on unitframes")
@@ -1379,13 +1386,13 @@ local UnitFrames = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("UnitFrames", "Enable", "Enable unitframe module")
-	
-	Window:CreateSection("Styling")
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")
 	Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
 	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
 	Window:CreateSwitch("UnitFrames", "BossAuras", "Enable boss auras")
+	
+	Window:CreateSection("Styling")
 	Window:CreateSwitch("UnitFrames", "UnlinkCastBar", "UnlinkCastBar")
 	Window:CreateSwitch("UnitFrames", "CastBarIcon", "Display castbar spell icon")
 	Window:CreateSwitch("UnitFrames", "CastBarLatency", "Display castbar latency")
