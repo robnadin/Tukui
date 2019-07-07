@@ -457,11 +457,25 @@ local SelectedHighlightAlpha = 0.2
 local LastActiveDropdown
 
 local SetArrowUp = function(self)
-	self.Arrow:SetTexture(ArrowUp)
+	self.ArrowDown.Fade:SetChange(0)
+	self.ArrowDown.Fade:SetEasing("out-sinusoidal")
+	
+	self.ArrowUp.Fade:SetChange(1)
+	self.ArrowUp.Fade:SetEasing("in-sinusoidal")
+	
+	self.ArrowDown.Fade:Play()
+	self.ArrowUp.Fade:Play()
 end
 
 local SetArrowDown = function(self)
-	self.Arrow:SetTexture(ArrowDown)
+	self.ArrowUp.Fade:SetChange(0)
+	self.ArrowUp.Fade:SetEasing("out-sinusoidal")
+	
+	self.ArrowDown.Fade:SetChange(1)
+	self.ArrowDown.Fade:SetEasing("in-sinusoidal")
+	
+	self.ArrowUp.Fade:Play()
+	self.ArrowDown.Fade:Play()
 end
 
 local CloseLastDropdown = function(compare)
@@ -602,11 +616,24 @@ local CreateDropdown = function(self, group, option, label, custom)
 	Dropdown.ArrowAnchor:Size(WidgetHeight, WidgetHeight)
 	Dropdown.ArrowAnchor:Point("RIGHT", Dropdown, 0, 0)
 	
-	Dropdown.Button.Arrow = Dropdown.ArrowAnchor:CreateTexture(nil, "OVERLAY")
-	Dropdown.Button.Arrow:Size(10, 10)
-	Dropdown.Button.Arrow:Point("CENTER", Dropdown.ArrowAnchor, 0, 0)
-	Dropdown.Button.Arrow:SetTexture(ArrowDown)
-	Dropdown.Button.Arrow:SetVertexColor(R, G, B)
+	Dropdown.Button.ArrowDown = Dropdown.ArrowAnchor:CreateTexture(nil, "OVERLAY")
+	Dropdown.Button.ArrowDown:Size(10, 10)
+	Dropdown.Button.ArrowDown:Point("CENTER", Dropdown.ArrowAnchor, 0, 0)
+	Dropdown.Button.ArrowDown:SetTexture(ArrowDown)
+	Dropdown.Button.ArrowDown:SetVertexColor(R, G, B)
+	
+	Dropdown.Button.ArrowUp = Dropdown.ArrowAnchor:CreateTexture(nil, "OVERLAY")
+	Dropdown.Button.ArrowUp:Size(10, 10)
+	Dropdown.Button.ArrowUp:Point("CENTER", Dropdown.ArrowAnchor, 0, 0)
+	Dropdown.Button.ArrowUp:SetTexture(ArrowUp)
+	Dropdown.Button.ArrowUp:SetVertexColor(R, G, B)
+	Dropdown.Button.ArrowUp:SetAlpha(0)
+	
+	Dropdown.Button.ArrowDown.Fade = CreateAnimationGroup(Dropdown.Button.ArrowDown):CreateAnimation("Fade")
+	Dropdown.Button.ArrowDown.Fade:SetDuration(0.15)
+	
+	Dropdown.Button.ArrowUp.Fade = CreateAnimationGroup(Dropdown.Button.ArrowUp):CreateAnimation("Fade")
+	Dropdown.Button.ArrowUp.Fade:SetDuration(0.15)
 	
 	Dropdown.Menu = CreateFrame("Frame", nil, Dropdown)
 	Dropdown.Menu:Point("TOP", Dropdown, "BOTTOM", 0, -2)
