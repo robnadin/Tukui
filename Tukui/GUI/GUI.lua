@@ -1,7 +1,5 @@
 local T, C, L = select(2, ...):unpack()
 
--- /run Tukui[1].GUI:Toggle() -- Try me!
-
 local sort = table.sort
 local tinsert = table.insert
 local tremove = table.remove
@@ -99,7 +97,7 @@ local SetValue = function(group, option, value)
 end
 
 local TrimHex = function(s)
-	local Subbed = match(s, "|cFF%x%x%x%x%x%x(.-)|r")
+	local Subbed = match(s, "|c%x%x%x%x%x%x%x%x(.-)|r")
 	
 	return Subbed or s
 end
@@ -707,6 +705,7 @@ local CreateDropdown = function(self, group, option, text, custom)
 	Dropdown.Menu:SetTemplate()
 	Dropdown.Menu:SetBackdropBorderColor(0, 0, 0)
 	Dropdown.Menu:SetFrameLevel(Dropdown.Menu:GetFrameLevel() + 1)
+	Dropdown.Menu:SetFrameStrata("HIGH")
 	Dropdown.Menu:Hide()
 	Dropdown.Menu:SetAlpha(0)
 	
