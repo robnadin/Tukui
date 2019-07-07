@@ -22,8 +22,6 @@ local type = type
 	Widget list:
 	checkbox(?)
 	color
-	
-	Make text the 3rd argument of all widgets for consistency
 ]]
 
 -- IMO :SetFontTemplate should let you set the flag too
@@ -388,7 +386,7 @@ local EditBoxOnMouseWheel = function(self, delta)
 	self.Slider:SetValue(self.Value)
 end
 
-local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue, text)
+local CreateSlider = function(self, group, option, text, minvalue, maxvalue, stepvalue)
 	local Value = C[group][option]
 	
 	local Anchor = CreateFrame("Frame", nil, self)
@@ -615,7 +613,7 @@ local DropdownButtonOnLeave = function(self)
 	self.Highlight:SetAlpha(0)
 end
 
-local CreateDropdown = function(self, group, option, label, custom)
+local CreateDropdown = function(self, group, option, text, custom)
 	local Value
 	local Selections
 	
@@ -1259,7 +1257,7 @@ local General = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
 	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
-	Window:CreateSlider("General", "UIScale", 0.64, 1.15, 0.01, "Set ui scale")
+	Window:CreateSlider("General", "UIScale", "Set ui scale", 0.64, 1.15, 0.01)
 	
 	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set ui theme")
@@ -1281,9 +1279,9 @@ local ActionBars = function(self)
 	Window:CreateSwitch("ActionBars", "HideBackdrop", "Hide the actionbar backdrop")
 	
 	Window:CreateSection("Sizing")
-	Window:CreateSlider("ActionBars", "NormalButtonSize", 20, 36, 1, "Set button size")
-	Window:CreateSlider("ActionBars", "PetButtonSize", 20, 36, 1, "Set pet button size")
-	Window:CreateSlider("ActionBars", "ButtonSpacing", 0, 8, 1, "Set button spacing")
+	Window:CreateSlider("ActionBars", "NormalButtonSize", "Set button size", 20, 36, 1)
+	Window:CreateSlider("ActionBars", "PetButtonSize", "Set pet button size", 20, 36, 1)
+	Window:CreateSlider("ActionBars", "ButtonSpacing", "Set button spacing", 0, 8, 1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("ActionBars", "Font", "Set actionbar font", "Font")
@@ -1301,7 +1299,7 @@ local Auras = function(self)
 	Window:CreateSwitch("Auras", "HideBuffs", "HideBuffs")
 	Window:CreateSwitch("Auras", "HideDebuffs", "HideDebuffs")
 	Window:CreateSwitch("Auras", "Animation", "Animation")
-	Window:CreateSlider("Auras", "BuffsPerRow", 6, 20, 1, "BuffsPerRow")
+	Window:CreateSlider("Auras", "BuffsPerRow", "BuffsPerRow", 6, 20, 1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Auras", "Font", "Set aura font", "Font")
@@ -1314,9 +1312,9 @@ local Bags = function(self)
 	Window:CreateSwitch("Bags", "Enable", "Enable bag module")
 	
 	Window:CreateSection("Sizing")
-	Window:CreateSlider("Bags", "ButtonSize", 20, 36, 1, "Set bag slot size")
-	Window:CreateSlider("Bags", "Spacing", 0, 8, 1, "Set bag slot spacing")
-	Window:CreateSlider("Bags", "ItemsPerRow", 8, 16, 1, "Set items per row")
+	Window:CreateSlider("Bags", "ButtonSize", "Set bag slot size", 20, 36, 1)
+	Window:CreateSlider("Bags", "Spacing", "Set bag slot spacing", 0, 8, 1)
+	Window:CreateSlider("Bags", "ItemsPerRow", "Set items per row", 8, 16, 1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Bags", "Font", "Set bag font", "Font")
@@ -1333,7 +1331,7 @@ local Chat = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Chat", "ShortChannelName", "Shorten channel names")
 	Window:CreateSwitch("Chat", "LinkBrackets", "Display URL links in brackets")
-	Window:CreateSlider("Chat", "ScrollByX", 1, 6, 1, "Set lines to scroll")
+	Window:CreateSlider("Chat", "ScrollByX", "Set lines to scroll", 1, 6, 1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Chat", "ChatFont", "Set chat font", "Font")
@@ -1386,8 +1384,8 @@ local NamePlates = function(self)
 	Window:CreateSwitch("NamePlates", "OnlySelfDebuffs", "OnlySelfDebuffs")
 	
 	Window:CreateSection("Sizing")
-	Window:CreateSlider("NamePlates", "Width", 60, 200, 10, "Set nameplate width")
-	Window:CreateSlider("NamePlates", "Height", 2, 20, 1, "Set nameplate height")
+	Window:CreateSlider("NamePlates", "Width", "Set nameplate width", 60, 200, 10)
+	Window:CreateSlider("NamePlates", "Height", "Set nameplate height", 2, 20, 1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("NamePlates", "Font", "Set nameplate font", "Font")
@@ -1402,7 +1400,7 @@ local Party = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Party", "ShowPlayer", "Display self in party")
 	Window:CreateSwitch("Party", "ShowHealthText", "Display health text")
-	Window:CreateSlider("Party", "RangeAlpha", 0, 1, 0.1, "Set out of range alpha")
+	Window:CreateSlider("Party", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Party", "Font", "Set party font", "Font")
@@ -1423,8 +1421,8 @@ local Raid = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Raid", "ShowHealthText", "Display health text")
 	Window:CreateSwitch("Raid", "ShowPets", "Display pets")
-	Window:CreateSlider("Raid", "RangeAlpha", 0, 1, 0.1, "Set out of range alpha")
-	Window:CreateSlider("Raid", "MaxUnitPerColumn", 1, 15, 1, "Set max units per column")
+	Window:CreateSlider("Raid", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)
+	Window:CreateSlider("Raid", "MaxUnitPerColumn", "Set max units per column", 1, 15, 1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Raid", "Font", "Set raid font", "Font")
