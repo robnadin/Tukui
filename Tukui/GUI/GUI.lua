@@ -47,6 +47,8 @@ local HeaderColor = {0.43, 0.43, 0.43}
 local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 local R, G, B = Color.r, Color.g, Color.b
 
+local HeaderText = format("|c%sTukui|r settings", Color.colorStr)
+
 local WindowWidth = 460
 local WindowHeight = 360
 
@@ -497,6 +499,7 @@ GUI.Widgets.CreateSlider = CreateSlider
 -- Dropdown Menu
 local DropdownWidth = 134
 local SelectedHighlightAlpha = 0.2
+local ListItemsToShow = 8
 local LastActiveDropdown
 
 local SetArrowUp = function(self)
@@ -1001,6 +1004,10 @@ GUI.DisplayWindow = function(self, name)
 	for WindowName, Window in pairs(self.Windows) do
 		if (WindowName ~= name) then
 			Window:Hide()
+			
+			if Window.Button.Selected:IsShown() then
+				Window.Button.Selected:Hide()
+			end
 		else
 			if (not Window.Sorted) then
 				SortWidgets(Window)
@@ -1011,6 +1018,7 @@ GUI.DisplayWindow = function(self, name)
 			end
 			
 			Window:Show()
+			Window.Button.Selected:Show()
 		end
 	end
 end
@@ -1050,6 +1058,13 @@ GUI.CreateWindow = function(self, name, default)
 	Button.Highlight:SetVertexColor(0.5, 0.5, 0.5, 0.3)
 	Button.Highlight:Hide()
 	
+	Button.Selected = Button:CreateTexture(nil, "OVERLAY")
+	Button.Selected:Point("TOPLEFT", Button, 1, -1)
+	Button.Selected:Point("BOTTOMRIGHT", Button, -1, 1)
+	Button.Selected:SetTexture(Texture)
+	Button.Selected:SetVertexColor(0.7, 0.7, 0.7, 0.5)
+	Button.Selected:Hide()
+	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("CENTER", Button, 0, 0)
 	StyleFont(Button.Label, Font, 14)
@@ -1063,6 +1078,7 @@ GUI.CreateWindow = function(self, name, default)
 	Window:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
+	Window.Button = Button
 	Window.Widgets = {}
 	Window.Offset = 0
 	Window:Hide()
@@ -1146,7 +1162,7 @@ GUI.Create = function(self)
 	self.Header.Label = self.Header:CreateFontString(nil, "OVERLAY")
 	self.Header.Label:Point("CENTER", self.Header, 0, 0)
 	StyleFont(self.Header.Label, Font, 16)
-	self.Header.Label:SetText(format("|c%sTukui|r settings", Color.colorStr))
+	self.Header.Label:SetText(HeaderText)
 	
 	-- Button list
 	self.ButtonList = CreateFrame("Frame", nil, self)
