@@ -16,17 +16,11 @@ local type = type
 	I'll refine as the process goes on.
 	
 	To do:
-	Create widgets
 	Global/PerChar settings
-	highlights?
-	scrolling
 	dropdown scrolling
 	
 	Widget list:
 	checkbox(?)
-	-switch
-	-slider
-	-dropdown (for textures, fonts, and misc)
 	color
 	
 	Make text the 3rd argument of all widgets for consistency
@@ -74,6 +68,7 @@ local WidgetListWidth = (WindowWidth - ButtonListWidth) - (Spacing * 3) + 1
 local WidgetListHeight = ButtonListHeight
 
 local WidgetHeight = 20 -- All widgets are the same height
+local WidgetHighlightAlpha = 0.3
 
 local GUI = CreateFrame("Frame", nil, UIParent) -- Feel free to give a global name, It's available as T.GUI right now
 GUI.Windows = {}
@@ -196,6 +191,14 @@ local SwitchOnMouseUp = function(self)
 	SetValue(self.Group, self.Option, self.Value)
 end
 
+local SwitchOnEnter = function(self)
+	self.Highlight:SetAlpha(WidgetHighlightAlpha)
+end
+
+local SwitchOnLeave = function(self)
+	self.Highlight:SetAlpha(0)
+end
+
 local CreateSwitch = function(self, group, option, text)
 	local Value = C[group][option]
 	
@@ -208,9 +211,17 @@ local CreateSwitch = function(self, group, option, text)
 	Switch:SetTemplate(nil, Texture)
 	Switch:SetBackdropColor(unpack(BGColor))
 	Switch:SetScript("OnMouseUp", SwitchOnMouseUp)
+	Switch:SetScript("OnEnter", SwitchOnEnter)
+	Switch:SetScript("OnLeave", SwitchOnLeave)
 	Switch.Value = Value
 	Switch.Group = group
 	Switch.Option = option
+	
+	Switch.Highlight = Switch:CreateTexture(nil, "OVERLAY")
+	Switch.Highlight:SetAllPoints()
+	Switch.Highlight:SetTexture(Texture)
+	Switch.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Switch.Highlight:SetAlpha(0)
 	
 	Switch.Thumb = CreateFrame("Frame", nil, Switch)
 	Switch.Thumb:Size(WidgetHeight, WidgetHeight)
@@ -253,6 +264,22 @@ local Round = function(num, dec)
 	local Mult = 10 ^ (dec or 0)
 	
 	return floor(num * Mult + 0.5) / Mult
+end
+
+local EditBoxOnEnter = function(self)
+	self.Highlight:SetAlpha(WidgetHighlightAlpha)
+end
+
+local EditBoxOnLeave = function(self)
+	self.Highlight:SetAlpha(0)
+end
+
+local SliderOnEnter = function(self)
+	self.Highlight:SetAlpha(WidgetHighlightAlpha)
+end
+
+local SliderOnLeave = function(self)
+	self.Highlight:SetAlpha(0)
 end
 
 local SliderOnValueChanged = function(self)
@@ -373,10 +400,17 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	EditBox:SetTemplate(nil, Texture)
 	EditBox:SetBackdropColor(unpack(BGColor))
 	
+	EditBox.Highlight = EditBox:CreateTexture(nil, "OVERLAY")
+	EditBox.Highlight:SetAllPoints()
+	EditBox.Highlight:SetTexture(Texture)
+	EditBox.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	EditBox.Highlight:SetAlpha(0)
+	
 	EditBox.Box = CreateFrame("EditBox", nil, EditBox)
 	StyleFont(EditBox.Box, Font, 12)
-	EditBox.Box:Point("TOPLEFT", EditBox, Spacing, -2)
-	EditBox.Box:Point("BOTTOMRIGHT", EditBox, -Spacing, 2)
+	EditBox.Box:Point("TOPLEFT", EditBox, 0, 0)
+	EditBox.Box:Point("BOTTOMRIGHT", EditBox, 0, 0)
+	
 	EditBox.Box:SetJustifyH("CENTER")
 	EditBox.Box:SetMaxLetters(4)
 	EditBox.Box:SetAutoFocus(false)
@@ -389,6 +423,8 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	EditBox.Box:SetScript("OnEscapePressed", EditBoxOnEnterPressed)
 	EditBox.Box:SetScript("OnEnterPressed", EditBoxOnEnterPressed)
 	EditBox.Box:SetScript("OnEditFocusLost", EditBoxOnEditFocusLost)
+	EditBox.Box:SetScript("OnEnter", EditBoxOnEnter)
+	EditBox.Box:SetScript("OnLeave", EditBoxOnLeave)
 	EditBox.Box.Group = group
 	EditBox.Box.Option = option
 	EditBox.Box.MinValue = minvalue
@@ -396,6 +432,7 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	EditBox.Box.StepValue = stepvalue
 	EditBox.Box.Value = Value
 	EditBox.Box.Parent = EditBox
+	EditBox.Box.Highlight = EditBox.Highlight
 	
 	local Slider = CreateFrame("Slider", nil, EditBox)
 	Slider:Point("LEFT", EditBox, "RIGHT", Spacing, 0)
@@ -410,7 +447,15 @@ local CreateSlider = function(self, group, option, minvalue, maxvalue, stepvalue
 	Slider:EnableMouseWheel(true)
 	Slider:SetScript("OnMouseWheel", SliderOnMouseWheel)
 	Slider:SetScript("OnValueChanged", SliderOnValueChanged)
+	Slider:SetScript("OnEnter", SliderOnEnter)
+	Slider:SetScript("OnLeave", SliderOnLeave)
 	Slider.EditBox = EditBox.Box
+	
+	Slider.Highlight = Slider:CreateTexture(nil, "OVERLAY")
+	Slider.Highlight:SetAllPoints()
+	Slider.Highlight:SetTexture(Texture)
+	Slider.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Slider.Highlight:SetAlpha(0)
 	
 	Slider.Label = Slider:CreateFontString(nil, "OVERLAY")
 	Slider.Label:Point("LEFT", Slider, "RIGHT", LabelSpacing, 0)
@@ -498,6 +543,10 @@ local DropdownButtonOnMouseUp = function(self)
 			if self.Parent.Type then
 				if (self.Menu[i].Key == self.Parent.Value) then
 					self.Menu[i].Selected:Show()
+					
+					if self.Parent.Type == "Texture" then
+						self.Menu[i].Selected:SetTexture(T.GetTexture(self.Parent.Value))
+					end
 				else
 					self.Menu[i].Selected:Hide()
 				end
@@ -551,10 +600,18 @@ local MenuItemOnMouseUp = function(self)
 end
 
 local MenuItemOnEnter = function(self)
-	self.Highlight:SetAlpha(SelectedHighlightAlpha)
+	self.Highlight:SetAlpha(WidgetHighlightAlpha)
 end
 
 local MenuItemOnLeave = function(self)
+	self.Highlight:SetAlpha(0)
+end
+
+local DropdownButtonOnEnter = function(self)
+	self.Highlight:SetAlpha(WidgetHighlightAlpha)
+end
+
+local DropdownButtonOnLeave = function(self)
 	self.Highlight:SetAlpha(0)
 end
 
@@ -597,6 +654,14 @@ local CreateDropdown = function(self, group, option, label, custom)
 	Dropdown.Button:Point("LEFT", Dropdown, 0, 0)
 	Dropdown.Button:SetScript("OnMouseUp", DropdownButtonOnMouseUp)
 	Dropdown.Button:SetScript("OnMouseDown", DropdownButtonOnMouseDown)
+	Dropdown.Button:SetScript("OnEnter", DropdownButtonOnEnter)
+	Dropdown.Button:SetScript("OnLeave", DropdownButtonOnLeave)
+	
+	Dropdown.Button.Highlight = Dropdown:CreateTexture(nil, "ARTWORK")
+	Dropdown.Button.Highlight:SetAllPoints()
+	Dropdown.Button.Highlight:SetTexture(Texture)
+	Dropdown.Button.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Dropdown.Button.Highlight:SetAlpha(0)
 	
 	Dropdown.Current = Dropdown:CreateFontString(nil, "ARTWORK")
 	Dropdown.Current:Point("LEFT", Dropdown, Spacing, 0)
@@ -692,8 +757,8 @@ local CreateDropdown = function(self, group, option, label, custom)
 		MenuItem.Highlight = MenuItem:CreateTexture(nil, "OVERLAY")
 		MenuItem.Highlight:Point("TOPLEFT", MenuItem, 1, -1)
 		MenuItem.Highlight:Point("BOTTOMRIGHT", MenuItem, -1, 1)
-		MenuItem.Highlight:SetTexture(Blank)
-		MenuItem.Highlight:SetVertexColor(1, 1, 1, SelectedHighlightAlpha)
+		MenuItem.Highlight:SetTexture(Texture)
+		MenuItem.Highlight:SetVertexColor(0.5, 0.5, 0.5)
 		MenuItem.Highlight:SetAlpha(0)
 		
 		MenuItem.Texture = MenuItem:CreateTexture(nil, "ARTWORK")
@@ -702,12 +767,11 @@ local CreateDropdown = function(self, group, option, label, custom)
 		MenuItem.Texture:SetTexture(Texture)
 		MenuItem.Texture:SetVertexColor(unpack(BrightColor))
 		
-		MenuItem.Selected = CreateFrame("Frame", nil, MenuItem)
+		MenuItem.Selected = MenuItem:CreateTexture(nil, "OVERLAY")
 		MenuItem.Selected:Point("TOPLEFT", MenuItem, 1, -1)
 		MenuItem.Selected:Point("BOTTOMRIGHT", MenuItem, -1, 1)
-		MenuItem.Selected:SetTemplate()
-		MenuItem.Selected:SetBackdropColor(R, G, B)
-		MenuItem.Selected:SetAlpha(SelectedHighlightAlpha)
+		MenuItem.Selected:SetTexture(Texture)
+		MenuItem.Selected:SetVertexColor(R, G, B)
 		
 		MenuItem.Text = MenuItem:CreateFontString(nil, "OVERLAY")
 		MenuItem.Text:Point("LEFT", MenuItem, 5, 0)
@@ -717,6 +781,7 @@ local CreateDropdown = function(self, group, option, label, custom)
 		
 		if (custom == "Texture") then
 			MenuItem.Texture:SetTexture(T.GetTexture(k))
+			MenuItem.Selected:SetTexture(T.GetTexture(k))
 		elseif (custom == "Font") then
 			MenuItem.Text:SetFontObject(T.GetFont(k))
 		end
@@ -981,16 +1046,16 @@ GUI.CreateWindow = function(self, name, default)
 	Button.Name = name
 	Button.Parent = self
 	
-	Button.Label = Button:CreateFontString(nil, "OVERLAY")
-	Button.Label:Point("CENTER", Button, 0, 0)
-	StyleFont(Button.Label, Font, 14)
-	Button.Label:SetText(name)
-	
 	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
 	Button.Highlight:SetAllPoints()
 	Button.Highlight:SetTexture(Texture)
 	Button.Highlight:SetVertexColor(0.5, 0.5, 0.5, 0.3)
 	Button.Highlight:Hide()
+	
+	Button.Label = Button:CreateFontString(nil, "OVERLAY")
+	Button.Label:Point("CENTER", Button, 0, 0)
+	StyleFont(Button.Label, Font, 14)
+	Button.Label:SetText(name)
 	
 	tinsert(self.Buttons, Button)
 	
@@ -1083,7 +1148,7 @@ GUI.Create = function(self)
 	self.Header.Label = self.Header:CreateFontString(nil, "OVERLAY")
 	self.Header.Label:Point("CENTER", self.Header, 0, 0)
 	StyleFont(self.Header.Label, Font, 16)
-	self.Header.Label:SetText("|cffff8000Tukui|r settings")
+	self.Header.Label:SetText(format("|c%sTukui|r settings", Color.colorStr))
 	
 	-- Button list
 	self.ButtonList = CreateFrame("Frame", nil, self)
