@@ -1021,6 +1021,8 @@ GUI.DisplayWindow = function(self, name)
 			Window.Button.Selected:Show()
 		end
 	end
+	
+	CloseLastDropdown()
 end
 
 local MenuButtonOnMouseUp = function(self)
