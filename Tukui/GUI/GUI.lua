@@ -673,7 +673,7 @@ local CreateDropdown = function(self, group, option, text, custom)
 	StyleFont(Dropdown.Label, Font, 12)
 	Dropdown.Label:SetJustifyH("LEFT")
 	Dropdown.Label:Width(DropdownWidth - 4)
-	Dropdown.Label:SetText(label)
+	Dropdown.Label:SetText(text)
 	
 	Dropdown.ArrowAnchor = CreateFrame("Frame", nil, Dropdown)
 	Dropdown.ArrowAnchor:Size(WidgetHeight, WidgetHeight)
