@@ -7,25 +7,11 @@ function Loading:LoadCustomSettings()
 	local Name = UnitName("Player")
 	local Realm = GetRealmName()
 
-	--[[if (TukuiConfigPerAccount) then
-		Settings = TukuiConfigShared.Account
-	else
-		Settings = TukuiConfigShared[Realm][Name]
-	end]]
-	
-	--if TukuiConfigPerAccount then
-		if (not TukuiSettings) then
-			TukuiSettings = {}
-		end
-		
-		Settings = TukuiSettings
-	--[[else
-		if (not TukuiSettingsPerChar) then
-			TukuiSettingsPerChar = {}
-		end
-		
-		Settings = TukuiSettingsPerChar
-	end]]
+	if (not TukuiSettings) then
+		TukuiSettings = {}
+	end
+
+	Settings = TukuiSettings
 	
 	for group, options in pairs(Settings) do
 		if C[group] then

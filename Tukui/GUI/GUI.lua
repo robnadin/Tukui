@@ -82,7 +82,7 @@ local SetValue = function(group, option, value)
 	
 	local Settings
 	
-	--if TukuiConfigPerAccount then -- NYI
+	--if XXXXXXXXXXXXXX then -- NYI
 		Settings = TukuiSettings
 	--else
 	--	Settings = TukuiSettingsPerChar

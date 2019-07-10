@@ -170,75 +170,7 @@ T.SlashHandler = function(cmd)
 	elseif (arg1 == "profile" or arg1 == "p") then
 		if not TukuiData then return end
 
-		if TukuiConfigPerAccount then
-			T.Print("Your settings are currently set accross toons so you can't use this command!")
-
-			return
-		end
-
-		if not arg2 then
-			T.Print("/tukui profile list")
-			T.Print("/tukui profile #")
-			print(" ")
-		else
-			local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
-
-			if arg2 == "list" or arg2 == "l" then
-				Tukui.Profiles = {}
-				Tukui.Profiles.Data = {}
-				Tukui.Profiles.Options = {}
-
-				for Server, Table in pairs(TukuiData) do
-					if not Server then return end
-
-					if Server ~= "Gold" then
-						for Character, Table in pairs(TukuiData[Server]) do
-							tinsert(Tukui.Profiles.Data, TukuiData[Server][Character])
-
-							if IsConfigLoaded then
-								if TukuiConfigShared and TukuiConfigShared[Server] and TukuiConfigShared[Server][Character] then
-									tinsert(Tukui.Profiles.Options, TukuiConfigShared[Server][Character])
-								else
-									if not TukuiConfigShared then
-										TukuiConfigShared = {}
-									end
-
-									if not TukuiConfigShared[Server] then
-										TukuiConfigShared[Server] = {}
-									end
-
-									if not TukuiConfigShared[Server][Character] then
-										TukuiConfigShared[Server][Character] = {}
-									end
-
-									tinsert(Tukui.Profiles.Options, TukuiConfigShared[Server][Character])
-								end
-							end
-
-							print("Profile "..#Tukui.Profiles.Data..": ["..Server.."]-["..Character.."]")
-						end
-					end
-				end
-			else
-				local CurrentServer = GetRealmName()
-				local CurrentCharacter = UnitName("player")
-				local Profile = tonumber(arg2)
-
-				if not Tukui.Profiles or not Tukui.Profiles.Data[Profile] then
-					T.Print(L.Others.ProfileNotFound)
-
-					return
-				end
-
-				TukuiData[CurrentServer][CurrentCharacter] = Tukui.Profiles.Data[Profile]
-
-				if IsConfigLoaded then
-					TukuiConfigShared[CurrentServer][CurrentCharacter] = Tukui.Profiles.Options[Profile]
-				end
-
-				ReloadUI()
-			end
-		end
+		-- NEED FULL REWRITE WITH NEW GUI
 	elseif AddOnCommands[arg1] then
 		AddOnCommands[arg1](arg2)
 	end

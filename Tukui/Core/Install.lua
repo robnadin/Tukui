@@ -13,7 +13,7 @@ function Install:ResetData()
 
 	TukuiData[GetRealmName()][UnitName("Player")] = {}
 
-	--if TukuiConfigPerAccount then
+	--if XXXXXXXXXXXXXX then
 		TukuiSettings = {}
 	--else
 	--	TukuiSettingsPerChar = {}
@@ -263,28 +263,6 @@ Install:SetScript("OnEvent", function(self, event, addon)
 	if (TukuiDataPerChar) then
 		TukuiData[Realm][Name] = TukuiDataPerChar
 		TukuiDataPerChar = nil
-	end
-
-	-- Blizzard have too many issues with per character saved variables, we now move them (if they exists) to account saved variables.
-	if (not TukuiConfigShared) then
-		TukuiConfigShared = {}
-	end
-
-	if (not TukuiConfigShared.Account) then
-		TukuiConfigShared.Account = {}
-	end
-
-	if (not TukuiConfigShared[Realm]) then
-		TukuiConfigShared[Realm] = {}
-	end
-
-	if (not TukuiConfigShared[Realm][Name]) then
-		TukuiConfigShared[Realm][Name] = {}
-	end
-
-	if (TukuiConfigNotShared) then
-		TukuiConfigShared[Realm][Name] = TukuiConfigNotShared
-		TukuiConfigNotShared = nil
 	end
 
 	local IsInstalled = TukuiData[GetRealmName()][UnitName("Player")].InstallDone
