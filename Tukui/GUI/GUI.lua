@@ -82,7 +82,11 @@ local SetValue = function(group, option, value)
 	
 	local Settings
 	
+<<<<<<< HEAD
 	if TukuiUseGlobal then -- NYI
+=======
+	--if XXXXXXXXXXXXXX then -- NYI
+>>>>>>> 9e926c2dc08b0665bc29736b987dfcbd04804abf
 		Settings = TukuiSettings
 	else
 		Settings = TukuiSettingsPerChar

@@ -63,8 +63,8 @@ local Advanced_UIScaleSlider = Advanced_UIScaleSlider
 local Reload = C_UI.Reload
 
 -- Locals
-local Resolution = GetCVar("gxWindowedResolution")
-local Formula = 768 / string.match(Resolution, "%d+x(%d+)")
+local Resolution = select(1, GetPhysicalScreenSize()).."x"..select(2, GetPhysicalScreenSize())
+local PixelPerfectScale = 768 / string.match(Resolution, "%d+x(%d+)")
 local Noop = function() return end
 local Toolkit = CreateFrame("Frame", "T00LKIT", UIParent)
 local Tabs = {"LeftDisabled", "MiddleDisabled", "RightDisabled", "Left", "Middle", "Right"}
@@ -76,7 +76,7 @@ Toolkit.Functions = {}
 Toolkit.Frames = {}
 
 -- Toolkit Default Parameters
-Toolkit.Settings.UIScale = 0.75
+Toolkit.Settings.UIScale = PixelPerfectScale
 Toolkit.Settings.NormalTexture = "Interface\\Buttons\\WHITE8x8"
 Toolkit.Settings.GlowTexture = ""
 Toolkit.Settings.ShadowTexture = ""
@@ -687,7 +687,7 @@ end
 ---------------------------------------------------
 		
 Toolkit.Functions.Scale = function(size)
-	local Mult = Formula / UIParent:GetScale()
+	local Mult = PixelPerfectScale / UIParent:GetScale()
 	local Value = Mult * math.floor(size / Mult + .5)
 		
 	return Value
@@ -724,7 +724,7 @@ end
 Toolkit.Functions.OnEvent = function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
 		local Value = Toolkit.Settings.UIScale
-		local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
+		local Scale = Toolkit.Functions.IsValidScale(Value) and Value or PixelPerfectScale
 
 		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)
@@ -778,7 +778,7 @@ Toolkit:SetScript("OnEvent", Toolkit.Functions.OnEvent)
 
 C_UI.Reload = function()
 	local Value = Toolkit.Settings.UIScale
-	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
+	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or PixelPerfectScale
 
 	SetCVar("useUiScale", 1)
 	SetCVar("uiScale", Scale)

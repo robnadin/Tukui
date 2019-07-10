@@ -4,6 +4,7 @@ local Loading = CreateFrame("Frame")
 
 function Loading:LoadCustomSettings()
 	local Settings
+<<<<<<< HEAD
 	
 	if TukuiUseGlobal then
 		if (not TukuiSettings) then
@@ -18,6 +19,16 @@ function Loading:LoadCustomSettings()
 		
 		Settings = TukuiSettingsPerChar
 	end
+=======
+	local Name = UnitName("Player")
+	local Realm = GetRealmName()
+
+	if (not TukuiSettings) then
+		TukuiSettings = {}
+	end
+
+	Settings = TukuiSettings
+>>>>>>> 9e926c2dc08b0665bc29736b987dfcbd04804abf
 	
 	for group, options in pairs(Settings) do
 		if C[group] then
@@ -68,7 +79,7 @@ function Loading:Enable()
 	T00LKIT.Settings.BorderColor = C.General.BorderColor
 	
 	local Value = C.General.UIScale
-	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
+	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or T.PerfectScale
 	
 	Toolkit.Settings.UIScale = Scale
 
