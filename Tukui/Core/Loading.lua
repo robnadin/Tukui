@@ -4,28 +4,20 @@ local Loading = CreateFrame("Frame")
 
 function Loading:LoadCustomSettings()
 	local Settings
-	local Name = UnitName("Player")
-	local Realm = GetRealmName()
-
-	--[[if (TukuiConfigPerAccount) then
-		Settings = TukuiConfigShared.Account
-	else
-		Settings = TukuiConfigShared[Realm][Name]
-	end]]
 	
-	--if TukuiConfigPerAccount then
+	if TukuiUseGlobal then
 		if (not TukuiSettings) then
 			TukuiSettings = {}
 		end
 		
 		Settings = TukuiSettings
-	--[[else
+	else
 		if (not TukuiSettingsPerChar) then
 			TukuiSettingsPerChar = {}
 		end
 		
 		Settings = TukuiSettingsPerChar
-	end]]
+	end
 	
 	for group, options in pairs(Settings) do
 		if C[group] then
@@ -58,6 +50,12 @@ function Loading:LoadCustomSettings()
 		else
 			Settings[group] = nil
 		end
+	end
+	
+	if TukuiUseGlobal then
+		C["Settings"]["Storage"].Value = "Global"
+	else
+		C["Settings"]["Storage"].Value = "PerChar"
 	end
 end
 

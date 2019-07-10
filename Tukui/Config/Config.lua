@@ -4,6 +4,17 @@ local T, C, L = select(2, ...):unpack()
 -- Default settings of Tukui
 ----------------------------------------------------------------
 
+C["Settings"] = {
+	["Storage"] = {
+		["Options"] = {
+			["Per Character"] = "PerChar",
+			["Account-Wide"] = "Global",
+		},
+		
+		["Value"] = "Global",
+	},
+}
+
 C["General"] = {
 	["BackdropColor"] = {0.11, 0.11, 0.11},
 	["BorderColor"] = {0, 0, 0},

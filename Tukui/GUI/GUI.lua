@@ -82,11 +82,11 @@ local SetValue = function(group, option, value)
 	
 	local Settings
 	
-	--if TukuiConfigPerAccount then -- NYI
+	if TukuiUseGlobal then -- NYI
 		Settings = TukuiSettings
-	--else
-	--	Settings = TukuiSettingsPerChar
-	--end
+	else
+		Settings = TukuiSettingsPerChar
+	end
 	
 	if (not Settings[group]) then
 		Settings[group] = {}
@@ -651,6 +651,10 @@ local MenuItemOnMouseUp = function(self)
 		self.GrandParent.Current:SetFontObject(T.GetFont(self.Key))
 	end
 	
+	if self.GrandParent.Hook then
+		self.GrandParent.Hook(self.Value)
+	end
+	
 	self.GrandParent.Current:SetText(self.Key)
 end
 
@@ -1010,7 +1014,9 @@ local CreateDropdown = function(self, group, option, text, custom)
 		Dropdown.Menu:Height(((WidgetHeight - 1) * Count) + 1)
 	end
 	
-	tinsert(self.Widgets, Anchor)
+	if self.Widgets then
+		tinsert(self.Widgets, Anchor)
+	end
 	
 	return Dropdown
 end
@@ -1387,8 +1393,8 @@ GUI.CreateWindow = function(self, name, default)
 	
 	local Window = CreateFrame("Frame", nil, self)
 	Window:Width(WidgetListWidth)
-	Window:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
 	Window:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
+	Window:Point("BOTTOMRIGHT", self.Footer, "TOPRIGHT", 0, (Spacing - 1))
 	Window:SetTemplate()
 	Window:SetBackdropColor(unpack(LightColor))
 	Window.Button = Button
@@ -1512,12 +1518,56 @@ GUI.Create = function(self)
 	StyleFont(self.Header.Label, Font, 16)
 	self.Header.Label:SetText(HeaderText)
 	
+	-- Footer
+	self.Footer = CreateFrame("Frame", nil, self)
+	self.Footer:Size(HeaderWidth, HeaderHeight)
+	self.Footer:Point("BOTTOM", self, 0, Spacing)
+	--self.Footer:SetTemplate()
+	self.Footer:SetBackdropColor(unpack(LightColor))
+	
+	-- Apply button
+	local Apply = CreateFrame("Frame", nil, self.Footer)
+	Apply:Size(MenuButtonWidth, WidgetHeight)
+	Apply:Point("LEFT", self.Footer, 0, 0)
+	Apply:SetTemplate(nil, Texture)
+	Apply:SetBackdropColor(unpack(BrightColor))
+	Apply:SetScript("OnMouseDown", ButtonOnMouseDown)
+	Apply:SetScript("OnMouseUp", ButtonOnMouseUp)
+	Apply:SetScript("OnEnter", ButtonOnEnter)
+	Apply:SetScript("OnLeave", ButtonOnLeave)
+	Apply:HookScript("OnMouseUp", ReloadUI)
+	
+	Apply.Highlight = Apply:CreateTexture(nil, "OVERLAY")
+	Apply.Highlight:SetAllPoints()
+	Apply.Highlight:SetTexture(Texture)
+	Apply.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Apply.Highlight:SetAlpha(0)
+	
+	Apply.Middle = Apply:CreateFontString(nil, "OVERLAY")
+	Apply.Middle:Point("CENTER", Apply, 0, 0)
+	StyleFont(Apply.Middle, Font, 12)
+	Apply.Middle:SetJustifyH("CENTER")
+	Apply.Middle:SetText("Apply")
+	
+	-- Settings option
+	local Dropdown = CreateDropdown(self.Footer, "Settings", "Storage", "Settings storage")
+	
+	Dropdown:Point("LEFT", Apply, "RIGHT", Spacing, 0)
+	
+	Dropdown.Hook = function(value)
+		if (value == "Global") then
+			TukuiUseGlobal = true
+		else
+			TukuiUseGlobal = false
+		end
+	end
+	
 	-- Button list
 	self.ButtonList = CreateFrame("Frame", nil, self)
 	self.ButtonList:Width(ButtonListWidth)
 	self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
 	self.ButtonList:Point("TOPLEFT", self.Header, "BOTTOMLEFT", 0, -(Spacing - 1))
-	self.ButtonList:Point("BOTTOMLEFT", self, Spacing, Spacing)
+	self.ButtonList:Point("BOTTOMLEFT", self.Footer, "TOPLEFT", 0, (Spacing - 1))
 	self.ButtonList:SetTemplate()
 	self.ButtonList:SetBackdropColor(unpack(LightColor))
 	
@@ -1537,7 +1587,9 @@ GUI.Create = function(self)
 	self:UnpackQueue()
 	
 	-- Set the frame height
-	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing))
+	local Height = (HeaderHeight * 2) + (self.WindowCount * MenuButtonHeight) + (self.WindowCount * Spacing)
+	
+	self:Height(Height)
 	
 	if self.DefaultWindow then
 		self:DisplayWindow(self.DefaultWindow)
