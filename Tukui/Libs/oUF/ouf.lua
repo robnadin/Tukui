@@ -19,11 +19,6 @@ local callback, objects, headers = {}, {}, {}
 local elements = {}
 local activeElements = {}
 
-local PetBattleFrameHider = CreateFrame('Frame', (global or parent) .. '_PetBattleFrameHider', UIParent, 'SecureHandlerStateTemplate')
-PetBattleFrameHider:SetAllPoints()
-PetBattleFrameHider:SetFrameStrata('LOW')
-RegisterStateDriver(PetBattleFrameHider, 'visibility', '[petbattle] hide; show')
-
 -- updating of "invalid" units.
 local function enableTargetUpdate(object)
 	object.onUpdateFrequency = object.onUpdateFrequency or .5
@@ -626,7 +621,7 @@ do
 
 		local isPetHeader = template:match('PetHeader')
 		local name = overrideName or generateName(nil, ...)
-		local header = CreateFrame('Frame', name, PetBattleFrameHider, template)
+		local header = CreateFrame('Frame', name, UIParent, template)
 
 		header:SetAttribute('template', 'SecureUnitButtonTemplate, SecureHandlerStateTemplate, SecureHandlerEnterLeaveTemplate')
 		for i = 1, select('#', ...), 2 do
@@ -644,7 +639,7 @@ do
 
 		-- We set it here so layouts can't directly override it.
 		header:SetAttribute('initialConfigFunction', initialConfigFunction)
-		header:SetAttribute('_initialAttributeNames', '_onenter,_onleave,refreshUnitChange,_onstate-vehicleui')
+		header:SetAttribute('_initialAttributeNames', '_onenter,_onleave,refreshUnitChange')
 		header:SetAttribute('_initialAttribute-_onenter', [[
 			local snippet = self:GetAttribute('clickcast_onenter')
 			if(snippet) then
@@ -663,14 +658,6 @@ do
 				RegisterStateDriver(self, 'vehicleui', '[@' .. unit .. ',unithasvehicleui]vehicle; novehicle')
 			else
 				UnregisterStateDriver(self, 'vehicleui')
-			end
-		]])
-		header:SetAttribute('_initialAttribute-_onstate-vehicleui', [[
-			local unit = self:GetAttribute('unit')
-			if(newstate == 'vehicle' and unit and UnitPlayerOrPetInRaid(unit) and not UnitTargetsVehicleInRaidUI(unit)) then
-				self:SetAttribute('toggleForVehicle', false)
-			else
-				self:SetAttribute('toggleForVehicle', true)
 			end
 		]])
 		header:SetAttribute('oUF-headerType', isPetHeader and 'pet' or 'group')
@@ -718,7 +705,7 @@ function oUF:Spawn(unit, overrideName)
 	unit = unit:lower()
 
 	local name = overrideName or generateName(unit)
-	local object = CreateFrame('Button', name, PetBattleFrameHider, 'SecureUnitButtonTemplate')
+	local object = CreateFrame('Button', name, UIParent, 'SecureUnitButtonTemplate')
 	Private.UpdateUnits(object, unit)
 
 	self:DisableBlizzard(unit)

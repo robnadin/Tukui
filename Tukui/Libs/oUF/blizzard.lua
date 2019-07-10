@@ -14,7 +14,11 @@ local hiddenParent = CreateFrame('Frame', nil, UIParent)
 hiddenParent:SetAllPoints()
 hiddenParent:Hide()
 
-local function handleFrame(baseName)
+local function insecureOnShow(self)
+	self:Hide()
+end
+
+local function handleFrame(baseName, doNotReparent)
 	local frame
 	if(type(baseName) == 'string') then
 		frame = _G[baseName]
@@ -26,8 +30,9 @@ local function handleFrame(baseName)
 		frame:UnregisterAllEvents()
 		frame:Hide()
 
-		-- Keep frame hidden without causing taint
-		frame:SetParent(hiddenParent)
+		if(not doNotReparent) then
+			frame:SetParent(hiddenParent)
+		end
 
 		local health = frame.healthBar or frame.healthbar
 		if(health) then
@@ -42,11 +47,6 @@ local function handleFrame(baseName)
 		local spell = frame.castBar or frame.spellbar
 		if(spell) then
 			spell:UnregisterAllEvents()
-		end
-
-		local altpowerbar = frame.powerBarAlt
-		if(altpowerbar) then
-			altpowerbar:UnregisterAllEvents()
 		end
 
 		local buffFrame = frame.BuffFrame
@@ -75,15 +75,6 @@ function oUF:DisableBlizzard(unit)
 		handleFrame(ComboFrame)
 	elseif(unit == 'targettarget') then
 		handleFrame(TargetFrameToT)
-	elseif(unit:match('boss%d?$')) then
-		local id = unit:match('boss(%d)')
-		if(id) then
-			handleFrame('Boss' .. id .. 'TargetFrame')
-		else
-			for i = 1, MAX_BOSS_FRAMES do
-				handleFrame(string.format('Boss%dTargetFrame', i))
-			end
-		end
 	elseif(unit:match('party%d?$')) then
 		local id = unit:match('party(%d)')
 		if(id) then
@@ -96,7 +87,12 @@ function oUF:DisableBlizzard(unit)
 	elseif(unit:match('nameplate%d+$')) then
 		local frame = C_NamePlate.GetNamePlateForUnit(unit)
 		if(frame and frame.UnitFrame) then
-			handleFrame(frame.UnitFrame)
+			if(not frame.UnitFrame.isHooked) then
+				frame.UnitFrame:HookScript('OnShow', insecureOnShow)
+				frame.UnitFrame.isHooked = true
+			end
+
+			handleFrame(frame.UnitFrame, true)
 		end
 	end
 end
