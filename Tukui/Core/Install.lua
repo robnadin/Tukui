@@ -13,13 +13,9 @@ function Install:ResetData()
 
 	TukuiData[GetRealmName()][UnitName("Player")] = {}
 
-<<<<<<< HEAD
 	TukuiUseGlobal = true -- Use global by default
 
 	if TukuiUseGlobal then
-=======
-	--if XXXXXXXXXXXXXX then
->>>>>>> 9e926c2dc08b0665bc29736b987dfcbd04804abf
 		TukuiSettings = {}
 	else
 		TukuiSettingsPerChar = {}

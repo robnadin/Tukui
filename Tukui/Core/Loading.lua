@@ -4,7 +4,6 @@ local Loading = CreateFrame("Frame")
 
 function Loading:LoadCustomSettings()
 	local Settings
-<<<<<<< HEAD
 	
 	if TukuiUseGlobal then
 		if (not TukuiSettings) then
@@ -19,7 +18,7 @@ function Loading:LoadCustomSettings()
 		
 		Settings = TukuiSettingsPerChar
 	end
-=======
+
 	local Name = UnitName("Player")
 	local Realm = GetRealmName()
 
@@ -28,8 +27,7 @@ function Loading:LoadCustomSettings()
 	end
 
 	Settings = TukuiSettings
->>>>>>> 9e926c2dc08b0665bc29736b987dfcbd04804abf
-	
+
 	for group, options in pairs(Settings) do
 		if C[group] then
 			local Count = 0
