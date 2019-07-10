@@ -19,15 +19,6 @@ function Loading:LoadCustomSettings()
 		Settings = TukuiSettingsPerChar
 	end
 
-	local Name = UnitName("Player")
-	local Realm = GetRealmName()
-
-	if (not TukuiSettings) then
-		TukuiSettings = {}
-	end
-
-	Settings = TukuiSettings
-
 	for group, options in pairs(Settings) do
 		if C[group] then
 			local Count = 0

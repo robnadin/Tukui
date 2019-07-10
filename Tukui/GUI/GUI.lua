@@ -1560,6 +1560,8 @@ GUI.Create = function(self)
 		else
 			TukuiUseGlobal = false
 		end
+		
+		ReloadUI()
 	end
 	
 	-- Button list
