@@ -42,7 +42,7 @@ local R, G, B = Color.r, Color.g, Color.b
 
 local HeaderText = format("|c%sTukui|r settings", Color.colorStr)
 
-local WindowWidth = 460
+local WindowWidth = 490
 local WindowHeight = 360
 
 local Spacing = 4
@@ -52,13 +52,11 @@ local HeaderWidth = WindowWidth - (Spacing * 2)
 local HeaderHeight = 22
 
 local ButtonListWidth = 120
-local ButtonListHeight = (WindowHeight - HeaderHeight - (Spacing * 3) + 2)
 
 local MenuButtonWidth = ButtonListWidth - (Spacing * 2)
 local MenuButtonHeight = 20
 
 local WidgetListWidth = (WindowWidth - ButtonListWidth) - (Spacing * 3) + 1
-local WidgetListHeight = ButtonListHeight
 
 local WidgetHeight = 20 -- All widgets are the same height
 local WidgetHighlightAlpha = 0.3
@@ -1355,7 +1353,7 @@ GUI.CreateWindow = function(self, name, default)
 		return
 	end
 	
-	self.WindowCount = self.WindowCount or 1 -- We start at 1 because of the apply button
+	self.WindowCount = self.WindowCount or 0
 	
 	local Button = CreateFrame("Frame", nil, self.ButtonList)
 	Button:Size(MenuButtonWidth, MenuButtonHeight)
@@ -1473,7 +1471,7 @@ GUI.Create = function(self)
 	end
 	
 	-- Main Window
-	self:Size(WindowWidth, WindowHeight)
+	self:Width(WindowWidth)
 	self:Point("CENTER", UIParent, 0, 0)
 	self:SetTemplate()
 	self:CreateShadow()
@@ -1536,37 +1534,14 @@ GUI.Create = function(self)
 	StyleFont(self.Close.Label, Font, 16)
 	self.Close.Label:SetText("×")
 	
-	-- Apply
-	local Button = CreateFrame("Frame", nil, self.ButtonList)
-	Button:Size(MenuButtonWidth, MenuButtonHeight)
-	Button:SetTemplate(nil, Texture)
-	Button:SetBackdropColor(unpack(BrightColor))
-	Button:SetScript("OnMouseUp", ReloadUI)
-	Button:SetScript("OnEnter", MenuButtonOnEnter)
-	Button:SetScript("OnLeave", MenuButtonOnLeave)
-	Button.Name = "ZZZ"
-	
-	Button.Label = Button:CreateFontString(nil, "OVERLAY")
-	Button.Label:Point("CENTER", Button, 0, 0)
-	StyleFont(Button.Label, Font, 14)
-	Button.Label:SetText("Apply")
-	
-	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
-	Button.Highlight:SetAllPoints()
-	Button.Highlight:SetTexture(Texture)
-	Button.Highlight:SetVertexColor(0.5, 0.5, 0.5, 0.3)
-	Button.Highlight:Hide()
-	
 	self:UnpackQueue()
 	
 	-- Set the frame height
-	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing) - 3)
+	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing))
 	
 	if self.DefaultWindow then
 		self:DisplayWindow(self.DefaultWindow)
 	end
-	
-	tinsert(self.Buttons, Button)
 	
 	self:SortMenuButtons()
 	
