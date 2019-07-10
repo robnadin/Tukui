@@ -19,7 +19,6 @@ local type = type
 	
 	Widget list:
 	checkbox(?)
-	color
 ]]
 
 -- IMO :SetFontTemplate should let you set the flag too
@@ -835,62 +834,68 @@ end
 GUI.Widgets.CreateDropdown = CreateDropdown
 
 -- Color selection
-local ColorButtonWidth = 100
+local ColorButtonWidth = 110
 
-local ColorPickerFunction = function(restore)
-	if (restore ~= nil) then
-		return
-	end
-	
+local ColorOnMouseUp = function(self, button)
 	local CPF = ColorPickerFrame
 	
-	local NewR, NewG, NewB = CPF:GetColorRGB()
-	
-	NewR = Round(NewR, 3)
-	NewG = Round(NewG, 3)
-	NewB = Round(NewB, 3)
-	
-	CPF.Button:GetParent():SetBackdropColor(NewR, NewG, NewB)
-	
-	local NewValue = {NewR, NewG, NewB}
-	
-	CPF.Button.Value = NewValue
-	
-	SetValue(CPF.Group, CPF.Option, NewValue)
-end
-
-local ColorPickerFrameCancel = function()
-	local CPF = ColorPickerFrame
-	local Value = {CPF.OldR, CPF.OldG, CPF.OldB}
-	
-	CPF.Button:GetParent():SetBackdropColor(CPF.OldR, CPF.OldG, CPF.OldB)
-	CPF.Button.Value = Value
-	
-	SetValue(CPF.Group, CPF.Option, Value)
-end
-
-local ColorOnMouseUp = function(self)
-	local CPF = ColorPickerFrame
-
 	if CPF:IsShown() then
 		return
 	end
 	
 	local CurrentR, CurrentG, CurrentB = unpack(self.Value)
 	
-	CPF:SetColorRGB(CurrentR, CurrentG, CurrentB)
+	local ShowColorPickerFrame = function(r, g, b, func, cancel)
+		HideUIPanel(CPF)
+		CPF.Button = self
+		
+		CPF:SetColorRGB(CurrentR, CurrentG, CurrentB)
+		
+		CPF.Group = self.Group
+		CPF.Option = self.Option
+		CPF.OldR = CurrentR
+		CPF.OldG = CurrentG
+		CPF.OldB = CurrentB
+		CPF.previousValues = self.Value
+		CPF.func = func
+		CPF.opacityFunc = func
+		CPF.cancelFunc = cancel
+		
+		ShowUIPanel(CPF)
+	end
 	
-	CPF.Group = self.Group
-	CPF.Option = self.Option
-	CPF.OldR = CurrentR
-	CPF.OldG = CurrentG
-	CPF.OldB = CurrentB
-	CPF.Button = self
-	CPF.func = ColorPickerFunction
-	CPF.opacityFunc = ColorPickerFunction
-	CPF.cancelFunc = ColorPickerFrameCancel
+	local ColorPickerFunction = function(restore)
+		if (restore ~= nil or self ~= CPF.Button) then
+			return
+		end
+		
+		local NewR, NewG, NewB = CPF:GetColorRGB()
+		
+		NewR = Round(NewR, 3)
+		NewG = Round(NewG, 3)
+		NewB = Round(NewB, 3)
+		
+		local NewValue = {NewR, NewG, NewB}
+		
+		CPF.Button:GetParent():SetBackdropColor(NewR, NewG, NewB)
+		CPF.Button.Value = NewValue
+		
+		SetValue(CPF.Group, CPF.Option, NewValue)
+	end
 	
-	ShowUIPanel(CPF)
+	local ColorPickerFrameCancel = function()
+		
+	end
+	
+	ShowColorPickerFrame(CurrentR, CurrentG, CurrentB, ColorPickerFunction, ColorPickerFrameCancel)
+end
+
+local ColorOnEnter = function(self)
+	self.Highlight:SetAlpha(WidgetHighlightAlpha)
+end
+
+local ColorOnLeave = function(self)
+	self.Highlight:SetAlpha(0)
 end
 
 local CreateColorSelection = function(self, group, option, text)
@@ -914,9 +919,17 @@ local CreateColorSelection = function(self, group, option, text)
 	Swatch.Select:SetTemplate(nil, Texture)
 	Swatch.Select:SetBackdropColor(unpack(BrightColor))
 	Swatch.Select:SetScript("OnMouseUp", ColorOnMouseUp)
+	Swatch.Select:SetScript("OnEnter", ColorOnEnter)
+	Swatch.Select:SetScript("OnLeave", ColorOnLeave)
 	Swatch.Select.Group = group
 	Swatch.Select.Option = option
 	Swatch.Select.Value = Value
+	
+	Swatch.Select.Highlight = Swatch.Select:CreateTexture(nil, "OVERLAY")
+	Swatch.Select.Highlight:SetAllPoints()
+	Swatch.Select.Highlight:SetTexture(Texture)
+	Swatch.Select.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Swatch.Select.Highlight:SetAlpha(0)
 	
 	Swatch.Select.Label = Swatch.Select:CreateFontString(nil, "OVERLAY")
 	Swatch.Select.Label:Point("CENTER", Swatch.Select, 0, 0)
