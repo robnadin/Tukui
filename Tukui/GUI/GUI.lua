@@ -171,6 +171,64 @@ end
 
 GUI.Widgets.CreateSection = CreateSection
 
+-- Buttons
+local ButtonWidth = 134
+
+local ButtonOnEnter = function(self)
+	self.Highlight:SetAlpha(WidgetHighlightAlpha)
+end
+
+local ButtonOnLeave = function(self)
+	self.Highlight:SetAlpha(0)
+end
+
+local ButtonOnMouseDown = function(self)
+	self:SetBackdropColor(unpack(BGColor))
+end
+
+local ButtonOnMouseUp = function(self)
+	self:SetBackdropColor(unpack(BrightColor))
+end
+
+local CreateButton = function(self, midtext, text, func)
+	local Anchor = CreateFrame("Frame", nil, self)
+	Anchor:Size(WidgetListWidth - (Spacing * 2), WidgetHeight)
+	
+	local Button = CreateFrame("Frame", nil, Anchor)
+	Button:Size(ButtonWidth, WidgetHeight)
+	Button:Point("LEFT", Anchor, 0, 0)
+	Button:SetTemplate(nil, Texture)
+	Button:SetBackdropColor(unpack(BrightColor))
+	Button:SetScript("OnMouseDown", ButtonOnMouseDown)
+	Button:SetScript("OnMouseUp", ButtonOnMouseUp)
+	Button:SetScript("OnEnter", ButtonOnEnter)
+	Button:SetScript("OnLeave", ButtonOnLeave)
+	Button:HookScript("OnMouseUp", func)
+	
+	Button.Highlight = Button:CreateTexture(nil, "OVERLAY")
+	Button.Highlight:SetAllPoints()
+	Button.Highlight:SetTexture(Texture)
+	Button.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Button.Highlight:SetAlpha(0)
+	
+	Button.Middle = Button:CreateFontString(nil, "OVERLAY")
+	Button.Middle:Point("CENTER", Button, 0, 0)
+	StyleFont(Button.Middle, Font, 12)
+	Button.Middle:SetJustifyH("CENTER")
+	Button.Middle:SetText(midtext)
+	
+	Button.Label = Button:CreateFontString(nil, "OVERLAY")
+	Button.Label:Point("LEFT", Button, "RIGHT", Spacing, 0)
+	StyleFont(Button.Label, Font, 12)
+	Button.Label:SetText(text)
+	
+	tinsert(self.Widgets, Anchor)
+	
+	return Button
+end
+
+GUI.Widgets.CreateButton = CreateButton
+
 -- Switches
 local SwitchWidth = 46
 
@@ -836,6 +894,10 @@ GUI.Widgets.CreateDropdown = CreateDropdown
 -- Color selection
 local ColorButtonWidth = 110
 
+local ColorPickerFrameCancel = function()
+	
+end
+
 local ColorOnMouseUp = function(self, button)
 	local CPF = ColorPickerFrame
 	
@@ -881,10 +943,6 @@ local ColorOnMouseUp = function(self, button)
 		CPF.Button.Value = NewValue
 		
 		SetValue(CPF.Group, CPF.Option, NewValue)
-	end
-	
-	local ColorPickerFrameCancel = function()
-		
 	end
 	
 	ShowColorPickerFrame(CurrentR, CurrentG, CurrentB, ColorPickerFunction, ColorPickerFrameCancel)
@@ -1396,7 +1454,7 @@ local General = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
 	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
-	Window:CreateSlider("General", "UIScale", "Set ui scale", 0.64, 1.15, 0.01)
+	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1.15, 0.01)
 	
 	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set ui theme")
