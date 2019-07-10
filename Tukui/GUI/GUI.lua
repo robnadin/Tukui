@@ -16,9 +16,6 @@ local type = type
 	To do:
 	Global/PerChar settings
 	dropdown scrolling
-	
-	Widget list:
-	checkbox(?)
 ]]
 
 -- IMO :SetFontTemplate should let you set the flag too
@@ -66,6 +63,8 @@ local WidgetListHeight = ButtonListHeight
 
 local WidgetHeight = 20 -- All widgets are the same height
 local WidgetHighlightAlpha = 0.3
+
+local Credits = {"Elv", "Hydra", "Haste", "Nightcracker", "Haleth", "Caellian", "Shestak", "Tekkub", "Roth", "Alza", "P3lim", "Tulla", "Hungtar", "Ishtara", "Caith", "Azilroka", "Simpy", "Aftermathh"}
 
 local GUI = CreateFrame("Frame", nil, UIParent) -- Feel free to give a global name, It's available as T.GUI right now
 GUI.Windows = {}
@@ -905,6 +904,8 @@ local ColorOnMouseUp = function(self, button)
 		return
 	end
 	
+	self:SetBackdropColor(unpack(BrightColor))
+	
 	local CurrentR, CurrentG, CurrentB = unpack(self.Value)
 	
 	local ShowColorPickerFrame = function(r, g, b, func, cancel)
@@ -948,6 +949,10 @@ local ColorOnMouseUp = function(self, button)
 	ShowColorPickerFrame(CurrentR, CurrentG, CurrentB, ColorPickerFunction, ColorPickerFrameCancel)
 end
 
+local ColorOnMouseDown = function(self)
+	self:SetBackdropColor(unpack(BGColor))
+end
+
 local ColorOnEnter = function(self)
 	self.Highlight:SetAlpha(WidgetHighlightAlpha)
 end
@@ -976,6 +981,7 @@ local CreateColorSelection = function(self, group, option, text)
 	Swatch.Select:Point("LEFT", Swatch, "RIGHT", Spacing, 0)
 	Swatch.Select:SetTemplate(nil, Texture)
 	Swatch.Select:SetBackdropColor(unpack(BrightColor))
+	Swatch.Select:SetScript("OnMouseDown", ColorOnMouseDown)
 	Swatch.Select:SetScript("OnMouseUp", ColorOnMouseUp)
 	Swatch.Select:SetScript("OnEnter", ColorOnEnter)
 	Swatch.Select:SetScript("OnLeave", ColorOnLeave)
@@ -1298,6 +1304,40 @@ local CloseOnMouseUp = function()
 	GUI.FadeOut:Play()
 end
 
+local CreditLineHeight = 20
+
+local SetUpCredits = function(frame)
+	frame.Lines = {}
+	
+	for i = 1, #Credits do
+		local Line = CreateFrame("Frame", nil, frame)
+		Line:Size(frame:GetWidth(), CreditLineHeight)
+		
+		Line.BG = Line:CreateTexture(nil, "ARTWORK")
+		Line.BG:Point("TOPLEFT", Line, 1, 0)
+		Line.BG:Point("BOTTOMRIGHT", Line, -1, 0)
+		Line.BG:SetTexture(Blank)
+		Line.BG:SetVertexColor(0.3, 0.3, 0.3)
+		Line.BG:SetAlpha((i % 2 == 0) and 0.3 or 0.4)
+		
+		Line.Text = Line:CreateFontString(nil, "OVERLAY")
+		Line.Text:Point("CENTER", Line, 0, 0)
+		StyleFont(Line.Text, Font, 12)
+		Line.Text:SetJustifyH("CENTER")
+		Line.Text:SetText(Credits[i])
+		
+		if (i == 1) then
+			Line:Point("TOP", frame, 0, -1)
+		else
+			Line:Point("TOP", frame.Lines[i-1], "BOTTOM", 0, 0)
+		end
+		
+		tinsert(frame.Lines, Line)
+	end
+	
+	frame:Height((#Credits * CreditLineHeight) + 2)
+end
+
 GUI.Create = function(self)
 	if self.Created then
 		return
@@ -1401,6 +1441,32 @@ GUI.Create = function(self)
 	
 	self:SortMenuButtons()
 	
+	--[[ Create credits
+	local CreditFrame = CreateFrame("Frame", "TukuiCredits", UIParent) -- /run TukuiCredits:Show(); TukuiCredits.FadeIn:Play()
+	CreditFrame:Width(100)
+	CreditFrame:SetTemplate()
+	CreditFrame:Point("CENTER", UIParent, 0, 0)
+	CreditFrame:SetFrameStrata("DIALOG")
+	CreditFrame:SetAlpha(0)
+	CreditFrame:Hide()
+	
+	SetUpCredits(CreditFrame)
+	
+	CreditFrame.Fade = CreateAnimationGroup(CreditFrame)
+	
+	CreditFrame.FadeIn = CreditFrame.Fade:CreateAnimation("Fade")
+	CreditFrame.FadeIn:SetDuration(0.3)
+	CreditFrame.FadeIn:SetChange(1)
+	CreditFrame.FadeIn:SetEasing("in-sinusoidal")
+	
+	CreditFrame.FadeOut = CreditFrame.Fade:CreateAnimation("Fade")
+	CreditFrame.FadeOut:SetDuration(0.3)
+	CreditFrame.FadeOut:SetChange(0)
+	CreditFrame.FadeOut:SetEasing("out-sinusoidal")
+	CreditFrame.FadeOut:SetScript("OnFinished", function(self)
+		self:GetParent():Hide()
+	end)]]
+	
 	self.Created = true
 end
 
@@ -1450,7 +1516,7 @@ local General = function(self)
 	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1.15, 0.01)
 	
 	Window:CreateSection("Theme")
-	Window:CreateDropdown("General", "Themes", "Set ui theme")
+	Window:CreateDropdown("General", "Themes", "Set UI theme")
 	
 	Window:CreateSection("Color")
 	Window:CreateColorSelection("General", "BackdropColor", "Backdrop color")
@@ -1490,10 +1556,10 @@ local Auras = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Auras", "Flash", "Flash auras at low duration")
 	Window:CreateSwitch("Auras", "ClassicTimer", "ClassicTimer")
-	Window:CreateSwitch("Auras", "HideBuffs", "HideBuffs")
-	Window:CreateSwitch("Auras", "HideDebuffs", "HideDebuffs")
-	Window:CreateSwitch("Auras", "Animation", "Animation")
-	Window:CreateSlider("Auras", "BuffsPerRow", "BuffsPerRow", 6, 20, 1)
+	Window:CreateSwitch("Auras", "HideBuffs", "Hide buffs")
+	Window:CreateSwitch("Auras", "HideDebuffs", "Hide debuffs")
+	Window:CreateSwitch("Auras", "Animation", "Animate new auras")
+	Window:CreateSlider("Auras", "BuffsPerRow", "Buffs per row", 6, 20, 1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Auras", "Font", "Set aura font", "Font")
@@ -1674,8 +1740,12 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "Enable", "Enable unitframe module")
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")
+	
+	Window:CreateSection("Auras")
 	Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
 	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
+	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "OnlySelfDebuffs")
+	Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "OnlySelfBuffs")
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("UnitFrames", "UnlinkCastBar", "UnlinkCastBar")
@@ -1684,8 +1754,6 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "ComboBar", "Enable combo point bar")
 	Window:CreateSwitch("UnitFrames", "Smooth", "Enable smooth health transitions")
 	Window:CreateSwitch("UnitFrames", "CombatLog", "Enable combat feedback text")
-	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "OnlySelfDebuffs")
-	Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "OnlySelfBuffs")
 	Window:CreateSwitch("UnitFrames", "TargetEnemyHostileColor", "TargetEnemyHostileColor")
 	
 	Window:CreateSection("Font")
