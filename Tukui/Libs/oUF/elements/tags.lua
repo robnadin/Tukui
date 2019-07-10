@@ -99,35 +99,6 @@ local tagStrings = {
 		end
 	end]],
 
-	['arcanecharges'] = [[function()
-		if(GetSpecialization() == SPEC_MAGE_ARCANE) then
-			local num = UnitPower('player', Enum.PowerType.ArcaneCharges)
-			if(num > 0) then
-				return num
-			end
-		end
-	end]],
-
-	['arenaspec'] = [[function(u)
-		local id = u:match('arena(%d)$')
-		if(id) then
-			local specID = GetArenaOpponentSpec(tonumber(id))
-			if(specID and specID > 0) then
-				local _, specName = GetSpecializationInfoByID(specID)
-				return specName
-			end
-		end
-	end]],
-
-	['chi'] = [[function()
-		if(GetSpecialization() == SPEC_MONK_WINDWALKER) then
-			local num = UnitPower('player', Enum.PowerType.Chi)
-			if(num > 0) then
-				return num
-			end
-		end
-	end]],
-
 	['classification'] = [[function(u)
 		local c = UnitClassification(u)
 		if(c == 'rare') then
@@ -193,15 +164,6 @@ local tagStrings = {
 			local raidName, _, group = GetRaidRosterInfo(i)
 			if( raidName == name ) then
 				return group
-			end
-		end
-	end]],
-
-	['holypower'] = [[function()
-		if(GetSpecialization() == SPEC_PALADIN_RETRIBUTION) then
-			local num = UnitPower('player', Enum.PowerType.HolyPower)
-			if(num > 0) then
-				return num
 			end
 		end
 	end]],
@@ -395,13 +357,6 @@ local tagStrings = {
 		end
 	end]],
 
-	['soulshards'] = [[function()
-		local num = UnitPower('player', Enum.PowerType.SoulShards)
-		if(num > 0) then
-			return num
-		end
-	end]],
-
 	['status'] = [[function(u)
 		if(UnitIsDead(u)) then
 			return 'Dead'
@@ -427,38 +382,55 @@ local tags = setmetatable(
 	},
 	{
 		__index = function(self, key)
-			local tagFunc = tagStrings[key]
-			if(tagFunc) then
-				local func, err = loadstring('return ' .. tagFunc)
+			local tagString = tagStrings[key]
+			if(tagString) then
+				self[key] = tagString
+				tagStrings[key] = nil
+			end
+
+			return rawget(self, key)
+		end,
+		__newindex = function(self, key, val)
+			if(type(val) == 'string') then
+				local func, err = loadstring('return ' .. val)
 				if(func) then
-					func = func()
-
-					-- Want to trigger __newindex, so no rawset.
-					self[key] = func
-					tagStrings[key] = nil
-
-					return func
+					val = func()
 				else
 					error(err, 3)
 				end
 			end
-		end,
-		__newindex = function(self, key, val)
-			if(type(val) == 'string') then
-				tagStrings[key] = val
-			elseif(type(val) == 'function') then
-				-- So we don't clash with any custom envs.
-				if(getfenv(val) == _G) then
-					setfenv(val, _PROXY)
-				end
 
-				rawset(self, key, val)
+			assert(type(val) == 'function', 'Tag function must be a function or a string that evaluates to a function.')
+
+			-- We don't want to clash with any custom envs
+			if(getfenv(val) == _G) then
+				-- pcall is needed for cases when Blizz functions are passed as
+				-- strings, for intance, 'UnitPowerMax', an attempt to set a
+				-- custom env will result in an error
+				pcall(setfenv, val, _PROXY)
 			end
+
+			rawset(self, key, val)
 		end,
 	}
 )
 
 _ENV._TAGS = tags
+
+local vars = setmetatable({}, {
+	__newindex = function(self, key, val)
+		if(type(val) == 'string') then
+			local func = loadstring('return ' .. val)
+			if(func) then
+				val = func() or val
+			end
+		end
+
+		rawset(self, key, val)
+	end,
+})
+
+_ENV._VARS = vars
 
 local tagEvents = {
 	['affix']               = 'UNIT_CLASSIFICATION_CHANGED',
@@ -491,7 +463,6 @@ local tagEvents = {
 	['resting']             = 'PLAYER_UPDATE_RESTING',
 	['shortclassification'] = 'UNIT_CLASSIFICATION_CHANGED',
 	['smartlevel']          = 'UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED',
-	['soulshards']          = 'UNIT_POWER_UPDATE',
 	['status']              = 'UNIT_HEALTH PLAYER_UPDATE_RESTING UNIT_CONNECTION',
 }
 
@@ -507,8 +478,8 @@ local unitlessEvents = {
 }
 
 local events = {}
-local frame = CreateFrame('Frame')
-frame:SetScript('OnEvent', function(self, event, unit)
+local eventFrame = CreateFrame('Frame')
+eventFrame:SetScript('OnEvent', function(self, event, unit)
 	local strings = events[event]
 	if(strings) then
 		for _, fs in next, strings do
@@ -523,9 +494,7 @@ local onUpdates = {}
 local eventlessUnits = {}
 
 local function createOnUpdate(timer)
-	local OnUpdate = onUpdates[timer]
-
-	if(not OnUpdate) then
+	if(not onUpdates[timer]) then
 		local total = timer
 		local frame = CreateFrame('Frame')
 		local strings = eventlessUnits[timer]
@@ -555,11 +524,15 @@ Used to update all tags on a frame.
 --]]
 local function Update(self)
 	if(self.__tags) then
-		for _, fs in next, self.__tags do
+		for fs in next, self.__tags do
 			fs:UpdateTag()
 		end
 	end
 end
+
+local tagPool = {}
+local funcPool = {}
+local tmp = {}
 
 local function getTagName(tag)
 	local tagStart = (tag:match('>+()') or 2)
@@ -569,71 +542,7 @@ local function getTagName(tag)
 	return tag:sub(tagStart, tagEnd), tagStart, tagEnd
 end
 
-local function registerEvent(fontstr, event)
-	if(not events[event]) then events[event] = {} end
-
-	frame:RegisterEvent(event)
-	table.insert(events[event], fontstr)
-end
-
-local function registerEvents(fontstr, tagstr)
-	for tag in tagstr:gmatch(_PATTERN) do
-		tag = getTagName(tag)
-		local tagevents = tagEvents[tag]
-		if(tagevents) then
-			for event in tagevents:gmatch('%S+') do
-				registerEvent(fontstr, event)
-			end
-		end
-	end
-end
-
-local function unregisterEvents(fontstr)
-	for event, data in next, events do
-		for i, tagfsstr in next, data do
-			if(tagfsstr == fontstr) then
-				if(#data == 1) then
-					frame:UnregisterEvent(event)
-				end
-
-				table.remove(data, i)
-			end
-		end
-	end
-end
-
-local tagPool = {}
-local funcPool = {}
-local tmp = {}
-
---[[ Tags: frame:Tag(fs, tagstr, ...)
-Used to register a tag on a unit frame.
-
-* self   - the unit frame on which to register the tag
-* fs     - the font string to display the tag (FontString)
-* tagstr - the tag string (string)
-* ...    - additional optional unitID(s) the tag should update for
---]]
-local function Tag(self, fs, tagstr, ...)
-	if(not fs or not tagstr) then return end
-
-	if(not self.__tags) then
-		self.__tags = {}
-		table.insert(self.__elements, Update)
-	else
-		-- Since people ignore everything that's good practice - unregister the tag
-		-- if it already exists.
-		for _, tag in pairs(self.__tags) do
-			if(fs == tag) then
-				-- We don't need to remove it from the __tags table as Untag handles
-				-- that for us.
-				self:Untag(fs)
-			end
-		end
-	end
-
-	fs.parent = self
-
+local function getTagFunc(tagstr)
 	local func = tagPool[tagstr]
 	if(not func) then
 		local format, numTags = tagstr:gsub('%%', '%%%%'):gsub(_PATTERN, '%%s')
@@ -762,9 +671,68 @@ local function Tag(self, fs, tagstr, ...)
 
 		tagPool[tagstr] = func
 	end
-	fs.UpdateTag = func
 
-	local unit = self.unit
+	return func
+end
+
+local function registerEvent(fontstr, event)
+	if(not events[event]) then events[event] = {} end
+
+	eventFrame:RegisterEvent(event)
+	table.insert(events[event], fontstr)
+end
+
+local function registerEvents(fontstr, tagstr)
+	for tag in tagstr:gmatch(_PATTERN) do
+		tag = getTagName(tag)
+		local tagevents = tagEvents[tag]
+		if(tagevents) then
+			for event in tagevents:gmatch('%S+') do
+				registerEvent(fontstr, event)
+			end
+		end
+	end
+end
+
+local function unregisterEvents(fontstr)
+	for event, data in next, events do
+		for i, tagfsstr in next, data do
+			if(tagfsstr == fontstr) then
+				if(#data == 1) then
+					eventFrame:UnregisterEvent(event)
+				end
+
+				table.remove(data, i)
+			end
+		end
+	end
+end
+
+local taggedFS = {}
+
+--[[ Tags: frame:Tag(fs, tagstr, ...)
+Used to register a tag on a unit frame.
+
+* self   - the unit frame on which to register the tag
+* fs     - the font string to display the tag (FontString)
+* tagstr - the tag string (string)
+* ...    - additional optional unitID(s) the tag should update for
+--]]
+local function Tag(self, fs, tagstr, ...)
+	if(not fs or not tagstr) then return end
+
+	if(not self.__tags) then
+		self.__tags = {}
+		table.insert(self.__elements, Update)
+	elseif(self.__tags[fs]) then
+		-- We don't need to remove it from the __tags table as Untag handles
+		-- that for us.
+		self:Untag(fs)
+	end
+
+	fs.parent = self
+	fs.UpdateTag = getTagFunc(tagstr)
+
 	if(self.__eventless or fs.frequentUpdates) then
 		local timer
 		if(type(fs.frequentUpdates) == 'number') then
@@ -786,13 +754,13 @@ local function Tag(self, fs, tagstr, ...)
 			end
 
 			for index = 1, select('#', ...) do
-				local unit = select(index, ...)
-				fs.extraUnits[unit] = true
+				fs.extraUnits[select(index, ...)] = true
 			end
 		end
 	end
 
-	table.insert(self.__tags, fs)
+	taggedFS[fs] = tagstr
+	self.__tags[fs] = true
 end
 
 --[[ Tags: frame:Untag(fs)
@@ -813,19 +781,54 @@ local function Untag(self, fs)
 		end
 	end
 
-	for i, fontstr in next, self.__tags do
-		if(fontstr == fs) then
-			table.remove(self.__tags, i)
-		end
-	end
-
 	fs.UpdateTag = nil
+
+	taggedFS[fs] = nil
+	self.__tags[fs] = nil
 end
 
 oUF.Tags = {
 	Methods = tags,
 	Events = tagEvents,
 	SharedEvents = unitlessEvents,
+	Vars = vars,
+	RefreshMethods = function(self, tag)
+		if(not tag) then return end
+
+		funcPool['[' .. tag .. ']'] = nil
+
+		tag = '%[' .. tag .. '%]'
+		for tagstr, func in next, tagPool do
+			if(tagstr:match(tag)) then
+				tagPool[tagstr] = nil
+
+				for fs in next, taggedFS do
+					if(fs.UpdateTag == func) then
+						fs.UpdateTag = getTagFunc(tagstr)
+
+						if(fs:IsVisible()) then
+							fs:UpdateTag()
+						end
+					end
+				end
+			end
+		end
+	end,
+	RefreshEvents = function(self, tag)
+		if(not tag) then return end
+
+		tag = '%[' .. tag .. '%]'
+		for tagstr in next, tagPool do
+			if(tagstr:match(tag)) then
+				for fs, ts in next, taggedFS do
+					if(ts == tagstr) then
+						unregisterEvents(fs)
+						registerEvents(fs, tagstr)
+					end
+				end
+			end
+		end
+	end,
 }
 
 oUF:RegisterMetaFunction('Tag', Tag)

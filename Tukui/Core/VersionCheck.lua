@@ -2,8 +2,7 @@ local T, C, L = select(2, ...):unpack()
 
 local TukuiVersion = CreateFrame("Frame")
 local Version = tonumber(GetAddOnMetadata("Tukui", "Version"))
-local MyName = UnitName("player") .. "-" .. GetRealmName()
-MyName = gsub(MyName, "%s+", "")
+local MyName = gsub(UnitName("player") .. "-" .. GetRealmName(), "%s+", "")
 
 function TukuiVersion:Check(event, prefix, message, channel, sender)
 	if (event == "CHAT_MSG_ADDON") then

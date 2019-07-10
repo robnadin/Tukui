@@ -282,7 +282,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 				else
 					self.Value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
 				end
-			elseif (unit == "target" or (unit and strfind(unit, "boss%d"))) then
+			elseif (unit == "target") then
 				self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", TukuiUnitFrames.ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
 			elseif (unit and strfind(unit, "arena%d")) or (unit == "focus") or (unit == "focustarget") then
 				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(min).."|r")
@@ -296,7 +296,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 				else
 					self.Value:SetText("|cff559655"..max.."|r")
 				end
-			elseif (unit == "target" or unit == "focus"  or unit == "focustarget" or (unit and strfind(unit, "arena%d")) or (unit and strfind(unit, "boss%d"))) then
+			elseif (unit == "target") then
 				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(max).."|r")
 			else
 				self.Value:SetText(" ")
@@ -322,7 +322,7 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	else
 		if (current ~= max) then
 			if (pType == 0) then
-				if (unit == "target" or (unit and strfind(unit, "boss%d"))) then
+				if (unit == "target") then
 					self.Value:SetFormattedText("%d%% |cffD7BEA5-|r %s", floor(current / max * 100), TukuiUnitFrames.ShortValue(max - (max - current)))
 				elseif (unit == "player" and Parent:GetAttribute("normalUnit") == "pet" or unit == "pet") then
 					self.Value:SetFormattedText("%d%%", floor(current / max * 100))
@@ -790,27 +790,7 @@ function TukuiUnitFrames:CreateUnits()
 		self.Units.Target = Target
 		self.Units.TargetOfTarget = TargetOfTarget
 		self.Units.Pet = Pet
-
-		if (C.UnitFrames.Boss) then
-			local Boss = {}
-
-			for i = 1, 5 do
-				Boss[i] = oUF:Spawn("boss"..i, "TukuiBossFrame"..i)
-				Boss[i]:SetParent(UIParent)
-				if (i == 1) then
-					Boss[i]:SetPoint("BOTTOMRIGHT", TukuiUnitFrames.Anchor, "TOPRIGHT", 0, 200)
-				else
-					Boss[i]:SetPoint("BOTTOM", Boss[i - 1], "TOP", 0, 35)
-				end
-				Boss[i]:Size(200, 29)
-
-				Movers:RegisterFrame(Boss[i])
-			end
-
-			self.Units.Boss = Boss
-		end
 		
-		-- BROKEN : SECUREGROUPHEADERS
 		if C.Party.Enable then
 			local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
 			Party:SetParent(UIParent)
