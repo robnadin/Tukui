@@ -1390,6 +1390,7 @@ local General = function(self)
 	
 	Window:CreateSection("Color")
 	Window:CreateColorSelection("General", "BackdropColor", "Backdrop color")
+	Window:CreateColorSelection("General", "BorderColor", "Border color")
 end
 
 local ActionBars = function(self)
@@ -1449,7 +1450,6 @@ local Bags = function(self)
 	Window:CreateDropdown("Bags", "Font", "Set bag font", "Font")
 end
 
--- ["LinkColor"] = {0.08, 1, 0.36}
 local Chat = function(self)
 	local Window = self:CreateWindow("Chat")
 	
@@ -1459,21 +1459,24 @@ local Chat = function(self)
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Chat", "ShortChannelName", "Shorten channel names")
-	Window:CreateSwitch("Chat", "LinkBrackets", "Display URL links in brackets")
 	Window:CreateSlider("Chat", "ScrollByX", "Set lines to scroll", 1, 6, 1)
+	Window:CreateSwitch("Chat", "LinkBrackets", "Display URL links in brackets")
+	Window:CreateColorSelection("Chat", "LinkColor", "Link color")
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Chat", "ChatFont", "Set chat font", "Font")
 	Window:CreateDropdown("Chat", "TabFont", "Set chat tab font", "Font")
 end
 
---["NameColor"] = {1, 1, 1}
---["ValueColor"] = {1, 1, 1}
 local DataTexts = function(self)
 	local Window = self:CreateWindow("DataTexts")
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("DataTexts", "Battleground", "Enable battleground datatext")
+	
+	Window:CreateSection("Color")
+	Window:CreateColorSelection("DataTexts", "NameColor", "Link color")
+	Window:CreateColorSelection("DataTexts", "ValueColor", "Link color")
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("DataTexts", "Font", "Set datatext font", "Font")

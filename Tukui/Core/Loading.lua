@@ -43,7 +43,6 @@ function Loading:LoadCustomSettings()
 								C[group][option].Value = value
 							else
 								C[group][option] = value
-								print(unpack(value))
 							end
 						else
 							C[group][option] = value
@@ -67,6 +66,9 @@ function Loading:Enable()
 
 	self:LoadCustomSettings()
 	
+	T00LKIT.Settings.BackdropColor = C.General.BackdropColor
+	T00LKIT.Settings.BorderColor = C.General.BorderColor
+	
 	local Value = C.General.UIScale
 	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
 	
@@ -82,7 +84,6 @@ end
 
 function Loading:OnEvent(event)
 	if (event == "PLAYER_LOGIN") then
-		
 		--self:Enable()
 		T["Panels"]:Enable()
 		T["Inventory"]["Bags"]:Enable()
@@ -115,11 +116,10 @@ function Loading:OnEvent(event)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		T["Miscellaneous"]["ObjectiveTracker"]:Enable()
 		
-		T["GUI"]:Create()
-		
 		self:UnregisterEvent(event)
 	elseif (event == "VARIABLES_LOADED") then
 		self:Enable()
+		T["GUI"]:Create()
 	end
 end
 
