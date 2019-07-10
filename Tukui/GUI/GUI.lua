@@ -1441,13 +1441,6 @@ end)
 
 T.GUI = GUI -- Do we need a global name? This is all the access anyone would really need
 
--- Below here is just to test
-local Testing = true
-
-if (not Testing) then
-	return
-end
-
 local General = function(self)
 	local Window = self:CreateWindow("General", true)
 	
