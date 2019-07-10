@@ -15,7 +15,6 @@ local type = type
 	
 	To do:
 	Global/PerChar settings
-	dropdown scrolling
 ]]
 
 -- IMO :SetFontTemplate should let you set the flag too
