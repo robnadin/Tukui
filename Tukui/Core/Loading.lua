@@ -70,7 +70,7 @@ function Loading:Enable()
 	T00LKIT.Settings.BorderColor = C.General.BorderColor
 	
 	local Value = C.General.UIScale
-	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or 0.75
+	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or T.PerfectScale
 	
 	Toolkit.Settings.UIScale = Scale
 
