@@ -76,7 +76,11 @@ GUI.Widgets = {}
 
 local SetValue = function(group, option, value)
 	if (type(C[group][option]) == "table") then
-		C[group][option].Value = value
+		if C[group][option].Value then
+			C[group][option].Value = value
+		else
+			C[group][option] = value
+		end
 	else
 		C[group][option] = value
 	end
@@ -408,7 +412,6 @@ local CreateSlider = function(self, group, option, text, minvalue, maxvalue, ste
 	StyleFont(EditBox.Box, Font, 12)
 	EditBox.Box:Point("TOPLEFT", EditBox, 0, 0)
 	EditBox.Box:Point("BOTTOMRIGHT", EditBox, 0, 0)
-	
 	EditBox.Box:SetJustifyH("CENTER")
 	EditBox.Box:SetMaxLetters(4)
 	EditBox.Box:SetAutoFocus(false)
@@ -830,6 +833,111 @@ local CreateDropdown = function(self, group, option, text, custom)
 end
 
 GUI.Widgets.CreateDropdown = CreateDropdown
+
+-- Color selection
+local ColorButtonWidth = 100
+
+local ColorPickerFunction = function(restore)
+	if (restore ~= nil) then
+		return
+	end
+	
+	local CPF = ColorPickerFrame
+	
+	local NewR, NewG, NewB = CPF:GetColorRGB()
+	
+	NewR = Round(NewR, 3)
+	NewG = Round(NewG, 3)
+	NewB = Round(NewB, 3)
+	
+	CPF.Button:GetParent():SetBackdropColor(NewR, NewG, NewB)
+	
+	local NewValue = {NewR, NewG, NewB}
+	
+	CPF.Button.Value = NewValue
+	
+	SetValue(CPF.Group, CPF.Option, NewValue)
+end
+
+local ColorPickerFrameCancel = function()
+	local CPF = ColorPickerFrame
+	local Value = {CPF.OldR, CPF.OldG, CPF.OldB}
+	
+	CPF.Button:GetParent():SetBackdropColor(CPF.OldR, CPF.OldG, CPF.OldB)
+	CPF.Button.Value = Value
+	
+	SetValue(CPF.Group, CPF.Option, Value)
+end
+
+local ColorOnMouseUp = function(self)
+	local CPF = ColorPickerFrame
+
+	if CPF:IsShown() then
+		return
+	end
+	
+	local CurrentR, CurrentG, CurrentB = unpack(self.Value)
+	
+	CPF:SetColorRGB(CurrentR, CurrentG, CurrentB)
+	
+	CPF.Group = self.Group
+	CPF.Option = self.Option
+	CPF.OldR = CurrentR
+	CPF.OldG = CurrentG
+	CPF.OldB = CurrentB
+	CPF.Button = self
+	CPF.func = ColorPickerFunction
+	CPF.opacityFunc = ColorPickerFunction
+	CPF.cancelFunc = ColorPickerFrameCancel
+	
+	ShowUIPanel(CPF)
+end
+
+local CreateColorSelection = function(self, group, option, text)
+	local Value = C[group][option]
+	local Selections
+	
+	local CurrentR, CurrentG, CurrentB = unpack(Value)
+	
+	local Anchor = CreateFrame("Frame", nil, self)
+	Anchor:Size(WidgetListWidth - (Spacing * 2), WidgetHeight)
+	
+	local Swatch = CreateFrame("Frame", nil, Anchor)
+	Swatch:Size(WidgetHeight, WidgetHeight)
+	Swatch:Point("LEFT", Anchor, 0, 0)
+	Swatch:SetTemplate(nil, Texture)
+	Swatch:SetBackdropColor(CurrentR, CurrentG, CurrentB)
+	
+	Swatch.Select = CreateFrame("Frame", nil, Swatch)
+	Swatch.Select:Size(ColorButtonWidth, WidgetHeight)
+	Swatch.Select:Point("LEFT", Swatch, "RIGHT", Spacing, 0)
+	Swatch.Select:SetTemplate(nil, Texture)
+	Swatch.Select:SetBackdropColor(unpack(BrightColor))
+	Swatch.Select:SetScript("OnMouseUp", ColorOnMouseUp)
+	Swatch.Select.Group = group
+	Swatch.Select.Option = option
+	Swatch.Select.Value = Value
+	
+	Swatch.Select.Label = Swatch.Select:CreateFontString(nil, "OVERLAY")
+	Swatch.Select.Label:Point("CENTER", Swatch.Select, 0, 0)
+	StyleFont(Swatch.Select.Label, Font, 12)
+	Swatch.Select.Label:SetJustifyH("CENTER")
+	Swatch.Select.Label:Width(ColorButtonWidth - 4)
+	Swatch.Select.Label:SetText("Select Color")
+	
+	Swatch.Label = Swatch:CreateFontString(nil, "OVERLAY")
+	Swatch.Label:Point("LEFT", Swatch.Select, "RIGHT", LabelSpacing, 0)
+	StyleFont(Swatch.Label, Font, 12)
+	Swatch.Label:SetJustifyH("LEFT")
+	Swatch.Label:Width(DropdownWidth - 4)
+	Swatch.Label:SetText(text)
+	
+	tinsert(self.Widgets, Anchor)
+	
+	return Swatch
+end
+
+GUI.Widgets.CreateColorSelection = CreateColorSelection
 
 -- GUI functions
 GUI.AddWidgets = function(self, func)
@@ -1279,6 +1387,9 @@ local General = function(self)
 	
 	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set ui theme")
+	
+	Window:CreateSection("Color")
+	Window:CreateColorSelection("General", "BackdropColor", "Backdrop color")
 end
 
 local ActionBars = function(self)

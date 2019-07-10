@@ -38,8 +38,13 @@ function Loading:LoadCustomSettings()
 					else
 						Count = Count + 1
 						
-						if (type(C[group][option]) == "table") then
-							C[group][option].Value = value
+						if (type(value) == "table") then
+							if value.Options then
+								C[group][option].Value = value
+							else
+								C[group][option] = value
+								print(unpack(value))
+							end
 						else
 							C[group][option] = value
 						end
@@ -78,7 +83,7 @@ end
 function Loading:OnEvent(event)
 	if (event == "PLAYER_LOGIN") then
 		
-		self:Enable()
+		--self:Enable()
 		T["Panels"]:Enable()
 		T["Inventory"]["Bags"]:Enable()
 		T["Inventory"]["Loot"]:Enable()
@@ -113,10 +118,13 @@ function Loading:OnEvent(event)
 		T["GUI"]:Create()
 		
 		self:UnregisterEvent(event)
+	elseif (event == "VARIABLES_LOADED") then
+		self:Enable()
 	end
 end
 
 Loading:RegisterEvent("PLAYER_LOGIN")
+Loading:RegisterEvent("VARIABLES_LOADED")
 Loading:RegisterEvent("PLAYER_ENTERING_WORLD")
 Loading:SetScript("OnEvent", Loading.OnEvent)
 
