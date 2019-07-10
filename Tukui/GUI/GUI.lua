@@ -42,7 +42,7 @@ local R, G, B = Color.r, Color.g, Color.b
 
 local HeaderText = format("|c%sTukui|r settings", Color.colorStr)
 
-local WindowWidth = 460
+local WindowWidth = 490
 local WindowHeight = 360
 
 local Spacing = 4
@@ -1560,7 +1560,8 @@ GUI.Create = function(self)
 	self:UnpackQueue()
 	
 	-- Set the frame height
-	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing) - 3)
+	self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 1) * Spacing) + (HeaderHeight + Spacing))
+	--self:Height((self.WindowCount * MenuButtonHeight) + ((self.WindowCount + 5) * Spacing) + 3)
 	
 	if self.DefaultWindow then
 		self:DisplayWindow(self.DefaultWindow)
