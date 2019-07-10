@@ -9,14 +9,6 @@ local unpack = unpack
 local pairs = pairs
 local type = type
 
---[[
-	Note: I'm going to be laying out a bunch of basics here, don't worry too much yet about how things look.
-	I'll refine as the process goes on.
-	
-	To do:
-	Global/PerChar settings
-]]
-
 -- IMO :SetFontTemplate should let you set the flag too
 local StyleFont = function(fs, font, size)
 	fs:SetFont(font, size)
