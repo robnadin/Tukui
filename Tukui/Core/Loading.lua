@@ -38,8 +38,8 @@ function Loading:LoadCustomSettings()
 					else
 						Count = Count + 1
 						
-						if (type(value) == "table") then
-							if value.Options then
+						if (type(C[group][option]) == "table") then
+							if C[group][option].Options then
 								C[group][option].Value = value
 							else
 								C[group][option] = value
@@ -84,7 +84,6 @@ end
 
 function Loading:OnEvent(event)
 	if (event == "PLAYER_LOGIN") then
-		--self:Enable()
 		T["Panels"]:Enable()
 		T["Inventory"]["Bags"]:Enable()
 		T["Inventory"]["Loot"]:Enable()
@@ -115,10 +114,10 @@ function Loading:OnEvent(event)
 		print(T.WelcomeMessage)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		T["Miscellaneous"]["ObjectiveTracker"]:Enable()
-		
+
 		self:UnregisterEvent(event)
 	elseif (event == "VARIABLES_LOADED") then
-		self:Enable()
+		self:Enable() -- We want this ASAP
 		T["GUI"]:Create()
 	end
 end
@@ -129,4 +128,3 @@ Loading:RegisterEvent("PLAYER_ENTERING_WORLD")
 Loading:SetScript("OnEvent", Loading.OnEvent)
 
 T["Loading"] = Loading
-

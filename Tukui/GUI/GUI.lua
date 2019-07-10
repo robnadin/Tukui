@@ -1475,8 +1475,8 @@ local DataTexts = function(self)
 	Window:CreateSwitch("DataTexts", "Battleground", "Enable battleground datatext")
 	
 	Window:CreateSection("Color")
-	Window:CreateColorSelection("DataTexts", "NameColor", "Link color")
-	Window:CreateColorSelection("DataTexts", "ValueColor", "Link color")
+	Window:CreateColorSelection("DataTexts", "NameColor", "Name color")
+	Window:CreateColorSelection("DataTexts", "ValueColor", "Value color")
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("DataTexts", "Font", "Set datatext font", "Font")
