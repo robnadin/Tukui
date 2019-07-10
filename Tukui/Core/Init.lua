@@ -20,8 +20,8 @@ end
 Engine[1].WindowedMode = Windowed
 Engine[1].FullscreenMode = Fullscreen
 Engine[1].Resolution = Resolution
-Engine[1].ScreenHeight = tonumber(string.match(Resolution, "%d+x(%d+)"))
-Engine[1].ScreenWidth = tonumber(string.match(Resolution, "(%d+)x+%d"))
+Engine[1].ScreenHeight = select(2, GetPhysicalScreenSize())
+Engine[1].ScreenWidth = select(1, GetPhysicalScreenSize())
 Engine[1].PerfectScale = 768 / string.match(Resolution, "%d+x(%d+)")
 Engine[1].MyName = UnitName("player")
 Engine[1].MyClass = select(2, UnitClass("player"))
