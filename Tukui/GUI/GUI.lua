@@ -673,6 +673,128 @@ local DropdownButtonOnLeave = function(self)
 	self.Highlight:SetAlpha(0)
 end
 
+local ScrollMenu = function(self)
+	local First = false
+	
+	for i = 1, #self do
+		if (i >= self.Offset) and (i <= self.Offset + ListItemsToShow - 1) then
+			if (not First) then
+				self[i]:Point("TOPLEFT", self, 0, 0)
+				First = true
+			else
+				self[i]:Point("TOPLEFT", self[i-1], "BOTTOMLEFT", 0, 1)
+			end
+			
+			self[i]:Show()
+		else
+			self[i]:Hide()
+		end
+	end
+end
+
+local SetDropdownOffsetByDelta = function(self, delta)
+	if (delta == 1) then -- up
+		self.Offset = self.Offset - 1
+		
+		if (self.Offset <= 1) then
+			self.Offset = 1
+		end
+	else -- down
+		self.Offset = self.Offset + 1
+		
+		if (self.Offset > (#self - (ListItemsToShow - 1))) then
+			self.Offset = self.Offset - 1
+		end
+	end
+end
+
+local DropdownOnMouseWheel = function(self, delta)
+	self:SetDropdownOffsetByDelta(delta)
+	self:ScrollMenu()
+	self.ScrollBar:SetValue(self.Offset)
+end
+
+local SetDropdownOffset = function(self, offset)
+	self.Offset = offset
+	
+	if (self.Offset <= 1) then
+		self.Offset = 1
+	elseif (self.Offset > (#self - ListItemsToShow - 1)) then
+		self.Offset = self.Offset - 1
+	end
+	
+	self:ScrollMenu()
+end
+
+local DropdownScrollBarOnValueChanged = function(self)
+	local Value = Round(self:GetValue())
+	local Parent = self:GetParent()
+	Parent.Offset = Value
+	
+	Parent:ScrollMenu()
+end
+
+local DropdownScrollBarOnMouseWheel = function(self, delta)
+	DropdownOnMouseWheel(self:GetParent(), delta)
+end
+
+local AddDropdownScrollBar = function(self)
+	local MaxValue = (#self - (ListItemsToShow - 1))
+	local Width = WidgetHeight / 2
+	
+	local ScrollBar = CreateFrame("Slider", nil, self)
+	ScrollBar:Point("TOPRIGHT", self, -Spacing, -Spacing)
+	ScrollBar:Point("BOTTOMRIGHT", self, -Spacing, Spacing)
+	ScrollBar:Width(Width)
+	ScrollBar:SetThumbTexture(Texture)
+	ScrollBar:SetOrientation("VERTICAL")
+	ScrollBar:SetValueStep(1)
+	ScrollBar:SetTemplate(nil, Texture)
+	ScrollBar:SetBackdropColor(unpack(BGColor))
+	ScrollBar:SetMinMaxValues(1, MaxValue)
+	ScrollBar:SetValue(1)
+	ScrollBar:EnableMouseWheel(true)
+	ScrollBar:SetScript("OnMouseWheel", DropdownScrollBarOnMouseWheel)
+	ScrollBar:SetScript("OnValueChanged", DropdownScrollBarOnValueChanged)
+	
+	self.ScrollBar = ScrollBar
+	
+	local Thumb = ScrollBar:GetThumbTexture() 
+	Thumb:Size(Width, WidgetHeight)
+	Thumb:SetTexture(Blank)
+	Thumb:SetVertexColor(0, 0, 0)
+	
+	ScrollBar.NewTexture = ScrollBar:CreateTexture(nil, "OVERLAY")
+	ScrollBar.NewTexture:Point("TOPLEFT", Thumb, 0, 1)
+	ScrollBar.NewTexture:Point("BOTTOMRIGHT", Thumb, 0, -1)
+	ScrollBar.NewTexture:SetTexture(Blank)
+	ScrollBar.NewTexture:SetVertexColor(0, 0, 0)
+	
+	ScrollBar.NewTexture2 = ScrollBar:CreateTexture(nil, "OVERLAY")
+	ScrollBar.NewTexture2:Point("TOPLEFT", ScrollBar.NewTexture, 1, -1)
+	ScrollBar.NewTexture2:Point("BOTTOMRIGHT", ScrollBar.NewTexture, -1, 1)
+	ScrollBar.NewTexture2:SetTexture(Blank)
+	ScrollBar.NewTexture2:SetVertexColor(unpack(BrightColor))
+	
+	self:EnableMouseWheel(true)
+	self:SetScript("OnMouseWheel", DropdownOnMouseWheel)
+	
+	self.ScrollMenu = ScrollMenu
+	self.SetDropdownOffset = SetDropdownOffset
+	self.SetDropdownOffsetByDelta = SetDropdownOffsetByDelta
+	self.ScrollBar = ScrollBar
+	
+	self:SetDropdownOffset(1)
+	
+	ScrollBar:Show()
+	
+	for i = 1, #self do
+		self[i]:Width((DropdownWidth - Width) - (Spacing * 3) - 1)
+	end
+	
+	self:Height(((WidgetHeight - 1) * ListItemsToShow) + 1)
+end
+
 local CreateDropdown = function(self, group, option, text, custom)
 	local Value
 	local Selections
@@ -869,6 +991,10 @@ local CreateDropdown = function(self, group, option, text, custom)
 			MenuItem:Point("TOP", Dropdown.Menu, 0, 0)
 		end
 		
+		if (Count > ListItemsToShow) then
+			MenuItem:Hide()
+		end
+		
 		LastMenuItem = MenuItem
 	end
 	
@@ -881,7 +1007,11 @@ local CreateDropdown = function(self, group, option, text, custom)
 		Dropdown.Texture:SetTexture(Texture)
 	end
 	
-	Dropdown.Menu:Height(((WidgetHeight - 1) * Count) + 1)
+	if (#Dropdown.Menu > ListItemsToShow) then
+		AddDropdownScrollBar(Dropdown.Menu)
+	else
+		Dropdown.Menu:Height(((WidgetHeight - 1) * Count) + 1)
+	end
 	
 	tinsert(self.Widgets, Anchor)
 	
