@@ -5,7 +5,13 @@ local API = Toolkit.API
 local Functions = Toolkit.Functions
 local Scales = Toolkit.UIScales
 local Frames = Toolkit.Frames
+local IsValidScale = Functions.IsValidScale
 local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
+
+-- Check if default UIScale is ok
+if not IsValidScale(C.General.UIScale) then
+	C.General.UIScale = 0.64
+end
 
 -- Settings we want to use for our API
 Settings.UIScale = C.General.UIScale

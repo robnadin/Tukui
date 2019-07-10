@@ -723,8 +723,8 @@ end
 
 Toolkit.Functions.OnEvent = function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
-		local Value = Toolkit.Settings.UIScale
-		local Scale = Toolkit.Functions.IsValidScale(Value) and Value or PixelPerfectScale
+		local IsValidScale = Toolkit.Functions.IsValidScale
+		local Scale = (IsValidScale(Value) and Value) or (IsValidScale(PixelPerfectScale) or 0.64)
 
 		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)
@@ -778,7 +778,8 @@ Toolkit:SetScript("OnEvent", Toolkit.Functions.OnEvent)
 
 C_UI.Reload = function()
 	local Value = Toolkit.Settings.UIScale
-	local Scale = Toolkit.Functions.IsValidScale(Value) and Value or PixelPerfectScale
+	local IsValidScale = Toolkit.Functions.IsValidScale
+	local Scale = (IsValidScale(Value) and Value) or (IsValidScale(PixelPerfectScale) or 0.64)
 
 	SetCVar("useUiScale", 1)
 	SetCVar("uiScale", Scale)
