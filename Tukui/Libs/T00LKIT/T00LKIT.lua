@@ -687,9 +687,9 @@ end
 ---------------------------------------------------
 		
 Toolkit.Functions.Scale = function(size)
-	local Mult = PixelPerfectScale / UIParent:GetScale()
-	local Value = Mult * math.floor(size / Mult + .5)
-		
+	local Mult = PixelPerfectScale / GetCVar("uiScale")
+	local Value = (size == 1 and Mult) or (Mult * math.floor(size / Mult + .5))
+	
 	return Value
 end
 
