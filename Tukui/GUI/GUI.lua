@@ -61,6 +61,16 @@ GUI.Buttons = {}
 GUI.Queue = {}
 GUI.Widgets = {}
 
+local CreateSetting = function(group, option, default)
+	if not C[group] then
+		C[group] = group
+	end
+	
+	if not C[group][option] then
+		C[group][option] = default
+	end
+end
+
 local SetValue = function(group, option, value)
 	if (type(C[group][option]) == "table") then
 		if C[group][option].Value then
@@ -435,7 +445,11 @@ local EditBoxOnMouseWheel = function(self, delta)
 	self.Slider:SetValue(self.Value)
 end
 
-local CreateSlider = function(self, group, option, text, minvalue, maxvalue, stepvalue)
+local CreateSlider = function(self, group, option, text, minvalue, maxvalue, stepvalue, default)
+	if default then
+		CreateSetting(group, option, default)
+	end
+	
 	local Value = C[group][option]
 	
 	local Anchor = CreateFrame("Frame", nil, self)
@@ -1463,7 +1477,7 @@ local SetUpCredits = function(frame)
 	frame:Height((#Credits * CreditLineHeight) + 2)
 end
 
-GUI.Create = function(self)
+GUI.Enable = function(self)
 	if self.Created then
 		return
 	end
@@ -1662,7 +1676,7 @@ local General = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
 	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
-	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01)
+	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01, T00LKIT.Settings.UIScale)
 	
 	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set UI theme")
