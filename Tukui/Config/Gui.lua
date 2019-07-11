@@ -1392,7 +1392,8 @@ GUI.CreateWindow = function(self, name, default)
 	Window:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
 	Window:Point("BOTTOMRIGHT", self.Footer, "TOPRIGHT", 0, (Spacing - 1))
 	Window:SetTemplate()
-	Window:SetBackdropColor(unpack(LightColor))
+	Window:CreateShadow()
+	Window:SetBackdropColor(unpack(C.General.BackdropColor))
 	Window.Button = Button
 	Window.Widgets = {}
 	Window.Offset = 0
@@ -1475,8 +1476,6 @@ GUI.Enable = function(self)
 	-- Main Window
 	self:Width(WindowWidth)
 	self:Point("CENTER", UIParent, 0, 0)
-	self:SetTemplate()
-	self:CreateShadow()
 	self:SetBackdropColor(unpack(BGColor))
 	self:SetAlpha(0)
 	self:EnableMouse(true)
@@ -1507,6 +1506,7 @@ GUI.Enable = function(self)
 	self.Header:Size(HeaderWidth, HeaderHeight)
 	self.Header:Point("TOP", self, 0, -Spacing)
 	self.Header:SetTemplate(nil, Texture)
+	self.Header:CreateShadow()
 	self.Header:SetBackdropColor(unpack(HeaderColor))
 	
 	self.Header.Label = self.Header:CreateFontString(nil, "OVERLAY")
@@ -1551,7 +1551,8 @@ GUI.Enable = function(self)
 	self.ButtonList:Point("TOPLEFT", self.Header, "BOTTOMLEFT", 0, -(Spacing - 1))
 	self.ButtonList:Point("BOTTOMLEFT", self.Footer, "TOPLEFT", 0, (Spacing - 1))
 	self.ButtonList:SetTemplate()
-	self.ButtonList:SetBackdropColor(unpack(LightColor))
+	self.ButtonList:CreateShadow()
+	self.ButtonList:SetBackdropColor(unpack(C.General.BackdropColor))
 	
 	-- Close
 	self.Close = CreateFrame("Frame", nil, self.Header)
