@@ -107,8 +107,8 @@ function Loading:OnEvent(event)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		T["Miscellaneous"]["ObjectiveTracker"]:Enable()
 	elseif (event == "VARIABLES_LOADED") then
-		T["GUI"]:Enable()
 		T["Loading"]:Enable()
+		T["GUI"]:Enable()
 	end
 end
 

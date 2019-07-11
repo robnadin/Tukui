@@ -61,26 +61,6 @@ GUI.Buttons = {}
 GUI.Queue = {}
 GUI.Widgets = {}
 
-local CreateSetting = function(group, option, default, selections)
-	if not C[group] then
-		C[group] = group
-	end
-	
-	if (not C[group][option]) then
-		if not default then
-			return
-		end
-		
-		if selections then
-			C[group][option] = {}
-			C[group][option].Value = default
-			C[group][option].Options = selections
-		else
-			C[group][option] = default
-		end
-	end
-end
-
 local SetValue = function(group, option, value)
 	if (type(C[group][option]) == "table") then
 		if C[group][option].Value then
@@ -266,13 +246,7 @@ local SwitchOnLeave = function(self)
 	self.Highlight:SetAlpha(0)
 end
 
-local CreateSwitch = function(self, group, option, text, default)
-	local CreateOption = default
-	
-	if CreateOption then
-		CreateSetting(group, option, default)
-	end
-	
+local CreateSwitch = function(self, group, option, text)
 	local Value = C[group][option]
 	
 	local Anchor = CreateFrame("Frame", nil, self)
@@ -461,13 +435,7 @@ local EditBoxOnMouseWheel = function(self, delta)
 	self.Slider:SetValue(self.Value)
 end
 
-local CreateSlider = function(self, group, option, text, minvalue, maxvalue, stepvalue, default)
-	local CreateOption = default
-	
-	if CreateOption then
-		CreateSetting(group, option, default)
-	end
-	
+local CreateSlider = function(self, group, option, text, minvalue, maxvalue, stepvalue)
 	local Value = C[group][option]
 	
 	local Anchor = CreateFrame("Frame", nil, self)
@@ -820,13 +788,7 @@ local AddDropdownScrollBar = function(self)
 	self:Height(((WidgetHeight - 1) * ListItemsToShow) + 1)
 end
 
-local CreateDropdown = function(self, group, option, text, custom, default, selections)
-	local CreateOption = default
-	
-	if CreateOption then
-		CreateSetting(group, option, default, selections)
-	end
-	
+local CreateDropdown = function(self, group, option, text, custom)
 	local Value
 	local Selections
 	
@@ -1124,13 +1086,7 @@ local ColorOnLeave = function(self)
 	self.Highlight:SetAlpha(0)
 end
 
-local CreateColorSelection = function(self, group, option, text, default)
-	local CreateOption = default
-	
-	if CreateOption then
-		CreateSetting(group, option, default)
-	end
-	
+local CreateColorSelection = function(self, group, option, text)
 	local Value = C[group][option]
 	local Selections
 	
@@ -1706,7 +1662,7 @@ local General = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
 	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
-	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01, T00LKIT.Settings.UIScale)
+	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01)
 	
 	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set UI theme")
