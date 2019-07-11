@@ -1279,8 +1279,8 @@ local AddScrollBar = function(self)
 	Thumb:SetVertexColor(0, 0, 0)
 	
 	ScrollBar.NewTexture = ScrollBar:CreateTexture(nil, "OVERLAY")
-	ScrollBar.NewTexture:Point("TOPLEFT", Thumb, 0, 1)
-	ScrollBar.NewTexture:Point("BOTTOMRIGHT", Thumb, 0, -1)
+	ScrollBar.NewTexture:Point("TOPLEFT", Thumb, 0, 0)
+	ScrollBar.NewTexture:Point("BOTTOMRIGHT", Thumb, 0, 0)
 	ScrollBar.NewTexture:SetTexture(Blank)
 	ScrollBar.NewTexture:SetVertexColor(0, 0, 0)
 	
@@ -1514,12 +1514,11 @@ GUI.Create = function(self)
 	self.Footer = CreateFrame("Frame", nil, self)
 	self.Footer:Size(HeaderWidth, HeaderHeight)
 	self.Footer:Point("BOTTOM", self, 0, Spacing)
-	--self.Footer:SetTemplate()
 	self.Footer:SetBackdropColor(unpack(LightColor))
 	
 	-- Apply button
 	local Apply = CreateFrame("Frame", nil, self.Footer)
-	Apply:Size(MenuButtonWidth, WidgetHeight)
+	Apply:Size(ButtonListWidth, WidgetHeight)
 	Apply:Point("LEFT", self.Footer, 0, 0)
 	Apply:SetTemplate(nil, Texture)
 	Apply:SetBackdropColor(unpack(BrightColor))
@@ -1542,9 +1541,9 @@ GUI.Create = function(self)
 	Apply.Middle:SetText("Apply")
 	
 	-- Settings option
-	local Dropdown = CreateDropdown(self.Footer, "Settings", "Storage", "Settings storage")
+	local Dropdown = CreateDropdown(self.Footer, "Settings", "Storage", "Settings")
 	
-	Dropdown:Point("LEFT", Apply, "RIGHT", Spacing, 0)
+	Dropdown:Point("LEFT", Apply, "RIGHT", 3, 0)
 	
 	Dropdown.Hook = function(value)
 		if (value == "Global") then
