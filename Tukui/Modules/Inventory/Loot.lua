@@ -64,6 +64,8 @@ function Loot:MoveStandardLoot()
 end
 
 function Loot:SkinStandardLootFrame()
+	local ItemText = select(19, LootFrame:GetRegions())
+	
 	LootFrame:StripTextures()
 	LootFrameInset:StripTextures()
 	LootFrameInset:CreateBackdrop("Transparent")
@@ -98,17 +100,7 @@ function Loot:SkinStandardLootFrame()
 	LootFrameCloseButton:EnableMouse(false)
 	LootFrameCloseButton:StripTextures()
 
-	if T.WoWBuild < 28724 then
-		local ItemText = select(19, LootFrame:GetRegions())
-
-		ItemText:SetAlpha(0)
-	else
-		local ItemText = select(7, LootFrame:GetRegions())
-
-		ItemText:SetAlpha(0)
-		LootFrame.NineSlice:StripTextures()
-		LootFrameInset.NineSlice:StripTextures()
-	end
+	ItemText:SetAlpha(0)
 end
 
 function Loot:SkinStandardLootFrameButtons(i)
@@ -118,9 +110,9 @@ function Loot:SkinStandardLootFrameButtons(i)
 
 		if Button then
 			local Icon = _G["LootButton" .. i .. "IconTexture"]
-			local Quest = _G["LootButton" .. i .. "IconQuestTexture"]
 			local IconTexture = Icon:GetTexture()
-			local IsQuestItem, QuestID, IsActive = select(6, GetLootSlotInfo(Slot))
+			local Quality = select(5, GetLootSlotInfo(Slot))
+			local Color = ITEM_QUALITY_COLORS[Quality] or {r = 0, g = 0, b = 0}
 
 			if (not Button.IsSkinned) then
 				Button:StripTextures()
@@ -132,18 +124,10 @@ function Loot:SkinStandardLootFrameButtons(i)
 				Icon:SetTexCoord(unpack(T.IconCoord))
 				Icon:SetInside()
 
-				Quest:SetAlpha(0)
-
 				Button.IsSkinned = true
 			end
 
-			if (QuestID and not IsActive) then
-				Button.Backdrop:SetBorderColor(0.97, 0.85, 0.31) -- Quest item
-			elseif (QuestID or IsQuestItem) then
-				Button.Backdrop:SetBorderColor(0.97, 0.85, 0.31) -- Quest item
-			else
-				Button.Backdrop:SetBorderColor(unpack(C.General.BorderColor)) -- Recolor if the previous item in the slot was a quest item
-			end
+			Button.Backdrop:SetBorderColor(Color.r, Color.g, Color.b)
 		end
 	end
 end
@@ -394,8 +378,8 @@ function Loot:Enable()
 
 	if C.Loot.StandardLoot then
 		-- BROKEN
-		--self:SkinStandardLootFrame()
-		--self:AddStandardLootHooks()
+		self:SkinStandardLootFrame()
+		self:AddStandardLootHooks()
 
 		return
 	end
