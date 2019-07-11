@@ -1469,8 +1469,6 @@ local SetUpCredits = function(frame)
 		
 		tinsert(frame.Lines, Line)
 	end
-	
-	--frame:Height(#frame.Lines * CreditLineHeight)
 end
 
 local ShowCreditFrame = function()
@@ -1710,6 +1708,12 @@ GUI.Enable = function(self)
 	CreditFrame.FadeOut:SetEasing("out-sinusoidal")
 	CreditFrame.FadeOut:SetScript("OnFinished", function(self)
 		self:GetParent():Hide()
+	end)
+	
+	GameMenuFrame:HookScript("OnShow", function()
+		if GUI:IsShown() then
+			GUI.FadeOut:Play()
+		end
 	end)
 	
 	self.Created = true
