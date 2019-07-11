@@ -138,9 +138,9 @@ T.SlashHandler = function(cmd)
 		local MyRealm = GetRealmName()
 		local MyName = UnitName("player")
 
-		TukuiData["Gold"] = {}
-		TukuiData["Gold"][GetRealmName()] = {}
-		TukuiData["Gold"][GetRealmName()][UnitName("player")] = GetMoney()
+		TukuiGold = {}
+		TukuiGold[MyRealm] = {}
+		TukuiGold[MyRealm][MyName] = GetMoney()
 	elseif (arg1 == "test" or arg1 == "testui") then
 		local Test = T["TestUI"]
 
