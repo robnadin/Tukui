@@ -20,6 +20,12 @@ function Install:ResetData()
 	else
 		TukuiSettingsPerChar = {}
 	end
+	
+	FCF_ResetChatWindows()
+	
+	if ChatConfigFrame:IsShown() then
+		ChatConfig_UpdateChatSettings()
+	end
 
 	ReloadUI()
 end
