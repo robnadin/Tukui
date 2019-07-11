@@ -1452,7 +1452,7 @@ local SetUpCredits = function(frame)
 		
 		Line.Text = Line:CreateFontString(nil, "OVERLAY")
 		Line.Text:Point("CENTER", Line, 0, 0)
-		StyleFont(Line.Text, Font, 12)
+		StyleFont(Line.Text, Font, 16)
 		Line.Text:SetJustifyH("CENTER")
 		Line.Text:SetText(Credits[i])
 		
@@ -1647,16 +1647,18 @@ GUI.Enable = function(self)
 	
 	self:SortMenuButtons()
 	
-	--[[ Create credits
-	local CreditFrame = CreateFrame("Frame", "TukuiCredits", UIParent) -- /run TukuiCredits:Show(); TukuiCredits.FadeIn:Play()
-	CreditFrame:Width(100)
+	-- Create credits
+	local CreditFrame = CreateFrame("Frame", "TukuiCredits", self) -- /run TukuiCredits:Show(); TukuiCredits.FadeIn:Play()
+	CreditFrame:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
+	CreditFrame:Point("TOPLEFT", self.ButtonList, "TOPRIGHT", (Spacing - 1), 0)
+	CreditFrame:Point("BOTTOMRIGHT", self.Footer, "TOPRIGHT", 0, (Spacing - 1))
+	CreditFrame:Point("BOTTOMLEFT", self.ButtonList, "BOTTOMRIGHT", (Spacing - 1), 0)
 	CreditFrame:SetTemplate()
-	CreditFrame:Point("CENTER", UIParent, 0, 0)
 	CreditFrame:SetFrameStrata("DIALOG")
 	CreditFrame:SetAlpha(0)
 	CreditFrame:Hide()
 	
-	SetUpCredits(CreditFrame)
+	--SetUpCredits(CreditFrame)
 	
 	CreditFrame.Fade = CreateAnimationGroup(CreditFrame)
 	
@@ -1671,7 +1673,7 @@ GUI.Enable = function(self)
 	CreditFrame.FadeOut:SetEasing("out-sinusoidal")
 	CreditFrame.FadeOut:SetScript("OnFinished", function(self)
 		self:GetParent():Hide()
-	end)]]
+	end)
 	
 	self.Created = true
 end
