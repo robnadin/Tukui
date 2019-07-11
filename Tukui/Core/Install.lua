@@ -33,6 +33,7 @@ end
 StaticPopupDialogs["TUKUI_RESET_SETTINGS"] = {
 	text = "This will clear all of your saved settings. Continue?",
 	button1 = CONTINUE,
+	button2 = CANCEL,
 	OnAccept = Install.ResetData,
 	showAlert = 1,
 	timeout = 0,
