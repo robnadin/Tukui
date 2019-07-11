@@ -377,7 +377,6 @@ function Loot:Enable()
 	end
 
 	if C.Loot.StandardLoot then
-		-- BROKEN
 		self:SkinStandardLootFrame()
 		self:AddStandardLootHooks()
 
