@@ -1468,6 +1468,21 @@ local SetUpCredits = function(frame)
 	frame:Height((#Credits * CreditLineHeight) + 2)
 end
 
+StaticPopupDialogs["TUKUI_RESET_SETTINGS"] = {
+	text = "This will clear all of your saved settings. Continue?",
+	button1 = CONTINUE,
+	OnAccept = function(self)
+		T.Install.ResetData()
+		
+		ReloadUI()
+	end,
+	
+	showAlert = 1,
+	timeout = 0,
+	whileDead = 1,
+	hideOnEscape = 1
+}
+
 GUI.Enable = function(self)
 	if self.Created then
 		return
@@ -1558,7 +1573,9 @@ GUI.Enable = function(self)
 	Reset:SetScript("OnMouseUp", ButtonOnMouseUp)
 	Reset:SetScript("OnEnter", ButtonOnEnter)
 	Reset:SetScript("OnLeave", ButtonOnLeave)
-	Reset:HookScript("OnMouseUp", ReloadUI)
+	Reset:HookScript("OnMouseUp", function()
+		StaticPopup_Show("TUKUI_RESET_SETTINGS")
+	end)
 	
 	Reset.Highlight = Reset:CreateTexture(nil, "OVERLAY")
 	Reset.Highlight:SetAllPoints()
@@ -1583,7 +1600,7 @@ GUI.Enable = function(self)
 	Credits:SetScript("OnMouseUp", ButtonOnMouseUp)
 	Credits:SetScript("OnEnter", ButtonOnEnter)
 	Credits:SetScript("OnLeave", ButtonOnLeave)
-	Credits:HookScript("OnMouseUp", ReloadUI)
+	--Credits:HookScript("OnMouseUp", ReloadUI)
 	
 	Credits.Highlight = Credits:CreateTexture(nil, "OVERLAY")
 	Credits.Highlight:SetAllPoints()
