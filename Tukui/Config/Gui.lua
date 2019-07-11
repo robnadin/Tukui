@@ -67,6 +67,10 @@ local CreateSetting = function(group, option, default, selections)
 	end
 	
 	if (not C[group][option]) then
+		if not default then
+			return
+		end
+		
 		if selections then
 			C[group][option] = {}
 			C[group][option].Value = default
@@ -263,6 +267,12 @@ local SwitchOnLeave = function(self)
 end
 
 local CreateSwitch = function(self, group, option, text, default)
+	local CreateOption = default
+	
+	if CreateOption then
+		CreateSetting(group, option, default)
+	end
+	
 	local Value = C[group][option]
 	
 	local Anchor = CreateFrame("Frame", nil, self)
@@ -452,7 +462,9 @@ local EditBoxOnMouseWheel = function(self, delta)
 end
 
 local CreateSlider = function(self, group, option, text, minvalue, maxvalue, stepvalue, default)
-	if default then
+	local CreateOption = default
+	
+	if CreateOption then
 		CreateSetting(group, option, default)
 	end
 	
@@ -808,7 +820,13 @@ local AddDropdownScrollBar = function(self)
 	self:Height(((WidgetHeight - 1) * ListItemsToShow) + 1)
 end
 
-local CreateDropdown = function(self, group, option, text, custom, default)
+local CreateDropdown = function(self, group, option, text, custom, default, selections)
+	local CreateOption = default
+	
+	if CreateOption then
+		CreateSetting(group, option, default, selections)
+	end
+	
 	local Value
 	local Selections
 	
@@ -1107,6 +1125,12 @@ local ColorOnLeave = function(self)
 end
 
 local CreateColorSelection = function(self, group, option, text, default)
+	local CreateOption = default
+	
+	if CreateOption then
+		CreateSetting(group, option, default)
+	end
+	
 	local Value = C[group][option]
 	local Selections
 	
