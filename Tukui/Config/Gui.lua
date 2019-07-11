@@ -1473,6 +1473,18 @@ GUI.Enable = function(self)
 		return
 	end
 	
+	-- Create a Tukui popup for resets
+	T.Popups.Popup["TUKUI_RESET_SETTINGS"] = {
+		Question = "This will clear all of your saved settings. Continue?",
+		Answer1 = ACCEPT,
+		Answer2 = CANCEL,
+		Function1 = function(self)
+			T.Install.ResetData()
+
+			ReloadUI()
+		end,
+	}
+	
 	-- Main Window
 	self:Width(WindowWidth)
 	self:Point("CENTER", UIParent, 0, 0)
@@ -1559,7 +1571,7 @@ GUI.Enable = function(self)
 	Reset:SetScript("OnEnter", ButtonOnEnter)
 	Reset:SetScript("OnLeave", ButtonOnLeave)
 	Reset:HookScript("OnMouseUp", function()
-		StaticPopup_Show("TUKUI_RESET_SETTINGS")
+		T.Popups.ShowPopup("TUKUI_RESET_SETTINGS")
 	end)
 	
 	Reset.Highlight = Reset:CreateTexture(nil, "OVERLAY")
