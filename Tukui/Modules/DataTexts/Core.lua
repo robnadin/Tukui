@@ -171,12 +171,12 @@ function TukuiDT:ForceUpdate()
 end
 
 function TukuiDT:ResetGold()
-	local Realm = GetRealmName()
-	local Name = UnitName("player")
+	local MyRealm = GetRealmName()
+	local MyName = UnitName("player")
 
-	TukuiData.Gold = {}
-	TukuiData.Gold[Realm] = {}
-	TukuiData.Gold[Realm][Name] = GetMoney()
+	TukuiGold = {}
+	TukuiGold[MyRealm] = {}
+	TukuiGold[MyRealm][MyName] = GetMoney()
 end
 
 function TukuiDT:Save()

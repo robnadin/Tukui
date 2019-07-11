@@ -135,12 +135,11 @@ T.SlashHandler = function(cmd)
 		
 		T.GUI:Toggle()
 	elseif (arg1 == "gold") and (arg2 == "reset") then
+		local DataText = T["DataTexts"]
 		local MyRealm = GetRealmName()
 		local MyName = UnitName("player")
 
-		TukuiGold = {}
-		TukuiGold[MyRealm] = {}
-		TukuiGold[MyRealm][MyName] = GetMoney()
+		DataText:ResetGold()
 	elseif (arg1 == "test" or arg1 == "testui") then
 		local Test = T["TestUI"]
 
