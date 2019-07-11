@@ -1662,7 +1662,7 @@ local General = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
 	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
-	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1.15, 0.01)
+	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01)
 	
 	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set UI theme")
