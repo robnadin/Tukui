@@ -5,26 +5,15 @@ local API = Toolkit.API
 local Functions = Toolkit.Functions
 local Scales = Toolkit.UIScales
 local Frames = Toolkit.Frames
-local IsValidScale = Functions.IsValidScale
-local IsConfigLoaded = IsAddOnLoaded("Tukui_Config")
-
--- Check if default UIScale is ok
-if not IsValidScale(C.General.UIScale) then
-	C.General.UIScale = 0.64
-end
-
--- Settings we want to use for our API
-Settings.UIScale = C.General.UIScale
-Settings.NormalTexture = C.Medias.Blank
-Settings.ShadowTexture = C.Medias.Glow
-Settings.DefaultFont = C.Medias.Font
-Settings.BackdropColor = { .1,.1,.1 }
-Settings.BorderColor = { 0, 0, 0 }
-Settings.ArrowUp = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]]
-Settings.ArrowDown = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]
 
 -- Enable the API
 Toolkit:Enable()
 
--- I want to use Toolkit Hider Frame in all my frames, register it to Tukui
-T.Hider = Frames.Hider
+-- Settings we want to use for our API
+Settings.NormalTexture = C.Medias.Blank
+Settings.ShadowTexture = C.Medias.Glow
+Settings.DefaultFont = C.Medias.Font
+Settings.BackdropColor = C.General.BackdropColor
+Settings.BorderColor = C.General.BorderColor
+Settings.ArrowUp = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]]
+Settings.ArrowDown = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]

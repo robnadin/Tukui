@@ -80,11 +80,17 @@ function ObjectiveTracker:AddHooks()
 end
 
 function ObjectiveTracker:Enable()
+	if self.IsEnabled then
+		return
+	end
+	
 	self:CreateHolder()
 	self:SetDefaultPosition()
 	self:Skin()
 	self:SkinQuestTimer()
 	self:AddHooks()
+	
+	self.IsEnabled = true
 end
 
 Misc.ObjectiveTracker = ObjectiveTracker

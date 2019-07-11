@@ -20,7 +20,7 @@ C["General"] = {
 	["BorderColor"] = {0, 0, 0},
 	["HideShadows"] = false,
 	["AFKSaver"] = true,
-	["UIScale"] = T.PerfectScale,
+	["UIScale"] = T.PerfectScale >= 0.64 and T.PerfectScale or 0.64,
 
 	["Themes"] = {
 		["Options"] = {

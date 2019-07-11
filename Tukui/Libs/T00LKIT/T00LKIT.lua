@@ -30,18 +30,17 @@ Usage example in Tukui [Tukui\Core\Toolkit.lua]:
 	local Scales = Toolkit.UIScales
 	local Frames = Toolkit.Frames
 
-	-- Settings we want to use for T00LKIT
-	Settings.UIScale = C.General.UIScale
-	Settings.NormalTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\Blank"
-	Settings.ShadowTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\Glow"
-	Settings.DefaultFont = "Interface\\AddOns\\Tukui\\Medias\\Fonts\\normal_font.ttf"
-	Settings.BackdropColor = { .1,.1,.1 }
-	Settings.BorderColor = { 0, 0, 0 }
-	Settings.ArrowUp = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowUp"
-	Settings.ArrowDown = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown"
-
 	-- Enable the API
 	Toolkit:Enable()
+
+	-- Settings we want to use for T00LKIT
+	Settings.NormalTexture = C.Medias.Blank
+	Settings.ShadowTexture = C.Medias.Glow
+	Settings.DefaultFont = C.Medias.Font
+	Settings.BackdropColor = C.General.BackdropColor
+	Settings.BorderColor = C.General.BorderColor
+	Settings.ArrowUp = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowUp"
+	Settings.ArrowDown = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown"
 
 --]]--------------------------------------------------------------------------------------
 
@@ -65,26 +64,16 @@ local Reload = C_UI.Reload
 -- Locals
 local Resolution = select(1, GetPhysicalScreenSize()).."x"..select(2, GetPhysicalScreenSize())
 local PixelPerfectScale = 768 / string.match(Resolution, "%d+x(%d+)")
+local MinimumScale = 0.64
 local Noop = function() return end
 local Toolkit = CreateFrame("Frame", "T00LKIT", UIParent)
 local Tabs = {"LeftDisabled", "MiddleDisabled", "RightDisabled", "Left", "Middle", "Right"}
+local Hider = CreateFrame("Frame", nil, UIParent) Hider:Hide()
 
 -- Tables
 Toolkit.Settings = {}
 Toolkit.API = {}
 Toolkit.Functions = {}
-Toolkit.Frames = {}
-
--- Toolkit Default Parameters
-Toolkit.Settings.UIScale = PixelPerfectScale
-Toolkit.Settings.NormalTexture = "Interface\\Buttons\\WHITE8x8"
-Toolkit.Settings.GlowTexture = ""
-Toolkit.Settings.ShadowTexture = ""
-Toolkit.Settings.DefaultFont = "STANDARD_TEXT_FONT"
-Toolkit.Settings.BackdropColor = { .1,.1,.1 }
-Toolkit.Settings.BorderColor = { 0, 0, 0 }
-Toolkit.Settings.ArrowUp = ""
-Toolkit.Settings.ArrowDown = ""
 
 ----------------------------------------------------------------
 -- API
@@ -95,7 +84,7 @@ Toolkit.Settings.ArrowDown = ""
 Toolkit.API.Kill = function(self)
 	if (self.UnregisterAllEvents) then
 		self:UnregisterAllEvents()
-		self:SetParent(Toolkit.Frames.Hider)
+		self:SetParent(Hider)
 	else
 		self.Show = self.Hide
 	end
@@ -693,16 +682,6 @@ Toolkit.Functions.Scale = function(size)
 	return Value
 end
 
-Toolkit.Functions.IsValidScale = function(self)
-	if (type(self) ~= "number") then
-		return false
-	elseif (self <= 1.15 and self >= 0.64) then
-		return true
-	else
-		return false
-	end
-end
-
 Toolkit.Functions.AddAPI = function(object)
 	local mt = getmetatable(object).__index
 
@@ -711,23 +690,9 @@ Toolkit.Functions.AddAPI = function(object)
 	end
 end
 
-Toolkit.Functions.AddFrames = function(self)
-	-- Create an hidden frame for hiding stuff
-	self.Frames.Hider = CreateFrame("Frame", nil, UIParent)
-	self.Frames.Hider:Hide()
-end
-
-Toolkit.Functions.AddHooks = function(self)
-
-end
-
 Toolkit.Functions.OnEvent = function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
-		local IsValidScale = Toolkit.Functions.IsValidScale
-		local Value = Toolkit.Settings.UIScale
-		local Scale = (IsValidScale(Value) and Value) or (IsValidScale(PixelPerfectScale) or 0.64)
-
-		SetCVar("uiScale", Value)
+		SetCVar("uiScale", Toolkit.Settings.UIScale)
 		SetCVar("useUiScale", 1)
 	end
 end
@@ -735,6 +700,18 @@ end
 Toolkit.Functions.HideBlizzard = function(self)
 	Advanced_UseUIScale:Hide()
 	Advanced_UIScaleSlider:Hide()
+end
+
+Toolkit.Functions.RegisterDefaultSettings = function(self)
+	self.Settings.UIScale = PixelPerfectScale >= MinimumScale and PixelPerfectScale or 0.64
+	self.Settings.NormalTexture = "Interface\\Buttons\\WHITE8x8"
+	self.Settings.GlowTexture = ""
+	self.Settings.ShadowTexture = ""
+	self.Settings.DefaultFont = "STANDARD_TEXT_FONT"
+	self.Settings.BackdropColor = { .1,.1,.1 }
+	self.Settings.BorderColor = { 0, 0, 0 }
+	self.Settings.ArrowUp = ""
+	self.Settings.ArrowDown = ""
 end
 
 ---------------------------------------------------
@@ -748,6 +725,7 @@ Toolkit.Enable = function(self)
 	local AddFrames = self.Functions.AddFrames
 	local AddHooks = self.Functions.AddHooks
 	local HideBlizzard = self.Functions.HideBlizzard
+	local RegisterDefaultSettings = self.Functions.RegisterDefaultSettings
 
 	AddAPI(Object)
 	AddAPI(Object:CreateTexture())
@@ -765,9 +743,8 @@ Toolkit.Enable = function(self)
 		Object = EnumerateFrames(Object)
 	end
 	
-	AddFrames(self)
-	AddHooks(self)
-	HideBlizzard()
+	RegisterDefaultSettings(self)
+	HideBlizzard(self)
 end
 
 Toolkit:RegisterEvent("PLAYER_LOGIN")
@@ -778,12 +755,8 @@ Toolkit:SetScript("OnEvent", Toolkit.Functions.OnEvent)
 ---------------------------------------------------
 
 C_UI.Reload = function()
-	local Value = Toolkit.Settings.UIScale
-	local IsValidScale = Toolkit.Functions.IsValidScale
-	local Scale = (IsValidScale(Value) and Value) or (IsValidScale(PixelPerfectScale) or 0.64)
-
 	SetCVar("useUiScale", 1)
-	SetCVar("uiScale", Scale)
+	SetCVar("uiScale", Toolkit.Settings.UIScale)
 	
 	-- Reload now
 	Reload()

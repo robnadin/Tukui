@@ -64,14 +64,9 @@ function Loading:Enable()
 
 	self:LoadCustomSettings()
 	
-	T00LKIT.Settings.BackdropColor = C.General.BackdropColor
-	T00LKIT.Settings.BorderColor = C.General.BorderColor
-	
-	local Value = C.General.UIScale
-	local IsValidScale = Toolkit.Functions.IsValidScale
-	local Scale = (IsValidScale(Value) and Value) or (IsValidScale(T.PerfectScale) or 0.64)
-	
-	Toolkit.Settings.UIScale = Scale
+	Toolkit.Settings.BackdropColor = C.General.BackdropColor
+	Toolkit.Settings.BorderColor = C.General.BorderColor
+	Toolkit.Settings.UIScale = C.General.UIScale
 
 	SetCVar("uiScale", Toolkit.Settings.UIScale)
 	SetCVar("useUiScale", 1)
@@ -109,14 +104,10 @@ function Loading:OnEvent(event)
 		T["Chat"]:Enable()
 		T["UnitFrames"]:Enable()
 		T["Tooltips"]:Enable()
-		
-		print(T.WelcomeMessage)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		T["Miscellaneous"]["ObjectiveTracker"]:Enable()
-
-		self:UnregisterEvent(event)
 	elseif (event == "VARIABLES_LOADED") then
-		self:Enable() -- We want this ASAP
+		T["Loading"]:Enable()
 		T["GUI"]:Create()
 	end
 end
