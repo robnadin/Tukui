@@ -1468,21 +1468,6 @@ local SetUpCredits = function(frame)
 	frame:Height((#Credits * CreditLineHeight) + 2)
 end
 
-StaticPopupDialogs["TUKUI_RESET_SETTINGS"] = {
-	text = "This will clear all of your saved settings. Continue?",
-	button1 = CONTINUE,
-	OnAccept = function(self)
-		T.Install.ResetData()
-		
-		ReloadUI()
-	end,
-	
-	showAlert = 1,
-	timeout = 0,
-	whileDead = 1,
-	hideOnEscape = 1
-}
-
 GUI.Enable = function(self)
 	if self.Created then
 		return
