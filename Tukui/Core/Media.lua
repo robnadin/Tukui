@@ -25,7 +25,7 @@ PixelFont:SetFont(C["Medias"].PixelFont, 12, "MONOCHROMEOUTLINE")
 
 local TextureTable = {
 	["Blank"] = [[Interface\BUTTONS\WHITE8X8]],
-	["Tukui"] = [[Interface\AddOns\Tukui\Medias\Textures\Status\Tukui1]],
+	["Tukui"] = [[Interface\AddOns\Tukui\Medias\Textures\Status\Tukui]],
 	["ElvUI1"] = [[Interface\AddOns\Tukui\Medias\Textures\Status\ElvUI1]],
 	["ElvUI2"] = [[Interface\AddOns\Tukui\Medias\Textures\Status\ElvUI2]],
 	["sRainbow1"] = [[Interface\AddOns\Tukui\Medias\Textures\Status\Rainbow1]],

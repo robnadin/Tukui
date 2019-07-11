@@ -11,7 +11,7 @@ C["Medias"] = {
 	["ActionBarFont"] = [[Interface\AddOns\Tukui\Medias\Fonts\actionbar_font.ttf]],
 
 	-- Textures
-	["Normal"] = [[Interface\AddOns\Tukui\Medias\Textures\Status\Tukui1]],
+	["Normal"] = [[Interface\AddOns\Tukui\Medias\Textures\Status\Tukui]],
 	["Glow"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\Glow]],
 	["Bubble"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\Bubble]],
 	["Copy"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\Copy]],
