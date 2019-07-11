@@ -30,6 +30,16 @@ function Install:ResetData()
 	ReloadUI()
 end
 
+StaticPopupDialogs["TUKUI_RESET_SETTINGS"] = {
+	text = "This will clear all of your saved settings. Continue?",
+	button1 = CONTINUE,
+	OnAccept = Install.ResetData,
+	showAlert = 1,
+	timeout = 0,
+	whileDead = 1,
+	hideOnEscape = 1
+}
+
 function Install:Step1()
 	local ActionBars = C.ActionBars.Enable
 
