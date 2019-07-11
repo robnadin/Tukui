@@ -1548,7 +1548,7 @@ GUI.Enable = function(self)
 	
 	-- Reset button
 	local Reset = CreateFrame("Frame", nil, self.Footer)
-	Reset:Size(FooterButtonWidth, HeaderHeight)
+	Reset:Size(FooterButtonWidth + 1, HeaderHeight)
 	Reset:Point("LEFT", Apply, "RIGHT", (Spacing - 1), 0)
 	Reset:SetTemplate(nil, Texture)
 	Reset:SetBackdropColor(unpack(BrightColor))
