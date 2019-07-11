@@ -758,8 +758,8 @@ local AddDropdownScrollBar = function(self)
 	Thumb:SetVertexColor(0, 0, 0)
 	
 	ScrollBar.NewTexture = ScrollBar:CreateTexture(nil, "OVERLAY")
-	ScrollBar.NewTexture:Point("TOPLEFT", Thumb, 0, 1)
-	ScrollBar.NewTexture:Point("BOTTOMRIGHT", Thumb, 0, -1)
+	ScrollBar.NewTexture:Point("TOPLEFT", Thumb, 0, 0)
+	ScrollBar.NewTexture:Point("BOTTOMRIGHT", Thumb, 0, 0)
 	ScrollBar.NewTexture:SetTexture(Blank)
 	ScrollBar.NewTexture:SetVertexColor(0, 0, 0)
 	
