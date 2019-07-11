@@ -445,7 +445,7 @@ local CreateSlider = function(self, group, option, text, minvalue, maxvalue, ste
 	EditBox:Point("LEFT", Anchor, 0, 0)
 	EditBox:Size(EditboxWidth, WidgetHeight)
 	EditBox:SetTemplate(nil, Texture)
-	EditBox:SetBackdropColor(unpack(BGColor))
+	EditBox:SetBackdropColor(unpack(BrightColor))
 	
 	EditBox.Highlight = EditBox:CreateTexture(nil, "OVERLAY")
 	EditBox.Highlight:SetAllPoints()
