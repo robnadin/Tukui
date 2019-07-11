@@ -61,13 +61,19 @@ GUI.Buttons = {}
 GUI.Queue = {}
 GUI.Widgets = {}
 
-local CreateSetting = function(group, option, default)
+local CreateSetting = function(group, option, default, selections)
 	if not C[group] then
 		C[group] = group
 	end
 	
-	if not C[group][option] then
-		C[group][option] = default
+	if (not C[group][option]) then
+		if selections then
+			C[group][option] = {}
+			C[group][option].Value = default
+			C[group][option].Options = selections
+		else
+			C[group][option] = default
+		end
 	end
 end
 
