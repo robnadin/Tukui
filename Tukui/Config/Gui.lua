@@ -225,11 +225,11 @@ local SwitchOnMouseUp = function(self)
 	
 	if self.Value then
 		self.Thumb:Point("RIGHT", self, 0, 0)
-		self.Movement:SetOffset(-27, 0)
+		self.Movement:SetOffset(-26, 0)
 		self.Value = false
 	else
 		self.Thumb:Point("LEFT", self, 0, 0)
-		self.Movement:SetOffset(27, 0)
+		self.Movement:SetOffset(26, 0)
 		self.Value = true
 	end
 	
