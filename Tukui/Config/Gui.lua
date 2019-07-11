@@ -1520,9 +1520,11 @@ GUI.Enable = function(self)
 	self.Footer:Point("BOTTOM", self, 0, Spacing)
 	self.Footer:SetBackdropColor(unpack(LightColor))
 	
+	local FooterButtonWidth = ((HeaderWidth / 3) - Spacing) + 1
+	
 	-- Apply button
 	local Apply = CreateFrame("Frame", nil, self.Footer)
-	Apply:Size(ButtonListWidth, WidgetHeight)
+	Apply:Size(FooterButtonWidth + 1, HeaderHeight)
 	Apply:Point("LEFT", self.Footer, 0, 0)
 	Apply:SetTemplate(nil, Texture)
 	Apply:SetBackdropColor(unpack(BrightColor))
@@ -1540,9 +1542,57 @@ GUI.Enable = function(self)
 	
 	Apply.Middle = Apply:CreateFontString(nil, "OVERLAY")
 	Apply.Middle:Point("CENTER", Apply, 0, 0)
-	StyleFont(Apply.Middle, Font, 12)
+	StyleFont(Apply.Middle, Font, 14)
 	Apply.Middle:SetJustifyH("CENTER")
 	Apply.Middle:SetText("Apply")
+	
+	-- Reset button
+	local Reset = CreateFrame("Frame", nil, self.Footer)
+	Reset:Size(FooterButtonWidth, HeaderHeight)
+	Reset:Point("LEFT", Apply, "RIGHT", (Spacing - 1), 0)
+	Reset:SetTemplate(nil, Texture)
+	Reset:SetBackdropColor(unpack(BrightColor))
+	Reset:SetScript("OnMouseDown", ButtonOnMouseDown)
+	Reset:SetScript("OnMouseUp", ButtonOnMouseUp)
+	Reset:SetScript("OnEnter", ButtonOnEnter)
+	Reset:SetScript("OnLeave", ButtonOnLeave)
+	Reset:HookScript("OnMouseUp", ReloadUI)
+	
+	Reset.Highlight = Reset:CreateTexture(nil, "OVERLAY")
+	Reset.Highlight:SetAllPoints()
+	Reset.Highlight:SetTexture(Texture)
+	Reset.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Reset.Highlight:SetAlpha(0)
+	
+	Reset.Middle = Reset:CreateFontString(nil, "OVERLAY")
+	Reset.Middle:Point("CENTER", Reset, 0, 0)
+	StyleFont(Reset.Middle, Font, 14)
+	Reset.Middle:SetJustifyH("CENTER")
+	Reset.Middle:SetText("Reset")
+	
+	-- Credits button
+	local Credits = CreateFrame("Frame", nil, self.Footer)
+	Credits:Size(FooterButtonWidth, HeaderHeight)
+	Credits:Point("LEFT", Reset, "RIGHT", (Spacing - 1), 0)
+	Credits:SetTemplate(nil, Texture)
+	Credits:SetBackdropColor(unpack(BrightColor))
+	Credits:SetScript("OnMouseDown", ButtonOnMouseDown)
+	Credits:SetScript("OnMouseUp", ButtonOnMouseUp)
+	Credits:SetScript("OnEnter", ButtonOnEnter)
+	Credits:SetScript("OnLeave", ButtonOnLeave)
+	Credits:HookScript("OnMouseUp", ReloadUI)
+	
+	Credits.Highlight = Credits:CreateTexture(nil, "OVERLAY")
+	Credits.Highlight:SetAllPoints()
+	Credits.Highlight:SetTexture(Texture)
+	Credits.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Credits.Highlight:SetAlpha(0)
+	
+	Credits.Middle = Credits:CreateFontString(nil, "OVERLAY")
+	Credits.Middle:Point("CENTER", Credits, 0, 0)
+	StyleFont(Credits.Middle, Font, 14)
+	Credits.Middle:SetJustifyH("CENTER")
+	Credits.Middle:SetText("Credits")
 	
 	-- Button list
 	self.ButtonList = CreateFrame("Frame", nil, self)
