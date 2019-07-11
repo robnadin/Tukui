@@ -1393,7 +1393,7 @@ GUI.CreateWindow = function(self, name, default)
 	Window:Point("BOTTOMRIGHT", self.Footer, "TOPRIGHT", 0, (Spacing - 1))
 	Window:SetTemplate()
 	Window:CreateShadow()
-	Window:SetBackdropColor(unpack(C.General.BackdropColor))
+	Window:SetBackdropColor(unpack(LightColor))
 	Window.Button = Button
 	Window.Widgets = {}
 	Window.Offset = 0
@@ -1552,7 +1552,7 @@ GUI.Enable = function(self)
 	self.ButtonList:Point("BOTTOMLEFT", self.Footer, "TOPLEFT", 0, (Spacing - 1))
 	self.ButtonList:SetTemplate()
 	self.ButtonList:CreateShadow()
-	self.ButtonList:SetBackdropColor(unpack(C.General.BackdropColor))
+	self.ButtonList:SetBackdropColor(unpack(LightColor))
 	
 	-- Close
 	self.Close = CreateFrame("Frame", nil, self.Header)
