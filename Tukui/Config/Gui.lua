@@ -236,6 +236,10 @@ local SwitchOnMouseUp = function(self)
 	self.Movement:Play()
 	
 	SetValue(self.Group, self.Option, self.Value)
+	
+	if self.Hook then
+		self.Hook(self.Value)
+	end
 end
 
 local SwitchOnEnter = function(self)
@@ -1540,21 +1544,6 @@ GUI.Enable = function(self)
 	Apply.Middle:SetJustifyH("CENTER")
 	Apply.Middle:SetText("Apply")
 	
-	-- Settings option
-	local Dropdown = CreateDropdown(self.Footer, "Settings", "Storage", "Settings")
-	
-	Dropdown:Point("LEFT", Apply, "RIGHT", 3, 0)
-	
-	Dropdown.Hook = function(value)
-		if (value == "Global") then
-			TukuiUseGlobal = true
-		else
-			TukuiUseGlobal = false
-		end
-		
-		ReloadUI()
-	end
-	
 	-- Button list
 	self.ButtonList = CreateFrame("Frame", nil, self)
 	self.ButtonList:Width(ButtonListWidth)
@@ -1660,6 +1649,15 @@ local General = function(self)
 	local Window = self:CreateWindow("General", true)
 	
 	Window:CreateSection("Styling")
+	
+	local Switch = Window:CreateSwitch("General", "UseGlobal", "Store settings account-wide (Will Reload UI)")
+	
+	Switch.Hook = function(value)
+		TukuiUseGlobal = value
+		
+		ReloadUI()
+	end
+	
 	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
 	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
 	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01)

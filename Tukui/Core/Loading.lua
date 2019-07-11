@@ -52,11 +52,7 @@ function Loading:LoadCustomSettings()
 		end
 	end
 	
-	if TukuiUseGlobal then
-		C["Settings"]["Storage"].Value = "Global"
-	else
-		C["Settings"]["Storage"].Value = "PerChar"
-	end
+	C.General.UseGlobal = TukuiUseGlobal
 end
 
 function Loading:Enable()
