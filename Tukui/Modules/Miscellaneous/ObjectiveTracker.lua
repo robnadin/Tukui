@@ -5,7 +5,7 @@ local Movers = T["Movers"]
 local Class = select(2, UnitClass("player"))
 local CustomClassColor = T.Colors.class[Class]
 local QuestWatchFrame = QuestWatchFrame
-local Anchor1, Parent, Anchor2, X, Y = "TOPRIGHT", UIParent, "TOPRIGHT", -228, -325
+local Anchor1, Parent, Anchor2, X, Y = "TOPRIGHT", UIParent, "TOPRIGHT", -280, -400
 
 function ObjectiveTracker:CreateHolder()
 	local ObjectiveFrameHolder = CreateFrame("Frame", "TukuiObjectiveTracker", UIParent)
@@ -75,10 +75,6 @@ function ObjectiveTracker:SkinQuestTimer()
 	Timer:SetPoint("TOPLEFT", HeaderBar, "TOPLEFT", -205, 80)
 end
 
-function ObjectiveTracker:AddHooks()
-	
-end
-
 function ObjectiveTracker:Enable()
 	if self.IsEnabled then
 		return
@@ -88,7 +84,6 @@ function ObjectiveTracker:Enable()
 	self:SetDefaultPosition()
 	self:Skin()
 	self:SkinQuestTimer()
-	self:AddHooks()
 	
 	self.IsEnabled = true
 end
