@@ -53,7 +53,9 @@ local WidgetListWidth = (WindowWidth - ButtonListWidth) - (Spacing * 3) + 1
 local WidgetHeight = 20 -- All widgets are the same height
 local WidgetHighlightAlpha = 0.3
 
-local CreditLines = {"A very special thanks to", "Elv", "Hydra", "Haste", "Nightcracker", "Haleth", "Caellian", "Shestak", "Tekkub", "Roth", "Alza", "P3lim", "Tulla", "Hungtar", "Ishtara", "Caith", "Azilroka", "Simpy", "Aftermathh"}
+local LastActiveWindow
+
+local CreditLines = {"A very special thanks to", "", "Elv", "Hydra", "Haste", "Nightcracker", "Haleth", "Caellian", "Shestak", "Tekkub", "Roth", "Alza", "P3lim", "Tulla", "Hungtar", "Ishtara", "Caith", "Azilroka", "Simpy", "Aftermathh"}
 
 local GUI = CreateFrame("Frame", nil, UIParent) -- Feel free to give a global name, It's available as T.GUI right now
 GUI.Windows = {}
@@ -1316,7 +1318,14 @@ end
 GUI.DisplayWindow = function(self, name)
 	if (TukuiCredits and TukuiCredits:IsShown()) then
 		TukuiCredits:Hide()
-		TukuiCredits:SetAlpha(0)
+		TukuiCredits.Move:Stop()
+		
+		local Window = GUI:GetWindow(LastActiveWindow)
+		
+		Window:Show()
+		Window.Button.Selected:Show()
+		
+		return
 	end
 	
 	for WindowName, Window in pairs(self.Windows) do
@@ -1337,6 +1346,8 @@ GUI.DisplayWindow = function(self, name)
 			
 			Window:Show()
 			Window.Button.Selected:Show()
+			
+			LastActiveWindow = WindowName
 		end
 	end
 	
@@ -1439,7 +1450,7 @@ local CloseOnMouseUp = function()
 	GUI.FadeOut:Play()
 end
 
-local CreditLineHeight = 16
+local CreditLineHeight = 20
 
 local SetUpCredits = function(frame)
 	frame.Lines = {}
@@ -1448,16 +1459,9 @@ local SetUpCredits = function(frame)
 		local Line = CreateFrame("Frame", nil, frame)
 		Line:Size(frame:GetWidth(), CreditLineHeight)
 		
-		Line.BG = Line:CreateTexture(nil, "ARTWORK")
-		Line.BG:Point("TOPLEFT", Line, 1, 0)
-		Line.BG:Point("BOTTOMRIGHT", Line, -1, 0)
-		Line.BG:SetTexture(Blank)
-		Line.BG:SetVertexColor(0.3, 0.3, 0.3)
-		Line.BG:SetAlpha((i % 2 == 0) and 0.3 or 0.4)
-		
 		Line.Text = Line:CreateFontString(nil, "OVERLAY")
 		Line.Text:Point("CENTER", Line, 0, 0)
-		StyleFont(Line.Text, Font, 12)
+		StyleFont(Line.Text, Font, 16)
 		Line.Text:SetJustifyH("CENTER")
 		Line.Text:SetText(CreditLines[i])
 		
@@ -1469,19 +1473,27 @@ local SetUpCredits = function(frame)
 		
 		tinsert(frame.Lines, Line)
 	end
+	
+	frame:Height(#frame.Lines * CreditLineHeight)
 end
 
 local ShowCreditFrame = function()
+	local Window = GUI:GetWindow(LastActiveWindow)
+	
+	Window:Hide()
+	
 	TukuiCredits:Show()
-	TukuiCredits.FadeIn:Play()
+	TukuiCredits.Move:Play()
 end
 
 local HideCreditFrame = function()
-	if TukuiCredits.FadeIn:IsPlaying() then
-		
-	end
+	TukuiCredits:Hide()
+	TukuiCredits.Move:Stop()
 	
-	TukuiCredits.FadeOut:Play()
+	local Window = GUI:GetWindow(LastActiveWindow)
+	
+	Window:Show()
+	Window.Button.Selected:Show()
 end
 
 local ToggleCreditsFrame = function()
@@ -1496,18 +1508,6 @@ GUI.Enable = function(self)
 	if self.Created then
 		return
 	end
-	
-	-- Create a Tukui popup for resets
-	T.Popups.Popup["TUKUI_RESET_SETTINGS"] = {
-		Question = "This will clear all of your saved settings. Continue?",
-		Answer1 = ACCEPT,
-		Answer2 = CANCEL,
-		Function1 = function(self)
-			T.Install.ResetData()
-
-			ReloadUI()
-		end,
-	}
 	
 	-- Main Window
 	self:Width(WindowWidth)
@@ -1677,38 +1677,38 @@ GUI.Enable = function(self)
 	CreditFrame:Point("TOPLEFT", self.ButtonList, "TOPRIGHT", (Spacing - 1), 0)
 	CreditFrame:Point("BOTTOMRIGHT", self.Footer, "TOPRIGHT", 0, (Spacing - 1))
 	CreditFrame:Point("BOTTOMLEFT", self.ButtonList, "BOTTOMRIGHT", (Spacing - 1), 0)
-	CreditFrame:SetTemplate()
 	CreditFrame:SetFrameStrata("DIALOG")
+	CreditFrame:SetTemplate("Transparent")
 	CreditFrame:EnableMouse(true)
 	CreditFrame:EnableMouseWheel(true)
-	CreditFrame:SetAlpha(0)
 	CreditFrame:Hide()
 	
-	SetUpCredits(CreditFrame)
-	
-	--[[local ScrollFrame = CreateFrame("ScrollFrame", nil, ConfigFrame)
+	local ScrollFrame = CreateFrame("ScrollFrame", nil, CreditFrame)
 	ScrollFrame:Point("TOPLEFT", CreditFrame, 1, -1)
 	ScrollFrame:Point("BOTTOMRIGHT", CreditFrame, -1, 1)
 	
 	local Scrollable = CreateFrame("Frame", nil, ScrollFrame)
-	Scrollable:SetAllPoints(ScrollFrame)
+	Scrollable:Size(ScrollFrame:GetSize())
 	
-	ScrollFrame:SetScrollChild(Scrollable)]]
-	
-	CreditFrame.Fade = CreateAnimationGroup(CreditFrame)
-	
-	CreditFrame.FadeIn = CreditFrame.Fade:CreateAnimation("Fade")
-	CreditFrame.FadeIn:SetDuration(0.3)
-	CreditFrame.FadeIn:SetChange(1)
-	CreditFrame.FadeIn:SetEasing("in-sinusoidal")
-	
-	CreditFrame.FadeOut = CreditFrame.Fade:CreateAnimation("Fade")
-	CreditFrame.FadeOut:SetDuration(0.3)
-	CreditFrame.FadeOut:SetChange(0)
-	CreditFrame.FadeOut:SetEasing("out-sinusoidal")
-	CreditFrame.FadeOut:SetScript("OnFinished", function(self)
-		self:GetParent():Hide()
+	CreditFrame.Move = CreateAnimationGroup(Scrollable):CreateAnimation("Move")
+	CreditFrame.Move:SetDuration(12)
+	CreditFrame.Move:SetScript("OnFinished", function(self)
+		local Parent = self:GetParent()
+		
+		Parent:ClearAllPoints()
+		Parent:Point("TOP", ScrollFrame, "BOTTOM", 0, 0)
+		
+		self:Play()
 	end)
+	
+	ScrollFrame:SetScrollChild(Scrollable)
+	
+	SetUpCredits(Scrollable)
+	
+	CreditFrame.Move:SetOffset(0, (Scrollable:GetHeight() * 2))
+	
+	Scrollable:ClearAllPoints()
+	Scrollable:SetPoint("TOP", ScrollFrame, "BOTTOM", 0, 0)
 	
 	GameMenuFrame:HookScript("OnShow", function()
 		if GUI:IsShown() then

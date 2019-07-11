@@ -30,6 +30,16 @@ function Install:ResetData()
 	ReloadUI()
 end
 
+-- Create a Tukui popup for resets
+T.Popups.Popup["TUKUI_RESET_SETTINGS"] = {
+	Question = "This will clear all of your saved settings. Continue?",
+	Answer1 = ACCEPT,
+	Answer2 = CANCEL,
+	Function1 = function(self)
+		Install.ResetData()
+	end,
+}
+
 function Install:Step1()
 	local ActionBars = C.ActionBars.Enable
 
