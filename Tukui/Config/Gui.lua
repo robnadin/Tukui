@@ -1535,6 +1535,10 @@ GUI.Enable = function(self)
 	self.FadeOut:SetEasing("out-sinusoidal")
 	self.FadeOut:SetScript("OnFinished", function(self)
 		self:GetParent():Hide()
+		
+		if TukuiCredits:IsShown() then
+			HideCreditFrame()
+		end
 	end)
 	
 	-- Header
