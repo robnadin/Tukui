@@ -256,7 +256,7 @@ local SwitchOnLeave = function(self)
 	self.Highlight:SetAlpha(0)
 end
 
-local CreateSwitch = function(self, group, option, text)
+local CreateSwitch = function(self, group, option, text, default)
 	local Value = C[group][option]
 	
 	local Anchor = CreateFrame("Frame", nil, self)
@@ -802,7 +802,7 @@ local AddDropdownScrollBar = function(self)
 	self:Height(((WidgetHeight - 1) * ListItemsToShow) + 1)
 end
 
-local CreateDropdown = function(self, group, option, text, custom)
+local CreateDropdown = function(self, group, option, text, custom, default)
 	local Value
 	local Selections
 	
@@ -1100,7 +1100,7 @@ local ColorOnLeave = function(self)
 	self.Highlight:SetAlpha(0)
 end
 
-local CreateColorSelection = function(self, group, option, text)
+local CreateColorSelection = function(self, group, option, text, default)
 	local Value = C[group][option]
 	local Selections
 	
