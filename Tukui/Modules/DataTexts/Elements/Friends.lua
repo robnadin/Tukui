@@ -25,6 +25,10 @@ local OnEnter = function(self)
 	local NumFriendsOnline = C_FriendList.GetNumOnlineFriends()
 	local FriendInfo = {}
 	
+	if NumFriendsOnline == 0 then
+		return
+	end
+	
 	GameTooltip:SetOwner(self:GetTooltipAnchor())
 	GameTooltip:ClearLines()
 	GameTooltip:AddDoubleLine(FRIENDS, NumFriendsOnline.."/"..NumFriends)
