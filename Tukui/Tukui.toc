@@ -1,6 +1,6 @@
 ## Interface: 11302
-## Author: Tukz & Hydra
-## X-Maintainer: Tukz & Azilroka
+## Author: Tukz
+## X-Maintainer: Tukz & Azilroka & Hydra
 ## Version: 0.99
 ## Title: |cffff8000Tukui|r
 ## Notes: UI of awesomeness!
