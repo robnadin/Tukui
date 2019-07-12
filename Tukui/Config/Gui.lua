@@ -398,8 +398,6 @@ local EditBoxOnEnterPressed = function(self)
 	local Value = tonumber(self:GetText())
 	
 	if (type(Value) ~= "number") then
-		self:SetText(self.Value)
-	
 		return
 	end
 	
@@ -420,8 +418,6 @@ local EditBoxOnChar = function(self)
 	
 	if (type(Value) ~= "number") then
 		self:SetText(self.Value)
-		
-		return
 	end
 end
 
