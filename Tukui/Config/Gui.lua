@@ -1936,7 +1936,6 @@ local Raid = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("Raid", "Enable", "Enable raid module")
-	Window:CreateSwitch("Raid", "ShowPets", "Enable pets")
 	Window:CreateSwitch("Raid", "AuraWatch", "Enable aurawatch module")
 	Window:CreateSwitch("Raid", "AuraWatchTimers", "Enable aurawatch timers")
 	Window:CreateSwitch("Raid", "DebuffWatch", "Enable debuffwatch module")
@@ -1944,7 +1943,6 @@ local Raid = function(self)
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Raid", "ShowHealthText", "Display health text")
-	Window:CreateSwitch("Raid", "ShowPets", "Display pets")
 	Window:CreateSlider("Raid", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)
 	Window:CreateSlider("Raid", "MaxUnitPerColumn", "Set max units per column", 1, 15, 1)
 	
