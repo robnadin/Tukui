@@ -11,7 +11,11 @@ function Install:ResetSettings()
 		TukuiSettings = {}
 	else
 		TukuiSettingsPerChar = {}
-	end	
+	end
+	
+	if TukuiData[GetRealmName()][UnitName("Player")].Move then
+		TukuiData[GetRealmName()][UnitName("Player")].Move = {}
+	end
 end
 
 function Install:ResetData()
