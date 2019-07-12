@@ -17,3 +17,4 @@ Settings.BackdropColor = C.General.BackdropColor
 Settings.BorderColor = C.General.BorderColor
 Settings.ArrowUp = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]]
 Settings.ArrowDown = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]
+Settings.ClassColors = T.Colors.class

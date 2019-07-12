@@ -440,7 +440,12 @@ Toolkit.API.SkinButton = function(self, BackdropStyle, Shadows, Strip)
 	end
 
 	self:HookScript("OnEnter", function()
-		local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+		local Class = select(2, UnitClass("player"))
+		local Color = RAID_CLASS_COLORS[Class]
+			
+		if Toolkit.Settings.ClassColors then
+			Color.r, Color.g, Color.b = unpack(Toolkit.Settings.ClassColors[Class])
+		end
 
 		self:SetBackdropColor(Color.r * .2, Color.g * .2, Color.b * .2)
 		self:SetBorderColor(Color.r, Color.g, Color.b)

@@ -1,10 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Media.lua"/>
+	<Script file="Colors.lua"/>
 	<Script file="Toolkit.lua"/>
 	<Script file="Popup.lua"/>
 	<Script file="Core.lua"/>
 	<Script file="Commands.lua"/>
-	<Script file="Colors.lua"/>
 	<Script file="Install.lua"/>
 	<Script file="VersionCheck.lua"/>
 	<Script file="MoveUI.lua"/>
