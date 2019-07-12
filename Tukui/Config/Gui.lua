@@ -1,5 +1,12 @@
 local T, C, L = select(2, ...):unpack()
 
+--[[ TODO after classic release in this file ]]
+
+-- Translate the GUI
+-- On option right-click, restore default value
+
+--[[ TODO after classic release in this file ]]
+
 local sort = table.sort
 local tinsert = table.insert
 local tremove = table.remove
