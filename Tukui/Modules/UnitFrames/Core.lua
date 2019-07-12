@@ -273,6 +273,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 	else
 		local r, g, b
 		local IsRaid = string.match(self:GetParent():GetName(), "Button") or false
+		local Percent = max == 100 and "%" or ""
 
 		if (min ~= max) then
 			r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
@@ -297,7 +298,8 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 					self.Value:SetText("|cff559655"..max.."|r")
 				end
 			elseif (unit == "target") then
-				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(max).."|r")
+				 
+				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(max)..Percent.."|r")
 			else
 				self.Value:SetText(" ")
 			end
@@ -340,7 +342,7 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 			else
 				local Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
 				
-				self.Value:SetText(Color..T.MyName.."|r ".."|cff00ff00"..UnitLevel("player").."|r")
+				self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
 			end
 		end
 	end
