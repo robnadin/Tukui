@@ -6,6 +6,14 @@ Install.CurrentStep = 0
 Install.Width = 500
 Install.Height = 200
 
+function Install:ResetSettings()
+	if TukuiUseGlobal then
+		TukuiSettings = {}
+	else
+		TukuiSettingsPerChar = {}
+	end	
+end
+
 function Install:ResetData()
 	if (T.DataTexts) then
 		T.DataTexts:Reset()
@@ -14,12 +22,6 @@ function Install:ResetData()
 	TukuiData[GetRealmName()][UnitName("Player")] = {}
 
 	TukuiUseGlobal = true -- Use global by default
-
-	if TukuiUseGlobal then
-		TukuiSettings = {}
-	else
-		TukuiSettingsPerChar = {}
-	end
 	
 	FCF_ResetChatWindows()
 	
@@ -36,7 +38,7 @@ T.Popups.Popup["TUKUI_RESET_SETTINGS"] = {
 	Answer1 = ACCEPT,
 	Answer2 = CANCEL,
 	Function1 = function(self)
-		Install.ResetData()
+		Install.ResetSettings()
 	end,
 }
 
@@ -107,14 +109,8 @@ function Install:PrintStep(number)
 		self.LeftButton:SetScript("OnClick", function() self:Hide() end)
 		self.RightButton.Text:SetText(NEXT)
 		self.RightButton:SetScript("OnClick", function() self.PrintStep(self, self.CurrentStep + 1) end)
-		self.MiddleButton.Text:SetText("|cffFF0000"..RESET_TO_DEFAULT.."|r")
-		self.MiddleButton:SetScript("OnClick", self.ResetData)
+		self.MiddleButton:Hide()
 		self.CloseButton:Show()
-		if (TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
-			self.MiddleButton:Show()
-		else
-			self.MiddleButton:Hide()
-		end
 	else
 		self.LeftButton:SetScript("OnClick", function() self.PrintStep(self, self.CurrentStep - 1) end)
 		self.LeftButton.Text:SetText(PREVIOUS)
@@ -229,13 +225,7 @@ function Install:Launch()
 	self.MiddleButton.Text = self.MiddleButton:CreateFontString(nil, "OVERLAY")
 	self.MiddleButton.Text:SetFontTemplate(C.Medias.Font, 12)
 	self.MiddleButton.Text:SetPoint("CENTER")
-	self.MiddleButton.Text:SetText("|cffFF0000"..RESET_TO_DEFAULT.."|r")
-	self.MiddleButton:SetScript("OnClick", self.ResetData)
-	if (TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
-		self.MiddleButton:Show()
-	else
-		self.MiddleButton:Hide()
-	end
+	self.MiddleButton:Hide()
 
 	self.CloseButton = CreateFrame("Button", nil, self)
 	self.CloseButton:Point("TOPRIGHT", self.Description, "TOPRIGHT", -6, -12)

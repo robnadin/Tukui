@@ -40,7 +40,8 @@ T.SlashHandler = function(cmd)
 	elseif (arg1 == "install" or arg1 == "reset") then
 		local Install = T["Install"]
 
-		Install:Launch()
+		Install:ResetSettings()
+		Install:ResetData()
 	elseif (arg1 == "load" or arg1 == "unload") then
 		local Loaded, Reason = LoadAddOn(arg2)
 		
