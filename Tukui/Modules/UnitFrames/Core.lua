@@ -335,10 +335,12 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 				self.Value:SetText(max - (max - current))
 			end
 		else
-			if (unit == "pet" or unit == "target" or unit == "focus" or unit == "focustarget" or (unit and strfind(unit, "arena%d")) or (unit and strfind(unit, "boss%d"))) then
+			if (unit == "pet" or unit == "target" or unit == "targettarget") then
 				self.Value:SetText(TukuiUnitFrames.ShortValue(current))
 			else
-				self.Value:SetText(current)
+				local Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
+				
+				self.Value:SetText(Color..T.MyName.."|r ".."|cff00ff00"..UnitLevel("player").."|r")
 			end
 		end
 	end
