@@ -17,8 +17,8 @@ Config\Settings.lua
 Libs\Init.xml
 Medias\Medias.lua
 Locales\Init.xml
-Config\Gui.lua
 Core\Init.xml
+Config\Gui.lua
 Modules\Init.xml
 Themes\Init.xml
 Core\Temp.lua

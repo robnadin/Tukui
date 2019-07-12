@@ -35,11 +35,10 @@ local BGColor = {0.2, 0.2, 0.2}
 local BrightColor = {0.35, 0.35, 0.35}
 local HeaderColor = {0.43, 0.43, 0.43}
 
--- You can switch this, I just don't know what kind of colors you want to be using, so I picked something.
-local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
-local R, G, B = Color.r, Color.g, Color.b
+local Color = T.Colors.class[select(2, UnitClass("player"))]
+local R, G, B = unpack(Color)
 
-local HeaderText = format("|c%sTukui|r settings", Color.colorStr)
+local HeaderText = "Tukui Settings"
 
 local WindowWidth = 490
 local WindowHeight = 360
