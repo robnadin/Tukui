@@ -25,7 +25,36 @@ end)
 T.SlashHandler = function(cmd)
 	local arg1, arg2 = Split(cmd)
 
-	if (arg1 == "dt" or arg1 == "datatext") then
+	if (arg1 == "" or arg1 == "help") then
+		print(" ")
+		print("|cffff8000".. L.Help.Title .."|r")
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Config)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Datatexts)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Events)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Gold)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Grid)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Hapiness)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Install)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Load)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Move)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Profile)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Status)
+		print("--------------------------------------------------------------------------------------------")
+		print(L.Help.Test)
+		print("--------------------------------------------------------------------------------------------")
+		print(" ")
+	elseif (arg1 == "dt" or arg1 == "datatext") then
 		local DataText = T["DataTexts"]
 
 		if arg2 then
@@ -103,37 +132,7 @@ T.SlashHandler = function(cmd)
 			T.Print("Pet is doing " .. DamagePercentage .. "% damage")
 			T.Print("Pet is " .. Loyalty .. " loyalty")
 		end
-	elseif (arg1 == "" or arg1 == "help") then
-		print(" ")
-		print("|cffff8000".. L.Help.Title .."|r")
-		print(L.Help.Install)
-		print(L.Help.Datatexts)
-		print(L.Help.Config)
-		print(L.Help.Move)
-		print(L.Help.Test)
-		print(L.Help.Profile)
-		print(L.Help.Grid)
-		print(L.Help.Status)
-		print(" ")
 	elseif (arg1 == "c" or arg1 == "config") then
-		--[[local Config = TukuiConfig
-
-		if (not TukuiConfig) then
-			T.Print(L.Others.ConfigNotFound)
-
-			return
-		end
-
-		if (not TukuiConfigFrame) then
-			Config:CreateConfigWindow()
-		end
-
-		if TukuiConfigFrame:IsVisible() then
-			TukuiConfigFrame:Hide()
-		else
-			TukuiConfigFrame:Show()
-		end]]
-		
 		T.GUI:Toggle()
 	elseif (arg1 == "gold") and (arg2 == "reset") then
 		local DataText = T["DataTexts"]

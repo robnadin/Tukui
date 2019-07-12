@@ -244,6 +244,10 @@ L.Help.Test = "'|cff00ff00test|r' or '|cff00ff00testui|r' : Tester les cadres d'
 L.Help.Profile = "'|cff00ff00profile|r' or '|cff00ff00p|r' : Use Tukui settings (existing profile) from another character."
 L.Help.Grid = "'|cff00ff00grid|r' or '|cff00ff00grid 128|r' : Afficher une grille qui vous permet de mieux aligner les cadres. (Remplacez 128 par n'importe quel nombre pour la grille personnalisée)"
 L.Help.Status = "'|cff00ff00status|r' or '|cff00ff00debug|r' : Affiche une fenêtre de débogage avec les informations nécessaires pour rechercher un bogue dans l'interface utilisateur"
+L.Help.Events = "'|cff00ff00events|r' or '|cff00ff00trace|r' : Pour les devs, affiche les évenements dans le chat."
+L.Help.Gold = "'|cff00ff00gold reset|r' : Réinitialiser les données de l'or des personnages sur le serveur actuel."
+L.Help.Hapiness = "'|cff00ff00ph|r' or '|cff00ff00happiness|r' : Pour les chasseurs, affiche le bonheur de votre animal de compagnie."
+L.Help.Load = "'|cff00ff00load X|r' or '|cff00ff00unload X|r' : Charger ou décharger un addon."
 
 ------------------------------------------------
 L.Merchant = {} -- Merchant

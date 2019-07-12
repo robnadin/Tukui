@@ -244,6 +244,10 @@ L.Help.Test = "'|cff00ff00test|r' or '|cff00ff00testui|r' : 유닛프레임 데�
 L.Help.Profile = "'|cff00ff00profile|r' or '|cff00ff00p|r' : 다른 캐릭터의 Tukui 설정(프로필) 사용"
 L.Help.Grid = "'|cff00ff00grid|r' or '|cff00ff00grid 128|r' : 쉬운 배치를 위해 화면에 격자 표시 (128을 다른 값으로 바꿀 수 있음)"
 L.Help.Status = "'|cff00ff00status|r' or '|cff00ff00debug|r' : UI 버그를 살펴보기 위해 디버그 창을 띄움"
+L.Help.Events = "'|cff00ff00events|r' or '|cff00ff00trace|r' : For devs, toggle events printing in chat."
+L.Help.Gold = "'|cff00ff00gold reset|r' : Reset all characters gold data stored on current server."
+L.Help.Hapiness = "'|cff00ff00ph|r' or '|cff00ff00happiness|r' : For hunters, tell you what is the hapiness value of your current pet."
+L.Help.Load = "'|cff00ff00load X|r' or '|cff00ff00unload X|r' : Load or unload an addon. X = addon name."
 
 ------------------------------------------------
 L.Merchant = {} -- Merchant
