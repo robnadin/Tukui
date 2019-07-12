@@ -1580,7 +1580,7 @@ GUI.Enable = function(self)
 	self.Footer:Point("BOTTOM", self, 0, Spacing)
 	self.Footer:SetBackdropColor(unpack(LightColor))
 	
-	local FooterButtonWidth = ((HeaderWidth / 3) - Spacing) + 1
+	local FooterButtonWidth = ((HeaderWidth / 4) - Spacing) + 1
 	
 	-- Apply button
 	local Apply = CreateFrame("Frame", nil, self.Footer)
@@ -1633,11 +1633,41 @@ GUI.Enable = function(self)
 	StyleFont(Reset.Middle, Font, 14)
 	Reset.Middle:SetJustifyH("CENTER")
 	Reset.Middle:SetText("Reset")
+				
+	-- Status button
+	local Status = CreateFrame("Frame", nil, self.Footer)
+	Status:Size(FooterButtonWidth + 1, HeaderHeight)
+	Status:Point("LEFT", Reset, "RIGHT", (Spacing - 1), 0)
+	Status:SetTemplate(nil, Texture)
+	Status:CreateShadow()
+	Status:SetBackdropColor(unpack(BrightColor))
+	Status:SetScript("OnMouseDown", ButtonOnMouseDown)
+	Status:SetScript("OnMouseUp", ButtonOnMouseUp)
+	Status:SetScript("OnEnter", ButtonOnEnter)
+	Status:SetScript("OnLeave", ButtonOnLeave)
+	Status:HookScript("OnMouseUp", function()
+		local Status = TukuiStatus
+		
+		GUI:Hide()
+		Status:ShowWindow()
+	end)
+	
+	Status.Highlight = Status:CreateTexture(nil, "OVERLAY")
+	Status.Highlight:SetAllPoints()
+	Status.Highlight:SetTexture(Texture)
+	Status.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Status.Highlight:SetAlpha(0)
+	
+	Status.Middle = Status:CreateFontString(nil, "OVERLAY")
+	Status.Middle:Point("CENTER", Status, 0, 0)
+	StyleFont(Status.Middle, Font, 14)
+	Status.Middle:SetJustifyH("CENTER")
+	Status.Middle:SetText("Status")
 	
 	-- Credits button
 	local Credits = CreateFrame("Frame", nil, self.Footer)
-	Credits:Size(FooterButtonWidth, HeaderHeight)
-	Credits:Point("LEFT", Reset, "RIGHT", (Spacing - 1), 0)
+	Credits:Size(FooterButtonWidth + 2, HeaderHeight)
+	Credits:Point("LEFT", Status, "RIGHT", (Spacing - 1), 0)
 	Credits:SetTemplate(nil, Texture)
 	Credits:CreateShadow()
 	Credits:SetBackdropColor(unpack(BrightColor))

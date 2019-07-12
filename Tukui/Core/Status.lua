@@ -5,7 +5,7 @@ local Status = CreateFrame("Frame", "TukuiStatus", UIParent)
 function Status:AddonsCheck()
 	for i = 1, GetNumAddOns() do
 		local Name = GetAddOnInfo(i)
-		if ((Name ~= "Tukui" and Name ~= "Tukui_Config") and IsAddOnLoaded(Name)) then
+		if ((Name ~= "Tukui") and IsAddOnLoaded(Name)) then
 			return "Yes"
 		end
 	end
@@ -19,11 +19,15 @@ function Status:ShowWindow()
 	self:SetPoint("CENTER")
 	self:SetTemplate("Transparent")
 	self:CreateShadow()
+	
+	self.FrameLogo = CreateFrame("Frame", nil, self)
+	self.FrameLogo:SetAllPoints()
+	self.FrameLogo:SetFrameLevel(self:GetFrameLevel() + 1)
 
-	self.Logo = Status:CreateTexture(nil, "OVERLAY")
+	self.Logo = self.FrameLogo:CreateTexture(nil, "OVERLAY")
 	self.Logo:Size(256, 128)
 	self.Logo:SetTexture(C.Medias.Logo)
-	self.Logo:Point("TOP", Status, "TOP", -8, 68)
+	self.Logo:Point("TOP", self, "TOP", -8, 68)
 
 	self.Title = self:CreateFontString(nil, "OVERLAY")
 	self.Title:SetFont(C.Medias.Font, 16, "THINOUTLINE")

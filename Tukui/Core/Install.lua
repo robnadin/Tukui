@@ -162,6 +162,7 @@ function Install:Launch()
 	self.Description:CreateShadow()
 	self.Description:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self.Description:RegisterEvent("PLAYER_REGEN_ENABLED")
+	self.Description:SetFrameLevel(self:GetFrameLevel() - 1)
 	self.Description:SetScript("OnEvent", function(self, event)
 		if (event == "PLAYER_REGEN_DISABLED") then
 			Install:Hide()
