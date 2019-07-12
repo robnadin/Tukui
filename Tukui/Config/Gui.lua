@@ -404,9 +404,6 @@ local EditBoxOnEnterPressed = function(self)
 	if (Value ~= self.Value) then
 		self.Slider:SetValue(Value)
 		SliderOnValueChanged(self.Slider)
-	else
-		self.Slider:SetValue(self.Value)
-		SliderOnValueChanged(self.Slider)
 	end
 	
 	self:SetAutoFocus(false)
