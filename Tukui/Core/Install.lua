@@ -39,6 +39,8 @@ T.Popups.Popup["TUKUI_RESET_SETTINGS"] = {
 	Answer2 = CANCEL,
 	Function1 = function(self)
 		Install.ResetSettings()
+		
+		ReloadUI()
 	end,
 }
 
