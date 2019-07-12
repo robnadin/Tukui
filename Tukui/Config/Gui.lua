@@ -1851,6 +1851,7 @@ local ActionBars = function(self)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("ActionBars", "Font", "Set actionbar font", "Font")
+	Window:CreateDropdown("Cooldowns", "Font", "Set cooldown font", "Font")
 end
 
 local Auras = function(self)
@@ -1938,9 +1939,6 @@ local Misc = function(self)
 	Window:CreateSwitch("Misc", "ErrorFilterEnable", "Enable error filter module")
 	Window:CreateSwitch("Misc", "AutoInviteEnable", "Enable auto invite module")
 	Window:CreateSwitch("Misc", "AFKSaver", "Enable AFK screensaver")
-	
-	Window:CreateSection("Cooldowns")
-	Window:CreateDropdown("Cooldowns", "Font", "Set cooldown font", "Font")
 end
 
 local NamePlates = function(self)
