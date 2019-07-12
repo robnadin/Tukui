@@ -9,16 +9,15 @@ C["General"] = {
 	["BorderColor"] = {0, 0, 0},
 	["UseGlobal"] = true,
 	["HideShadows"] = false,
-	["AFKSaver"] = true,
 	["UIScale"] = T.PerfectScale,
 
 	["Themes"] = {
 		["Options"] = {
-			["Tukui"] = "Tukui",
+			["Tukui 18"] = "Tukui 18",
 			["Tukui 17"] = "Tukui 17",
 		},
 
-		["Value"] = "Tukui",
+		["Value"] = "Tukui 18",
 	},
 }
 
@@ -89,6 +88,7 @@ C["Misc"] = {
 	["ReputationEnable"] = true,
 	["ErrorFilterEnable"] = true,
 	["AutoInviteEnable"] = false,
+	["AFKSaver"] = true,
 }
 
 C["NamePlates"] = {

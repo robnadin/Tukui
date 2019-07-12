@@ -169,7 +169,7 @@ function AFK:Create()
 end
 
 function AFK:Enable()
-	if not C.General.AFKSaver then
+	if not C.Misc.AFKSaver then
 		return
 	end
 

@@ -1764,9 +1764,9 @@ T.GUI = GUI -- Do we need a global name? This is all the access anyone would rea
 local General = function(self)
 	local Window = self:CreateWindow("General", true)
 	
-	Window:CreateSection("Styling")
+	Window:CreateSection("GUI Settings")
 	
-	local Switch = Window:CreateSwitch("General", "UseGlobal", "Store settings account-wide (Will Reload UI)")
+	local Switch = Window:CreateSwitch("General", "UseGlobal", "Store settings account-wide (clicking this will reload your ui)")
 	
 	Switch.Hook = function(value)
 		TukuiUseGlobal = value
@@ -1774,16 +1774,14 @@ local General = function(self)
 		ReloadUI()
 	end
 	
-	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
-	Window:CreateSwitch("General", "AFKSaver", "Enable AFK screensaver")
+	Window:CreateSection("Scaling")
 	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01)
-	
-	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set UI theme")
 	
-	Window:CreateSection("Color")
+	Window:CreateSection("Border & Backdrop")
 	Window:CreateColorSelection("General", "BackdropColor", "Backdrop color")
 	Window:CreateColorSelection("General", "BorderColor", "Border color")
+	Window:CreateSwitch("General", "HideShadows", "Hide frame shadows")
 end
 
 local ActionBars = function(self)
@@ -1894,6 +1892,7 @@ local Misc = function(self)
 	Window:CreateSwitch("Misc", "ReputationEnable", "Enable reputation module")
 	Window:CreateSwitch("Misc", "ErrorFilterEnable", "Enable error filter module")
 	Window:CreateSwitch("Misc", "AutoInviteEnable", "Enable auto invite module")
+	Window:CreateSwitch("Misc", "AFKSaver", "Enable AFK screensaver")
 	
 	Window:CreateSection("Cooldowns")
 	Window:CreateDropdown("Cooldowns", "Font", "Set cooldown font", "Font")
