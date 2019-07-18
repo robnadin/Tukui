@@ -16,7 +16,6 @@ local unpack = unpack
 local pairs = pairs
 local type = type
 
--- IMO :SetFontTemplate should let you set the flag too
 local StyleFont = function(fs, font, size)
 	fs:SetFont(font, size)
 	fs:SetShadowColor(0, 0, 0)
@@ -63,7 +62,7 @@ local LastActiveWindow
 
 local CreditLines = {"A very special thanks to", "", "Elv", "Hydra", "Haste", "Nightcracker", "Haleth", "Caellian", "Shestak", "Tekkub", "Roth", "Alza", "P3lim", "Tulla", "Hungtar", "Ishtara", "Caith", "Azilroka", "Simpy", "Aftermathh"}
 
-local GUI = CreateFrame("Frame", nil, UIParent) -- Feel free to give a global name, It's available as T.GUI right now
+local GUI = CreateFrame("Frame", "TukuiGUI", UIParent)
 GUI.Windows = {}
 GUI.Buttons = {}
 GUI.Queue = {}
@@ -1629,7 +1628,7 @@ GUI.Enable = function(self)
 	StyleFont(Reset.Middle, Font, 14)
 	Reset.Middle:SetJustifyH("CENTER")
 	Reset.Middle:SetText("Reset")
-				
+	
 	-- Move button
 	local Move = CreateFrame("Frame", nil, self.Footer)
 	Move:Size(FooterButtonWidth + 1, HeaderHeight)
@@ -1642,9 +1641,7 @@ GUI.Enable = function(self)
 	Move:SetScript("OnEnter", ButtonOnEnter)
 	Move:SetScript("OnLeave", ButtonOnLeave)
 	Move:HookScript("OnMouseUp", function()
-		local Movers = T["Movers"]
-
-		Movers:StartOrStopMoving()
+		T.Movers:StartOrStopMoving()
 	end)
 	
 	Move.Highlight = Move:CreateTexture(nil, "OVERLAY")
@@ -1721,7 +1718,7 @@ GUI.Enable = function(self)
 	self:SortMenuButtons()
 	
 	-- Create credits
-	local CreditFrame = CreateFrame("Frame", "TukuiCredits", self) -- /run TukuiCredits:Show(); TukuiCredits.FadeIn:Play()
+	local CreditFrame = CreateFrame("Frame", "TukuiCredits", self)
 	CreditFrame:Point("TOPRIGHT", self.Header, "BOTTOMRIGHT", 0, -(Spacing - 1))
 	CreditFrame:Point("TOPLEFT", self.ButtonList, "TOPRIGHT", (Spacing - 1), 0)
 	CreditFrame:Point("BOTTOMRIGHT", self.Footer, "TOPRIGHT", 0, (Spacing - 1))
@@ -1791,7 +1788,7 @@ GUI.PLAYER_REGEN_DISABLED = function(self, event)
 end
 
 GUI.PLAYER_REGEN_ENABLED = function(self, event)
-	if self.CombatClosed then -- This is up to you, if you want it to re-open if it was combat closed
+	if self.CombatClosed then
 		self:Show()
 		self:SetAlpha(1)
 		self.CombatClosed = false
@@ -1804,7 +1801,7 @@ GUI:SetScript("OnEvent", function(self, event)
 	self[event](self, event)
 end)
 
-T.GUI = GUI -- Do we need a global name? This is all the access anyone would really need
+T.GUI = GUI
 
 local General = function(self)
 	local Window = self:CreateWindow("General", true)
@@ -1819,9 +1816,11 @@ local General = function(self)
 		ReloadUI()
 	end
 	
+	Window:CreateSection("Theme")
+	Window:CreateDropdown("General", "Themes", "Set UI theme")
+	
 	Window:CreateSection("Scaling")
 	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01)
-	Window:CreateDropdown("General", "Themes", "Set UI theme")
 	
 	Window:CreateSection("Border & Backdrop")
 	Window:CreateColorSelection("General", "BackdropColor", "Backdrop color")
@@ -2062,7 +2061,6 @@ local UnitFrames = function(self)
 	Window:CreateDropdown("UnitFrames", "Font", "Set unitframe font", "Font")
 end
 
--- Or you can stick ALL of the options into one function, whichever you prefer
 GUI:AddWidgets(General)
 GUI:AddWidgets(ActionBars)
 GUI:AddWidgets(Auras)
