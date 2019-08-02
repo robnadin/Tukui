@@ -19,7 +19,7 @@ end
 
 Engine[1].WindowedMode = Windowed
 Engine[1].FullscreenMode = Fullscreen
-Engine[1].Resolution = Resolution
+Engine[1].Resolution = Resolution or (Windowed and GetCVar("gxWindowedResolution")) or GetCVar("gxFullscreenResolution")
 Engine[1].ScreenHeight = select(2, GetPhysicalScreenSize())
 Engine[1].ScreenWidth = select(1, GetPhysicalScreenSize())
 Engine[1].PerfectScale = min(1, max(0.64, 768 / string.match(Resolution, "%d+x(%d+)")))

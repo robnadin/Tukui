@@ -304,14 +304,17 @@ function TukuiChat:Install()
 	}
 	-- ChatFrame1, need to do it this way, else it crash on WoW Classic
 	for index, value in pairs(Transfers) do
-		for eventIndex, eventValue in pairs(ChatTypeGroup[value]) do
-			if Transfers[eventValue] then
-				ChatFrame1:UnregisterEvent(eventValue)
+		if ChatTypeGroup[value] then
+			for eventIndex, eventValue in pairs(ChatTypeGroup[value]) do
+
+				if Transfers[eventValue] then
+					ChatFrame1:UnregisterEvent(eventValue)
+				end
 			end
+
+			RemoveChatWindowMessages(1, value)
+			ChatFrame1.messageTypeList[value] = nil
 		end
-		
-		RemoveChatWindowMessages(1, value)
-		ChatFrame1.messageTypeList[value] = nil
 	end
 
 	ChatFrame_RemoveChannel(ChatFrame1, "General")
