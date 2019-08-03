@@ -39,6 +39,21 @@ function TukuiActionBars:DisableBlizzard()
 	MultiActionBar_ShowAllGrids = function() end
 
 	ActionBarButtonEventsFrame:UnregisterEvent("ACTIONBAR_HIDEGRID")
+	
+	local Options = {
+		InterfaceOptionsActionBarsPanelBottomLeft, 
+		InterfaceOptionsActionBarsPanelBottomRight,
+		InterfaceOptionsActionBarsPanelRight,
+		InterfaceOptionsActionBarsPanelRightTwo,
+		InterfaceOptionsActionBarsPanelStackRightBars,
+		InterfaceOptionsActionBarsPanelAlwaysShowActionBars,
+	}
+	
+	for i, j in pairs(Options) do
+		j:Hide()
+		j:Disable()
+		j:SetScale(0.001)
+	end
 end
 
 function TukuiActionBars:ShowGrid()
@@ -305,6 +320,14 @@ function TukuiActionBars:AddHooks()
 	hooksecurefunc("MultiActionBar_Update", self.UpdateActionBarsScale)
 end
 
+function TukuiActionBars:OnEvent(event)
+	SHOW_MULTI_ACTIONBAR_1 = 1
+	SHOW_MULTI_ACTIONBAR_2 = 1
+	SHOW_MULTI_ACTIONBAR_3 = 1
+	SHOW_MULTI_ACTIONBAR_4 = 1
+	InterfaceOptions_UpdateMultiActionBars()
+end
+
 function TukuiActionBars:Enable()
 	if not C.ActionBars.Enable then
 		return
@@ -324,6 +347,9 @@ function TukuiActionBars:Enable()
 	self:Bindings()
 	self:AddHooks()
 	self:LoadVariables()
+	
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:SetScript("OnEvent", self.OnEvent)
 end
 
 T["ActionBars"] = TukuiActionBars
