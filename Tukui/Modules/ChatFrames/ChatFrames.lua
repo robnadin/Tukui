@@ -11,7 +11,7 @@ local UIFrameFadeRemoveFrame = UIFrameFadeRemoveFrame
 TukuiChat.VoiceAlertPosition = {"BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", 0, 14}
 
 -- Set name for right chat
-TukuiChat.RightChatName = SLASH_CONSOLE1
+TukuiChat.RightChatName = OTHER
 
 -- Update editbox border color
 function TukuiChat:UpdateEditBoxColor()
