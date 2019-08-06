@@ -1631,7 +1631,7 @@ GUI.Enable = function(self)
 	
 	-- Apply button
 	local Apply = CreateFrame("Frame", nil, self.Footer)
-	Apply:Size(FooterButtonWidth + 1, HeaderHeight)
+	Apply:Size(FooterButtonWidth + 3, HeaderHeight)
 	Apply:Point("LEFT", self.Footer, 0, 0)
 	Apply:SetTemplate(nil, Texture)
 	Apply:CreateShadow()
@@ -1657,7 +1657,7 @@ GUI.Enable = function(self)
 	
 	-- Reset button
 	local Reset = CreateFrame("Frame", nil, self.Footer)
-	Reset:Size(FooterButtonWidth + 1, HeaderHeight)
+	Reset:Size(FooterButtonWidth - 1, HeaderHeight)
 	Reset:Point("LEFT", Apply, "RIGHT", (Spacing - 1), 0)
 	Reset:SetTemplate(nil, Texture)
 	Reset:CreateShadow()
