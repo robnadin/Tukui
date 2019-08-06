@@ -3,7 +3,6 @@ local T, C, L = select(2, ...):unpack()
 --[[ TODO after classic release in this file ]]
 
 -- Translate the GUI
--- On option right-click, restore default value
 
 --[[ TODO after classic release in this file ]]
 
@@ -141,6 +140,14 @@ local PairsByKeys = function(t)
     return OrderedNext, t, nil
 end
 
+local Reverse = function(value)
+	if (value == true) then
+		return false
+	else
+		return true
+	end
+end
+
 -- Sections
 local CreateSection = function(self, text)
 	local Anchor = CreateFrame("Frame", nil, self)
@@ -155,6 +162,7 @@ local CreateSection = function(self, text)
 	
 	Section.Label = Section:CreateFontString(nil, "OVERLAY")
 	Section.Label:Point("CENTER", Section, LabelSpacing, 0)
+	Section.Label:Width(WidgetListWidth - (Spacing * 4))
 	StyleFont(Section.Label, Font, 12)
 	Section.Label:SetJustifyH("CENTER")
 	Section.Label:SetText(text)
@@ -208,12 +216,15 @@ local CreateButton = function(self, midtext, text, func)
 	
 	Button.Middle = Button:CreateFontString(nil, "OVERLAY")
 	Button.Middle:Point("CENTER", Button, 0, 0)
+	Button.Middle:Width(WidgetListWidth - (Spacing * 4))
 	StyleFont(Button.Middle, Font, 12)
 	Button.Middle:SetJustifyH("CENTER")
 	Button.Middle:SetText(midtext)
 	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("LEFT", Button, "RIGHT", Spacing, 0)
+	Button.Label:Width(WidgetListWidth - ButtonWidth - (Spacing * 4))
+	Button.Label:SetJustifyH("LEFT")
 	StyleFont(Button.Label, Font, 12)
 	Button.Label:SetText(text)
 	
@@ -227,8 +238,12 @@ GUI.Widgets.CreateButton = CreateButton
 -- Switches
 local SwitchWidth = 46
 
-local SwitchOnMouseUp = function(self)
+local SwitchOnMouseUp = function(self, button)
 	self.Thumb:ClearAllPoints()
+	
+	if (button == "RightButton") then
+		self.Value = Reverse(T.Defaults[self.Group][self.Option])
+	end
 	
 	if self.Value then
 		self.Thumb:Point("RIGHT", self, 0, 0)
@@ -298,6 +313,8 @@ local CreateSwitch = function(self, group, option, text)
 	
 	Switch.Label = Switch:CreateFontString(nil, "OVERLAY")
 	Switch.Label:Point("LEFT", Switch, "RIGHT", Spacing, 0)
+	Switch.Label:Width(WidgetListWidth - SwitchWidth - (Spacing * 4))
+	Switch.Label:SetJustifyH("LEFT")
 	StyleFont(Switch.Label, Font, 12)
 	Switch.Label:SetText(text)
 	
@@ -416,7 +433,7 @@ local EditBoxOnChar = function(self)
 	end
 end
 
-local EditBoxOnMouseDown = function(self)
+local EditBoxOnMouseDown = function(self, button)
 	self:SetAutoFocus(true)
 	self:SetText(self.Value)
 end
@@ -526,6 +543,8 @@ local CreateSlider = function(self, group, option, text, minvalue, maxvalue, ste
 	
 	Slider.Label = Slider:CreateFontString(nil, "OVERLAY")
 	Slider.Label:Point("LEFT", Slider, "RIGHT", LabelSpacing, 0)
+	Slider.Label:Width(WidgetListWidth - (SliderWidth + EditboxWidth) - (Spacing * 5))
+	Slider.Label:SetJustifyH("LEFT")
 	StyleFont(Slider.Label, Font, 12)
 	Slider.Label:SetText(text)
 	
@@ -600,40 +619,56 @@ local CloseLastDropdown = function(compare)
 	end
 end
 
-local DropdownButtonOnMouseUp = function(self)
+local DropdownButtonOnMouseUp = function(self, button)
 	self.Parent.Texture:SetVertexColor(unpack(BrightColor))
 	
-	if self.Menu:IsVisible() then
-		self.Menu.FadeOut:Play()
-		SetArrowDown(self)
-	else
-		for i = 1, #self.Menu do
-			if self.Parent.Type then
-				if (self.Menu[i].Key == self.Parent.Value) then
-					self.Menu[i].Selected:Show()
-					
-					if self.Parent.Type == "Texture" then
-						self.Menu[i].Selected:SetTexture(T.GetTexture(self.Parent.Value))
+	if (button == "LeftButton") then
+		if self.Menu:IsVisible() then
+			self.Menu.FadeOut:Play()
+			SetArrowDown(self)
+		else
+			for i = 1, #self.Menu do
+				if self.Parent.Type then
+					if (self.Menu[i].Key == self.Parent.Value) then
+						self.Menu[i].Selected:Show()
+						
+						if (self.Parent.Type == "Texture") then
+							self.Menu[i].Selected:SetTexture(T.GetTexture(self.Parent.Value))
+						end
+					else
+						self.Menu[i].Selected:Hide()
 					end
 				else
-					self.Menu[i].Selected:Hide()
-				end
-			else
-				if (self.Menu[i].Value == self.Parent.Value) then
-					self.Menu[i].Selected:Show()
-				else
-					self.Menu[i].Selected:Hide()
+					if (self.Menu[i].Value == self.Parent.Value) then
+						self.Menu[i].Selected:Show()
+					else
+						self.Menu[i].Selected:Hide()
+					end
 				end
 			end
+			
+			CloseLastDropdown(self)
+			self.Menu:Show()
+			self.Menu.FadeIn:Play()
+			SetArrowUp(self)
 		end
 		
-		CloseLastDropdown(self)
-		self.Menu:Show()
-		self.Menu.FadeIn:Play()
-		SetArrowUp(self)
+		LastActiveDropdown = self
+	else
+		local Value = T.Defaults[self.Parent.Group][self.Parent.Option]
+		
+		self.Parent.Value = Value
+		
+		if (self.Parent.Type == "Texture") then
+			self.Parent.Texture:SetTexture(T.GetTexture(Value))
+		elseif (self.Parent.Type == "Font") then
+			self.Parent.Current:SetFontObject(T.GetFont(Value))
+		end
+		
+		self.Parent.Current:SetText(self.Parent.Value)
+		
+		SetValue(self.Parent.Group, self.Parent.Option, self.Parent.Value)
 	end
-	
-	LastActiveDropdown = self
 end
 
 local DropdownButtonOnMouseDown = function(self)
@@ -836,6 +871,8 @@ local CreateDropdown = function(self, group, option, text, custom)
 	Dropdown:SetFrameLevel(self:GetFrameLevel() + 1)
 	Dropdown.Values = Selections
 	Dropdown.Value = Value
+	Dropdown.Group = group
+	Dropdown.Option = option
 	Dropdown.Type = custom
 	
 	Dropdown.Texture = Dropdown:CreateTexture(nil, "ARTWORK")
@@ -866,6 +903,8 @@ local CreateDropdown = function(self, group, option, text, custom)
 	
 	Dropdown.Label = Dropdown:CreateFontString(nil, "OVERLAY")
 	Dropdown.Label:Point("LEFT", Dropdown, "RIGHT", LabelSpacing, 0)
+	Dropdown.Label:Width(WidgetListWidth - DropdownWidth - (Spacing * 4))
+	Dropdown.Label:SetJustifyH("LEFT")
 	StyleFont(Dropdown.Label, Font, 12)
 	Dropdown.Label:SetJustifyH("LEFT")
 	Dropdown.Label:Width(DropdownWidth - 4)
@@ -911,12 +950,12 @@ local CreateDropdown = function(self, group, option, text, custom)
 	
 	Dropdown.Menu.FadeIn = Dropdown.Menu.Fade:CreateAnimation("Fade")
 	Dropdown.Menu.FadeIn:SetEasing("in-sinusoidal")
-	Dropdown.Menu.FadeIn:SetDuration(0.15)
+	Dropdown.Menu.FadeIn:SetDuration(0.3)
 	Dropdown.Menu.FadeIn:SetChange(1)
 	
 	Dropdown.Menu.FadeOut = Dropdown.Menu.Fade:CreateAnimation("Fade")
 	Dropdown.Menu.FadeOut:SetEasing("out-sinusoidal")
-	Dropdown.Menu.FadeOut:SetDuration(0.15)
+	Dropdown.Menu.FadeOut:SetDuration(0.3)
 	Dropdown.Menu.FadeOut:SetChange(0)
 	Dropdown.Menu.FadeOut:SetScript("OnFinished", function(self)
 		self:GetParent():Hide()
@@ -970,6 +1009,7 @@ local CreateDropdown = function(self, group, option, text, custom)
 		
 		MenuItem.Text = MenuItem:CreateFontString(nil, "OVERLAY")
 		MenuItem.Text:Point("LEFT", MenuItem, 5, 0)
+		MenuItem.Text:Width((DropdownWidth - 6) - (Spacing * 2))
 		MenuItem.Text:SetFontObject(T.GetFont("Tukui"))
 		MenuItem.Text:SetJustifyH("LEFT")
 		MenuItem.Text:SetText(k)
@@ -1054,45 +1094,54 @@ local ColorOnMouseUp = function(self, button)
 	
 	local CurrentR, CurrentG, CurrentB = unpack(self.Value)
 	
-	local ShowColorPickerFrame = function(r, g, b, func, cancel)
-		HideUIPanel(CPF)
-		CPF.Button = self
-		
-		CPF:SetColorRGB(CurrentR, CurrentG, CurrentB)
-		
-		CPF.Group = self.Group
-		CPF.Option = self.Option
-		CPF.OldR = CurrentR
-		CPF.OldG = CurrentG
-		CPF.OldB = CurrentB
-		CPF.previousValues = self.Value
-		CPF.func = func
-		CPF.opacityFunc = func
-		CPF.cancelFunc = cancel
-		
-		ShowUIPanel(CPF)
-	end
-	
-	local ColorPickerFunction = function(restore)
-		if (restore ~= nil or self ~= CPF.Button) then
-			return
+	if (button == "LeftButton") then
+		local ShowColorPickerFrame = function(r, g, b, func, cancel)
+			HideUIPanel(CPF)
+			CPF.Button = self
+			
+			CPF:SetColorRGB(CurrentR, CurrentG, CurrentB)
+			
+			CPF.Group = self.Group
+			CPF.Option = self.Option
+			CPF.OldR = CurrentR
+			CPF.OldG = CurrentG
+			CPF.OldB = CurrentB
+			CPF.previousValues = self.Value
+			CPF.func = func
+			CPF.opacityFunc = func
+			CPF.cancelFunc = cancel
+			
+			ShowUIPanel(CPF)
 		end
 		
-		local NewR, NewG, NewB = CPF:GetColorRGB()
+		local ColorPickerFunction = function(restore)
+			if (restore ~= nil or self ~= CPF.Button) then
+				return
+			end
+			
+			local NewR, NewG, NewB = CPF:GetColorRGB()
+			
+			NewR = Round(NewR, 3)
+			NewG = Round(NewG, 3)
+			NewB = Round(NewB, 3)
+			
+			local NewValue = {NewR, NewG, NewB}
+			
+			CPF.Button:GetParent():SetBackdropColor(NewR, NewG, NewB)
+			CPF.Button.Value = NewValue
+			
+			SetValue(CPF.Group, CPF.Option, NewValue)
+		end
 		
-		NewR = Round(NewR, 3)
-		NewG = Round(NewG, 3)
-		NewB = Round(NewB, 3)
+		ShowColorPickerFrame(CurrentR, CurrentG, CurrentB, ColorPickerFunction, ColorPickerFrameCancel)
+	else
+		local Value = T.Defaults[self.Group][self.Option]
 		
-		local NewValue = {NewR, NewG, NewB}
+		self:GetParent():SetBackdropColor(unpack(Value))
+		self.Value = Value
 		
-		CPF.Button:GetParent():SetBackdropColor(NewR, NewG, NewB)
-		CPF.Button.Value = NewValue
-		
-		SetValue(CPF.Group, CPF.Option, NewValue)
+		SetValue(self.Group, self.Option, Value)
 	end
-	
-	ShowColorPickerFrame(CurrentR, CurrentG, CurrentB, ColorPickerFunction, ColorPickerFrameCancel)
 end
 
 local ColorOnMouseDown = function(self)
@@ -1150,6 +1199,8 @@ local CreateColorSelection = function(self, group, option, text)
 	
 	Swatch.Label = Swatch:CreateFontString(nil, "OVERLAY")
 	Swatch.Label:Point("LEFT", Swatch.Select, "RIGHT", LabelSpacing, 0)
+	Swatch.Label:Width(WidgetListWidth - (ColorButtonWidth + WidgetHeight) - (Spacing * 5))
+	Swatch.Label:SetJustifyH("LEFT")
 	StyleFont(Swatch.Label, Font, 12)
 	Swatch.Label:SetJustifyH("LEFT")
 	Swatch.Label:Width(DropdownWidth - 4)
@@ -1413,6 +1464,7 @@ GUI.CreateWindow = function(self, name, default)
 	
 	Button.Label = Button:CreateFontString(nil, "OVERLAY")
 	Button.Label:Point("CENTER", Button, 0, 0)
+	Button.Label:Width(MenuButtonWidth - (Spacing * 2))
 	StyleFont(Button.Label, Font, 14)
 	Button.Label:SetText(name)
 	
@@ -1598,6 +1650,7 @@ GUI.Enable = function(self)
 	
 	Apply.Middle = Apply:CreateFontString(nil, "OVERLAY")
 	Apply.Middle:Point("CENTER", Apply, 0, 0)
+	Apply.Middle:Width(FooterButtonWidth - (Spacing * 2))
 	StyleFont(Apply.Middle, Font, 14)
 	Apply.Middle:SetJustifyH("CENTER")
 	Apply.Middle:SetText("Apply")
@@ -1625,6 +1678,7 @@ GUI.Enable = function(self)
 	
 	Reset.Middle = Reset:CreateFontString(nil, "OVERLAY")
 	Reset.Middle:Point("CENTER", Reset, 0, 0)
+	Reset.Middle:Width(FooterButtonWidth - (Spacing * 2))
 	StyleFont(Reset.Middle, Font, 14)
 	Reset.Middle:SetJustifyH("CENTER")
 	Reset.Middle:SetText("Reset")
@@ -1652,6 +1706,7 @@ GUI.Enable = function(self)
 	
 	Move.Middle = Move:CreateFontString(nil, "OVERLAY")
 	Move.Middle:Point("CENTER", Move, 0, 0)
+	Move.Middle:Width(FooterButtonWidth - (Spacing * 2))
 	StyleFont(Move.Middle, Font, 14)
 	Move.Middle:SetJustifyH("CENTER")
 	Move.Middle:SetText("Move UI")
@@ -1677,6 +1732,7 @@ GUI.Enable = function(self)
 	
 	Credits.Middle = Credits:CreateFontString(nil, "OVERLAY")
 	Credits.Middle:Point("CENTER", Credits, 0, 0)
+	Credits.Middle:Width(FooterButtonWidth - (Spacing * 2))
 	StyleFont(Credits.Middle, Font, 14)
 	Credits.Middle:SetJustifyH("CENTER")
 	Credits.Middle:SetText("Credits")

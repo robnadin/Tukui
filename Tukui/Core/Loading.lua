@@ -2,6 +2,30 @@ local T, C, L = select(2, ...):unpack()
 
 local Loading = CreateFrame("Frame")
 
+function Loading:StoreDefaults()
+	T.Defaults = {}
+	
+	for group, options in pairs(C) do
+		if (not T.Defaults[group]) then
+			T.Defaults[group] = {}
+		end
+		
+		for option, value in pairs(options) do
+			T.Defaults[group][option] = value
+			
+			if (type(C[group][option]) == "table") then
+				if C[group][option].Options then
+					T.Defaults[group][option] = value.Value
+				else
+					T.Defaults[group][option] = value
+				end
+			else
+				T.Defaults[group][option] = value
+			end
+		end
+	end
+end
+
 function Loading:LoadCustomSettings()
 	local Settings
 	
@@ -57,7 +81,8 @@ end
 
 function Loading:Enable()
 	local Toolkit = T00LKIT
-
+	
+	self:StoreDefaults()
 	self:LoadCustomSettings()
 	
 	Toolkit.Settings.BackdropColor = C.General.BackdropColor
