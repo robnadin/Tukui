@@ -205,7 +205,7 @@ function TukuiChat:SetDefaultChatFramesPositions()
 		TukuiData[GetRealmName()][UnitName("Player")].Chat = {}
 	end
 
-	local Width = T["Panels"].DataTextLeft:GetWidth()
+	local Width = 370
 
 	for i = 1, NUM_CHAT_WINDOWS do
 		local Frame = _G["ChatFrame"..i]

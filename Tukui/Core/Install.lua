@@ -1,11 +1,20 @@
 local T, C, L = select(2, ...):unpack()
 
 local Install = CreateFrame("Frame", nil, UIParent)
-Install.MaxStepNumber = 3
-Install.CurrentStep = 0
-Install.Width = 500
-Install.Height = 200
 
+-- Create a Tukui popup for resets
+T.Popups.Popup["TUKUI_RESET_SETTINGS"] = {
+	Question = "This will clear all of your saved settings. Continue?",
+	Answer1 = ACCEPT,
+	Answer2 = CANCEL,
+	Function1 = function(self)
+		Install.ResetSettings()
+		
+		ReloadUI()
+	end,
+}
+
+-- Reset GUI settings
 function Install:ResetSettings()
 	if TukuiUseGlobal then
 		TukuiSettings = {}
@@ -18,6 +27,7 @@ function Install:ResetSettings()
 	end
 end
 
+-- Reset datatext & chats
 function Install:ResetData()
 	if (T.DataTexts) then
 		T.DataTexts:Reset()
@@ -36,21 +46,8 @@ function Install:ResetData()
 	ReloadUI()
 end
 
--- Create a Tukui popup for resets
-T.Popups.Popup["TUKUI_RESET_SETTINGS"] = {
-	Question = "This will clear all of your saved settings. Continue?",
-	Answer1 = ACCEPT,
-	Answer2 = CANCEL,
-	Function1 = function(self)
-		Install.ResetSettings()
-		
-		ReloadUI()
-	end,
-}
-
-function Install:Step1()
-	local ActionBars = C.ActionBars.Enable
-
+-- Apply these defaults automaticaly when a new character is created
+function Install:SetDefaults()
 	-- CVars
 	SetCVar("countdownForCooldowns", 1)
 	SetCVar("buffDurations", 1)
@@ -72,190 +69,18 @@ function Install:Step1()
 	SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("nameplateMotion", 0)
 	
-	self:Hide()
-end
-
-function Install:Step2()
+	-- ChatFrames
 	local Chat = T["Chat"]
 
-	if (not Chat) then
-		return
+	if (Chat) then
+		Chat:Install()
 	end
-
-	Chat:Install()
 	
-	self:Hide()
+	TukuiData[GetRealmName()][UnitName("Player")].InstallDone = true
 end
 
-function Install:PrintStep(number)
-	local ExecuteScript = self["Step" .. number]
-	local Text = L.Install["InstallStep" .. number]
-	local R, G, B = T.ColorGradient(number, self.MaxStepNumber, 1, 0.2, 0.2, 1, 1, 0, 0.2, 1, 0.2)
-
-	if (not Text) then
-		self:Hide()
-
-		if (number > self.MaxStepNumber) then
-			TukuiData[GetRealmName()][UnitName("Player")].InstallDone = true
-
-			ReloadUI()
-		end
-
-		return
-	end
-
-	self.CurrentStep = number
-
-	if (number == 0) then
-		self.LeftButton.Text:SetText(CLOSE)
-		self.LeftButton:SetScript("OnClick", function() self:Hide() end)
-		self.RightButton.Text:SetText(NEXT)
-		self.RightButton:SetScript("OnClick", function() self.PrintStep(self, self.CurrentStep + 1) end)
-		self.MiddleButton:Hide()
-		self.CloseButton:Show()
-	else
-		self.LeftButton:SetScript("OnClick", function() self.PrintStep(self, self.CurrentStep - 1) end)
-		self.LeftButton.Text:SetText(PREVIOUS)
-		self.MiddleButton.Text:SetText(APPLY)
-		self.RightButton:SetScript("OnClick", function() self.PrintStep(self, self.CurrentStep + 1) end)
-
-		if (number == Install.MaxStepNumber) then
-			self.RightButton.Text:SetText(COMPLETE)
-			self.CloseButton:Hide()
-			self.MiddleButton:Hide()
-		else
-			self.RightButton.Text:SetText(NEXT)
-			self.CloseButton:Show()
-			self.MiddleButton:Show()
-		end
-		
-		if (self.MiddleButton:IsVisible()) then
-			self.MiddleButton:Show()
-		end
-
-		if (ExecuteScript) then
-			self.MiddleButton:SetScript("OnClick", ExecuteScript)
-		end
-	end
-
-	self.Text:SetText(Text)
-
-	self.StatusBar.Anim:SetChange(number)
-	self.StatusBar.Anim:Play()
-
-	self.StatusBar.Anim2:SetChange(R, G, B)
-	self.StatusBar.Anim2:Play()
-end
-
-function Install:Launch()
-	if (self.Description) then
-		self:Show()
-		return
-	end
-
-	local R, G, B = T.ColorGradient(0, self.MaxStepNumber, 1, 0.2, 0.2, 1, 1, 0, 0.2, 1, 0.2)
-
-	self.Description = CreateFrame("Frame", nil, self)
-	self.Description:Size(self.Width, self.Height)
-	self.Description:Point("CENTER", self, "CENTER")
-	self.Description:SetTemplate()
-	self.Description:CreateShadow()
-	self.Description:RegisterEvent("PLAYER_REGEN_DISABLED")
-	self.Description:RegisterEvent("PLAYER_REGEN_ENABLED")
-	self.Description:SetFrameLevel(self:GetFrameLevel() - 1)
-	self.Description:SetScript("OnEvent", function(self, event)
-		if (event == "PLAYER_REGEN_DISABLED") then
-			Install:Hide()
-		else
-			if (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
-				Install:Show()
-			end
-		end
-	end)
-
-	self.StatusBar = CreateFrame("StatusBar", nil, self)
-	self.StatusBar:SetStatusBarTexture(C.Medias.Normal)
-	self.StatusBar:Point("BOTTOM", self.Description, "TOP", 0, 6)
-	self.StatusBar:Height(20)
-	self.StatusBar:Width(self.Description:GetWidth() - 4)
-	self.StatusBar:CreateBackdrop()
-	self.StatusBar.Backdrop:CreateShadow()
-	self.StatusBar:SetStatusBarColor(R, G, B)
-	self.StatusBar:SetMinMaxValues(0, self.MaxStepNumber)
-	self.StatusBar:SetValue(0)
-
-	self.StatusBar.Anim = CreateAnimationGroup(self.StatusBar):CreateAnimation("Progress")
-	self.StatusBar.Anim:SetDuration(0.3)
-	self.StatusBar.Anim:SetSmoothing("InOut")
-
-	self.StatusBar.Anim2 = CreateAnimationGroup(self.StatusBar):CreateAnimation("Color")
-	self.StatusBar.Anim2:SetDuration(0.3)
-	self.StatusBar.Anim2:SetSmoothing("InOut")
-	self.StatusBar.Anim2:SetColorType("StatusBar")
-
-	self.Logo = self.StatusBar:CreateTexture(nil, "OVERLAY")
-	self.Logo:Size(256, 128)
-	self.Logo:SetTexture(C.Medias.Logo)
-	self.Logo:Point("TOP", self.Description, "TOP", -8, 88)
-
-	self.LeftButton = CreateFrame("Button", nil, self)
-	self.LeftButton:Point("TOPLEFT", self.Description, "BOTTOMLEFT", 0, -4)
-	self.LeftButton:Size(128, 25)
-	self.LeftButton:SkinButton()
-	self.LeftButton:CreateShadow()
-	self.LeftButton.Text = self.LeftButton:CreateFontString(nil, "OVERLAY")
-	self.LeftButton.Text:SetFontTemplate(C.Medias.Font, 12)
-	self.LeftButton.Text:SetPoint("CENTER")
-	self.LeftButton.Text:SetText(CLOSE)
-	self.LeftButton:SetScript("OnClick", function() self:Hide() end)
-
-	self.RightButton = CreateFrame("Button", nil, self)
-	self.RightButton:Point("TOPRIGHT", self.Description, "BOTTOMRIGHT", 0, -4)
-	self.RightButton:Size(128, 25)
-	self.RightButton:SkinButton()
-	self.RightButton:CreateShadow()
-	self.RightButton.Text = self.RightButton:CreateFontString(nil, "OVERLAY")
-	self.RightButton.Text:SetFontTemplate(C.Medias.Font, 12)
-	self.RightButton.Text:SetPoint("CENTER")
-	self.RightButton.Text:SetText(NEXT)
-	self.RightButton:SetScript("OnClick", function() self.PrintStep(self, self.CurrentStep + 1) end)
-
-	self.MiddleButton = CreateFrame("Button", nil, self)
-	self.MiddleButton:Point("TOPLEFT", self.LeftButton, "TOPRIGHT", 4, 0)
-	self.MiddleButton:Point("BOTTOMRIGHT", self.RightButton, "BOTTOMLEFT", -4, 0)
-	self.MiddleButton:SkinButton()
-	self.MiddleButton:CreateShadow()
-	self.MiddleButton.Text = self.MiddleButton:CreateFontString(nil, "OVERLAY")
-	self.MiddleButton.Text:SetFontTemplate(C.Medias.Font, 12)
-	self.MiddleButton.Text:SetPoint("CENTER")
-	self.MiddleButton:Hide()
-
-	self.CloseButton = CreateFrame("Button", nil, self)
-	self.CloseButton:Point("TOPRIGHT", self.Description, "TOPRIGHT", -6, -12)
-	self.CloseButton:Size(12)
-	self.CloseButton.Text = self.CloseButton:CreateFontString(nil, "OVERLAY")
-	self.CloseButton.Text:SetFontTemplate(C.Medias.Font, 12)
-	self.CloseButton.Text:SetPoint("CENTER")
-	self.CloseButton.Text:SetText("X")
-	self.CloseButton:SetScript("OnClick", function() self:Hide() end)
-
-	self.Text = self.Description:CreateFontString(nil, "OVERLAY")
-	self.Text:Size(self.Description:GetWidth() - 40, self.Description:GetHeight() - 60)
-	self.Text:SetJustifyH("LEFT")
-	self.Text:SetJustifyV("TOP")
-	self.Text:SetFont(C.Medias.Font, 12)
-	self.Text:SetPoint("TOPLEFT", 20, -40)
-	self.Text:SetText(L.Install.InstallStep0)
-
-	self:SetAllPoints(UIParent)
-end
-
-Install:RegisterEvent("ADDON_LOADED")
-Install:SetScript("OnEvent", function(self, event, addon)
-	if (addon ~= "Tukui") then
-		return
-	end
-
+Install:RegisterEvent("VARIABLES_LOADED")
+Install:SetScript("OnEvent", function(self, event)
 	local Name = UnitName("Player")
 	local Realm = GetRealmName()
 
@@ -271,18 +96,9 @@ Install:SetScript("OnEvent", function(self, event, addon)
 		TukuiData[Realm][Name] = {}
 	end
 
-	if (TukuiDataPerChar) then
-		TukuiData[Realm][Name] = TukuiDataPerChar
-		TukuiDataPerChar = nil
+	if (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
+		self:SetDefaults()
 	end
-
-	local IsInstalled = TukuiData[GetRealmName()][UnitName("Player")].InstallDone
-
-	if (not IsInstalled) then
-		self:Launch()
-	end
-
-	self:UnregisterEvent("ADDON_LOADED")
 end)
 
 T["Install"] = Install
