@@ -160,7 +160,7 @@ function Bags:CreateContainer(storagetype, ...)
 
 	if (storagetype == "Bag") then
 		local BagsContainer = CreateFrame("Frame", nil, UIParent)
-		local ToggleBagsContainer = CreateFrame("Frame")
+		local ToggleBagsContainer = CreateFrame("Button")
 
 		BagsContainer:SetParent(Container)
 		BagsContainer:SetWidth(10)
@@ -175,13 +175,9 @@ function Bags:CreateContainer(storagetype, ...)
 		ToggleBagsContainer:SetPoint("TOPRIGHT", Container, "TOPRIGHT", -6, -6)
 		ToggleBagsContainer:SetParent(Container)
 		ToggleBagsContainer:EnableMouse(true)
-		ToggleBagsContainer.Text = ToggleBagsContainer:CreateFontString("button")
-		ToggleBagsContainer.Text:SetPoint("CENTER", ToggleBagsContainer, "CENTER")
-		ToggleBagsContainer.Text:SetFontObject(Font)
-		ToggleBagsContainer.Text:SetText("X")
-		ToggleBagsContainer.Text:SetTextColor(.5, .5, .5)
-		ToggleBagsContainer:SetScript("OnEnter", Bags.DisplayCloseButtonTooltip)
-		ToggleBagsContainer:SetScript("OnLeave", GameTooltip_Hide)
+		ToggleBagsContainer:SkinCloseButton()
+		ToggleBagsContainer:HookScript("OnEnter", Bags.DisplayCloseButtonTooltip)
+		ToggleBagsContainer:HookScript("OnLeave", GameTooltip_Hide)
 		ToggleBagsContainer:SetScript("OnMouseUp", function(self, button)
 			local Purchase = BankFramePurchaseInfo
 
@@ -194,7 +190,6 @@ function Bags:CreateContainer(storagetype, ...)
 					BagsContainer:Show()
 					BanksContainer:Show()
 					BanksContainer:ClearAllPoints()
-					ToggleBagsContainer.Text:SetTextColor(1, 1, 1)
 
 					if Purchase:IsShown() then
 						BanksContainer:SetPoint("BOTTOMLEFT", Purchase, "TOPLEFT", 50, 2)
@@ -207,7 +202,6 @@ function Bags:CreateContainer(storagetype, ...)
 					ReplaceBags = 0
 					BagsContainer:Hide()
 					BanksContainer:Hide()
-					ToggleBagsContainer.Text:SetTextColor(.4, .4, .4)
 				end
 			else
 				CloseAllBags()
@@ -320,10 +314,6 @@ function Bags:CreateContainer(storagetype, ...)
 	end
 
 	self[storagetype] = Container
-end
-
-function Bags:SetBagsSearchPosition()
-
 end
 
 function Bags:SlotUpdate(id, button)
