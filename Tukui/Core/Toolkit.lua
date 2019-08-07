@@ -12,9 +12,11 @@ Toolkit:Enable()
 -- Settings we want to use for our API
 Settings.NormalTexture = C.Medias.Blank
 Settings.ShadowTexture = C.Medias.Glow
+Settings.ArrowUpTexture = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]]
+Settings.ArrowDownTexture = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]
+Settings.CloseTexture = [[Interface\AddOns\Tukui\Medias\Textures\Others\Close]]
+Settings.ArrowDownTexture = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]
 Settings.DefaultFont = C.Medias.Font
 Settings.BackdropColor = C.General.BackdropColor
 Settings.BorderColor = C.General.BorderColor
-Settings.ArrowUp = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]]
-Settings.ArrowDown = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]]
 Settings.ClassColors = T.Colors.class
