@@ -41,6 +41,7 @@ Usage example in Tukui [Tukui\Core\Toolkit.lua]:
 	Settings.BorderColor = C.General.BorderColor
 	Settings.ArrowUpTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowUp"
 	Settings.ArrowDownTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown"
+	Settings.CloseTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\Close"
 
 --]]--------------------------------------------------------------------------------------
 
