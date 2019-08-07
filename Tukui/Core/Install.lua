@@ -42,6 +42,8 @@ function Install:ResetData()
 	if ChatConfigFrame:IsShown() then
 		ChatConfig_UpdateChatSettings()
 	end
+	
+	self:SetDefaults()
 
 	ReloadUI()
 end
