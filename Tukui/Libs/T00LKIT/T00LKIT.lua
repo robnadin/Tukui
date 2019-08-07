@@ -309,10 +309,21 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 end
 
 Toolkit.API.SetBorderColor = function(self, R, G, B, Alpha)
-	self.BorderTop:SetColorTexture(R, G, B, Alpha)
-	self.BorderBottom:SetColorTexture(R, G, B, Alpha)
-	self.BorderRight:SetColorTexture(R, G, B, Alpha)
-	self.BorderLeft:SetColorTexture(R, G, B, Alpha)
+	if self.BorderTop then
+		self.BorderTop:SetColorTexture(R, G, B, Alpha)
+	end
+	
+	if self.BorderBottom then
+		self.BorderBottom:SetColorTexture(R, G, B, Alpha)
+	end
+	
+	if self.BorderRight then
+		self.BorderRight:SetColorTexture(R, G, B, Alpha)
+	end
+	
+	if self.BorderLeft then
+		self.BorderLeft:SetColorTexture(R, G, B, Alpha)
+	end
 end
 
 Toolkit.API.CreateBackdrop = function(self, Template, Texture)
