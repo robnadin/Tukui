@@ -39,8 +39,8 @@ Usage example in Tukui [Tukui\Core\Toolkit.lua]:
 	Settings.DefaultFont = C.Medias.Font
 	Settings.BackdropColor = C.General.BackdropColor
 	Settings.BorderColor = C.General.BorderColor
-	Settings.ArrowUp = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowUp"
-	Settings.ArrowDown = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown"
+	Settings.ArrowUpTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowUp"
+	Settings.ArrowDownTexture = "Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\ArrowDown"
 
 --]]--------------------------------------------------------------------------------------
 
@@ -105,6 +105,15 @@ Toolkit.API.StripTextures = function(self, Kill)
 			else
 				Region:SetTexture(nil)
 			end
+		end
+	end
+end
+
+Toolkit.API.StripTexts = function(self, Kill)
+	for i = 1, self:GetNumRegions() do
+		local Region = select(i, self:GetRegions())
+		if (Region and Region:GetObjectType() == "FontString") then
+			Region:SetText("")
 		end
 	end
 end
@@ -197,32 +206,28 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 	self:SetBackdrop({bgFile = BackgroundTexture or Toolkit.Settings.NormalTexture})
 	self:SetBackdropColor(BackdropR, BackdropG, BackdropB, BackgroundAlpha)
 
-	self.FrameRaised = CreateFrame("Frame", nil, self)
-	self.FrameRaised:SetFrameLevel(self:GetFrameLevel() + 1)
-	self.FrameRaised:SetAllPoints()
-
-	self.BorderTop = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	self.BorderTop = self:CreateTexture(nil, "BORDER", nil, 1)
 	self.BorderTop:Size(1, 1)
 	self.BorderTop:Point("TOPLEFT", self, "TOPLEFT", 0, 0)
 	self.BorderTop:Point("TOPRIGHT", self, "TOPRIGHT", 0, 0)
 	self.BorderTop:SetSnapToPixelGrid(false)
 	self.BorderTop:SetTexelSnappingBias(0)
 	
-	self.BorderBottom = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	self.BorderBottom = self:CreateTexture(nil, "BORDER", nil, 1)
 	self.BorderBottom:Size(1, 1)
 	self.BorderBottom:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
 	self.BorderBottom:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
 	self.BorderBottom:SetSnapToPixelGrid(false)
 	self.BorderBottom:SetTexelSnappingBias(0)
 
-	self.BorderLeft = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	self.BorderLeft = self:CreateTexture(nil, "BORDER", nil, 1)
 	self.BorderLeft:Size(1, 1)
 	self.BorderLeft:Point("TOPLEFT", self, "TOPLEFT", 0, 0)
 	self.BorderLeft:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
 	self.BorderLeft:SetSnapToPixelGrid(false)
 	self.BorderLeft:SetTexelSnappingBias(0)
 
-	self.BorderRight = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	self.BorderRight = self:CreateTexture(nil, "BORDER", nil, 1)
 	self.BorderRight:Size(1, 1)
 	self.BorderRight:Point("TOPRIGHT", self, "TOPRIGHT", 0, 0)
 	self.BorderRight:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
@@ -231,57 +236,57 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 	
 	self:SetBorderColor(BorderR, BorderG, BorderB, BorderA)
 	
-	if (BorderTemplate == "TRIPLE") then
-		self.OutsideBorderTop = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+	if (BorderTemplate == "Triple") then
+		self.OutsideBorderTop = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.OutsideBorderTop:Size(1, 1)
 		self.OutsideBorderTop:Point("TOPLEFT", self, "TOPLEFT", -1, 1)
 		self.OutsideBorderTop:Point("TOPRIGHT", self, "TOPRIGHT", 1, -1)
 		self.OutsideBorderTop:SetSnapToPixelGrid(false)
 		self.OutsideBorderTop:SetTexelSnappingBias(0)
 
-		self.OutsideBorderBottom = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+		self.OutsideBorderBottom = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.OutsideBorderBottom:Size(1, 1)
 		self.OutsideBorderBottom:Point("BOTTOMLEFT", self, "BOTTOMLEFT", -1, -1)
 		self.OutsideBorderBottom:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", 1, -1)
 		self.OutsideBorderBottom:SetSnapToPixelGrid(false)
 		self.OutsideBorderBottom:SetTexelSnappingBias(0)
 
-		self.OutsideBorderLeft = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+		self.OutsideBorderLeft = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.OutsideBorderLeft:Size(1, 1)
 		self.OutsideBorderLeft:Point("TOPLEFT", self, "TOPLEFT", -1, 1)
 		self.OutsideBorderLeft:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 1, -1)
 		self.OutsideBorderLeft:SetSnapToPixelGrid(false)
 		self.OutsideBorderLeft:SetTexelSnappingBias(0)
 
-		self.OutsideBorderRight = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+		self.OutsideBorderRight = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.OutsideBorderRight:Size(1, 1)
 		self.OutsideBorderRight:Point("TOPRIGHT", self, "TOPRIGHT", 1, 1)
 		self.OutsideBorderRight:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, -1)
 		self.OutsideBorderRight:SetSnapToPixelGrid(false)
 		self.OutsideBorderRight:SetTexelSnappingBias(0)
 
-		self.InsideBorderTop = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+		self.InsideBorderTop = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.InsideBorderTop:Size(1, 1)
 		self.InsideBorderTop:Point("TOPLEFT", self, "TOPLEFT", 1, -1)
 		self.InsideBorderTop:Point("TOPRIGHT", self, "TOPRIGHT", -1, 1)
 		self.InsideBorderTop:SetSnapToPixelGrid(false)
 		self.InsideBorderTop:SetTexelSnappingBias(0)
 
-		self.InsideBorderBottom = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+		self.InsideBorderBottom = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.InsideBorderBottom:Size(1, 1)
 		self.InsideBorderBottom:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 1, 1)
 		self.InsideBorderBottom:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
 		self.InsideBorderBottom:SetSnapToPixelGrid(false)
 		self.InsideBorderBottom:SetTexelSnappingBias(0)
 
-		self.InsideBorderLeft = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+		self.InsideBorderLeft = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.InsideBorderLeft:Size(1, 1)
 		self.InsideBorderLeft:Point("TOPLEFT", self, "TOPLEFT", 1, -1)
 		self.InsideBorderLeft:Point("BOTTOMLEFT", self, "BOTTOMLEFT", -1, 1)
 		self.InsideBorderLeft:SetSnapToPixelGrid(false)
 		self.InsideBorderLeft:SetTexelSnappingBias(0)
 
-		self.InsideBorderRight = self.FrameRaised:CreateTexture(nil, "OVERLAY")
+		self.InsideBorderRight = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.InsideBorderRight:Size(1, 1)
 		self.InsideBorderRight:Point("TOPRIGHT", self, "TOPRIGHT", -1, -1)
 		self.InsideBorderRight:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", 1, 1)
@@ -292,6 +297,7 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 		self.OutsideBorderBottom:SetColorTexture(0, 0, 0, 1)
 		self.OutsideBorderLeft:SetColorTexture(0, 0, 0, 1)
 		self.OutsideBorderRight:SetColorTexture(0, 0, 0, 1)
+		
 		self.InsideBorderTop:SetColorTexture(0, 0, 0, 1)
 		self.InsideBorderBottom:SetColorTexture(0, 0, 0, 1)
 		self.InsideBorderLeft:SetColorTexture(0, 0, 0, 1)
@@ -463,11 +469,13 @@ Toolkit.API.SkinCloseButton = function(self, OffsetX, OffsetY, CloseSize)
 	self:SetHighlightTexture("")
 	self:SetDisabledTexture("")
 
-	self.Text = self:CreateFontString(nil, "OVERLAY")
-	self.Text:SetFont(Toolkit.Settings.DefaultFont, 12, "OUTLINE")
-	self.Text:SetPoint("CENTER", 0, 1)
-	self.Text:SetText("X")
-	self.Text:SetTextColor(.5, .5, .5)
+	self.Texture = self:CreateTexture(nil, "OVERLAY")
+	self.Texture:Point("CENTER", OffsetX or 0, OffsetY or 0)
+	self.Texture:Size(CloseSize or 12)
+	self.Texture:SetTexture(Toolkit.Settings.CloseTexture)
+	
+	self:SetScript("OnEnter", function(self) self.Texture:SetVertexColor(1, 0, 0) end)
+	self:SetScript("OnLeave", function(self) self.Texture:SetVertexColor(1, 1, 1) end)
 end
 
 Toolkit.API.SkinEditBox = function(self)
@@ -635,7 +643,7 @@ Toolkit.API.SkinScrollBar = function(self)
 			ScrollUpButton.texture = ScrollUpButton:CreateTexture(nil, "OVERLAY")
 			ScrollUpButton.texture:Point("TOPLEFT", 2, -2)
 			ScrollUpButton.texture:Point("BOTTOMRIGHT", -2, 2)
-			ScrollUpButton.texture:SetTexture(Toolkit.Settings.ArrowUp)
+			ScrollUpButton.texture:SetTexture(Toolkit.Settings.ArrowUpTexture)
 			ScrollUpButton.texture:SetVertexColor(unpack(Toolkit.Settings.BorderColor))
 		end
 
@@ -644,7 +652,7 @@ Toolkit.API.SkinScrollBar = function(self)
 
 		if not ScrollDownButton.texture then
 			ScrollDownButton.texture = ScrollDownButton:CreateTexture(nil, "OVERLAY")
-			ScrollDownButton.texture:SetTexture(Toolkit.Settings.ArrowDown)
+			ScrollDownButton.texture:SetTexture(Toolkit.Settings.ArrowDownTexture)
 			ScrollDownButton.texture:SetVertexColor(unpack(Toolkit.Settings.BorderColor))
 			ScrollDownButton.texture:Point("TOPLEFT", 2, -2)
 			ScrollDownButton.texture:Point("BOTTOMRIGHT", -2, 2)
@@ -712,11 +720,12 @@ Toolkit.Functions.RegisterDefaultSettings = function(self)
 	self.Settings.NormalTexture = "Interface\\Buttons\\WHITE8x8"
 	self.Settings.GlowTexture = ""
 	self.Settings.ShadowTexture = ""
+	self.Settings.CloseTexture = ""
+	self.Settings.ArrowUpTexture = ""
+	self.Settings.ArrowDownTexture = ""
 	self.Settings.DefaultFont = "STANDARD_TEXT_FONT"
 	self.Settings.BackdropColor = { .1,.1,.1 }
 	self.Settings.BorderColor = { 0, 0, 0 }
-	self.Settings.ArrowUp = ""
-	self.Settings.ArrowDown = ""
 end
 
 ---------------------------------------------------
