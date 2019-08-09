@@ -35,7 +35,7 @@ function Install:ResetData()
 
 	TukuiData[GetRealmName()][UnitName("Player")] = {}
 
-	TukuiUseGlobal = true -- Use global by default
+	TukuiUseGlobal = false
 	
 	FCF_ResetChatWindows()
 	
