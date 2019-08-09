@@ -366,7 +366,6 @@ local Update = function(self, event)
 	end
 
 	local BNTotal = BNGetNumFriends()
-	local Total = C_FriendList.GetNumFriends()
 
 	if BNTotal == #BNTable then
 		UpdateBNTable(BNTotal)
