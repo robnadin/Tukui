@@ -163,7 +163,7 @@ local OnEnter = function(self)
 				Count = Count + 1
 			end
 			
-			local MaxOnlineGuildMembersToDisplay = (T.ScreenHeight / 100) * 2
+			local MaxOnlineGuildMembersToDisplay = floor((T.ScreenHeight / 100) * 2)
 			
 			if Count > MaxOnlineGuildMembersToDisplay then
 				GameTooltip:AddLine(" ")
