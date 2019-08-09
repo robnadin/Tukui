@@ -219,10 +219,9 @@ function TukuiChat:SetDefaultChatFramesPositions()
 			Frame:ClearAllPoints()
 			Frame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 34, 50)
 		elseif (ID == 4) then
-			if (not Frame.isDocked) then
-				Frame:ClearAllPoints()
-				Frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -34, 50)
-			end
+			FCF_UnDockFrame(ChatFrame4)
+			Frame:ClearAllPoints()
+			Frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -34, 50)
 		end
 
 		if (ID == 1) then
@@ -288,7 +287,6 @@ function TukuiChat:Install()
 	FCF_SetLocked(ChatFrame3, 1)
 	FCF_DockFrame(ChatFrame3)
 	FCF_OpenNewWindow(self.RightChatName)
-	FCF_UnDockFrame(ChatFrame4)
 
 	-- Enable Classcolor
 	ToggleChatColorNamesByClassGroup(true, "SAY")
@@ -299,11 +297,15 @@ function TukuiChat:Install()
 end
 
 function TukuiChat:MoveChannels()
-	-- ChatFrame 1
-	ChatFrame_RemoveAllMessageGroups(ChatFrame1)
-	ChatFrame_RemoveChannel(ChatFrame1, "General")
-	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
-	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
+	-- Remove everything in 3 and 4
+	for i = 1, 4 do
+		if i ~= 2 then
+			local ChatFrame = _G["ChatFrame"..i]
+
+			ChatFrame_RemoveAllMessageGroups(ChatFrame)
+		end
+	end
+	
 	ChatFrame_AddMessageGroup(ChatFrame1, "SAY")
 	ChatFrame_AddMessageGroup(ChatFrame1, "EMOTE")
 	ChatFrame_AddMessageGroup(ChatFrame1, "YELL")
@@ -333,17 +335,6 @@ function TukuiChat:MoveChannels()
 	ChatFrame_AddMessageGroup(ChatFrame1, "BN_WHISPER")
 	ChatFrame_AddMessageGroup(ChatFrame1, "BN_CONVERSATION")
 	
-	-- ChatFrame 3
-	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
-	T.Delay(5, function() 
-		-- need to delay this and I don't know why
-		ChatFrame_AddChannel(ChatFrame3, "General")
-		ChatFrame_AddChannel(ChatFrame3, "Trade")
-		ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
-	end)
-
-	-- ChatFrame 4 [right chat]
-	ChatFrame_RemoveAllMessageGroups(ChatFrame4)
 	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_XP_GAIN")
 	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_HONOR_GAIN")
 	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_FACTION_CHANGE")
@@ -354,6 +345,16 @@ function TukuiChat:MoveChannels()
 	ChatFrame_AddMessageGroup(ChatFrame4, "IGNORED")
 	ChatFrame_AddMessageGroup(ChatFrame4, "SKILL")
 	ChatFrame_AddMessageGroup(ChatFrame4, "CURRENCY")
+	
+	T.Delay(5, function()
+		ChatFrame_AddChannel(ChatFrame3, "General")
+		ChatFrame_AddChannel(ChatFrame3, "Trade")
+		ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
+	end)
+
+	ChatFrame_RemoveChannel(ChatFrame1, "General")
+	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
+	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
 end
 
 function TukuiChat:OnMouseWheel(delta)
