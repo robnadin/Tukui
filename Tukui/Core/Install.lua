@@ -71,35 +71,47 @@ function Install:SetDefaults()
 	SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("nameplateMotion", 0)
 	
-	-- ChatFrames
 	local Chat = T["Chat"]
 
 	if (Chat) then
 		Chat:Install()
 	end
+end
+
+function Install:MoveChannels()
+	local Chat = T["Chat"]
+
+	if (Chat) then
+		Chat:MoveChannels()
+	end
 	
-	TukuiData[GetRealmName()][UnitName("Player")].InstallDone = true
+	TukuiData[GetRealmName()][UnitName("Player")].InstallDone = true	
 end
 
 Install:RegisterEvent("VARIABLES_LOADED")
+Install:RegisterEvent("PLAYER_ENTERING_WORLD")
 Install:SetScript("OnEvent", function(self, event)
-	local Name = UnitName("Player")
-	local Realm = GetRealmName()
+	if (event == "VARIABLES_LOADED") then
+		local Name = UnitName("Player")
+		local Realm = GetRealmName()
 
-	if (not TukuiData) then
-		TukuiData = {}
-	end
+		if (not TukuiData) then
+			TukuiData = {}
+		end
 
-	if (not TukuiData[Realm]) then
-		TukuiData[Realm] = {}
-	end
+		if (not TukuiData[Realm]) then
+			TukuiData[Realm] = {}
+		end
 
-	if (not TukuiData[Realm][Name]) then
-		TukuiData[Realm][Name] = {}
-	end
+		if (not TukuiData[Realm][Name]) then
+			TukuiData[Realm][Name] = {}
+		end
 
-	if (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
-		self:SetDefaults()
+		if (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
+			self:SetDefaults()
+		end
+	elseif (event == "PLAYER_ENTERING_WORLD") then
+		self:MoveChannels()
 	end
 end)
 

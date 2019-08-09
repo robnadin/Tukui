@@ -289,7 +289,16 @@ function TukuiChat:Install()
 	FCF_DockFrame(ChatFrame3)
 	FCF_OpenNewWindow(self.RightChatName)
 	FCF_UnDockFrame(ChatFrame4)
+
+	-- Enable Classcolor
+	ToggleChatColorNamesByClassGroup(true, "SAY")
+
+	DEFAULT_CHAT_FRAME:SetUserPlaced(true)
 	
+	self:SetDefaultChatFramesPositions()
+end
+
+function TukuiChat:MoveChannels()
 	local Transfers = {
 		"COMBAT_XP_GAIN",
 		"COMBAT_HONOR_GAIN",
@@ -332,13 +341,6 @@ function TukuiChat:Install()
 	for index, value in pairs(Transfers) do
 		ChatFrame_AddMessageGroup(ChatFrame4, value)
 	end
-
-	-- Enable Classcolor
-	ToggleChatColorNamesByClassGroup(true, "SAY")
-
-	DEFAULT_CHAT_FRAME:SetUserPlaced(true)
-	
-	self:SetDefaultChatFramesPositions()
 end
 
 function TukuiChat:OnMouseWheel(delta)
