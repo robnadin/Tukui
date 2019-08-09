@@ -219,7 +219,6 @@ function TukuiChat:SetDefaultChatFramesPositions()
 			Frame:ClearAllPoints()
 			Frame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 34, 50)
 		elseif (ID == 4) then
-			FCF_UnDockFrame(ChatFrame4)
 			Frame:ClearAllPoints()
 			Frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -34, 50)
 		end
@@ -279,14 +278,20 @@ end
 
 function TukuiChat:Install()
 	-- Create our custom chatframes
-	ResetChatWindows()
-	FCF_SetLocked(ChatFrame1, 1)
-	FCF_DockFrame(ChatFrame2)
-	FCF_SetLocked(ChatFrame2, 1)
-	FCF_OpenNewWindow(GENERAL)
-	FCF_SetLocked(ChatFrame3, 1)
-	FCF_DockFrame(ChatFrame3)
-	FCF_OpenNewWindow(self.RightChatName)
+	
+	if ChatFrame3 and ChatFrame3Tab:GetText() == GENERAL and ChatFrame4 and ChatFrame4Tab:GetText() == self.RightChatName then
+		-- Do nothing, chat already set
+	else
+		ResetChatWindows()
+		FCF_SetLocked(ChatFrame1, 1)
+		FCF_DockFrame(ChatFrame2)
+		FCF_SetLocked(ChatFrame2, 1)
+		FCF_OpenNewWindow(GENERAL)
+		FCF_SetLocked(ChatFrame3, 1)
+		FCF_DockFrame(ChatFrame3)
+		FCF_OpenNewWindow(self.RightChatName)
+		FCF_UnDockFrame(ChatFrame4)
+	end
 
 	-- Enable Classcolor
 	ToggleChatColorNamesByClassGroup(true, "SAY")
