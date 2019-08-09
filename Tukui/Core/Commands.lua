@@ -158,8 +158,11 @@ T.SlashHandler = function(cmd)
 		if not TukuiData then return end
 
 		if not arg2 then
+			print(" ")
 			T.Print("/tukui profile list")
+			print("     List current profiles available")
 			T.Print("/tukui profile #")
+			print("     Apply a profile, replace '#' with a profile number")
 			print(" ")
 		else
 			if arg2 == "list" or arg2 == "l" then
