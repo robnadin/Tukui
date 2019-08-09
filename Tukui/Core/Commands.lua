@@ -1,6 +1,7 @@
 local T, C, L = select(2, ...):unpack()
 
 local AddOnCommands = {} -- Let people use /tukui for their mods
+local SelectedProfile = 0
 
 local Split = function(cmd)
 	if cmd:find("%s") then
@@ -28,31 +29,18 @@ T.SlashHandler = function(cmd)
 	if (arg1 == "" or arg1 == "help") then
 		print(" ")
 		print("|cffff8000".. L.Help.Title .."|r")
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Config)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Datatexts)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Events)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Gold)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Grid)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Hapiness)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Install)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Load)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Move)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Profile)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Status)
-		print("--------------------------------------------------------------------------------------------")
 		print(L.Help.Test)
-		print("--------------------------------------------------------------------------------------------")
 		print(" ")
 	elseif (arg1 == "dt" or arg1 == "datatext") then
 		local DataText = T["DataTexts"]
@@ -169,11 +157,68 @@ T.SlashHandler = function(cmd)
 	elseif (arg1 == "profile" or arg1 == "p") then
 		if not TukuiData then return end
 
-		-- NEED FULL REWRITE WITH NEW GUI
+		if not arg2 then
+			T.Print("/tukui profile list")
+			T.Print("/tukui profile #")
+			print(" ")
+		else
+			if arg2 == "list" or arg2 == "l" then
+				Tukui.Profiles = {}
+				Tukui.Profiles.Data = {}
+				Tukui.Profiles.Options = {}
+
+				for Server, Table in pairs(TukuiData) do
+					if not Server then return end
+
+					for Character, Table in pairs(TukuiData[Server]) do
+						tinsert(Tukui.Profiles.Data, TukuiData[Server][Character])
+						
+						if (not TukuiUseGlobal) and (TukuiSettingsPerChar) then
+							tinsert(Tukui.Profiles.Options, TukuiSettingsPerChar)
+						else
+							tinsert(Tukui.Profiles.Options, TukuiSettings)
+						end
+
+						print("Profile "..#Tukui.Profiles.Data..": ["..Server.."]-["..Character.."]")
+					end
+				end
+			else
+				SelectedProfile = tonumber(arg2)
+
+				if not Tukui.Profiles or not Tukui.Profiles.Data[SelectedProfile] then
+					T.Print(L.Others.ProfileNotFound)
+
+					return
+				end
+
+				T.Popups.ShowPopup("TUKUI_IMPORT_PROFILE")
+			end
+		end
 	elseif AddOnCommands[arg1] then
 		AddOnCommands[arg1](arg2)
 	end
 end
+
+-- Create a Tukui popup for profiles
+T.Popups.Popup["TUKUI_IMPORT_PROFILE"] = {
+	Question = "Are you sure you want to import this profile? Continue?",
+	Answer1 = ACCEPT,
+	Answer2 = CANCEL,
+	Function1 = function(self)
+		local CurrentServer = GetRealmName()
+		local CurrentCharacter = UnitName("player")
+		
+		TukuiData[CurrentServer][CurrentCharacter] = Tukui.Profiles.Data[SelectedProfile]
+		
+		if (not TukuiUseGlobal) and (TukuiSettingsPerChar) then
+			TukuiSettingsPerChar = Tukui.Profiles.Options[SelectedProfile]
+		else
+			TukuiSettings = Tukui.Profiles.Options[SelectedProfile]
+		end
+
+		ReloadUI()
+	end,
+}
 
 SLASH_TUKUISLASHHANDLER1 = "/tukui"
 SlashCmdList["TUKUISLASHHANDLER"] = T.SlashHandler
