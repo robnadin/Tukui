@@ -48,7 +48,7 @@ function Install:ResetData()
 	ReloadUI()
 end
 
--- Apply these defaults automaticaly when a new character is created
+-- Apply these defaults automaticaly when a new character is created [step 1]
 function Install:SetDefaults()
 	-- CVars
 	SetCVar("countdownForCooldowns", 1)
@@ -78,6 +78,7 @@ function Install:SetDefaults()
 	end
 end
 
+-- Apply these defaults automaticaly when a new character is created [step 2]
 function Install:MoveChannels()
 	local Chat = T["Chat"]
 
@@ -111,7 +112,9 @@ Install:SetScript("OnEvent", function(self, event)
 			self:SetDefaults()
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
-		self:MoveChannels()
+		if (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
+			self:MoveChannels()
+		end
 	end
 end)
 

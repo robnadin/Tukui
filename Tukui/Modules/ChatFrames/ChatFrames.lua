@@ -299,48 +299,61 @@ function TukuiChat:Install()
 end
 
 function TukuiChat:MoveChannels()
-	local Transfers = {
-		"COMBAT_XP_GAIN",
-		"COMBAT_HONOR_GAIN",
-		"COMBAT_FACTION_CHANGE",
-		"LOOT",
-		"MONEY",
-		"SYSTEM",
-		"ERRORS",
-		"IGNORED",
-		"SKILL",
-		"CURRENCY", 
-	}
-	-- ChatFrame1, need to do it this way, else it crash on WoW Classic
-	for index, value in pairs(Transfers) do
-		if ChatTypeGroup[value] then
-			for eventIndex, eventValue in pairs(ChatTypeGroup[value]) do
-
-				if Transfers[eventValue] then
-					ChatFrame1:UnregisterEvent(eventValue)
-				end
-			end
-
-			RemoveChatWindowMessages(1, value)
-			ChatFrame1.messageTypeList[value] = nil
-		end
-	end
-
+	-- ChatFrame 1
+	ChatFrame_RemoveAllMessageGroups(ChatFrame1)
 	ChatFrame_RemoveChannel(ChatFrame1, "General")
 	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
 	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
-
+	ChatFrame_AddMessageGroup(ChatFrame1, "SAY")
+	ChatFrame_AddMessageGroup(ChatFrame1, "EMOTE")
+	ChatFrame_AddMessageGroup(ChatFrame1, "YELL")
+	ChatFrame_AddMessageGroup(ChatFrame1, "GUILD")
+	ChatFrame_AddMessageGroup(ChatFrame1, "OFFICER")
+	ChatFrame_AddMessageGroup(ChatFrame1, "GUILD_ACHIEVEMENT")
+	ChatFrame_AddMessageGroup(ChatFrame1, "WHISPER")
+	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_SAY")
+	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_EMOTE")
+	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_YELL")
+	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_WHISPER")
+	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_BOSS_EMOTE")
+	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_BOSS_WHISPER")
+	ChatFrame_AddMessageGroup(ChatFrame1, "PARTY")
+	ChatFrame_AddMessageGroup(ChatFrame1, "PARTY_LEADER")
+	ChatFrame_AddMessageGroup(ChatFrame1, "RAID")
+	ChatFrame_AddMessageGroup(ChatFrame1, "RAID_LEADER")
+	ChatFrame_AddMessageGroup(ChatFrame1, "RAID_WARNING")
+	ChatFrame_AddMessageGroup(ChatFrame1, "INSTANCE_CHAT")
+	ChatFrame_AddMessageGroup(ChatFrame1, "INSTANCE_CHAT_LEADER")
+	ChatFrame_AddMessageGroup(ChatFrame1, "BG_HORDE")
+	ChatFrame_AddMessageGroup(ChatFrame1, "BG_ALLIANCE")
+	ChatFrame_AddMessageGroup(ChatFrame1, "BG_NEUTRAL")
+	ChatFrame_AddMessageGroup(ChatFrame1, "AFK")
+	ChatFrame_AddMessageGroup(ChatFrame1, "DND")
+	ChatFrame_AddMessageGroup(ChatFrame1, "ACHIEVEMENT")
+	ChatFrame_AddMessageGroup(ChatFrame1, "BN_WHISPER")
+	ChatFrame_AddMessageGroup(ChatFrame1, "BN_CONVERSATION")
+	
 	-- ChatFrame 3
 	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
-	ChatFrame_AddChannel(ChatFrame3, "General")
-	ChatFrame_AddChannel(ChatFrame3, "Trade")
-	ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
+	T.Delay(5, function() 
+		-- need to delay this and I don't know why
+		ChatFrame_AddChannel(ChatFrame3, "General")
+		ChatFrame_AddChannel(ChatFrame3, "Trade")
+		ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
+	end)
 
 	-- ChatFrame 4 [right chat]
 	ChatFrame_RemoveAllMessageGroups(ChatFrame4)
-	for index, value in pairs(Transfers) do
-		ChatFrame_AddMessageGroup(ChatFrame4, value)
-	end
+	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_XP_GAIN")
+	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_HONOR_GAIN")
+	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_FACTION_CHANGE")
+	ChatFrame_AddMessageGroup(ChatFrame4, "LOOT")
+	ChatFrame_AddMessageGroup(ChatFrame4, "MONEY")
+	ChatFrame_AddMessageGroup(ChatFrame4, "SYSTEM")
+	ChatFrame_AddMessageGroup(ChatFrame4, "ERRORS")
+	ChatFrame_AddMessageGroup(ChatFrame4, "IGNORED")
+	ChatFrame_AddMessageGroup(ChatFrame4, "SKILL")
+	ChatFrame_AddMessageGroup(ChatFrame4, "CURRENCY")
 end
 
 function TukuiChat:OnMouseWheel(delta)
