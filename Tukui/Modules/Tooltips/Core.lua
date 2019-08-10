@@ -337,7 +337,7 @@ function Tooltip:Enable()
 
 	for _, Tooltip in pairs(Tooltip.Tooltips) do
 		if Tooltip == GameTooltip then
-			Tooltip:SetScript("OnTooltipSetUnit", self.OnTooltipSetUnit)
+			Tooltip:HookScript("OnTooltipSetUnit", self.OnTooltipSetUnit)
 			Tooltip:HookScript("OnTooltipSetItem", self.OnTooltipSetItem)
 		end
 
