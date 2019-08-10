@@ -107,4 +107,12 @@ oUF.colors.specpowertypes = {
 	},
 }
 
+-- For classic, put back standard color for shaman on RAID_CLASS_COLORS table, it confuse a lot of peoples in pink.
+RAID_CLASS_COLORS["SHAMAN"] = {
+	colorStr = "ff006fdc",
+	b = 0.86666476726532,
+	g = 0.4392147064209,
+	r = 0,
+}
+
 T["Colors"] = oUF.colors
