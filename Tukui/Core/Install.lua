@@ -70,6 +70,7 @@ function Install:SetDefaults()
 	SetCVar("violenceLevel", 5)
 	SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("nameplateMotion", 0)
+	SetCVar("lootUnderMouse", 1)
 	
 	local Chat = T["Chat"]
 
