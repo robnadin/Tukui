@@ -322,9 +322,9 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	elseif (UnitIsDead(unit) or UnitIsGhost(unit)) then
 		self.Value:SetText()
 	else
-		if (unit == "player") and (T.MyClass == "WARRIOR" or T.MyClass == "ROGUE") and (current == 0) then
+		if (unit == "player" and not InCombatLockdown()) then
 			local Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
-
+			
 			self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
 		elseif (current ~= max) then
 			if (pType == 0) then
@@ -342,9 +342,7 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 			if (unit == "pet" or unit == "target" or unit == "targettarget") then
 				self.Value:SetText(TukuiUnitFrames.ShortValue(current))
 			else
-				local Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
-				
-				self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
+				self.Value:SetText(current)
 			end
 		end
 	end
