@@ -13,8 +13,13 @@ local OnEnter = function(self)
 	
 	GameTooltip:SetOwner(self)
 	GameTooltip:SetAnchorType("ANCHOR_CURSOR")
-	GameTooltip:AddLine("Click to show/hide action bar")
-	GameTooltip:AddLine("Shift-click to set the amount of buttons")
+
+	if self.Bar:IsShown() then
+		GameTooltip:AddLine(self.Num == 4 and "Click to hide action bar top row" or "Click to hide action bar "..self.Num)
+		GameTooltip:AddLine(self.Num == 4 and "" or "Shift-click to set the amount of buttons")
+	else
+		GameTooltip:AddLine("Click to show action bar "..self.Num)
+	end
 	
 	GameTooltip:Show()
 end
