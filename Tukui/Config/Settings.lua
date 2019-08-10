@@ -74,6 +74,7 @@ C["DataTexts"] = {
 	["Battleground"] = true,
 	["NameColor"] = {1, 1, 1},
 	["ValueColor"] = {1, 1, 1},
+	["Hour24"] = false,
 	["Font"] = "Tukui",
 }
 

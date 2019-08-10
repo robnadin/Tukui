@@ -1988,6 +1988,7 @@ local DataTexts = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("DataTexts", "Battleground", "Enable battleground datatext")
+	Window:CreateSwitch("DataTexts", "Hour24", "Switch time datatext to 24h mode")
 	
 	Window:CreateSection("Color")
 	Window:CreateColorSelection("DataTexts", "NameColor", "Name color")
