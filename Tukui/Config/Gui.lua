@@ -1514,7 +1514,7 @@ local CloseOnLeave = function(self)
 end
 
 local CloseOnMouseUp = function()
-	GUI.FadeOut:Play()
+	GUI:Toggle()
 end
 
 local CreditLineHeight = 20
@@ -1826,12 +1826,32 @@ GUI.Toggle = function(self)
 	if InCombatLockdown() then
 		return
 	end
+				
+	local Panels = T.Panels
+	local IsBarEnabled = C.ActionBars.Enable
 	
 	if self:IsShown() then
 		self.FadeOut:Play()
+		
+		if IsBarEnabled then
+			for i = 2, 5 do
+				local Toggle = Panels["ActionBar" .. i .. "ToggleButton"]
+
+				Toggle:SetAlpha(0)
+			end
+		end
 	else
 		self:Show()
 		self.FadeIn:Play()
+		
+		-- Really annoying to receive each day the same question on discord about how to hide action bars, let's show them when GUI is displayed.
+		if IsBarEnabled then
+			for i = 2, 5 do
+				local Toggle = Panels["ActionBar" .. i .. "ToggleButton"]
+
+				Toggle:SetAlpha(1)
+			end
+		end
 	end
 end
 

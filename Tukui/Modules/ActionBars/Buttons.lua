@@ -25,7 +25,9 @@ local OnEnter = function(self)
 end
 
 local OnLeave = function(self)
-	self:SetAlpha(0)
+	if not T.GUI:IsShown() then
+		self:SetAlpha(0)
+	end
 	
 	GameTooltip_Hide()
 end
