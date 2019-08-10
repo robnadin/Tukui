@@ -10,10 +10,19 @@ local BarButtons = {}
 
 local OnEnter = function(self)
 	self:SetAlpha(1)
+	
+	GameTooltip:SetOwner(self)
+	GameTooltip:SetAnchorType("ANCHOR_CURSOR")
+	GameTooltip:AddLine("Click to show/hide action bar")
+	GameTooltip:AddLine("Shift-click to set the amount of buttons")
+	
+	GameTooltip:Show()
 end
 
 local OnLeave = function(self)
 	self:SetAlpha(0)
+	
+	GameTooltip_Hide()
 end
 
 function ActionBars:ShowAllButtons(bar, num)
