@@ -16,6 +16,7 @@ L.ChatFrames.LookingForGroup = "파티찾기"
 L.DataText = {} -- Data Text Locales
 ------------------------------------------------
 
+L.DataText.Coords = "Coords"
 L.DataText.Voice = "음성채팅"
 L.DataText.LootSpec = "전리품 전문화"
 L.DataText.Garrison = "주둔지"

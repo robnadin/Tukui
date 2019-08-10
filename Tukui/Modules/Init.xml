@@ -63,6 +63,7 @@
 	<Script file="DataTexts\Anchors.lua"/>
 	<Script file="DataTexts\Elements\Armor.lua"/>
 	<Script file="DataTexts\Elements\Bags.lua"/>
+	<Script file="DataTexts\Elements\Coords.lua"/>
 	<Script file="DataTexts\Elements\Crit.lua"/>
 	<Script file="DataTexts\Elements\DPS.lua"/>
 	<Script file="DataTexts\Elements\Durability.lua"/>
