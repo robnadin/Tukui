@@ -939,7 +939,7 @@ local CreateDropdown = function(self, group, option, text, custom)
 	Dropdown.Menu:SetTemplate()
 	Dropdown.Menu:SetBackdropBorderColor(0, 0, 0)
 	Dropdown.Menu:SetFrameLevel(Dropdown.Menu:GetFrameLevel() + 1)
-	Dropdown.Menu:SetFrameStrata("HIGH")
+	Dropdown.Menu:SetFrameStrata("DIALOG")
 	Dropdown.Menu:Hide()
 	Dropdown.Menu:SetAlpha(0)
 	
@@ -1577,6 +1577,7 @@ GUI.Enable = function(self)
 	end
 	
 	-- Main Window
+	self:SetFrameStrata("DIALOG")
 	self:Width(WindowWidth)
 	self:Point("CENTER", UIParent, 0, 0)
 	self:SetBackdropColor(unpack(BGColor))
@@ -1610,6 +1611,7 @@ GUI.Enable = function(self)
 	
 	-- Header
 	self.Header = CreateFrame("Frame", nil, self)
+	self.Header:SetFrameStrata("DIALOG")
 	self.Header:Size(HeaderWidth, HeaderHeight)
 	self.Header:Point("TOP", self, 0, -Spacing)
 	self.Header:SetTemplate(nil, Texture)
@@ -1623,6 +1625,7 @@ GUI.Enable = function(self)
 	
 	-- Footer
 	self.Footer = CreateFrame("Frame", nil, self)
+	self.Footer:SetFrameStrata("DIALOG")
 	self.Footer:Size(HeaderWidth, HeaderHeight)
 	self.Footer:Point("BOTTOM", self, 0, Spacing)
 	self.Footer:SetBackdropColor(unpack(LightColor))
