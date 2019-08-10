@@ -392,6 +392,13 @@ function TukuiChat:SwitchSpokenDialect(button)
 	end
 end
 
+function TukuiChat:AddMessage(text, ...)
+	-- Short Channels
+	text = text:gsub('|h%[(%d+)%. .-%]|h', '|h[%1]|h')
+
+	return self.DefaultAddMessage(self, text, ...)
+end
+
 function TukuiChat:Setup()
 	for i = 1, NUM_CHAT_WINDOWS do
 		local Frame = _G["ChatFrame"..i]
@@ -405,6 +412,9 @@ function TukuiChat:Setup()
 
 		if i == 2 then
 			CombatLogQuickButtonFrame_Custom:StripTextures()
+		else
+			Frame.DefaultAddMessage = Frame.AddMessage
+			Frame.AddMessage = TukuiChat.AddMessage
 		end
 	end
 
