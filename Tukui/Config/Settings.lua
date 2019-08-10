@@ -7,7 +7,7 @@ local T, C, L = select(2, ...):unpack()
 C["General"] = {
 	["BackdropColor"] = {0.11, 0.11, 0.11},
 	["BorderColor"] = {0, 0, 0},
-	["UseGlobal"] = true,
+	["UseGlobal"] = false,
 	["HideShadows"] = false,
 	["UIScale"] = T.PerfectScale,
 
