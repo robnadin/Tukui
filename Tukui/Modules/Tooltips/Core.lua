@@ -236,7 +236,7 @@ function Tooltip:SetColor()
 		HealthBar:SetStatusBarColor(R, G, B)
 		HealthBar.Backdrop:SetBorderColor(R, G, B)
 		
-		self:SetBorderColor(R, G, B)
+		self.Backdrop:SetBorderColor(R, G, B)
 	elseif Reaction then
 		local Color = T.Colors.reaction[Reaction]
 
@@ -245,7 +245,7 @@ function Tooltip:SetColor()
 		HealthBar:SetStatusBarColor(R, G, B)
 		HealthBar.Backdrop:SetBorderColor(R, G, B)
 		
-		self:SetBorderColor(R, G, B)
+		self.Backdrop:SetBorderColor(R, G, B)
 	else
 		local Link = select(2, self:GetItem())
 		local Quality = Link and select(3, GetItemInfo(Link))
@@ -253,21 +253,22 @@ function Tooltip:SetColor()
 		if (Quality and Quality >= 2) then
 			R, G, B = GetItemQualityColor(Quality)
 			
-			self:SetBorderColor(R, G, B)
+			self.Backdrop:SetBorderColor(R, G, B)
 		else
 			local Color = T.Colors
 
 			HealthBar:SetStatusBarColor(unpack(Color.reaction[5]))
 			HealthBar.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
 			
-			self:SetBorderColor(unpack(C["General"].BorderColor))
+			self.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
 		end
 	end
 end
 
 function Tooltip:Skin()
 	if (not self.IsSkinned) then
-		self:SetTemplate()
+		self:StripTextures()
+		self:CreateBackdrop()
 		self:CreateShadow()
 		self.IsSkinned = true
 	end
@@ -349,8 +350,8 @@ function Tooltip:Enable()
 	HealthBar:SetStatusBarTexture(T.GetTexture(C["Textures"].TTHealthTexture))
 	HealthBar:CreateBackdrop()
 	HealthBar:ClearAllPoints()
-	HealthBar:Point("BOTTOMLEFT", HealthBar:GetParent(), "TOPLEFT", 1, 4)
-	HealthBar:Point("BOTTOMRIGHT", HealthBar:GetParent(), "TOPRIGHT", -1, 4)
+	HealthBar:Point("BOTTOMLEFT", HealthBar:GetParent(), "TOPLEFT", 0, 4)
+	HealthBar:Point("BOTTOMRIGHT", HealthBar:GetParent(), "TOPRIGHT", 0, 4)
 	HealthBar.Backdrop:CreateShadow()
 
 	if C["Tooltips"].UnitHealthText then
