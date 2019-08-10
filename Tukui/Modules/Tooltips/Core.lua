@@ -205,7 +205,9 @@ function Tooltip:OnTooltipSetUnit()
 	end
 
 	if (C["Tooltips"].UnitHealthText and UnitHealth(Unit) and UnitHealthMax(Unit)) then
-		HealthBar.Text:SetText(Short(UnitHealth(Unit)) .. " / " .. Short(UnitHealthMax(Unit)))
+		local Health, MaxHealth = UnitHealth(Unit), UnitHealthMax(Unit)
+		
+		HealthBar.Text:SetText(Unit == "player" and Short(UnitHealth(Unit)) .. " / " .. Short(UnitHealthMax(Unit)) or Health.."%")
 	end
 
 	self.fadeOut = nil
