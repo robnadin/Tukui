@@ -265,27 +265,6 @@ function Tooltip:SetColor()
 	end
 end
 
-function Tooltip:OnUpdate(elapsed)
-	local Owner = self:GetOwner()
-
-	if (not Owner) then
-		return
-	end
-
-	if (Owner:IsForbidden()) then
-		return
-	end
-
-	local Owner = self:GetOwner():GetName()
-	local Anchor = self:GetAnchorType()
-
-	-- This ensures that default anchored world frame tips have the proper color.
-	if (Owner == "UIParent" and Anchor == "ANCHOR_CURSOR") then
-		self:SetBackdropColor(unpack(C["General"].BackdropColor))
-		self:SetBorderColor(unpack(C["General"].BorderColor))
-	end
-end
-
 function Tooltip:Skin()
 	if (not self.IsSkinned) then
 		self:SetTemplate()
@@ -297,7 +276,6 @@ function Tooltip:Skin()
 		Tooltip.SetColor(self)
 	end
 end
-
 
 function Tooltip:OnTooltipSetItem()
 	if IsShiftKeyDown() then
@@ -358,7 +336,6 @@ function Tooltip:Enable()
 
 	for _, Tooltip in pairs(Tooltip.Tooltips) do
 		if Tooltip == GameTooltip then
-			Tooltip:HookScript("OnUpdate", self.OnUpdate)
 			Tooltip:SetScript("OnTooltipSetUnit", self.OnTooltipSetUnit)
 			Tooltip:HookScript("OnTooltipSetItem", self.OnTooltipSetItem)
 		end
