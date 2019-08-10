@@ -322,7 +322,11 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	elseif (UnitIsDead(unit) or UnitIsGhost(unit)) then
 		self.Value:SetText()
 	else
-		if (current ~= max) then
+		if (unit == "player") and (T.MyClass == "WARRIOR" or T.MyClass == "ROGUE") and (current == 0) then
+			local Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
+
+			self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
+		elseif (current ~= max) then
 			if (pType == 0) then
 				if (unit == "target") then
 					self.Value:SetFormattedText("%d%% |cffD7BEA5-|r %s", floor(current / max * 100), TukuiUnitFrames.ShortValue(max - (max - current)))
