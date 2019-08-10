@@ -351,7 +351,6 @@ Toolkit.API.CreateShadow = function(self, ShadowScale)
 	local Shadow = CreateFrame("Frame", nil, self)
 
 	Shadow:SetBackdrop({edgeFile = Toolkit.Settings.ShadowTexture, edgeSize = Toolkit.Functions.Scale(4)})
-	Shadow:SetFrameStrata("BACKGROUND")
 	Shadow:SetFrameLevel(Level)
 	Shadow:SetOutside(self, 4, 4)
 	Shadow:SetBackdropBorderColor(0, 0, 0, .8)
