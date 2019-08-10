@@ -71,6 +71,13 @@ function Install:SetDefaults()
 	SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("nameplateMotion", 0)
 	SetCVar("lootUnderMouse", 1)
+	SetCVar("instantQuestText", 1)
+	SetCVar("nameplateShowAll", 1)
+	SetCVar("nameplateShowEnemies", 1)
+	SetCVar("nameplateShowEnemyMinions", 1)
+	SetCVar("nameplateShowEnemyMinus", 1)
+	SetCVar("nameplateShowFriends", 0)
+	SetCVar("nameplateShowFriendlyMinions", 0)
 	
 	local Chat = T["Chat"]
 
