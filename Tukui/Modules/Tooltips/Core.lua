@@ -340,6 +340,12 @@ function Tooltip:OnValueChanged()
 	end
 end
 
+function Tooltip:HideInCombat(event)
+	if (event == "PLAYER_REGEN_DISABLED" or InCombatLockdown()) then
+		GameTooltip_Hide()
+	end
+end
+
 function Tooltip:Enable()
 	if (not C.Tooltips.Enable) then
 		return
@@ -374,6 +380,14 @@ function Tooltip:Enable()
 		HealthBar.Text = HealthBar:CreateFontString(nil, "OVERLAY")
 		HealthBar.Text:SetFontObject(T.GetFont(C["Tooltips"].HealthFont))
 		HealthBar.Text:Point("CENTER", HealthBar, "CENTER", 0, 6)
+	end
+	
+	if C.Tooltips.HideInCombat then
+		self:RegisterEvent("PLAYER_REGEN_DISABLED")
+		self:RegisterEvent("PLAYER_REGEN_ENABLED")
+		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+
+		self:SetScript("OnEvent", Tooltip.HideInCombat)
 	end
 end
 

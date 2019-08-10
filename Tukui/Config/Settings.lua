@@ -132,6 +132,7 @@ C["Raid"] = {
 C["Tooltips"] = {
 	["Enable"] = true,
 	["HideOnUnitFrames"] = false,
+	["HideInCombat"] = false,
 	["UnitHealthText"] = true,
 	["MouseOver"] = false,
 	["HealthFont"] = "Tukui Outline",
