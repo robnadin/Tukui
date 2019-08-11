@@ -108,6 +108,12 @@ T.SlashHandler = function(cmd)
 
 		Movers:StartOrStopMoving()
 	elseif (arg1 == "ph" or arg1 == "happiness") then
+		if T.MyClass ~= "HUNTER" then
+			return T.Print("Sorry, you are not an hunter, this command is useless for you. :P")
+		end
+		
+		local Red, Yellow, Green = T.RGBToHex(unpack(T.Colors.happiness[1])), T.RGBToHex(unpack(T.Colors.happiness[2])), T.RGBToHex(unpack(T.Colors.happiness[3]))
+		
 		local Happiness, DamagePercentage, LoyaltyRate = GetPetHappiness()
 		
 		if not Happiness then
@@ -121,7 +127,7 @@ T.SlashHandler = function(cmd)
 			T.Print("Pet is " .. Loyalty .. " loyalty")
 		end
 		
-		T.Print("You can also track your current pet happiness according to the pet frame health bar color. Red mean unhappy, yellow mean content, green mean happy.")
+		T.Print("You can also track your current pet happiness according to the pet frame health bar color. "..Red.."Red|r mean unhappy, "..Yellow.."yellow|r mean content, "..Green.."green|r mean happy.")
 	elseif (arg1 == "c" or arg1 == "config") then
 		T.GUI:Toggle()
 	elseif (arg1 == "gold") and (arg2 == "reset") then
