@@ -469,6 +469,8 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 		Duration, ExpirationTime = LibClassicDurations:GetAuraDurationByUnit(unit, SpellID, UnitCaster, Name)
 		
 		button.IsLibClassicDuration = true
+	else
+		button.IsLibClassicDuration = false
 	end
 
 	if button then
