@@ -1,6 +1,7 @@
 local T, C, L = select(2, ...):unpack()
 local AddOn, Plugin = ...
 local oUF = Plugin.oUF or oUF
+local LibClassicDurations = LibStub("LibClassicDurations")
 local Panels = T["Panels"]
 local Noop = function() end
 local TukuiUnitFrames = CreateFrame("Frame")
@@ -19,6 +20,9 @@ local UnitPlayerControlled = UnitPlayerControlled
 local UnitIsGhost = UnitIsGhost
 local UnitIsDead = UnitIsDead
 local UnitPowerType = UnitPowerType
+
+-- Register LibClassicDurations
+LibClassicDurations:Register("Tukui")
 
 TukuiUnitFrames.Units = {}
 TukuiUnitFrames.Headers = {}
@@ -459,7 +463,13 @@ function TukuiUnitFrames:PostCreateAura(button)
 end
 
 function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isDebuff, duration, timeLeft)
-	local _, _, _, DType, Duration, ExpirationTime, UnitCaster, IsStealable = UnitAura(unit, index, button.filter)
+	local Name, _, _, DType, Duration, ExpirationTime, UnitCaster, IsStealable, _, SpellID = UnitAura(unit, index, button.filter)
+
+	if Duration == 0 and ExpirationTime == 0 then
+		Duration, ExpirationTime = LibClassicDurations:GetAuraDurationByUnit(unit, SpellID, UnitCaster, Name)
+		
+		button.IsLibClassicDuration = true
+	end
 
 	if button then
 		if(button.filter == "HARMFUL") then
@@ -484,13 +494,22 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 		end
 
 		if button.Remaining then
-			if Duration and Duration > 0 then
+			if (Duration and Duration > 0) and (not unit:match("nameplate")) then
 				button.Remaining:Show()
 			else
 				button.Remaining:Hide()
 			end
 
 			button:SetScript("OnUpdate", TukuiUnitFrames.CreateAuraTimer)
+		end
+
+		if (button.cd) and (button.IsLibClassicDuration) then
+			if (Duration and Duration > 0) then
+				button.cd:SetCooldown(ExpirationTime - Duration, Duration)
+				button.cd:Show()
+			else
+				button.cd:Hide()
+			end
 		end
 
 		button.Duration = Duration
