@@ -14,7 +14,6 @@
 	<Script file="elements\classpower.lua"/>
 	<Script file="elements\combatindicator.lua"/>
 	<Script file="elements\druidmana.lua"/>
-	<Script file="elements\happiness.lua"/>
 	<Script file="elements\health.lua"/>
 	<Script file="elements\leaderindicator.lua"/>
 	<Script file="elements\phaseindicator.lua"/>
