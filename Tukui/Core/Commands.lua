@@ -109,7 +109,7 @@ T.SlashHandler = function(cmd)
 		Movers:StartOrStopMoving()
 	elseif (arg1 == "ph" or arg1 == "happiness") then
 		if T.MyClass ~= "HUNTER" then
-			return T.Print("Sorry, you are not an hunter, this command is useless for you. :P")
+			return T.Print("Sorry, you are not an |c"..RAID_CLASS_COLORS["HUNTER"].colorStr.."hunter|r, this command is useless for you. :P")
 		end
 		
 		local Red, Yellow, Green = T.RGBToHex(unpack(T.Colors.happiness[1])), T.RGBToHex(unpack(T.Colors.happiness[2])), T.RGBToHex(unpack(T.Colors.happiness[3]))
