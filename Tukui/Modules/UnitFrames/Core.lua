@@ -536,7 +536,6 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 	local IsPowerHidden = PowerBar.IsHidden
 
 	if (CurrentPower and CurrentPower == 0) and (MaxPower and MaxPower == 0) then
-		
 		if (not IsPowerHidden) then
 			Health:ClearAllPoints()
 			Health:SetAllPoints()
@@ -548,8 +547,8 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 		if IsPowerHidden then
 			Health:ClearAllPoints()
 			Health:SetPoint("TOPLEFT")
-			Health:SetHeight(C.NamePlates.Height - 3)
-			Health:SetWidth(Nameplate:GetWidth())
+			Health:SetPoint("TOPRIGHT")
+			Health:Height(Nameplate:GetHeight() - PowerBar:GetHeight() - 1)
 
 			PowerBar:SetAlpha(1)
 			PowerBar.IsHidden = false
