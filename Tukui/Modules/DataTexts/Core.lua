@@ -206,7 +206,13 @@ function TukuiDT:AddDefaults()
 	TukuiData[GetRealmName()][UnitName("player")].Texts["FPS & MS"] = {true, 4}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Memory"] = {true, 5}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Gold"] = {true, 6}
-	TukuiData[GetRealmName()][UnitName("player")].Texts["Coords"] = {true, 7}
+	
+	if UnitLevel("player") == MAX_PLAYER_LEVEL then
+		TukuiData[GetRealmName()][UnitName("player")].Texts["Time"] = {true, 7}
+	else
+		-- Better as default for xp'ing fast
+		TukuiData[GetRealmName()][UnitName("player")].Texts["Coords"] = {true, 7}
+	end
 end
 
 function TukuiDT:Reset()
