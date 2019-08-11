@@ -57,9 +57,6 @@ function TukuiUnitFrames:Raid()
 		Health.Smooth = true
 	end
 
-	-- AuraWatch requires this handle ASAP
-	self.Health = Health
-
 	-- Power
 	local Power = CreateFrame("StatusBar", nil, self)
 	Power:Height(3)
@@ -105,49 +102,6 @@ function TukuiUnitFrames:Raid()
 		insideAlpha = 1,
 		outsideAlpha = C["Raid"].RangeAlpha,
 	}
-
-	-- AuraWatch (corner and center icon)
-	--[[
-	if C["Raid"].AuraWatch then
-		TukuiUnitFrames:CreateAuraWatch(self)
-
-		local RaidDebuffs = CreateFrame("Frame", nil, self)
-		RaidDebuffs:SetHeight(18)
-		RaidDebuffs:SetWidth(18)
-		RaidDebuffs:SetPoint("CENTER", Health)
-		RaidDebuffs:SetFrameStrata("MEDIUM")
-		RaidDebuffs:SetFrameLevel(Health:GetFrameLevel() + 1)
-		RaidDebuffs:SetTemplate()
-		RaidDebuffs:CreateShadow()
-
-		RaidDebuffs.icon = RaidDebuffs:CreateTexture(nil, "ARTWORK")
-		RaidDebuffs.icon:SetTexCoord(.1, .9, .1, .9)
-		RaidDebuffs.icon:SetInside(RaidDebuffs)
-
-		RaidDebuffs.cd = CreateFrame("Cooldown", nil, RaidDebuffs, "CooldownFrameTemplate")
-		RaidDebuffs.cd:SetInside(RaidDebuffs, 1, 1)
-		RaidDebuffs.cd:SetReverse(true)
-		RaidDebuffs.cd.noOCC = true
-		RaidDebuffs.cd.noCooldownCount = true
-		RaidDebuffs.cd:SetHideCountdownNumbers(true)
-
-		RaidDebuffs.showDispellableDebuff = true
-		RaidDebuffs.onlyMatchSpellID = true
-		RaidDebuffs.FilterDispellableDebuff = true
-		--RaidDebuffs.forceShow = true -- TEST
-
-		RaidDebuffs.time = RaidDebuffs:CreateFontString(nil, "OVERLAY")
-		RaidDebuffs.time:SetFont(C.Medias.Font, 12, "OUTLINE")
-		RaidDebuffs.time:Point("CENTER", RaidDebuffs, 0, 0)
-
-		RaidDebuffs.count = RaidDebuffs:CreateFontString(nil, "OVERLAY")
-		RaidDebuffs.count:SetFont(C.Medias.Font, 12, "OUTLINE")
-		RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 2, 0)
-		RaidDebuffs.count:SetTextColor(1, .9, 0)
-
-		self.RaidDebuffs = RaidDebuffs
-	end
-	--]]
 
 	self:Tag(Name, "[Tukui:GetRaidNameColor][Tukui:NameShort]")
 	self.Health.bg = Health.Background

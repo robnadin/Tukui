@@ -36,28 +36,3 @@ TukuiUnitFrames.DebuffsTracking["CCDebuffs"] = {
 		-- [107079] = Defaults(4), -- Quaking Palm
 	},
 }
-
-------------------------------------------------------------------------------------
--- RAID BUFFS (SQUARED AURA TRACKING LIST)
-------------------------------------------------------------------------------------
-
-TukuiUnitFrames.RaidBuffsTracking = {
-	-- BROKEN:  Need a classic spellID check in database.
-	-- EXAMPLE: PRIEST = { {139, "BOTTOMLEFT", {0.4, 0.7, 0.2}}, },
-	
-	PRIEST = {
-
-	},
-
-	DRUID = {
-
-	},
-
-	PALADIN = {
-
-	},
-
-	SHAMAN = {
-
-	},
-}

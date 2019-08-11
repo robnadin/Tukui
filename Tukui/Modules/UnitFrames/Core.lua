@@ -34,17 +34,6 @@ TukuiUnitFrames.HighlightBorder = {
 
 TukuiUnitFrames.AddClassFeatures = {}
 
-TukuiUnitFrames.RaidBuffsTrackingPosition = {
-	TOPLEFT = {6, 1},
-	TOPRIGHT = {-6, 1},
-	BOTTOMLEFT = {6, 1},
-	BOTTOMRIGHT = {-6, 1},
-	LEFT = {6, 1},
-	RIGHT = {-6, 1},
-	TOP = {0, 0},
-	BOTTOM = {0, 0},
-}
-
 TukuiUnitFrames.NameplatesVars = {
 	nameplateMaxAlpha = 1,
 	nameplateMinAlpha = 1,
@@ -520,111 +509,6 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 	end
 end
 
-function TukuiUnitFrames:CreateAuraWatchIcon(icon)
-	icon:SetTemplate()
-	icon.icon:Point("TOPLEFT", 1, -1)
-	icon.icon:Point("BOTTOMRIGHT", -1, 1)
-	icon.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-	icon.icon:SetDrawLayer("ARTWORK")
-
-	if (icon.cd) then
-		icon.cd:SetHideCountdownNumbers(true)
-		icon.cd:SetReverse(true)
-	end
-
-	icon.overlay:SetTexture()
-end
-
--- create the icon
-function TukuiUnitFrames:CreateAuraWatch(frame)
-	local Class = select(2, UnitClass("player"))
-
-	local Auras = CreateFrame("Frame", nil, frame)
-	Auras:SetPoint("TOPLEFT", frame.Health, 2, -2)
-	Auras:SetPoint("BOTTOMRIGHT", frame.Health, -2, 2)
-	Auras.presentAlpha = 1
-	Auras.missingAlpha = 0
-	Auras.icons = {}
-	Auras.PostCreateIcon = TukuiUnitFrames.CreateAuraWatchIcon
-	Auras.strictMatching = true
-
-	if (not C["Raid"].AuraWatchTimers) then
-		Auras.hideCooldown = true
-	end
-
-	local buffs = {}
-
-	if (TukuiUnitFrames.RaidBuffsTracking["ALL"]) then
-		for key, value in pairs(TukuiUnitFrames.RaidBuffsTracking["ALL"]) do
-			tinsert(buffs, value)
-		end
-	end
-
-	if (TukuiUnitFrames.RaidBuffsTracking[Class]) then
-		for key, value in pairs(TukuiUnitFrames.RaidBuffsTracking[Class]) do
-			tinsert(buffs, value)
-		end
-	end
-
-	-- Cornerbuffs
-	if buffs then
-		for key, spell in pairs(buffs) do
-			local Icon = CreateFrame("Frame", nil, Auras)
-			Icon.spellID = spell[1]
-			Icon.anyUnit = spell[4]
-			Icon:Width(8)
-			Icon:Height(8)
-			Icon:SetPoint(spell[2], 0, 0)
-
-			local Texture = Icon:CreateTexture(nil, "OVERLAY")
-			Texture:SetInside(Icon)
-			Texture:SetTexture(C.Medias.Blank)
-
-			if (spell[3]) then
-				Texture:SetVertexColor(unpack(spell[3]))
-			else
-				Texture:SetVertexColor(0.8, 0.8, 0.8)
-			end
-
-			local Count = Icon:CreateFontString(nil, "OVERLAY")
-			Count:SetFont(C.Medias.Font, 8, "THINOUTLINE")
-			Count:SetPoint("CENTER", unpack(TukuiUnitFrames.RaidBuffsTrackingPosition[spell[2]]))
-			Icon.count = Count
-
-			Auras.icons[spell[1]] = Icon
-		end
-	end
-
-	frame.AuraWatch = Auras
-end
-
-function TukuiUnitFrames:EclipseDirection()
-	local Power = UnitPower("Player", SPELL_POWER_ECLIPSE)
-
-	if (Power < 0) then
-		self.Text:SetText("|cffE5994C"..L.UnitFrames.Starfire.."|r")
-	elseif (Power > 0) then
-		self.Text:SetText("|cff4478BC"..L.UnitFrames.Wrath.."|r")
-	else
-		self.Text:SetText("")
-	end
-end
-
-function TukuiUnitFrames:UpdateAltPower(minimum, current, maximum)
-	if (not current) or (not maximum) then return end
-
-	local r, g, b = T.ColorGradient(current, maximum, 0, .8 ,0 ,.8 ,.8 ,0 ,.8 ,0 ,0)
-
-	self:SetStatusBarColor(r, g, b)
-	self:SetBackdropColor(r * 0.1, g * 0.1, b * 0.1)
-
-	if self.Value then
-		local Text = self.Value
-
-		Text:SetText(current.." / "..maximum)
-	end
-end
-
 function TukuiUnitFrames:Update()
 	for _, element in ipairs(self.__elements) do
 		element(self, "UpdateElement", self.unit)
@@ -669,21 +553,6 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 
 			PowerBar:SetAlpha(1)
 			PowerBar.IsHidden = false
-		end
-	end
-end
-
-function TukuiUnitFrames:RunesPostUpdate(runemap)
-	local Bar = self
-	local RuneMap = runemap
-
-	for i, RuneID in next, RuneMap do
-		local IsReady = select(3, GetRuneCooldown(RuneID))
-
-		if IsReady then
-			Bar[i]:SetAlpha(1)
-		else
-			Bar[i]:SetAlpha(0.5)
 		end
 	end
 end

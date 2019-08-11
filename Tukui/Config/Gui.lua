@@ -2057,8 +2057,6 @@ local Raid = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("Raid", "Enable", "Enable raid module")
-	Window:CreateSwitch("Raid", "AuraWatch", "Enable aurawatch module")
-	Window:CreateSwitch("Raid", "AuraWatchTimers", "Enable aurawatch timers")
 	Window:CreateSwitch("Raid", "DebuffWatch", "Enable debuffwatch module")
 	Window:CreateSwitch("Raid", "VerticalHealth", "Enable vertical health")
 	

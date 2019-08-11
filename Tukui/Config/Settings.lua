@@ -110,8 +110,6 @@ C["Party"] = {
 
 C["Raid"] = {
 	["Enable"] = true,
-	["AuraWatch"] = true,
-	["AuraWatchTimers"] = true,
 	["DebuffWatch"] = true,
 	["RangeAlpha"] = 0.3,
 	["ShowHealthText"] = true,
