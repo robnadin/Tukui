@@ -7,7 +7,7 @@ function TukuiUnitFrames:Nameplates()
 	local PowerTexture = T.GetTexture(C["Textures"].NPPowerTexture)
 	local CastTexture = T.GetTexture(C["Textures"].NPCastTexture)
 	local Font = T.GetFont(C["NamePlates"].Font)
-	local NumDebuffsPerRow = math.floor(C.NamePlates.Width / 20)
+	local NumDebuffsPerRow = math.ceil(C.NamePlates.Width / 26)
 
 	self:SetScale(UIParent:GetEffectiveScale())
 	self:SetSize(C.NamePlates.Width, C.NamePlates.Height)
@@ -70,10 +70,10 @@ function TukuiUnitFrames:Nameplates()
 	Power.PostUpdate = TukuiUnitFrames.DisplayNameplatePowerAndCastBar
 
 	local Debuffs = CreateFrame("Frame", self:GetName()..'Debuffs', self)
-	Debuffs:SetHeight(18)
+	Debuffs:SetHeight(24)
 	Debuffs:SetWidth(self:GetWidth())
 	Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
-	Debuffs.size = 18
+	Debuffs.size = 24
 	Debuffs.num = NumDebuffsPerRow
 	Debuffs.numRow = 1
 

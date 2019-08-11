@@ -485,7 +485,7 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 		end
 
 		if button.Remaining then
-			if (Duration and Duration > 0) and (not unit:match("nameplate")) then
+			if (Duration and Duration > 0) then
 				button.Remaining:Show()
 			else
 				button.Remaining:Hide()
