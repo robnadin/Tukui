@@ -42,7 +42,7 @@ local Enable = function(self)
 		happiness.__owner = self
 		happiness.ForceUpdate = ForceUpdate
 
-		self:RegisterEvent('UNIT_POWER', Path)
+		self:RegisterEvent('UNIT_POWER_UPDATE', Path)
 
 		if(happiness:IsObjectType"Texture" and not happiness:GetTexture()) then
 			happiness:SetTexture[[Interface\PetPaperDollFrame\UI-PetHappiness]]
@@ -55,7 +55,7 @@ end
 local Disable = function(self)
 	local happiness = self.Happiness
 	if(happiness) then
-		self:UnregisterEvent('UNIT_POWER', Path)
+		self:UnregisterEvent('UNIT_POWER_UPDATE', Path)
 	end
 end
 
