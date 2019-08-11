@@ -104,6 +104,7 @@ function TukuiUnitFrames:Raid()
 	}
 
 	self:Tag(Name, "[Tukui:GetRaidNameColor][Tukui:NameShort]")
+	self.Health = Health
 	self.Health.bg = Health.Background
 	self.Power = Power
 	self.Power.bg = Power.Background
