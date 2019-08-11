@@ -16,15 +16,6 @@ function TukuiUnitFrames:Nameplates()
 	self:SetBackdropColor(0, 0, 0)
 	
 	self:CreateShadow()
-	
-	-- We need a shadow for highlighting target
-	if C.General.HideShadows then
-		self.Shadow:SetBackdrop( {
-			edgeFile = C.Medias.Glow, edgeSize = 4,
-			insets = {left = 4, right = 4, top = 4, bottom = 4},
-		})
-		self.Shadow:Hide()
-	end
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetFrameStrata(self:GetFrameStrata())
@@ -96,10 +87,6 @@ function TukuiUnitFrames:Nameplates()
 	self.Name = Name
 	self.Power = Power
 	self.RaidTargetIndicator = RaidIcon
-	
-	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
-	self:RegisterEvent("NAME_PLATE_UNIT_ADDED", TukuiUnitFrames.Highlight, true)
-	self:RegisterEvent("NAME_PLATE_UNIT_REMOVED", TukuiUnitFrames.Highlight, true)
 
 	-- Needed on nameplate else if will bug on AOE multi nameplates. (I'm not sure about this)
 	self:EnableMouse(false)
