@@ -125,7 +125,7 @@ local OnEnter = function(self)
 	GameTooltip:SetOwner(self:GetTooltipAnchor())
 	GameTooltip:ClearLines()
 	if GuildInfo and GuildLevel then
-		GameTooltip:AddDoubleLine(string.format(guildInfoString, GuildInfo, GuildLevel), string.format(guildInfoString2, L.DataText.Guild, online, #guildTable),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
+		GameTooltip:AddDoubleLine(string.format(guildInfoString, GuildInfo, GuildLevel), string.format(guildInfoString2, ACHIEVEMENTS_GUILD_TAB, online, #guildTable),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
 	end
 
 	if guildMotD ~= "" then
@@ -223,4 +223,4 @@ local Disable = function(self)
 	self:SetScript("OnEvent", nil)
 end
 
-DataText:Register(L.DataText.Guild, Enable, Disable, Update)
+DataText:Register("Guild", Enable, Disable, Update)

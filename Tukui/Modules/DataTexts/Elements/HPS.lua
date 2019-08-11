@@ -112,4 +112,4 @@ local Disable = function(self)
 	self:SetScript("OnMouseDown", nil)
 end
 
-DataText:Register(L.DataText.HPS, Enable, Disable, Update)
+DataText:Register("HPS", Enable, Disable, Update)

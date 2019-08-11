@@ -90,7 +90,7 @@ local OnEnter = function(self)
 end
 
 local Enable = function(self)
-	self.Text:SetText(L.DataText.Voice)
+	self.Text:SetText(BINDING_HEADER_VOICE_CHAT)
 	self:SetScript("OnMouseUp", OnMouseUp)
 	self:SetScript("OnEnter", GameTooltip_Hide)
 	self:SetScript("OnLeave", OnLeave)
@@ -103,4 +103,4 @@ local Disable = function(self)
 	self:SetScript("OnLeave", nil)
 end
 
-DataText:Register(L.DataText.Voice, Enable, Disable)
+DataText:Register("Voice Chat", Enable, Disable)

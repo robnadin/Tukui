@@ -119,4 +119,4 @@ local Disable = function(self)
 	self:SetScript("OnLeave", nil)
 end
 
-DataText:Register(L.DataText.Zone, Enable, Disable, Update)
+DataText:Register("Zone", Enable, Disable, Update)

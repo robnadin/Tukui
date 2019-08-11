@@ -41,4 +41,4 @@ local Disable = function(self)
 	self:SetScript("OnMouseUp", nil)
 end
 
-DataText:Register(L.DataText.BagSlots, Enable, Disable, Update)
+DataText:Register("Bags Slots", Enable, Disable, Update)

@@ -127,4 +127,4 @@ local Disable = function(self)
 	self:SetScript("OnLeave", nil)
 end
 
-DataText:Register(L.DataText.Gold, Enable, Disable, Update)
+DataText:Register("Gold", Enable, Disable, Update)

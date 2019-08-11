@@ -39,4 +39,4 @@ local Disable = function(self)
 	self:SetScript("OnUpdate", nil)
 end
 
-DataText:Register(L.DataText.Coords, Enable, Disable, Update)
+DataText:Register("Coords", Enable, Disable, Update)

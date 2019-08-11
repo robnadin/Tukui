@@ -200,13 +200,13 @@ end
 function TukuiDT:AddDefaults()
 	TukuiData[GetRealmName()][UnitName("player")].Texts = {}
 
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Guild] = {true, 1}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Voice] = {true, 2}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Friends] = {true, 3}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.FPSAndMS] = {true, 4}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Memory] = {true, 5}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Gold] = {true, 6}
-	TukuiData[GetRealmName()][UnitName("player")].Texts[L.DataText.Coords] = {true, 7}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["Guild"] = {true, 1}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["Voice Chat"] = {true, 2}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["Friends"] = {true, 3}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["FPS & MS"] = {true, 4}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["Memory"] = {true, 5}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["Gold"] = {true, 6}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["Coords"] = {true, 7}
 end
 
 function TukuiDT:Reset()

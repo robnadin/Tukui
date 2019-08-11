@@ -31,4 +31,4 @@ local Disable = function(self)
 	self:SetScript("OnEvent", nil)
 end
 
-DataText:Register(L.DataText.Regen, Enable, Disable, Update)
+DataText:Register("Regen", Enable, Disable, Update)

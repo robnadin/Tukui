@@ -40,4 +40,4 @@ local Disable = function(self)
 	self:SetScript("OnEvent", nil)
 end
 
-DataText:Register(L.DataText.Power, Enable, Disable, Update)
+DataText:Register("Power", Enable, Disable, Update)

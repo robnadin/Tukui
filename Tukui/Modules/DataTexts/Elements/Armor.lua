@@ -6,7 +6,7 @@ local format = format
 local Update = function(self)
 	local Value = select(2, UnitArmor("player"))
 
-	self.Text:SetFormattedText("%s %s", DataText.NameColor .. L.DataText.Armor .. "|r", DataText.ValueColor .. T.Comma(Value) .. "|r")
+	self.Text:SetFormattedText("%s %s", DataText.NameColor .. RESISTANCE0_NAME .. "|r", DataText.ValueColor .. T.Comma(Value) .. "|r")
 end
 
 local Enable = function(self)
@@ -23,4 +23,4 @@ local Disable = function(self)
 	self:SetScript("OnEvent", nil)
 end
 
-DataText:Register(L.DataText.Armor, Enable, Disable, Update)
+DataText:Register("Armor", Enable, Disable, Update)

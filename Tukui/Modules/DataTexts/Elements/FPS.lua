@@ -39,4 +39,4 @@ local Disable = function(self)
 	self:SetScript("OnLeave", nil)
 end
 
-DataText:Register(L.DataText.FPSAndMS, Enable, Disable, Update)
+DataText:Register("FPS & MS", Enable, Disable, Update)

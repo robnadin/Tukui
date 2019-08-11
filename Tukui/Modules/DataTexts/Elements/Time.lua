@@ -27,4 +27,4 @@ local Disable = function(self)
 	self:SetScript("OnUpdate", nil)
 end
 
-DataText:Register(L.DataText.Time, Enable, Disable, Update)
+DataText:Register("Time", Enable, Disable, Update)

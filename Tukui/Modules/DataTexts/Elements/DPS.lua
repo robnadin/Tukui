@@ -24,9 +24,9 @@ local CombatTime = 0
 
 local GetDPS = function()
 	if (TotalDamage == 0) then
-		return (DataText.ValueColor.."0.0 |r" .. DataText.NameColor..L.DataText.DPS.."|r")
+		return (DataText.ValueColor.."0.0 |r" .. DataText.NameColor..STAT_DPS_SHORT.."|r")
 	else
-		return format(DataText.ValueColor.."%.1fk |r" .. DataText.NameColor .. L.DataText.DPS .. "|r", ((TotalDamage or 0) / (CombatTime or 1)) / 1000)
+		return format(DataText.ValueColor.."%.1fk |r" .. DataText.NameColor .. STAT_DPS_SHORT .. "|r", ((TotalDamage or 0) / (CombatTime or 1)) / 1000)
 	end
 end
 
@@ -119,4 +119,4 @@ local Disable = function(self)
 	self:SetScript("OnMouseDown", nil)
 end
 
-DataText:Register(L.DataText.DPS, Enable, Disable, Update)
+DataText:Register("DPS", Enable, Disable, Update)

@@ -426,4 +426,4 @@ local Disable = function(self)
 	self:SetScript("OnEvent", nil)
 end
 
-DataText:Register(L.DataText.Friends, Enable, Disable, Update)
+DataText:Register("Friends", Enable, Disable, Update)
