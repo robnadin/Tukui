@@ -111,7 +111,7 @@ T.SlashHandler = function(cmd)
 		local Happiness, DamagePercentage, LoyaltyRate = GetPetHappiness()
 		
 		if not Happiness then
-			T.Print("No Pet")
+			T.Print("You don't have any pet summoned at the moment")
 		else
 			local Happy = ({"Unhappy", "Content", "Happy"})[Happiness]
 			local Loyalty = LoyaltyRate > 0 and "gaining" or "losing"
