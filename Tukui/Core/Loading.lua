@@ -125,6 +125,8 @@ function Loading:OnEvent(event)
 		T["Chat"]:Enable()
 		T["UnitFrames"]:Enable()
 		T["Tooltips"]:Enable()
+		
+		T.Print("Welcome |c"..RAID_CLASS_COLORS[T.MyClass].colorStr..T.MyName.."|r! For a commands list, type /tukui")
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		T["Miscellaneous"]["ObjectiveTracker"]:Enable()
 	elseif (event == "VARIABLES_LOADED") then
