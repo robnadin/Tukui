@@ -79,6 +79,7 @@ function Install:SetDefaults()
 	SetCVar("nameplateShowFriends", 0)
 	SetCVar("nameplateShowFriendlyMinions", 0)
 	SetCVar("cameraSmoothStyle", 0)
+	SetCVar("profanityFilter", 0)
 
 	local Chat = T["Chat"]
 
