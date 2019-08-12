@@ -15,6 +15,13 @@ local ButtonSize, ButtonSpacing, ItemsPerRow
 local Bags = CreateFrame("Frame")
 local Inventory = T["Inventory"]
 local QuestColor = {1, 1, 0}
+local Bag_Normal = 1
+local Bag_SoulShard = 2
+local Bag_Profession = 3
+local Bag_Quiver = 4
+local BAGTYPE_QUIVER = 0x0001 + 0x0002 
+local BAGTYPE_SOUL = 0x004
+local BAGTYPE_PROFESSION = 0x0008 + 0x0010 + 0x0020 + 0x0040 + 0x0080 + 0x0200 + 0x0400
 
 local BlizzardBags = {
 	CharacterBag0Slot,
@@ -33,23 +40,37 @@ local BlizzardBank = {
 	BankSlotsFrame["Bag7"],
 }
 
-local BagType = {
-	[8] = true,     -- Leatherworking Bag
-	[16] = true,    -- Inscription Bag
-	[32] = true,    -- Herb Bag
-	[64] = true,    -- Enchanting Bag
-	[128] = true,   -- Engineering Bag
-	[512] = true,   -- Gem Bag
-	[1024] = true,  -- Mining Bag
-	[32768] = true, -- Fishing Bag
+local BagProfessions = {
+	[8] = "Leatherworking",
+	[16] = "Inscription",
+	[32] = "Herb",
+	[64] = "Enchanting",
+	[128] = "Engineering",
+	[512] = "Gem",
+	[1024] = "Mining",
+	[32768] = "Fishing",
 }
 
-function Bags:IsProfessionBag(bag)
-	local Type = select(2, GetContainerNumFreeSlots(bag))
+function Bags:GetBagProfessionType(bag)
+	local BagType = select(2, GetContainerNumFreeSlots(bag))
 
-	if BagType[Type] then
-		return true
+	if BagProfessions[BagType] then
+		return BagProfessions[BagType]
 	end
+end
+
+function Bags:GetBagType(bag)
+	local bagType = select(2, GetContainerNumFreeSlots(bag))
+
+	if bit.band(bagType, BAGTYPE_QUIVER) > 0 then
+		return Bag_Quiver
+	elseif bit.band(bagType, BAGTYPE_SOUL) > 0 then
+		return Bag_SoulShard
+	elseif bit.band(bagType, BAGTYPE_PROFESSION) > 0 then
+		return Bag_Profession
+	end
+
+	return Bag_Normal
 end
 
 function Bags:SkinBagButton()
@@ -331,7 +352,6 @@ function Bags:SlotUpdate(id, button)
 	button.ItemID = ItemID
 
 	local NewItem = button.NewItemTexture
-	local IsProfBag = self:IsProfessionBag(id)
 	local IconQuestTexture = button.IconQuestTexture
 
 	if IconQuestTexture then
@@ -354,6 +374,29 @@ function Bags:BagUpdate(id)
 		if Button then
 			if not Button:IsShown() then
 				Button:Show()
+			end
+			
+			local BagType = Bags:GetBagType(id)
+			
+			if (BagType ~= 1) and (not Button.IsTypeStatusCreated) then
+				Button.TypeStatus = CreateFrame("StatusBar", nil, Button)
+				Button.TypeStatus:Point("BOTTOMLEFT", 1, 1)
+				Button.TypeStatus:Point("BOTTOMRIGHT", -1, 1)
+				Button.TypeStatus:Height(3)
+				Button.TypeStatus:SetStatusBarTexture(C.Medias.Blank)
+
+				Button.IsTypeStatusCreated = true
+			end
+			
+			if BagType == 2 then
+				Button.TypeStatus:SetStatusBarColor(unpack(T.Colors.class["WARLOCK"])) -- purple indicator
+			elseif BagType == 3 then
+				local ProfessionType = Bags:GetBagProfessionType(id)
+				
+				-- NOTE: Currently all profession bags marker are set blue, will update in a future build with a color for each profession
+				Button.TypeStatus:SetStatusBarColor(unpack(T.Colors.class["MAGE"])) -- blue indicator
+			elseif BagType == 4 then
+				Button.TypeStatus:SetStatusBarColor(unpack(T.Colors.class["HUNTER"])) -- green indicator
 			end
 
 			self:SlotUpdate(id, Button)
