@@ -1,7 +1,7 @@
 local T, C, L = select(2, ...):unpack()
 
 local Miscellaneous = T["Miscellaneous"]
-local Durability = CreateFrame("Frame", nil, UIParent)
+local Durability = CreateFrame("Button", nil, UIParent)
 local TimerTracker = TimerTracker
 local DurabilityFrame = DurabilityFrame
 
@@ -20,6 +20,9 @@ function Durability:Enable()
 	self.Warning:SetText(L.Miscellaneous.Repair)
 	self.Warning:SetTextColor(1, 0, 0)
 	self.Warning:Hide()
+	
+	self:SetAllPoints(self.Warning)
+	self:SetScript("OnClick", self.Hide)
 
 	DurabilityFrame:SetAlpha(0)
 	DurabilityFrame:Hide()
