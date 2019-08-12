@@ -389,14 +389,31 @@ function Bags:BagUpdate(id)
 			end
 			
 			if BagType == 2 then
-				Button.TypeStatus:SetStatusBarColor(unpack(T.Colors.class["WARLOCK"])) -- purple indicator
+				-- Warlock Soul Shards Slots
+				Button.TypeStatus:SetStatusBarColor(unpack(T.Colors.class["WARLOCK"]))
 			elseif BagType == 3 then
 				local ProfessionType = Bags:GetBagProfessionType(id)
-				
-				-- NOTE: Currently all profession bags marker are set blue, will update in a future build with a color for each profession
-				Button.TypeStatus:SetStatusBarColor(unpack(T.Colors.class["MAGE"])) -- blue indicator
+
+				if ProfessionType == "Leatherworking" then
+					Button.TypeStatus:SetStatusBarColor(102/255, 51/255, 0/255)
+				elseif ProfessionType == "Inscription" then
+					Button.TypeStatus:SetStatusBarColor(204/255, 204/255, 0/255)
+				elseif ProfessionType == "Herb" then
+					Button.TypeStatus:SetStatusBarColor(0/255, 153/255, 0/255)
+				elseif ProfessionType == "Enchanting" then
+					Button.TypeStatus:SetStatusBarColor(230/255, 25/255, 128/255)
+				elseif ProfessionType == "Engineering" then
+					Button.TypeStatus:SetStatusBarColor(25/255, 230/255, 230/255)
+				elseif ProfessionType == "Gem" then
+					Button.TypeStatus:SetStatusBarColor(232/255, 252/255, 252/255)
+				elseif ProfessionType == "Mining" then
+					Button.TypeStatus:SetStatusBarColor(138/255, 40/255, 40/255)
+				elseif ProfessionType == "Fishing" then
+					Button.TypeStatus:SetStatusBarColor(54/255, 54/255, 226/255)
+				end
 			elseif BagType == 4 then
-				Button.TypeStatus:SetStatusBarColor(unpack(T.Colors.class["HUNTER"])) -- green indicator
+				-- Hunter Quiver Slots
+				Button.TypeStatus:SetStatusBarColor(unpack(T.Colors.class["HUNTER"]))
 			end
 
 			self:SlotUpdate(id, Button)
