@@ -147,6 +147,8 @@ function TukuiPopups:ShowPopup()
 
 	Button1:HookScript("OnClick", TukuiPopups.HidePopup)
 	Button2:HookScript("OnClick", TukuiPopups.HidePopup)
+	
+	Popup.CurrentPopup = self
 
 	Popup:Show()
 end
