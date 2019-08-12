@@ -163,11 +163,6 @@ function TukuiChat:StyleFrame(frame)
 	_G[format("ChatFrame%sEditBoxMid", ID)]:Kill()
 	_G[format("ChatFrame%sEditBoxRight", ID)]:Kill()
 
-	-- Justify loot frame text at the right
-	if (not Frame.isDocked and ID == 4 and TabText:GetText() == self.RightChatName) then
-		Frame:SetJustifyH("RIGHT")
-	end
-
 	-- Mouse Wheel
 	Frame:SetScript("OnMouseWheel", TukuiChat.OnMouseWheel)
 
@@ -273,6 +268,10 @@ function TukuiChat:SetChatFramePosition()
 		Frame:ClearAllPoints()
 		Frame:SetPoint(Anchor1, UIParent, Anchor2, X, Y)
 		Frame:SetSize(Width, Height)
+		
+		if (ID == 4 and Anchor1 == "BOTTOMRIGHT" and math.floor(X) == -34 and math.floor(Y) == 50) then
+			Frame:SetJustifyH("RIGHT")
+		end
 	end
 end
 
