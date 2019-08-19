@@ -258,10 +258,8 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 	if (not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit)) then
 		if (not UnitIsConnected(unit)) then
 			self.Value:SetText("|cffD7BEA5"..FRIENDS_LIST_OFFLINE.."|r")
-		elseif (UnitIsDead(unit)) then
+		elseif (UnitIsDead(unit) or UnitIsGhost(unit)) then
 			self.Value:SetText("|cffD7BEA5"..DEAD.."|r")
-		elseif (UnitIsGhost(unit)) then
-			self.Value:SetText("|cffD7BEA5"..L.UnitFrames.Ghost.."|r")
 		end
 	else
 		if (min ~= max) then
