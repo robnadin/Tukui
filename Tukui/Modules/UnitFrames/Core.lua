@@ -264,32 +264,19 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 			self.Value:SetText("|cffD7BEA5"..L.UnitFrames.Ghost.."|r")
 		end
 	else
-		local r, g, b
-		local IsRaid = string.match(self:GetParent():GetName(), "Button") or false
-		local Percent = max == 100 and "%" or ""
-
 		if (min ~= max) then
-			r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+			local r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+			
 			if (unit == "player" and self:GetAttribute("normalUnit") ~= "pet") then
-				if (IsRaid) then
-					self.Value:SetText("|cffff2222-"..TukuiUnitFrames.ShortValue(max-min).."|r")
-				else
-					self.Value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
-				end
-			elseif (unit == "target") then
-				self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", TukuiUnitFrames.ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
+				self.Value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
 			else
-				self.Value:SetText("|cffff2222-"..TukuiUnitFrames.ShortValue(max-min).."|r")
+				self.Value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
 			end
 		else
 			if (unit == "player" and self:GetAttribute("normalUnit") ~= "pet") then
-				if (IsRaid) then
-					self.Value:SetText(" ")
-				else
-					self.Value:SetText("|cff559655"..max.."|r")
-				end
+				self.Value:SetText("|cff559655"..max.."|r")
 			elseif (unit == "target") then
-				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(max)..Percent.."|r")
+				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(max).."%|r")
 			else
 				self.Value:SetText(" ")
 			end
