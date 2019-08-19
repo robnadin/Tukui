@@ -278,8 +278,6 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 				end
 			elseif (unit == "target") then
 				self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", TukuiUnitFrames.ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
-			elseif (unit and strfind(unit, "arena%d")) then
-				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(min).."|r")
 			else
 				self.Value:SetText("|cffff2222-"..TukuiUnitFrames.ShortValue(max-min).."|r")
 			end
@@ -291,7 +289,6 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 					self.Value:SetText("|cff559655"..max.."|r")
 				end
 			elseif (unit == "target") then
-				 
 				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(max)..Percent.."|r")
 			else
 				self.Value:SetText(" ")
