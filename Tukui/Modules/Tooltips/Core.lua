@@ -323,8 +323,7 @@ function Tooltip:Enable()
 	if (not C.Tooltips.Enable) then
 		return
 	end
-
-	GameTooltip_SetBackdropStyle = function() end -- hope it doesn't taint
+	
 	self:CreateAnchor()
 
 	hooksecurefunc("GameTooltip_SetDefaultAnchor", self.SetTooltipDefaultAnchor)
@@ -359,6 +358,8 @@ function Tooltip:Enable()
 
 		self:SetScript("OnEvent", Tooltip.HideInCombat)
 	end
+	
+	GameTooltip_SetBackdropStyle = function() end -- hope it doesn't taint
 end
 
 T["Tooltips"] = Tooltip

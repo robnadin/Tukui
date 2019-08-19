@@ -9,6 +9,7 @@ local Token1, Token2, Token3 = BackpackTokenFrameToken1, BackpackTokenFrameToken
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 local ContainerFrame_GetOpenFrame = ContainerFrame_GetOpenFrame
+local OriginalToggleBag = ToggleBag
 local BankFrame = BankFrame
 local BagHelpBox = BagHelpBox
 local ButtonSize, ButtonSpacing, ItemsPerRow
@@ -19,6 +20,7 @@ local Bag_Normal = 1
 local Bag_SoulShard = 2
 local Bag_Profession = 3
 local Bag_Quiver = 4
+local KEYRING_CONTAINER = KEYRING_CONTAINER
 local BAGTYPE_QUIVER = 0x0001 + 0x0002 
 local BAGTYPE_SOUL = 0x004
 local BAGTYPE_PROFESSION = 0x0008 + 0x0010 + 0x0020 + 0x0040 + 0x0080 + 0x0200 + 0x0400
@@ -688,6 +690,17 @@ function Bags:ToggleBags()
 	if not self.Bank:IsShown() and BankFrame:IsShown() then
 		self:OpenAllBankBags()
 	end
+end
+
+function Bags:ToggleKeys()
+	-- https://us.forums.blizzard.com/en/wow/t/key-ring-in-classic/253354/19
+	
+	-- TODO
+	--   1- Move default position
+	--   2- Skin it on first open
+	--   3- Add toggle to micromenu
+	
+	OriginalToggleBag(KEYRING_CONTAINER)
 end
 
 function Bags:OnEvent(event, ...)
