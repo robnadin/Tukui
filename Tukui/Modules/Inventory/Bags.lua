@@ -693,6 +693,7 @@ function Bags:ToggleBags()
 end
 
 function Bags:ToggleKeys()
+	-- Keys bag won't be available at launch, source:
 	-- https://us.forums.blizzard.com/en/wow/t/key-ring-in-classic/253354/19
 	
 	-- TODO
