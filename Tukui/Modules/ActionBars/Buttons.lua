@@ -9,8 +9,6 @@ local error = ERR_NOT_IN_COMBAT
 local BarButtons = {}
 
 local OnEnter = function(self)
-	self:SetAlpha(1)
-	
 	GameTooltip:SetOwner(self)
 	GameTooltip:SetAnchorType("ANCHOR_CURSOR")
 
@@ -25,10 +23,6 @@ local OnEnter = function(self)
 end
 
 local OnLeave = function(self)
-	if not T.GUI:IsShown() then
-		self:SetAlpha(0)
-	end
-	
 	GameTooltip_Hide()
 end
 
@@ -240,7 +234,6 @@ function ActionBars:CreateToggleButtons()
 		Button:SetFrameLevel(4)
 		Button:SetTemplate()
 		Button:RegisterForClicks("AnyUp")
-		Button:SetAlpha(0)
 		Button.Bar = Bar
 		Button.Num = i
 
@@ -271,6 +264,8 @@ function ActionBars:CreateToggleButtons()
 			Button:Point("TOP", Bar, "BOTTOM", 0, -3)
 			Button.Text:SetText(L.ActionBars.ArrowRight)
 		end
+		
+		Button:Hide()
 
 		BarButtons[i] = Button
 

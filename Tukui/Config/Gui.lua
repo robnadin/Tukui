@@ -1840,7 +1840,7 @@ GUI.Toggle = function(self)
 			for i = 2, 5 do
 				local Toggle = Panels["ActionBar" .. i .. "ToggleButton"]
 
-				Toggle:SetAlpha(0)
+				Toggle:Hide()
 			end
 		end
 	else
@@ -1852,7 +1852,7 @@ GUI.Toggle = function(self)
 			for i = 2, 5 do
 				local Toggle = Panels["ActionBar" .. i .. "ToggleButton"]
 
-				Toggle:SetAlpha(1)
+				Toggle:Show()
 			end
 		end
 	end
