@@ -37,15 +37,6 @@ function TukuiUnitFrames:Party()
 	Health.Background:SetColorTexture(.1, .1, .1)
 
 	Health.frequentUpdates = true
-
-	if C.Party.ShowHealthText then
-		Health.Value = Health:CreateFontString(nil, "OVERLAY")
-		Health.Value:SetFontObject(HealthFont)
-		Health.Value:Point("TOPRIGHT", -3, 6)
-
-		Health.PostUpdate = TukuiUnitFrames.PostUpdateHealth
-	end
-
 	Health.colorDisconnected = true
 	Health.colorClass = true
 	Health.colorReaction = true

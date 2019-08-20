@@ -229,17 +229,6 @@ function TukuiUnitFrames:CheckChannel(unit, name, rank)
 	TukuiUnitFrames.CheckInterrupt(self, unit)
 end
 
-function TukuiUnitFrames:UpdateNamePosition()
-	if (self.Power.Value:GetText() and UnitIsEnemy("player", "target")) then
-		self.Name:ClearAllPoints()
-		self.Name:SetPoint("CENTER", self.Panel, "CENTER", 0, 0)
-	else
-		self.Name:ClearAllPoints()
-		self.Power.Value:SetAlpha(0)
-		self.Name:SetPoint("LEFT", self.Panel, "LEFT", 4, 0)
-	end
-end
-
 function TukuiUnitFrames:PreUpdateHealth(unit)
 	local HostileColor = C["UnitFrames"].TargetEnemyHostileColor
 
@@ -255,6 +244,10 @@ function TukuiUnitFrames:PreUpdateHealth(unit)
 end
 
 function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
+	if (not self.Value) then
+		return
+	end
+	
 	if (not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit)) then
 		if (not UnitIsConnected(unit)) then
 			self.Value:SetText("|cffD7BEA5"..FRIENDS_LIST_OFFLINE.."|r")
@@ -262,68 +255,40 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 			self.Value:SetText("|cffD7BEA5"..DEAD.."|r")
 		end
 	else
-		if (min ~= max) then
-			local r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
-			
-			if (unit == "player" and self:GetAttribute("normalUnit") ~= "pet") then
-				self.Value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
-			else
-				self.Value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
-			end
+		local r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+		
+		if (unit == "player") then
+			self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", TukuiUnitFrames.ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
 		else
-			if (unit == "player" and self:GetAttribute("normalUnit") ~= "pet") then
-				self.Value:SetText("|cff559655"..max.."|r")
-			elseif (unit == "target") then
-				self.Value:SetText("|cff559655"..TukuiUnitFrames.ShortValue(max).."%|r")
-			else
-				self.Value:SetText(" ")
-			end
+			self.Value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
 		end
 	end
 end
 
 function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
+	if (not self.Value) then
+		return
+	end
+	
 	local Parent = self:GetParent()
 	local pType, pToken = UnitPowerType(unit)
-	local Colors = T["Colors"]
-	local Color = Colors.power[pToken]
-
+	local Color = T.Colors.power[pToken]
+	local Pr, Pg, Pb = 1, 1, 1
+	
 	if Color then
-		self.Value:SetTextColor(Color[1], Color[2], Color[3])
+		Pr, Pg, Pb = unpack(Color)
 	end
 
-	if (not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) or not UnitIsConnected(unit)) then
-		self.Value:SetText()
-	elseif (UnitIsDead(unit) or UnitIsGhost(unit)) then
-		self.Value:SetText()
-	else
-		if (unit == "player" and not InCombatLockdown()) then
+	local r, g, b = T.ColorGradient(current, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+
+	if (unit == "player") then
+		if (not InCombatLockdown()) then
 			local Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
-			
-			self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
-		elseif (current ~= max) then
-			if (pType == 0) then
-				if (unit == "target") then
-					self.Value:SetFormattedText("%d%% |cffD7BEA5-|r %s", floor(current / max * 100), TukuiUnitFrames.ShortValue(max - (max - current)))
-				elseif (unit == "player" and Parent:GetAttribute("normalUnit") == "pet" or unit == "pet") then
-					self.Value:SetFormattedText("%d%%", floor(current / max * 100))
-				else
-					self.Value:SetFormattedText("%d%% |cffD7BEA5-|r %d", floor(current / max * 100), max - (max - current))
-				end
-			else
-				self.Value:SetText(max - (max - current))
-			end
-		else
-			if (unit == "pet" or unit == "target" or unit == "targettarget") then
-				self.Value:SetText(TukuiUnitFrames.ShortValue(current))
-			else
-				self.Value:SetText(current)
-			end
-		end
-	end
 
-	if (Parent.Name and unit == "target") then
-		TukuiUnitFrames.UpdateNamePosition(Parent)
+			self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
+		else
+			self.Value:SetFormattedText("|cff%02x%02x%02x%d%%|r |cffD7BEA5-|r |cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, floor(current / max * 100), Pr * 255, Pg * 255, Pb * 255, TukuiUnitFrames.ShortValue(current))
+		end
 	end
 end
 

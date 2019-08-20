@@ -2044,7 +2044,6 @@ local Party = function(self)
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Party", "ShowPlayer", "Display self in party")
-	Window:CreateSwitch("Party", "ShowHealthText", "Display health text")
 	Window:CreateSlider("Party", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)
 	
 	Window:CreateSection("Font")
@@ -2061,7 +2060,6 @@ local Raid = function(self)
 	Window:CreateSwitch("Raid", "VerticalHealth", "Enable vertical health")
 	
 	Window:CreateSection("Styling")
-	Window:CreateSwitch("Raid", "ShowHealthText", "Display health text")
 	Window:CreateSlider("Raid", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)
 	Window:CreateSlider("Raid", "MaxUnitPerColumn", "Set max units per column", 1, 15, 1)
 	

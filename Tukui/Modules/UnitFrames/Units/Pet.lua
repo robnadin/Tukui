@@ -26,7 +26,6 @@ function TukuiUnitFrames:Pet()
 	Health:SetPoint("TOPLEFT")
 	Health:SetPoint("TOPRIGHT")
 	Health:SetStatusBarTexture(HealthTexture)
-	Health.PostUpdate = T.PostUpdatePetColor
 
 	Health.Background = Health:CreateTexture(nil, "BORDER")
 	Health.Background:Point("TOPLEFT", Health, -1, 1)

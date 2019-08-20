@@ -40,14 +40,6 @@ function TukuiUnitFrames:Raid()
 	Health.Background:SetAllPoints()
 	Health.Background:SetColorTexture(.1, .1, .1)
 
-	if C.Raid.ShowHealthText then
-		Health.Value = Health:CreateFontString(nil, "OVERLAY", 1)
-		Health.Value:SetFontObject(HealthFont)
-		Health.Value:Point("CENTER", Health, 0, 0)
-
-		Health.PostUpdate = TukuiUnitFrames.PostUpdateHealth
-	end
-
 	Health.frequentUpdates = true
 	Health.colorDisconnected = true
 	Health.colorClass = true

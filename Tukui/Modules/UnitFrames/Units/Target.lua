@@ -65,18 +65,12 @@ function TukuiUnitFrames:Target()
 	Power.Background:SetColorTexture(.4, .4, .4)
 	Power.Background.multiplier = 0.3
 
-	Power.Value = Power:CreateFontString(nil, "OVERLAY")
-	Power.Value:SetFontObject(Font)
-	Power.Value:Point("LEFT", Panel, "LEFT", 4, 0)
-
 	Power.frequentUpdates = true
 	Power.colorPower = true
 
 	if (C.UnitFrames.Smooth) then
 		Power.Smooth = true
 	end
-
-	Power.PostUpdate = TukuiUnitFrames.PostUpdatePower
 
 	if C.UnitFrames.Portrait then
 		local Portrait = CreateFrame("PlayerModel", nil, Health)
