@@ -196,12 +196,6 @@ function Tooltip:OnTooltipSetUnit()
 		GameTooltip:AddLine(UnitName(Unit .. "target"), R, G, B)
 	end
 
-	if (C["Tooltips"].UnitHealthText and UnitHealth(Unit) and UnitHealthMax(Unit)) then
-		local Health, MaxHealth = UnitHealth(Unit), UnitHealthMax(Unit)
-		
-		HealthBar.Text:SetText(Unit == "player" and Short(UnitHealth(Unit)) .. " / " .. Short(UnitHealthMax(Unit)) or Health.."%")
-	end
-
 	self.fadeOut = nil
 end
 
@@ -290,6 +284,7 @@ function Tooltip:OnValueChanged()
 	end
 
 	local unit = select(2, self:GetParent():GetUnit())
+	
 	if(not unit) then
 		local GMF = GetMouseFocus()
 
@@ -298,18 +293,14 @@ function Tooltip:OnValueChanged()
 		end
 	end
 
-	local _, Max = HealthBar:GetMinMaxValues()
-	local Value = HealthBar:GetValue()
-	if (Max == 1) then
-		self.Text:Hide()
-	else
-		self.Text:Show()
-	end
-
-	if (Value == 0 or (unit and UnitIsDeadOrGhost(unit))) then
-		self.Text:SetText(DEAD)
-	else
-		self.Text:SetText(Short(Value) .. " / " .. Short(Max))
+	local Health, MaxHealth = UnitHealth(unit), UnitHealthMax(unit)
+	
+	if (Health) then
+		if (Health == 0 or (unit and UnitIsDeadOrGhost(unit))) then
+			self.Text:SetText(DEAD)
+		else
+			self.Text:SetText(floor(Health / MaxHealth * 100) .. "%")
+		end
 	end
 end
 
