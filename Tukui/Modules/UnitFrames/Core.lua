@@ -327,18 +327,6 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	end
 end
 
-local function hasbit(x, p)
-	return x % (p + p) >= p
-end
-
-local function setbit(x, p)
-	return hasbit(x, p) and x or x + p
-end
-
-local function clearbit(x, p)
-	return hasbit(x, p) and x - p or x
-end
-
 function TukuiUnitFrames:CreateAuraTimer(elapsed)
 	if (self.TimeLeft) then
 		self.Elapsed = (self.Elapsed or 0) + elapsed
