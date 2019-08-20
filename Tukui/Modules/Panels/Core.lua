@@ -3,7 +3,7 @@ local T, C, L = select(2, ...):unpack()
 local Panels = CreateFrame("Frame")
 
 function Panels:Enable()
-	local BottomLine = CreateFrame("Frame", nil, UIParent)
+	local BottomLine = CreateFrame("Frame", "TukuiBottomLine", UIParent)
 	BottomLine:SetTemplate()
 	BottomLine:Size(2)
 	BottomLine:Point("BOTTOMLEFT", 30, 30)

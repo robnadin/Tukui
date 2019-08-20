@@ -35,6 +35,10 @@ function Movers:RestoreDefaults(button)
 		local Anchor1, ParentName, Anchor2, X, Y = unpack(Data)
 		local Frame = _G[FrameName]
 		local Parent = _G[ParentName]
+		
+		if not Parent then
+			Parent = UIParent
+		end
 
 		Frame:ClearAllPoints()
 		Frame:SetPoint(Anchor1, Parent, Anchor2, X, Y)
