@@ -10,6 +10,7 @@ C["General"] = {
 	["UseGlobal"] = false,
 	["HideShadows"] = false,
 	["UIScale"] = T.PerfectScale,
+	["MinimapScale"] = 100,
 
 	["Themes"] = {
 		["Options"] = {

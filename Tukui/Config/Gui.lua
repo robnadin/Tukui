@@ -1900,6 +1900,7 @@ local General = function(self)
 	
 	Window:CreateSection("Scaling")
 	Window:CreateSlider("General", "UIScale", "Set UI scale", 0.64, 1, 0.01)
+	Window:CreateSlider("General", "MinimapScale", "Set minimap scale (%)", 50, 200, 1)
 	
 	Window:CreateSection("Border & Backdrop")
 	Window:CreateColorSelection("General", "BackdropColor", "Backdrop color")

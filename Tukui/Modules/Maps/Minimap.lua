@@ -257,10 +257,18 @@ function Minimap:EnableMouseOver()
 	end)
 end
 
+function Minimap:SizeMinimap()
+	local X, Y = self:GetSize()
+	local Scale = C.General.MinimapScale / 100
+	
+	self:Size(X * Scale, Y * Scale)
+end
+
 function Minimap:Enable()
 	local Time = _G["TimeManagerClockButton"]
 
 	self:DisableMinimapElements()
+	self:SizeMinimap()
 	self:StyleMinimap()
 	self:PositionMinimap()
 	self:AddMinimapDataTexts()
