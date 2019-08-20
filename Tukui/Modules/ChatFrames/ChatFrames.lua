@@ -251,7 +251,7 @@ function TukuiChat:SetChatFramePosition()
 	if (not TukuiData[GetRealmName()][UnitName("Player")].Chat) then
 		return
 	end
-
+	
 	local Frame = self
 
 	if not Frame:IsMovable() then
@@ -260,17 +260,43 @@ function TukuiChat:SetChatFramePosition()
 
 	local ID = Frame:GetID()
 	local Settings = TukuiData[GetRealmName()][UnitName("Player")].Chat["Frame" .. ID]
-
+	
 	if Settings then
-		local Anchor1, Anchor2, X, Y, Width, Height = unpack(Settings)
+		if C.General.Themes.Value == "Tukui 18" then
+			local Anchor1, Anchor2, X, Y, Width, Height = unpack(Settings)
+			local Movers = T.Movers
+			local Panels = T.Panels
 
-		Frame:SetUserPlaced(true)
-		Frame:ClearAllPoints()
-		Frame:SetPoint(Anchor1, UIParent, Anchor2, X, Y)
-		Frame:SetSize(Width, Height)
-		
-		if (ID == 4 and Anchor1 == "BOTTOMRIGHT" and math.floor(X) == -34 and math.floor(Y) == 50) then
-			Frame:SetJustifyH("RIGHT")
+			if ID == 1 then
+				Frame:SetParent(Panels.DataTextLeft)
+				Frame:SetUserPlaced(true)
+				Frame:ClearAllPoints()
+				Frame:SetSize(Width, Height + 7)
+				Frame:SetPoint("BOTTOMLEFT", Panels.DataTextLeft, "TOPLEFT", 0, 2)
+				
+				Movers:RegisterFrame(T.Panels.DataTextLeft)
+			elseif ID == 4 then
+				Frame:SetParent(Panels.DataTextRight)
+				Frame:SetUserPlaced(true)
+				Frame:ClearAllPoints()
+				Frame:SetSize(Width, Height + 7)
+				Frame:SetPoint("BOTTOMLEFT", Panels.DataTextRight, "TOPLEFT", 0, 2)
+				Frame:SetJustifyH("RIGHT")
+				
+				Movers:RegisterFrame(T.Panels.DataTextRight)
+			end
+		else
+			local Anchor1, Anchor2, X, Y, Width, Height = unpack(Settings)
+
+			Frame:SetUserPlaced(true)
+			Frame:ClearAllPoints()
+			Frame:SetPoint(Anchor1, UIParent, Anchor2, X, Y)
+			Frame:SetSize(Width, Height)
+			Frame:SetTemplate()
+
+			if (ID == 4 and Anchor1 == "BOTTOMRIGHT" and math.floor(X) == -34 and math.floor(Y) == 50) then
+				Frame:SetJustifyH("RIGHT")
+			end
 		end
 	end
 end
