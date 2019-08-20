@@ -268,7 +268,6 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 		return
 	end
 	
-	local Parent = self:GetParent()
 	local pType, pToken = UnitPowerType(unit)
 	local Color = T.Colors.power[pToken]
 	local Pr, Pg, Pb = 1, 1, 1
