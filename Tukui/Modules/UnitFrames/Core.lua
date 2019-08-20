@@ -248,12 +248,10 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 		return
 	end
 	
-	if (not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit)) then
-		if (not UnitIsConnected(unit)) then
-			self.Value:SetText("|cffD7BEA5"..FRIENDS_LIST_OFFLINE.."|r")
-		elseif (UnitIsDead(unit) or UnitIsGhost(unit)) then
-			self.Value:SetText("|cffD7BEA5"..DEAD.."|r")
-		end
+	if (not UnitIsConnected(unit)) then
+		self.Value:SetText("|cffD7BEA5"..FRIENDS_LIST_OFFLINE.."|r")
+	elseif (UnitIsDeadOrGhost(unit)) then
+		self.Value:SetText("|cffD7BEA5"..DEAD.."|r")
 	else
 		local r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 		
