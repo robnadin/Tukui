@@ -285,7 +285,7 @@ function Tooltip:OnValueChanged()
 
 	local unit = select(2, self:GetParent():GetUnit())
 	
-	if(not unit) then
+	if (not unit) then
 		local GMF = GetMouseFocus()
 
 		if (GMF and GMF.GetAttribute and GMF:GetAttribute("unit")) then
@@ -295,12 +295,10 @@ function Tooltip:OnValueChanged()
 
 	local Health, MaxHealth = UnitHealth(unit), UnitHealthMax(unit)
 	
-	if (Health) then
-		if (Health == 0 or (unit and UnitIsDeadOrGhost(unit))) then
-			self.Text:SetText(DEAD)
-		else
-			self.Text:SetText(floor(Health / MaxHealth * 100) .. "%")
-		end
+	if (UnitIsDeadOrGhost(unit)) then
+		self.Text:SetText(DEAD)
+	else
+		self.Text:SetText(floor(Health / MaxHealth * 100) .. "%")
 	end
 end
 
