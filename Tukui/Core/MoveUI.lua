@@ -60,6 +60,8 @@ function Movers:RegisterFrame(frame)
 end
 
 function Movers:OnDragStart()
+	GameTooltip_Hide()
+	
 	self:StartMoving()
 end
 
@@ -79,6 +81,20 @@ function Movers:OnDragStop()
 	end
 
 	Data[FrameName] = {Anchor1, Parent:GetName(), Anchor2, X, Y}
+	
+	Movers:OnEnter()
+end
+
+function Movers:OnEnter()
+	GameTooltip:SetOwner(self)
+	GameTooltip:SetAnchorType("ANCHOR_CURSOR")
+	GameTooltip:AddLine("Hold left click to drag") -- LOCALIZE ME PLZ
+	GameTooltip:AddLine("Right click to reset default") -- LOCALIZE ME PLZ
+	GameTooltip:Show()
+end
+
+function Movers:OnLeave()
+	GameTooltip_Hide()
 end
 
 function Movers:CreateDragInfo()
@@ -98,6 +114,8 @@ function Movers:CreateDragInfo()
 	self.DragInfo:SetClampedToScreen(true)
 	self.DragInfo:Hide()
 	self.DragInfo:SetScript("OnMouseUp", Movers.RestoreDefaults)
+	self.DragInfo:SetScript("OnEnter", Movers.OnEnter)
+	self.DragInfo:SetScript("OnLeave", Movers.OnLeave)
 
 	self.DragInfo.Parent = self.DragInfo:GetParent()
 end
