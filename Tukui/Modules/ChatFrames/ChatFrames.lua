@@ -40,6 +40,10 @@ function TukuiChat:UpdateEditBoxColor()
 	end
 end
 
+function TukuiChat:LockChat()
+	T.Print(L.Help.ChatMove)
+end
+
 function TukuiChat:MoveAudioButtons()
 	ChatFrameChannelButton:Kill()
 end
@@ -275,6 +279,15 @@ function TukuiChat:SetChatFramePosition()
 				Frame:SetPoint("BOTTOMLEFT", Panels.DataTextLeft, "TOPLEFT", 0, 2)
 				
 				Movers:RegisterFrame(T.Panels.DataTextLeft)
+			elseif ID == 4 and not Frame:IsShown() then
+				Panels.RightChatBG:Hide()
+				
+				if C.Misc.ExperienceEnable then
+					local XP = T.Miscellaneous.Experience.XPBar2
+					XP:Hide()
+				end
+				
+				Panels.DataTextRight:Hide()
 			elseif ID == 4 then
 				Frame:SetParent(Panels.DataTextRight)
 				Frame:SetUserPlaced(true)
@@ -303,7 +316,7 @@ end
 function TukuiChat:Install()
 	-- Create our custom chatframes
 	
-	if (not TukuiData[GetRealmName()][UnitName("Player")].ChatReset) or (ChatFrame3 and ChatFrame3:IsShown() and ChatFrame3Tab:GetText() == GENERAL and ChatFrame4 and ChatFrame4:IsShown() and ChatFrame4Tab:GetText() == self.RightChatName) then
+	if (ChatFrame3 and ChatFrame3:IsShown() and ChatFrame3Tab:GetText() == GENERAL and ChatFrame4 and ChatFrame4:IsShown() and ChatFrame4Tab:GetText() == self.RightChatName) then
 		-- Do nothing, chat already set
 	else
 		ResetChatWindows()

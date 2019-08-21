@@ -34,6 +34,11 @@ function TukuiChat:Enable()
 	end)
 
 	FCF_UpdateButtonSide = function() end
+	
+	if C.General.Themes.Value == "Tukui 18" then
+		FCF_ToggleLock = self.LockChat
+		FCF_ToggleLockOnDockedFrame = self.LockChat
+	end
 end
 
 T["Chat"] = TukuiChat

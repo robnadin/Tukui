@@ -137,6 +137,7 @@ L.Help.Move = "'|cff00ff00move|r' or '|cff00ff00moveui|r' : Move Frames."
 L.Help.Profile = "'|cff00ff00profile|r' or '|cff00ff00p|r' : Use Tukui settings (existing profile) from another character."
 L.Help.Status = "'|cff00ff00status|r' or '|cff00ff00debug|r' : Show a debug window with information needed to investigate a bug in the UI"
 L.Help.Test = "'|cff00ff00test|r' or '|cff00ff00testui|r' : Test Unit Frames."
+L.Help.ChatMove = "Please use |cff00ff00/tukui move|r and move datatexts to move chatframes"
 
 ------------------------------------------------
 L.Merchant = {} -- Merchant
