@@ -199,10 +199,6 @@ end
 
 Movers:SetScript("OnEvent", function(self, event)
 	if (event == "PLAYER_ENTERING_WORLD") then
-		if not TukuiData[GetRealmName()][UnitName("Player")].Move then
-			TukuiData[GetRealmName()][UnitName("Player")].Move = {}
-		end
-
 		local Data = TukuiData[GetRealmName()][UnitName("Player")].Move
 
 		for Frame, Position in pairs(Data) do

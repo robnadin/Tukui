@@ -48,7 +48,6 @@ function Install:ResetData()
 	ReloadUI()
 end
 
--- Apply these defaults automaticaly when a new character is created [step 1]
 function Install:SetDefaults()
 	-- CVars
 	SetCVar("countdownForCooldowns", 1)
@@ -82,13 +81,17 @@ function Install:SetDefaults()
 	SetCVar("profanityFilter", 0)
 
 	local Chat = T["Chat"]
+	local ActionBars = T["ActionBars"]
 
 	if (Chat) then
 		Chat:Install()
 	end
+	
+	if (ActionBars) then
+		TukuiData[GetRealmName()][UnitName("Player")].HideBar5 = true
+	end
 end
 
--- Apply these defaults automaticaly when a new character is created [step 2]
 function Install:MoveChannels()
 	local Chat = T["Chat"]
 
@@ -102,10 +105,10 @@ end
 Install:RegisterEvent("VARIABLES_LOADED")
 Install:RegisterEvent("PLAYER_ENTERING_WORLD")
 Install:SetScript("OnEvent", function(self, event)
+	local Name = UnitName("Player")
+	local Realm = GetRealmName()
+		
 	if (event == "VARIABLES_LOADED") then
-		local Name = UnitName("Player")
-		local Realm = GetRealmName()
-
 		if (not TukuiData) then
 			TukuiData = {}
 		end
@@ -117,16 +120,20 @@ Install:SetScript("OnEvent", function(self, event)
 		if (not TukuiData[Realm][Name]) then
 			TukuiData[Realm][Name] = {}
 		end
+			
+		if (not TukuiData[Realm][Name].Move) then
+			TukuiData[Realm][Name].Move = {}
+		end
 
-		if (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
+		if (not TukuiData[Realm][Name].InstallDone) then
 			self:SetDefaults()
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
-		if (TukuiData[GetRealmName()][UnitName("Player")].ChatReset) or (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
+		if (TukuiData[Realm][Name].ChatReset) or (not TukuiData[Realm][Name].InstallDone) then
 			self:MoveChannels()
 				
-			if (TukuiData[GetRealmName()][UnitName("Player")].ChatReset) then
-				TukuiData[GetRealmName()][UnitName("Player")].ChatReset = false
+			if (TukuiData[Realm][Name].ChatReset) then
+				TukuiData[Realm][Name].ChatReset = false
 			end
 		end
 	end
