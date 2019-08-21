@@ -303,7 +303,7 @@ function TukuiChat:SetChatFramePosition()
 				Frame:SetPoint("BOTTOMLEFT", Panels.DataTextRight, "TOPLEFT", 0, 2)
 				Frame:SetJustifyH("RIGHT")
 				
-				Frame:SetScript("OnHide", TukuiChat.RemoveRightChat)
+				Frame:HookScript("OnHide", TukuiChat.RemoveRightChat)
 				
 				Movers:RegisterFrame(T.Panels.DataTextRight)
 			end
@@ -324,7 +324,6 @@ end
 
 function TukuiChat:Install()
 	-- Create our custom chatframes
-	
 	if (ChatFrame3 and ChatFrame3:IsShown() and ChatFrame3Tab:GetText() == GENERAL and ChatFrame4 and ChatFrame4:IsShown() and ChatFrame4Tab:GetText() == self.RightChatName) then
 		-- Do nothing, chat already set
 	else
