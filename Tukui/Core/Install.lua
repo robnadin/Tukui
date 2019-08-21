@@ -122,8 +122,12 @@ Install:SetScript("OnEvent", function(self, event)
 			self:SetDefaults()
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
-		if (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
+		if (TukuiData[GetRealmName()][UnitName("Player")].ChatReset) or (not TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
 			self:MoveChannels()
+				
+			if (TukuiData[GetRealmName()][UnitName("Player")].ChatReset) then
+				TukuiData[GetRealmName()][UnitName("Player")].ChatReset = false
+			end
 		end
 	end
 end)

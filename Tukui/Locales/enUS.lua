@@ -125,6 +125,7 @@ L.Help = {} -- /tukui help
 
 L.Help.Title = "Tukui Commands:"
 L.Help.Config = "'|cff00ff00c|r' or '|cff00ff00config|r' : Display in-game configuration window."
+L.Help.Chat = "'|cff00ff00chat reset|r' : Reset chat windows to default."
 L.Help.Datatexts = "'|cff00ff00dt|r' or '|cff00ff00datatext|r' : Enable or disable datatext configuration."
 L.Help.Events = "'|cff00ff00events|r' or '|cff00ff00trace|r' : For devs, toggle events printing in chat."
 L.Help.Gold = "'|cff00ff00gold reset|r' : Reset all characters gold data stored on current server."

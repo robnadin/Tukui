@@ -292,7 +292,6 @@ function TukuiChat:SetChatFramePosition()
 			Frame:ClearAllPoints()
 			Frame:SetPoint(Anchor1, UIParent, Anchor2, X, Y)
 			Frame:SetSize(Width, Height)
-			Frame:SetTemplate()
 
 			if (ID == 4 and Anchor1 == "BOTTOMRIGHT" and math.floor(X) == -34 and math.floor(Y) == 50) then
 				Frame:SetJustifyH("RIGHT")
@@ -304,7 +303,7 @@ end
 function TukuiChat:Install()
 	-- Create our custom chatframes
 	
-	if ChatFrame3 and ChatFrame3Tab:GetText() == GENERAL and ChatFrame4 and ChatFrame4Tab:GetText() == self.RightChatName then
+	if ChatFrame3 and ChatFrame3:IsShown() and ChatFrame3Tab:GetText() == GENERAL and ChatFrame4 and ChatFrame4:IsShown() and ChatFrame4Tab:GetText() == self.RightChatName then
 		-- Do nothing, chat already set
 	else
 		ResetChatWindows()

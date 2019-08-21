@@ -29,6 +29,7 @@ T.SlashHandler = function(cmd)
 	if (arg1 == "" or arg1 == "help") then
 		print(" ")
 		print("|cffff8000".. L.Help.Title .."|r")
+		print(L.Help.Chat)
 		print(L.Help.Config)
 		print(L.Help.Datatexts)
 		print(L.Help.Events)
@@ -42,6 +43,21 @@ T.SlashHandler = function(cmd)
 		print(L.Help.Status)
 		print(L.Help.Test)
 		print(" ")
+	elseif (arg1 == "chat") then
+		if (arg2 == "reset") then
+			local Chat = T.Chat
+			
+			if Chat then
+				Chat:Install()
+				Chat:SetChatFramePosition()
+				
+				TukuiData[GetRealmName()][UnitName("Player")].ChatReset = true
+				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiLeftDataTextBox = nil
+				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiRightDataTextBox = nil
+				
+				ReloadUI()
+			end
+		end
 	elseif (arg1 == "dt" or arg1 == "datatext") then
 		local DataText = T["DataTexts"]
 
