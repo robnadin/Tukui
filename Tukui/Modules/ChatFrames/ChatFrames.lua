@@ -271,14 +271,18 @@ function TukuiChat:SetChatFramePosition()
 	end
 	
 	local Frame = self
+	local ID = Frame:GetID()
 
 	if not Frame:IsMovable() then
+		if C.General.Themes.Value == "Tukui 18" and ID == 4 then
+			TukuiChat:RemoveRightChat()
+		end
+		
 		return
 	end
-
-	local ID = Frame:GetID()
-	local Settings = TukuiData[GetRealmName()][UnitName("Player")].Chat["Frame" .. ID]
 	
+	local Settings = TukuiData[GetRealmName()][UnitName("Player")].Chat["Frame" .. ID]
+
 	if Settings then
 		if C.General.Themes.Value == "Tukui 18" then
 			local Anchor1, Anchor2, X, Y, Width, Height = unpack(Settings)
@@ -293,7 +297,7 @@ function TukuiChat:SetChatFramePosition()
 				Frame:SetPoint("BOTTOMLEFT", Panels.DataTextLeft, "TOPLEFT", 0, 2)
 				
 				Movers:RegisterFrame(T.Panels.DataTextLeft)
-			elseif ID == 4 and not Frame:IsShown() then
+			elseif ID == 4 and (not Frame:IsShown() or Frame.isDocked) then
 				TukuiChat:RemoveRightChat()
 			elseif ID == 4 then
 				Frame:SetParent(Panels.DataTextRight)
