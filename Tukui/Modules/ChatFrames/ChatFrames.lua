@@ -251,6 +251,20 @@ function TukuiChat:SaveChatFramePositionAndDimensions()
 	TukuiData[GetRealmName()][UnitName("Player")].Chat["Frame" .. ID] = {Anchor1, Anchor2, X, Y, Width, Height}
 end
 
+function TukuiChat:RemoveRightChat()
+	local Panels = T.Panels
+	
+	Panels.RightChatBG:Hide()
+
+	if C.Misc.ExperienceEnable then
+		local XP = T.Miscellaneous.Experience.XPBar2
+		
+		XP:Hide()
+	end
+
+	Panels.DataTextRight:Hide()
+end
+
 function TukuiChat:SetChatFramePosition()
 	if (not TukuiData[GetRealmName()][UnitName("Player")].Chat) then
 		return
@@ -280,14 +294,7 @@ function TukuiChat:SetChatFramePosition()
 				
 				Movers:RegisterFrame(T.Panels.DataTextLeft)
 			elseif ID == 4 and not Frame:IsShown() then
-				Panels.RightChatBG:Hide()
-				
-				if C.Misc.ExperienceEnable then
-					local XP = T.Miscellaneous.Experience.XPBar2
-					XP:Hide()
-				end
-				
-				Panels.DataTextRight:Hide()
+				TukuiChat:RemoveRightChat()
 			elseif ID == 4 then
 				Frame:SetParent(Panels.DataTextRight)
 				Frame:SetUserPlaced(true)
@@ -295,6 +302,8 @@ function TukuiChat:SetChatFramePosition()
 				Frame:SetSize(Width, Height + 7)
 				Frame:SetPoint("BOTTOMLEFT", Panels.DataTextRight, "TOPLEFT", 0, 2)
 				Frame:SetJustifyH("RIGHT")
+				
+				Frame:SetScript("OnHide", TukuiChat.RemoveRightChat)
 				
 				Movers:RegisterFrame(T.Panels.DataTextRight)
 			end
