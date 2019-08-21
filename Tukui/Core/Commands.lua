@@ -48,10 +48,11 @@ T.SlashHandler = function(cmd)
 			local Chat = T.Chat
 			
 			if Chat then
+				TukuiData[GetRealmName()][UnitName("Player")].ChatReset = true
+				
 				Chat:Install()
 				Chat:SetChatFramePosition()
 				
-				TukuiData[GetRealmName()][UnitName("Player")].ChatReset = true
 				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiLeftDataTextBox = nil
 				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiRightDataTextBox = nil
 				

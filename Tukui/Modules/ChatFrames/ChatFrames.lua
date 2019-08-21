@@ -303,7 +303,7 @@ end
 function TukuiChat:Install()
 	-- Create our custom chatframes
 	
-	if ChatFrame3 and ChatFrame3:IsShown() and ChatFrame3Tab:GetText() == GENERAL and ChatFrame4 and ChatFrame4:IsShown() and ChatFrame4Tab:GetText() == self.RightChatName then
+	if (not TukuiData[GetRealmName()][UnitName("Player")].ChatReset) or (ChatFrame3 and ChatFrame3:IsShown() and ChatFrame3Tab:GetText() == GENERAL and ChatFrame4 and ChatFrame4:IsShown() and ChatFrame4Tab:GetText() == self.RightChatName) then
 		-- Do nothing, chat already set
 	else
 		ResetChatWindows()
