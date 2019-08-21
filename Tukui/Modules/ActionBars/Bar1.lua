@@ -35,6 +35,7 @@ function TukuiActionBars:UpdateBar1()
 end
 
 function TukuiActionBars:CreateBar1()
+	local Movers = T["Movers"]
 	local Panels = T["Panels"]
 	local Size = C.ActionBars.NormalButtonSize
 	local PetSize = C.ActionBars.PetButtonSize
@@ -120,4 +121,6 @@ function TukuiActionBars:CreateBar1()
 		local Button = _G["ActionButton"..i]
 		ActionBar1["Button"..i] = Button
 	end
+	
+	Movers:RegisterFrame(ActionBar1)
 end

@@ -152,7 +152,7 @@ function TukuiActionBars:AddPanels()
 
 	-- Bar #4
 	local A4 = CreateFrame("Frame", "TukuiActionBar4", UIParent, "SecureHandlerStateTemplate")
-	A4:Point("BOTTOM", UIParent, "BOTTOM", 0, 12)
+	A4:Point("BOTTOM", A1, "BOTTOM", 0, 0)
 	A4:SetFrameStrata("LOW")
 	A4:SetFrameLevel(10)
 	A4.Backdrop = CreateFrame("Frame", nil, A4)
