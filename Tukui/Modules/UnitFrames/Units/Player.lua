@@ -309,6 +309,11 @@ function TukuiUnitFrames:Player()
 	RaidIcon:SetSize(16, 16)
 	RaidIcon:SetPoint("TOP", self, 0, 8)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
+	
+	local RestingIndicator = Panel:CreateTexture(nil, "OVERLAY", 7)
+	RestingIndicator:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\Resting]])
+	RestingIndicator:SetSize(20, 20)
+	RestingIndicator:SetPoint("CENTER", Panel, "CENTER", 0, 0)
 
 	self:HookScript("OnEnter", TukuiUnitFrames.MouseOnPlayer)
 	self:HookScript("OnLeave", TukuiUnitFrames.MouseOnPlayer)
@@ -326,6 +331,7 @@ function TukuiUnitFrames:Player()
 	self.RaidTargetIndicator = RaidIcon
 	self.PowerPrediction = {}
 	self.PowerPrediction.mainBar = Power.Prediction
+	self.RestingIndicator = RestingIndicator
 
 	-- Classes
 	TukuiUnitFrames.AddClassFeatures[Class](self)
