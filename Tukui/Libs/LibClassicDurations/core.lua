@@ -61,7 +61,7 @@ Usage example 2:
 --]================]
 
 
-local MAJOR, MINOR = "LibClassicDurations", 8
+local MAJOR, MINOR = "LibClassicDurations", 9
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
@@ -70,8 +70,10 @@ lib.frame = lib.frame or CreateFrame("Frame")
 
 lib.guids = lib.guids or {}
 lib.spells = lib.spells or {}
-lib.npc_spells = lib.npc_spells or {}
+-- lib.npc_spells = lib.npc_spells or {}
+
 lib.spellNameToID = lib.npc_spells or {}
+local spellNameToID = lib.spellNameToID
 
 lib.DRInfo = lib.DRInfo or {}
 local DRInfo = lib.DRInfo
@@ -92,8 +94,8 @@ local f = lib.frame
 local callbacks = lib.callbacks
 local guids = lib.guids
 local spells = lib.spells
-local npc_spells = lib.npc_spells
-local spellNameToID = lib.spellNameToID
+-- local npc_spells = lib.npc_spells
+
 
 local PURGE_INTERVAL = 900
 local PURGE_THRESHOLD = 1800
@@ -117,8 +119,8 @@ local SpellDataVersions = {}
 
 function lib:SetDataVersion(dataType, version)
     SpellDataVersions[dataType] = version
-    npc_spells = lib.npc_spells
-    spellNameToID = lib.spellNameToID
+    -- npc_spells = lib.npc_spells
+    -- spellNameToID = lib.spellNameToID
 end
 
 function lib:GetDataVersion(dataType)
@@ -600,10 +602,11 @@ function lib:GetAuraDurationByUnit(...)
     return self.GetAuraDurationByUnitDirect(...)
 
 end
-function lib:GetAuraDurationByGUID(dstGUID, spellID, srcGUID)
+function lib:GetAuraDurationByGUID(dstGUID, spellID, srcGUID, spellName)
     local opts = spells[spellID]
     if not opts then return end
-    return GetGUIDAuraTime(dstGUID, spellID, srcGUID, opts.stacking)
+    if not spellName then spellName = GetSpellInfo(spellID) end
+    return GetGUIDAuraTime(dstGUID, spellName, spellID, srcGUID, opts.stacking)
 end
 
 function lib:GetLastRankSpellIDByName(spellName)
