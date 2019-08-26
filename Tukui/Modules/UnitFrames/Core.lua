@@ -2,6 +2,7 @@ local T, C, L = select(2, ...):unpack()
 local AddOn, Plugin = ...
 local oUF = Plugin.oUF or oUF
 local LibClassicDurations = LibStub("LibClassicDurations")
+local LibClassicMobHealth = LibStub("LibClassicMobHealth-1.0")
 local Panels = T["Panels"]
 local Noop = function() end
 local TukuiUnitFrames = CreateFrame("Frame")
@@ -254,12 +255,10 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 		self.Value:SetText("|cffD7BEA5"..DEAD.."|r")
 	else
 		local r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+		local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
+		local HP = (unit == "player" and min) or (IsFound and LibCurrentHP)
 		
-		if (unit == "player") then
-			self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", TukuiUnitFrames.ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
-		else
-			self.Value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
-		end
+		self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", (HP and TukuiUnitFrames.ShortValue(HP)) or "???", r * 255, g * 255, b * 255, floor(min / max * 100))
 	end
 end
 
@@ -663,53 +662,6 @@ function TukuiUnitFrames:UpdateRaidDebuffIndicator()
 				ORD:RegisterDebuffs(TukuiUnitFrames.DebuffsTracking.CCDebuffs.spells)
 				ORD.RegisteredList = "CC"
 			end
-		end
-	end
-end
-
-function TukuiUnitFrames:PostUpdateArenaPreparationSpec()
-	local specIcon = self.PVPSpecIcon
-	local instanceType = select(2, IsInInstance())
-
-	if (instanceType == "arena") then
-		local specID = self.id and GetArenaOpponentSpec(tonumber(self.id))
-
-		if specID and specID > 0 then
-			local icon = select(4, GetSpecializationInfoByID(specID))
-
-			specIcon.Icon:SetTexture(icon)
-		else
-			specIcon.Icon:SetTexture([[INTERFACE\ICONS\INV_MISC_QUESTIONMARK]])
-		end
-	else
-		local faction = UnitFactionGroup(self.unit)
-
-		if faction == "Horde" then
-			specIcon.Icon:SetTexture([[Interface\Icons\INV_BannerPVP_01]])
-		elseif faction == "Alliance" then
-			specIcon.Icon:SetTexture([[Interface\Icons\INV_BannerPVP_02]])
-		else
-			specIcon.Icon:SetTexture([[INTERFACE\ICONS\INV_MISC_QUESTIONMARK]])
-		end
-	end
-end
-
-function TukuiUnitFrames:UpdatePowerColorArenaPreparation(specID)
-	-- oUF is unable to get power color on arena preparation, so we add this feature here.
-	local Power = self
-	local Frame = Power:GetParent()
-	local Health = Frame.Health
-	local Class = select(6, GetSpecializationInfoByID(specID))
-
-	if Class then
-		local PowerColor = oUF.colors.specpowertypes[Class][specID]
-
-		if PowerColor then
-			local R, G, B = unpack(PowerColor)
-
-			Power:SetStatusBarColor(R, G, B)
-		else
-			Power:SetStatusBarColor(0, 0, 0)
 		end
 	end
 end

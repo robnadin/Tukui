@@ -483,7 +483,7 @@ function Bags:UpdateAllBags()
 		Bags:BagUpdate(ID)
 	end
 
-	Bags.Bag:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 54 + (ButtonSpacing * 4)) - ButtonSpacing)
+	Bags.Bag:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 34 + (ButtonSpacing * 4)) - ButtonSpacing)
 end
 
 function Bags:UpdateAllBankBags()

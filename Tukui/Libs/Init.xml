@@ -1,9 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Include file="oUF\oUF.xml"/>
-	<Script file="oUF_ComboPointsBar\oUF_ComboPointsBar.lua"/>
-	<Script file="oUF_CombatFeedback\oUF_CombatFeedback.lua"/>
-	<Script file="oUF_Smooth\oUF_Smooth.lua"/>
-	<!-- <Script file="oUF_RaidDebuffs\oUF_RaidDebuffs.lua"/> -->
 	<Include file="DropDownMenu\UIDropDownMenuTemplates.xml"/>
 	<Script file="DropDownMenu\EasyMenu.lua"/>
 	<Script file="DropDownMenu\UIDropDownMenu.lua"/>
@@ -11,5 +6,12 @@
 	<Script file="LibAnim\LibAnim.lua"/>
 	<Script file="LibStub\LibStub.lua"/>
 	<Script file="CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
+	<Script file="LibClassicMobHealth\LibClassicMobHealth.lua"/>
+	<Script file="LibClassicCasterino\LibClassicCasterino.lua"/>
 	<Include file="LibClassicDurations\LibClassicDurations.xml"/>
+	<Include file="oUF\oUF.xml"/>
+	<Script file="oUF_ComboPointsBar\oUF_ComboPointsBar.lua"/>
+	<Script file="oUF_CombatFeedback\oUF_CombatFeedback.lua"/>
+	<Script file="oUF_Smooth\oUF_Smooth.lua"/>
+	<!-- <Script file="oUF_RaidDebuffs\oUF_RaidDebuffs.lua"/> -->
 </Ui>

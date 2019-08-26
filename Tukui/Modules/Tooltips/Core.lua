@@ -3,6 +3,7 @@ local T, C, L = select(2, ...):unpack()
 local _G = _G
 local unpack = unpack
 local RaidColors = RAID_CLASS_COLORS
+local LibClassicMobHealth = LibStub("LibClassicMobHealth-1.0")
 local Tooltip = CreateFrame("Frame")
 local gsub, find, format = string.gsub, string.find, string.format
 local HealthBar = GameTooltipStatusBar
@@ -292,13 +293,19 @@ function Tooltip:OnValueChanged()
 			unit = GMF:GetAttribute("unit")
 		end
 	end
-
+	
+	if not unit then
+		return
+	end
+	
+	local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
 	local Health, MaxHealth = UnitHealth(unit), UnitHealthMax(unit)
+	local Value = (IsFound and LibCurrentHP .. " / " .. LibMaxHP) or (floor(Health / MaxHealth * 100) .. "%")
 	
 	if (UnitIsDeadOrGhost(unit)) then
 		self.Text:SetText(DEAD)
 	else
-		self.Text:SetText(floor(Health / MaxHealth * 100) .. "%")
+		self.Text:SetText(Value)
 	end
 end
 
