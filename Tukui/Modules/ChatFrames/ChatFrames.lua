@@ -274,7 +274,7 @@ function TukuiChat:SetChatFramePosition()
 	local ID = Frame:GetID()
 
 	if not Frame:IsMovable() then
-		if C.General.Themes.Value == "Tukui 18" and ID == 4 then
+		if (C.General.Themes.Value == "Tukui 18" and ID == 4) and (TukuiData[GetRealmName()][UnitName("Player")].InstallDone) then
 			TukuiChat:RemoveRightChat()
 		end
 		
