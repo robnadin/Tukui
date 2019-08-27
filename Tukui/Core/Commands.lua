@@ -51,7 +51,7 @@ T.SlashHandler = function(cmd)
 				TukuiData[GetRealmName()][UnitName("Player")].ChatReset = true
 				
 				Chat:Install()
-				Chat:SetChatFramePosition()
+				Chat:SetDefaultChatFramesPositions()
 				
 				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiLeftDataTextBox = nil
 				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiRightDataTextBox = nil
