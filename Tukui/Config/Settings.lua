@@ -89,6 +89,7 @@ C["Misc"] = {
 	["ExperienceEnable"] = true,
 	["ReputationEnable"] = true,
 	["ErrorFilterEnable"] = true,
+	["SellGrayPopup"] = true,
 	["AFKSaver"] = true,
 }
 

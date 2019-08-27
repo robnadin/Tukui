@@ -2018,6 +2018,7 @@ local Misc = function(self)
 	Window:CreateSwitch("Misc", "ReputationEnable", "Enable reputation module")
 	Window:CreateSwitch("Misc", "ErrorFilterEnable", "Enable error filter module")
 	Window:CreateSwitch("Misc", "AFKSaver", "Enable AFK screensaver")
+	Window:CreateSwitch("Misc", "SellGrayPopup", "Ask you to auto-sell gray everytime you visit a vendor?")
 end
 
 local NamePlates = function(self)

@@ -51,7 +51,9 @@ function Merchant:OnEvent(event)
 		if (IsShiftKeyDown()) then
 			Merchant:SellJunk()
 		else
-			Popups.ShowPopup("TUKUI_SELL_JUNK")
+			if C.Misc.SellGrayPopup then
+				Popups.ShowPopup("TUKUI_SELL_JUNK")
+			end
 		end
 	elseif (event == "MERCHANT_CLOSED") then
 		for i = 1, 4 do
