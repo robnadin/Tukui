@@ -345,10 +345,7 @@ end
 
 function TukuiChat:Install()
 	-- Create our custom chatframes
-	for i = 1, 10 do
-		ResetChatWindows()
-	end
-	
+	FCF_ResetChatWindows()
 	FCF_SetLocked(ChatFrame1, 1)
 	FCF_DockFrame(ChatFrame2)
 	FCF_SetLocked(ChatFrame2, 1)
@@ -357,6 +354,10 @@ function TukuiChat:Install()
 	FCF_DockFrame(ChatFrame3)
 	FCF_OpenNewWindow(self.RightChatName)
 	FCF_UnDockFrame(ChatFrame4)
+	FCF_SetChatWindowFontSize(nil, ChatFrame1, 12)
+	FCF_SetChatWindowFontSize(nil, ChatFrame2, 12)
+	FCF_SetChatWindowFontSize(nil, ChatFrame3, 12)
+	FCF_SetChatWindowFontSize(nil, ChatFrame4, 12)
 
 	-- Enable Classcolor
 	ToggleChatColorNamesByClassGroup(true, "SAY")
