@@ -266,7 +266,7 @@ function callbacks.OnUsed()
     f:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
 
     -- for unit lookup
-    f:RegisterEvent("GROUP_ROSTER_UPDATE")
+    -- f:RegisterEvent("GROUP_ROSTER_UPDATE") -- LUA ERROR
     f:RegisterEvent("NAME_PLATE_UNIT_ADDED")
     f:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
 end
