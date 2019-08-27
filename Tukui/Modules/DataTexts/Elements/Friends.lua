@@ -1,5 +1,10 @@
 local T, C, L = select(2, ...):unpack()
 
+-- Data sample for debugging.
+-- RETAIL:  true Rîpjaw WoW  3676 Horde Troll Hunter   120 Dazar'alor - Area 52  0 true 121 19 false false Player-3676-0A60FFC5 1 
+-- CLASSIC: true Zaabaa WoW Bigglesworth 4398 Horde Tauren Druid  Mulgore 9 WoW Classic  0 true 122 44 false false Player-4398-006F512E 2
+
+
 local DataText = T["DataTexts"]
 local Popups = T["Popups"]
 local format = format
