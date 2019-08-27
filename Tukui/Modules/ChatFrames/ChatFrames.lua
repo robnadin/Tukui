@@ -417,6 +417,14 @@ function TukuiChat:MoveChannels()
 	ChatFrame_AddMessageGroup(ChatFrame4, "SKILL")
 	ChatFrame_AddMessageGroup(ChatFrame4, "CURRENCY")
 	
+	ChatFrame_RemoveChannel(ChatFrame1, "General")
+	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
+	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
+
+	ChatFrame_AddChannel(ChatFrame3, "General")
+	ChatFrame_AddChannel(ChatFrame3, "Trade")
+	ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
+	
 	T.Delay(5, function()
 		ChatFrame_RemoveChannel(ChatFrame1, "General")
 		ChatFrame_RemoveChannel(ChatFrame1, "Trade")
