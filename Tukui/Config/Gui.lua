@@ -1818,7 +1818,7 @@ GUI.Enable = function(self)
 	
 	GameMenuFrame:HookScript("OnShow", function()
 		if GUI:IsShown() then
-			GUI.FadeOut:Play()
+			GUI:Toggle()
 		end
 	end)
 	
