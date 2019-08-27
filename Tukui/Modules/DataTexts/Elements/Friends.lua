@@ -1,10 +1,5 @@
 local T, C, L = select(2, ...):unpack()
 
--- Data sample for debugging.
--- RETAIL:  true Rîpjaw WoW  3676 Horde Troll Hunter   120 Dazar'alor - Area 52  0 true 121 19 false false Player-3676-0A60FFC5 1 
--- CLASSIC: true Zaabaa WoW Bigglesworth 4398 Horde Tauren Druid  Mulgore 9 WoW Classic  0 true 122 44 false false Player-4398-006F512E 2
-
-
 local DataText = T["DataTexts"]
 local Popups = T["Popups"]
 local format = format
@@ -120,7 +115,7 @@ local function BuildBNTable(total)
 		local presenceID, presenceName, battleTag, isBattleTagPresence, toonName, toonID, client, isOnline, lastOnline, isAFK, isDND, messageText, noteText, isRIDFriend, messageTime, canSoR = BNGetFriendInfo(i)
 
 		if (toonID or presenceID) then
-			local hasFocus, _, _, realmName, realmID, faction, race, class, guild, zoneName, level, gameText = BNGetGameAccountInfo(toonID or presenceID)
+			local hasFocus, _, _, realmName, realmID, faction, race, class, guild, zoneName, level, gameText, broadcastText, broadcastTime, canSoR, toonID, bnetIDAccount, isGameAFK, isGameBusy, guid, wowProjectID, mobile = BNGetGameAccountInfo(toonID or presenceID)
 
 			for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 				if class == v then
@@ -128,7 +123,7 @@ local function BuildBNTable(total)
 				end
 			end
 
-			BNTable[i] = { presenceID, presenceName, battleTag, toonName, toonID, client, isOnline, isAFK, isDND, noteText, realmName, faction, race, class, zoneName, level }
+			BNTable[i] = { presenceID, presenceName, battleTag, toonName, toonID, client, isOnline, isAFK, isDND, noteText, realmName, faction, race, class, zoneName, level, isBattleTagPresence, wowProjectID}
 
 			if isOnline then
 				BNTotalOnline = BNTotalOnline + 1
@@ -145,7 +140,7 @@ local function UpdateBNTable(total)
 		local presenceID, presenceName, battleTag, isBattleTagPresence, toonName, toonID, client, isOnline, lastOnline, isAFK, isDND, messageText, noteText, isRIDFriend, messageTime, canSoR = BNGetFriendInfo(i)
 
 		if (toonID or presenceID) then
-			local hasFocus, _, _, realmName, realmID, faction, race, class, guild, zoneName, level, gameText = BNGetGameAccountInfo(toonID or presenceID)
+			local hasFocus, _, _, realmName, realmID, faction, race, class, guild, zoneName, level, gameText, broadcastText, broadcastTime, canSoR, toonID, bnetIDAccount, isGameAFK, isGameBusy, guid, wowProjectID, mobile = BNGetGameAccountInfo(toonID or presenceID)
 
 			for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 				if class == v then
@@ -182,6 +177,7 @@ local function UpdateBNTable(total)
 				BNTable[index][15] = zoneName
 				BNTable[index][16] = level
 				BNTable[index][17] = isBattleTagPresence
+				BNTable[index][18] = wowProjectID
 
 				BNTotalOnline = BNTotalOnline + 1
 			end
@@ -216,7 +212,7 @@ local OnMouseUp = function(self, btn)
 				menuCountWhispers = menuCountWhispers + 1
 				menuList[3].menuList[menuCountWhispers] = {text = RemoveTagNumber(BNTable[i][3]), arg1 = realID, arg2 = true, notCheckable=true, func = whisperClick}
 
-				if BNTable[i][6] == wowString and UnitFactionGroup("player") == BNTable[i][12] then
+				if BNTable[i][6] == wowString and UnitFactionGroup("player") == BNTable[i][12] and BNTable[i][11] == T.MyRealm then
 					classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[BNTable[i][14]], GetQuestDifficultyColor(BNTable[i][16])
 
 					if classc == nil then
@@ -280,6 +276,7 @@ local OnEnter = function(self)
 					if count <= DisplayLimit then
 						if BNTable[i][6] == wowString then
 							local isBattleTag = BNTable[i][17]
+							local ProjectID = (BNTable[i][18] == 1 and "World of Warcraft") or (BNTable[i][18] == 2 and "World of Warcraft Classic") or UNKNOWN
 
 							if (BNTable[i][8] == true) then
 								status = 1
@@ -302,9 +299,9 @@ local OnEnter = function(self)
 								grouped = 2
 							end
 
-							GameTooltip:AddDoubleLine(format(clientLevelNameString, BNName,levelc.r*255,levelc.g*255,levelc.b*255,BNTable[i][16],classc.r*255,classc.g*255,classc.b*255,BNTable[i][4],groupedTable[grouped], 255, 0, 0, statusTable[status]), "World of Warcraft")
+							GameTooltip:AddDoubleLine(format(clientLevelNameString, BNName,levelc.r*255,levelc.g*255,levelc.b*255,BNTable[i][16],classc.r*255,classc.g*255,classc.b*255,BNTable[i][4],groupedTable[grouped], 255, 0, 0, statusTable[status]), ProjectID)
 
-							if IsShiftKeyDown() then
+							if IsShiftKeyDown() and CanCooperateWithGameAccount(BNTable[i][5]) then
 								if GetRealZoneText() == BNTable[i][15] then
 									zonec = activezone
 								else
