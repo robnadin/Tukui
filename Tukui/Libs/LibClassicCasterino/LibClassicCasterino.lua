@@ -266,7 +266,7 @@ function callbacks.OnUsed()
     f:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
 
     -- for unit lookup
-    -- f:RegisterEvent("GROUP_ROSTER_UPDATE") -- LUA ERROR
+    f:RegisterEvent("GROUP_ROSTER_UPDATE")
     f:RegisterEvent("NAME_PLATE_UNIT_ADDED")
     f:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
 end
@@ -489,14 +489,18 @@ function f:GROUP_ROSTER_UPDATE()
         for i=1,4 do
             local unit = "party"..i
             local guid = UnitGUID(unit)
-            partyGUIDtoUnit[guid] = unit
+            if guid then
+                partyGUIDtoUnit[guid] = unit
+            end
         end
     end
     if IsInRaid() then
         for i=1,40 do
             local unit = "raid"..i
             local guid = UnitGUID(unit)
-            raidGUIDtoUnit[guid] = unit
+            if guid then
+                raidGUIDtoUnit[guid] = unit
+            end
         end
     end
 end
@@ -2166,4 +2170,3 @@ NPCSpells = {
     [6717] = true,
     [3015] = true,
 }
-
