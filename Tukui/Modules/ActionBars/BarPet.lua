@@ -17,6 +17,12 @@ function TukuiActionBars:CreatePetBar()
 	local Spacing = C.ActionBars.ButtonSpacing
 	local PetActionBarFrame = PetActionBarFrame
 	local PetActionBar_UpdateCooldowns = PetActionBar_UpdateCooldowns
+	
+	PetActionBarFrame:EnableMouse(0)
+	PetActionBarFrame:ClearAllPoints()
+	PetActionBarFrame:SetParent(T.Hider)
+	PetActionBarFrame:UnregisterEvent("PET_BAR_SHOWGRID")
+	PetActionBarFrame:UnregisterEvent("PET_BAR_HIDEGRID")
 
 	for i = 1, NUM_PET_ACTION_SLOTS do
 		local Button = _G["PetActionButton"..i]
@@ -39,9 +45,7 @@ function TukuiActionBars:CreatePetBar()
 		Bar["Button"..i] = Button
 	end
 
-	PetActionBarFrame:EnableMouse(0)
-	PetActionBarFrame:ClearAllPoints()
-	PetActionBarFrame:SetParent(T.Hider)
+	PetActionBar_ShowGrid()
 
 	hooksecurefunc("PetActionBar_Update", TukuiActionBars.UpdatePetBar)
 
