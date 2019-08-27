@@ -259,24 +259,16 @@ function TukuiChat:RemoveRightChat()
 	if C.Misc.ExperienceEnable then
 		local XP = T.Miscellaneous.Experience.XPBar2
 		
-		XP:Hide()
+		XP:SetParent(T.Hider)
+	end
+
+	if C.Misc.ReputationEnable then
+		local Rep = T.Miscellaneous.Reputation.RepBar2
+
+		Rep:SetParent(T.Hider)
 	end
 
 	Panels.DataTextRight:Hide()
-end
-
-function TukuiChat:AddRightChat()
-	local Panels = T.Panels
-	
-	Panels.RightChatBG:Show()
-
-	if C.Misc.ExperienceEnable then
-		local XP = T.Miscellaneous.Experience.XPBar2
-		
-		XP:Show()
-	end
-
-	Panels.DataTextRight:Show()
 end
 
 function TukuiChat:SetChatFramePosition()
