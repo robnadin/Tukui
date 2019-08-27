@@ -85,7 +85,10 @@ function TukuiUnitFrames:Nameplates()
 	CastBar:Point("TOPRIGHT", Health, "BOTTOMRIGHT", 0, -1)
 
 	CastBar.Background = CastBar:CreateTexture(nil, "BORDER")
-	CastBar.Background:SetAllPoints(CastBar)
+	CastBar.Background:SetPoint("LEFT")
+	CastBar.Background:SetPoint("BOTTOM")
+	CastBar.Background:SetPoint("RIGHT")
+	CastBar.Background:SetPoint("TOP", 0, 1)
 	CastBar.Background:SetTexture(CastTexture)
 	CastBar.Background:SetVertexColor(0.15, 0.15, 0.15)
 
