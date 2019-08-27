@@ -62,7 +62,7 @@ function Reputation:Create()
 		RepBar:SetStatusBarTexture(C.Medias.Normal)
 		RepBar:EnableMouse()
 		RepBar:SetFrameStrata("BACKGROUND")
-		RepBar:SetFrameLevel(4)
+		RepBar:SetFrameLevel(5)
 		RepBar:CreateBackdrop()
 		RepBar:SetScript("OnEnter", Reputation.SetTooltip)
 		RepBar:SetScript("OnLeave", HideTooltip)
@@ -93,8 +93,13 @@ function Reputation:Enable()
 
 		self.IsCreated = true
 	end
-
-	self.RepBar1:Show()
+	
+	if UnitLevel("player") == MAX_PLAYER_LEVEL then
+		self.RepBar1:Show()
+	else
+		self.RepBar1:Hide()
+	end
+	
 	self.RepBar2:Show()
 end
 
