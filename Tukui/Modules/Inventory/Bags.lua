@@ -164,7 +164,7 @@ function Bags:DisplayCloseButtonTooltip()
 	if not Container:IsVisible() then
 		GameTooltip:SetOwner(self)
 		GameTooltip:SetAnchorType("ANCHOR_TOPRIGHT", 6, 9)
-		GameTooltip:AddLine("RIGHT-CLICK to toggle bags") -- LOCALIZE ME PLZ
+		GameTooltip:AddLine("Right click on X button to toggle bags slots")
 		GameTooltip:Show()
 	end
 end
