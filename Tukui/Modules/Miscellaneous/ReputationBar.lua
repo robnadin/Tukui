@@ -94,7 +94,7 @@ function Reputation:Enable()
 		self.IsCreated = true
 	end
 	
-	if UnitLevel("player") == MAX_PLAYER_LEVEL then
+	if (UnitLevel("player") == MAX_PLAYER_LEVEL) or (self.RepBar2:GetParent() ~= UIParent) then
 		self.RepBar1:Show()
 	else
 		self.RepBar1:Hide()
