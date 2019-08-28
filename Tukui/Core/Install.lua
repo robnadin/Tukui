@@ -79,6 +79,8 @@ function Install:SetDefaults()
 	SetCVar("nameplateShowFriendlyMinions", 0)
 	SetCVar("cameraSmoothStyle", 0)
 	SetCVar("profanityFilter", 0)
+	SetCVar("chatBubbles", 0)
+	SetCVar("chatBubblesParty", 0)
 
 	local Chat = T["Chat"]
 	local ActionBars = T["ActionBars"]
