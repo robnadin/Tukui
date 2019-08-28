@@ -252,6 +252,10 @@ function TukuiChat:SaveChatFramePositionAndDimensions()
 end
 
 function TukuiChat:RemoveRightChat()
+	if not UIParent:IsShown() then
+		return
+	end
+	
 	local Panels = T.Panels
 	
 	Panels.RightChatBG:Hide()
