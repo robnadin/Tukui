@@ -11,6 +11,7 @@ C["General"] = {
 	["HideShadows"] = false,
 	["UIScale"] = T.PerfectScale,
 	["MinimapScale"] = 100,
+	["WorldMapScale"] = 59,
 
 	["Themes"] = {
 		["Options"] = {

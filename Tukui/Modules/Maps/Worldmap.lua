@@ -2,6 +2,7 @@ local T, C, L = select(2, ...):unpack()
 
 local WorldMap = CreateFrame("Frame")
 local WorldMapFrame = WorldMapFrame
+local FadeMap = PlayerMovementFrameFader.AddDeferredFrame
 
 function WorldMap:OnUpdate(elapsed)
 	if not WorldMapFrame:IsShown() then
@@ -61,12 +62,12 @@ function WorldMap:CreateCoords()
 	self.Coords = CreateFrame("Frame", nil, WorldMapFrame)
 	self.Coords:SetFrameLevel(90)
 	self.Coords.PlayerText = self.Coords:CreateFontString(nil, "OVERLAY")
-	self.Coords.PlayerText:SetFontTemplate(C.Medias.Font, 12)
+	self.Coords.PlayerText:SetFontTemplate(C.Medias.Font, 16)
 	self.Coords.PlayerText:SetTextColor(1, 1, 1)
 	self.Coords.PlayerText:SetPoint("BOTTOMLEFT", Map, "BOTTOMLEFT", 5, 5)
 	self.Coords.PlayerText:SetText("")
 	self.Coords.CursorText = self.Coords:CreateFontString(nil, "OVERLAY")
-	self.Coords.CursorText:SetFontTemplate(C.Medias.Font, 12)
+	self.Coords.CursorText:SetFontTemplate(C.Medias.Font, 16)
 	self.Coords.CursorText:SetTextColor(1, 1, 1)
 	self.Coords.CursorText:SetPoint("BOTTOMRIGHT", Map, "BOTTOMRIGHT", -5, 5)
 	self.Coords.CursorText:SetText("")
@@ -107,11 +108,56 @@ function WorldMap:SkinMap()
 	CloseButton:SetFrameLevel(Map:GetFrameLevel() + 1)
 end
 
+function WorldMap:SizeMap()
+	local Scale = C.General.WorldMapScale / 100
+	
+	WorldMapFrame:SetScale(Scale)
+	
+	WorldMapFrame.ScrollContainer.GetCursorPosition = function(self)
+	   local X, Y = MapCanvasScrollControllerMixin.GetCursorPosition(self)
+	   local Scale = WorldMapFrame:GetScale()
+		
+	   return X / Scale, Y / Scale
+	end
+end
+
+function WorldMap:AddMoving()
+	WorldMapFrame:SetMovable(true)
+	WorldMapFrame:SetUserPlaced(true)
+	WorldMapFrame:RegisterForDrag("LeftButton")
+	
+	WorldMapFrame.ClearAllPoints = function() end
+	WorldMapFrame.SetPoint = function() end
+	
+	WorldMapFrame:SetScript("OnDragStart", function(self)
+		self:StartMoving()
+	end)
+	
+	WorldMapFrame:SetScript("OnDragStop", function(self)
+		self:StopMovingOrSizing()
+	end)
+end
+
+function WorldMap:AddFading()
+	if event == "PLAYER_STOPPED_MOVING" then
+		FadeMap(WorldMapFrame, 1)
+	else
+		FadeMap(WorldMapFrame, .3)
+	end
+end
+
 function WorldMap:Enable()
 	self.Interval = 0.1
 	self:CreateCoords()
 	self:HookScript("OnUpdate", WorldMap.OnUpdate)
 	self:SkinMap()
+	self:SizeMap()
+	self:AddMoving()
+	self:AddFading()
+	
+	UIPanelWindows["WorldMapFrame"] = nil
+	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
+	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 end
 
 T["Maps"].Worldmap = WorldMap
