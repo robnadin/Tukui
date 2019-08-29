@@ -193,20 +193,13 @@ T.SlashHandler = function(cmd)
 			if arg2 == "list" or arg2 == "l" then
 				Tukui.Profiles = {}
 				Tukui.Profiles.Data = {}
-				Tukui.Profiles.Options = {}
-
-				for Server, Table in pairs(TukuiData) do
+				
+				for Server, Table in pairs(TukuiSettingsPerCharacter) do
 					if not Server then return end
 
-					for Character, Table in pairs(TukuiData[Server]) do
-						tinsert(Tukui.Profiles.Data, TukuiData[Server][Character])
+					for Character, Table in pairs(TukuiSettingsPerCharacter[Server]) do
+						tinsert(Tukui.Profiles.Data, TukuiSettingsPerCharacter[Server][Character])
 						
-						if (not TukuiUseGlobal) and (TukuiSettingsPerChar) then
-							tinsert(Tukui.Profiles.Options, TukuiSettingsPerChar)
-						else
-							tinsert(Tukui.Profiles.Options, TukuiSettings)
-						end
-
 						print("Profile "..#Tukui.Profiles.Data..": ["..Server.."]-["..Character.."]")
 					end
 				end
@@ -233,16 +226,7 @@ T.Popups.Popup["TUKUI_IMPORT_PROFILE"] = {
 	Answer1 = ACCEPT,
 	Answer2 = CANCEL,
 	Function1 = function(self)
-		local CurrentServer = GetRealmName()
-		local CurrentCharacter = UnitName("player")
-		
-		TukuiData[CurrentServer][CurrentCharacter] = Tukui.Profiles.Data[SelectedProfile]
-		
-		if (not TukuiUseGlobal) and (TukuiSettingsPerChar) then
-			TukuiSettingsPerChar = Tukui.Profiles.Options[SelectedProfile]
-		else
-			TukuiSettings = Tukui.Profiles.Options[SelectedProfile]
-		end
+		TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = Tukui.Profiles.Data[SelectedProfile]
 
 		ReloadUI()
 	end,

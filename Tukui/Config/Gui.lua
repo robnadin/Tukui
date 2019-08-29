@@ -80,11 +80,19 @@ local SetValue = function(group, option, value)
 	
 	local Settings
 	
-	if TukuiUseGlobal then
-		Settings = TukuiSettings
-	else
-		Settings = TukuiSettingsPerChar
+	if (not TukuiSettingsPerCharacter) then
+		TukuiSettingsPerCharacter = {}
 	end
+	
+	if (not TukuiSettingsPerCharacter[T.MyRealm]) then
+		TukuiSettingsPerCharacter[T.MyRealm] = {}
+	end
+	
+	if (not TukuiSettingsPerCharacter[T.MyRealm][T.MyName]) then
+		TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = {}
+	end
+	
+	Settings = TukuiSettingsPerCharacter[T.MyRealm][T.MyName]
 	
 	if (not Settings[group]) then
 		Settings[group] = {}
@@ -1885,7 +1893,7 @@ T.GUI = GUI
 local General = function(self)
 	local Window = self:CreateWindow("General", true)
 	
-	Window:CreateSection("GUI Settings")
+	--[[Window:CreateSection("GUI Settings")
 	
 	local Switch = Window:CreateSwitch("General", "UseGlobal", "Store settings account-wide (clicking this will reload your ui)")
 	
@@ -1893,7 +1901,7 @@ local General = function(self)
 		TukuiUseGlobal = value
 		
 		ReloadUI()
-	end
+	end]]
 	
 	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set UI theme")
