@@ -90,7 +90,7 @@ C["Misc"] = {
 	["ExperienceEnable"] = true,
 	["ReputationEnable"] = true,
 	["ErrorFilterEnable"] = true,
-	["SellGrayPopup"] = true,
+	["AutoSellJunk"] = true,
 	["AFKSaver"] = true,
 	["FadeWorldMapWhileMoving"] = false,
 }

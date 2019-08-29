@@ -6,15 +6,6 @@ local strmatch = string.match
 local BlizzardMerchantClick = MerchantItemButton_OnModifiedClick
 local Popups = T.Popups
 
-Popups.Popup["TUKUI_SELL_JUNK"] = {
-	Question = "Do you want to sell your junk items? (gray items)",
-	Answer1 = YES,
-	Answer2 = NO,
-	Function1 = function(self)
-		Merchant:SellJunk()
-	end,
-}
-
 function Merchant:SellJunk()
 	local Cost = 0
 
@@ -47,22 +38,8 @@ function Merchant:SellJunk()
 end
 
 function Merchant:OnEvent(event)
-	if (event == "MERCHANT_SHOW") then
-		if (IsShiftKeyDown()) then
-			Merchant:SellJunk()
-		else
-			if C.Misc.SellGrayPopup then
-				Popups.ShowPopup("TUKUI_SELL_JUNK")
-			end
-		end
-	elseif (event == "MERCHANT_CLOSED") then
-		for i = 1, 4 do
-			local Popup = Popups.Frames[1]
-
-			if Popup:IsShown() and Popup.CurrentPopup == "TUKUI_SELL_JUNK" then
-				Popup:Hide()
-			end
-		end
+	if C.Misc.AutoSellJunk then
+		Merchant:SellJunk()
 	end
 end
 
@@ -80,7 +57,6 @@ end
 
 function Merchant:Enable()
 	self:RegisterEvent("MERCHANT_SHOW")
-	self:RegisterEvent("MERCHANT_CLOSED")
 	self:SetScript("OnEvent", self.OnEvent)
 
 	MerchantItemButton_OnModifiedClick = self.MerchantClick
@@ -88,7 +64,6 @@ end
 
 function Merchant:Disable()
 	self:UnregisterEvent("MERCHANT_SHOW")
-	self:UnregisterEvent("MERCHANT_CLOSED")
 	self:SetScript("OnEvent", nil)
 
 	MerchantItemButton_OnModifiedClick = BlizzardMerchantClick
