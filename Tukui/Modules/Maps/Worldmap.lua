@@ -139,11 +139,7 @@ function WorldMap:AddMoving()
 end
 
 function WorldMap:AddFading()
-	if event == "PLAYER_STOPPED_MOVING" then
-		FadeMap(WorldMapFrame, 1)
-	else
-		FadeMap(WorldMapFrame, .3)
-	end
+	FadeMap(WorldMapFrame, .3)
 end
 
 function WorldMap:Enable()
