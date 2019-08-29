@@ -2020,6 +2020,7 @@ local Misc = function(self)
 	Window:CreateSwitch("Misc", "ErrorFilterEnable", "Enable error filter module")
 	Window:CreateSwitch("Misc", "AFKSaver", "Enable AFK screensaver")
 	Window:CreateSwitch("Misc", "SellGrayPopup", "Ask you to auto-sell gray everytime you visit a vendor?")
+	Window:CreateSwitch("Misc", "FadeWorldMapWhileMoving", "Fade world map while moving?")	
 end
 
 local NamePlates = function(self)

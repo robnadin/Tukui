@@ -92,6 +92,7 @@ C["Misc"] = {
 	["ErrorFilterEnable"] = true,
 	["SellGrayPopup"] = true,
 	["AFKSaver"] = true,
+	["FadeWorldMapWhileMoving"] = false,
 }
 
 C["NamePlates"] = {

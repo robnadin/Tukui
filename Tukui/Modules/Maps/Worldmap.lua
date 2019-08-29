@@ -149,7 +149,10 @@ function WorldMap:Enable()
 	self:SkinMap()
 	self:SizeMap()
 	self:AddMoving()
-	self:AddFading()
+	
+	if C.Misc.FadeWorldMapWhileMoving then
+		self:AddFading()
+	end
 	
 	UIPanelWindows["WorldMapFrame"] = nil
 	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
