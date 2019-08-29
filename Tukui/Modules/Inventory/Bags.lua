@@ -268,10 +268,31 @@ function Bags:CreateContainer(storagetype, ...)
 			BagsContainer:SetWidth((ButtonSize * getn(BlizzardBags)) + (ButtonSpacing * (getn(BlizzardBags) + 1)))
 			BagsContainer:SetHeight(ButtonSize + (ButtonSpacing * 2))
 		end
+		
+		SearchBox = CreateFrame("EditBox", nil, Container)
+		SearchBox:SetFrameLevel(Container:GetFrameLevel() + 10)
+		SearchBox:SetMultiLine(false)
+		SearchBox:EnableMouse(true)
+		SearchBox:SetAutoFocus(false)
+		SearchBox:SetFontObject(ChatFontNormal)
+		SearchBox:Width(Container:GetWidth() - 28)
+		SearchBox:Height(16)
+		SearchBox:SetPoint("BOTTOM", Container, -1, 10)
+		SearchBox:CreateBackdrop()
+		SearchBox.Backdrop:SetBorderColor(.3, .3, .3, 1)
+		SearchBox.Backdrop:SetBackdropColor(0, 0, 0, 1)
+		SearchBox.Backdrop:SetPoint("TOPLEFT", -3, 4)
+		SearchBox.Backdrop:SetPoint("BOTTOMRIGHT", 3, -4)
+		SearchBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() self:SetText("") end)
+		SearchBox:SetScript("OnEnterPressed", function(self) self:ClearFocus() self:SetText("") end)
+		SearchBox:SetScript("OnTextChanged", function(self) SetItemSearch(self:GetText()) end)
+		SearchBox:SetScript("OnEditFocusLost", function(self) SetItemSearch("") self.Backdrop:SetBorderColor(.3, .3, .3, 1) end)
+		SearchBox:SetScript("OnEditFocusGained", function(self) self.Backdrop:SetBorderColor(1, 1, 1, 1) end)
 
 		Container.BagsContainer = BagsContainer
 		Container.CloseButton = ToggleBagsContainer
 		Container.SortButton = Sort
+		Container.SearchBox = SearchBox
 	else
 		local PurchaseButton = BankFramePurchaseButton
 		local CostText = BankFrameSlotCost
@@ -483,7 +504,7 @@ function Bags:UpdateAllBags()
 		Bags:BagUpdate(ID)
 	end
 
-	Bags.Bag:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 34 + (ButtonSpacing * 4)) - ButtonSpacing)
+	Bags.Bag:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 64 + (ButtonSpacing * 4)) - ButtonSpacing)
 end
 
 function Bags:UpdateAllBankBags()
