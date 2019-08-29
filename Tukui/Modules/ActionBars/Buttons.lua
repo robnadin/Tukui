@@ -319,6 +319,9 @@ end
 function ActionBars:VehicleOnClick()
 	if (UnitOnTaxi("player")) then
 		TaxiRequestEarlyLanding()
+		
+		T.Panels.VehicleButtonLeft:Hide()
+		T.Panels.VehicleButtonRight:Hide()
 	end
 end
 
