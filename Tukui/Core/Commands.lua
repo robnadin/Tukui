@@ -181,6 +181,12 @@ T.SlashHandler = function(cmd)
 		end
 	elseif (arg1 == "profile" or arg1 == "p") then
 		if not TukuiData then return end
+		
+		if C.General.UseGlobal then
+			T.Print("You are currently using a global profile, you can't use this command.")
+			
+			return
+		end
 
 		if not arg2 then
 			print(" ")
@@ -193,13 +199,24 @@ T.SlashHandler = function(cmd)
 			if arg2 == "list" or arg2 == "l" then
 				Tukui.Profiles = {}
 				Tukui.Profiles.Data = {}
+				Tukui.Profiles.Options = {}
 				
-				for Server, Table in pairs(TukuiSettingsPerCharacter) do
+				local EmptyTable = {}
+
+				for Server, Table in pairs(TukuiData) do
 					if not Server then return end
 
-					for Character, Table in pairs(TukuiSettingsPerCharacter[Server]) do
-						tinsert(Tukui.Profiles.Data, TukuiSettingsPerCharacter[Server][Character])
+					for Character, Table in pairs(TukuiData[Server]) do
+						-- Data
+						tinsert(Tukui.Profiles.Data, TukuiData[Server][Character])
 						
+						-- GUI options, it can be not found if you didn't log at least once since version 1.10 on that toon.
+						if TukuiSettingsPerCharacter and TukuiSettingsPerCharacter[Server] and TukuiSettingsPerCharacter[Server][Character] then
+							tinsert(Tukui.Profiles.Options, TukuiSettingsPerCharacter[Server][Character])
+						else
+							tinsert(Tukui.Profiles.Options, EmptyTable)
+						end
+
 						print("Profile "..#Tukui.Profiles.Data..": ["..Server.."]-["..Character.."]")
 					end
 				end
@@ -226,7 +243,8 @@ T.Popups.Popup["TUKUI_IMPORT_PROFILE"] = {
 	Answer1 = ACCEPT,
 	Answer2 = CANCEL,
 	Function1 = function(self)
-		TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = Tukui.Profiles.Data[SelectedProfile]
+		TukuiData[T.MyRealm][T.MyName] = Tukui.Profiles.Data[SelectedProfile]
+		TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = Tukui.Profiles.Options[SelectedProfile]
 
 		ReloadUI()
 	end,
