@@ -307,3 +307,58 @@ function ActionBars:LoadVariables()
 		end
 	end
 end
+
+function ActionBars:VehicleOnEvent(event)
+	if UnitOnTaxi("player") then
+		self:Show()
+	else
+		self:Hide()
+	end
+end
+
+function ActionBars:VehicleOnClick()
+	if (UnitOnTaxi("player")) then
+		TaxiRequestEarlyLanding()
+	end
+end
+
+function ActionBars:CreateVehicleButtons()
+	local VehicleLeft = CreateFrame("Button", nil, T.Panels.DataTextRight)
+	VehicleLeft:SetAllPoints(T.Panels.DataTextLeft)
+	VehicleLeft:SetFrameStrata("MEDIUM")
+	VehicleLeft:SetFrameLevel(10)
+	VehicleLeft:SkinButton()
+	VehicleLeft:RegisterForClicks("AnyUp")
+	VehicleLeft:SetScript("OnClick", ActionBars.VehicleOnClick)
+	VehicleLeft:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")
+	VehicleLeft:RegisterEvent("PLAYER_ENTERING_WORLD")
+	VehicleLeft:SetScript("OnEvent", ActionBars.VehicleOnEvent)
+	VehicleLeft:Hide()
+
+	VehicleLeft.Text = VehicleLeft:CreateFontString(nil, "OVERLAY")
+	VehicleLeft.Text:SetFont(C.Medias.Font, 12)
+	VehicleLeft.Text:Point("CENTER", 0, 0)
+	VehicleLeft.Text:SetShadowOffset(1.25, -1.25)
+	VehicleLeft.Text:SetText("|cffFF0000" .. TAXI_CANCEL_DESCRIPTION .. "|r")
+
+	local VehicleRight = CreateFrame("Button", nil, T.Panels.DataTextRight)
+	VehicleRight:SetAllPoints(T.Panels.DataTextRight)
+	VehicleRight:SetFrameStrata("MEDIUM")
+	VehicleRight:SetFrameLevel(10)
+	VehicleRight:SkinButton()
+	VehicleRight:RegisterForClicks("AnyUp")
+	VehicleRight:SetScript("OnClick", ActionBars.VehicleOnClick)
+	VehicleRight:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")
+	VehicleRight:RegisterEvent("PLAYER_ENTERING_WORLD")
+	VehicleRight:SetScript("OnEvent", ActionBars.VehicleOnEvent)
+	VehicleRight:Hide()
+
+	VehicleRight.Text = VehicleRight:CreateFontString(nil, "OVERLAY")
+	VehicleRight.Text:SetFont(C.Medias.Font, 12)
+	VehicleRight.Text:Point("CENTER", 0, 0)
+	VehicleRight.Text:SetShadowOffset(1.25, -1.25)
+	VehicleRight.Text:SetText("|cffFF0000" .. TAXI_CANCEL_DESCRIPTION .. "|r")
+
+	T.Panels.VehicleButtonLeft = VehicleLeft
+	T.Panels.VehicleButtonRight = VehicleRight
+end
