@@ -5,7 +5,7 @@ if not oUF then return end
 
 local damage_format = "-%d"
 local heal_format = "+%d"
-local maxAlpha = 0.6
+local maxAlpha = 1
 local updateFrame
 local feedback = {}
 local originalHeight = {}
