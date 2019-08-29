@@ -215,8 +215,8 @@ function TukuiUnitFrames:Target()
 	if (C.UnitFrames.CombatLog) then
 		local CombatFeedbackText = Health:CreateFontString(nil, "OVERLAY")
 		CombatFeedbackText:SetFontObject(Font)
-		CombatFeedbackText:SetFont(CombatFeedbackText:GetFont(), 16, "THINOUTLINE")
-		CombatFeedbackText:SetPoint("CENTER", 0, 0)
+		CombatFeedbackText:SetFont(CombatFeedbackText:GetFont(), 14, "THINOUTLINE")
+		CombatFeedbackText:SetPoint("CENTER", 0, -1)
 		CombatFeedbackText.colors = {
 			DAMAGE = {0.69, 0.31, 0.31},
 			CRUSHING = {0.69, 0.31, 0.31},
