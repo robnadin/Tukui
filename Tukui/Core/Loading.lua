@@ -38,11 +38,9 @@ function Loading:LoadCustomSettings()
 	end
 	
 	if (not TukuiSettingsPerCharacter[T.MyRealm][T.MyName]) then
-		if (TukuiSettingsPerChar) and (not TukuiSettingsPerChar.Transfered) then
+		if TukuiSettingsPerChar ~= nil then
 			-- old table for gui settings, TukuiSettingsPerChar is now deprecated and will be removed in a future build
 			TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = TukuiSettingsPerChar
-			
-			TukuiSettingsPerChar.Transfered = true
 		else
 			TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = {}
 		end
