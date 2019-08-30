@@ -105,7 +105,7 @@ function Minimap:StyleMinimap()
 	
 	if (MiniMapTrackingFrame) then
 		MiniMapTrackingFrame:ClearAllPoints()
-		MiniMapTrackingFrame:Point("TOPLEFT", Minimap, 0, 0)
+		MiniMapTrackingFrame:Point("TOPRIGHT", Minimap, 4, -1)
 		
 		if (MiniMapTrackingBorder) then
 			MiniMapTrackingBorder:Hide()
@@ -114,13 +114,14 @@ function Minimap:StyleMinimap()
 		if (MiniMapTrackingIcon) then
 			MiniMapTrackingIcon:SetDrawLayer("ARTWORK")
 			MiniMapTrackingIcon:SetTexCoord(unpack(T.IconCoord))
+			MiniMapTrackingIcon:Size(16)
 		end
 		
-		local MiniMapTrackingOverlay = CreateFrame("Frame", nil, MiniMapTrackingFrame)
-		MiniMapTrackingOverlay:SetInside(MiniMapTrackingIcon)
-		MiniMapTrackingOverlay:SetTemplate()
-		MiniMapTrackingOverlay:CreateShadow()
-		MiniMapTrackingOverlay:SetBackdropColor(0, 0, 0, 0)
+		MiniMapTrackingFrame:CreateBackdrop()
+		MiniMapTrackingFrame.Backdrop:SetFrameLevel(MiniMapTrackingFrame:GetFrameLevel())
+		MiniMapTrackingFrame.Backdrop:SetOutside(MiniMapTrackingIcon)
+		MiniMapTrackingFrame.Backdrop:SetTemplate()
+		MiniMapTrackingFrame.Backdrop:CreateShadow()
 	end
 end
 
