@@ -4,6 +4,7 @@
 	<Script file="DropDownMenu\UIDropDownMenu.lua"/>
 	<Script file="T00LKIT\T00LKIT.lua"/>
 	<Script file="LibAnim\LibAnim.lua"/>
+	<Script file="SortBags\SortBags.lua"/>
 	<Script file="LibStub\LibStub.lua"/>
 	<Script file="CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
 	<Script file="LibClassicMobHealth\LibClassicMobHealth.lua"/>

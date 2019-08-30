@@ -184,6 +184,8 @@ function Bags:CreateContainer(storagetype, ...)
 	if (storagetype == "Bag") then
 		local BagsContainer = CreateFrame("Frame", nil, UIParent)
 		local ToggleBagsContainer = CreateFrame("Button")
+		local Sort = CreateFrame("Button", nil, Container)
+		local SearchBox = CreateFrame("EditBox", nil, Container)
 
 		BagsContainer:SetParent(Container)
 		BagsContainer:SetWidth(10)
@@ -269,7 +271,6 @@ function Bags:CreateContainer(storagetype, ...)
 			BagsContainer:SetHeight(ButtonSize + (ButtonSpacing * 2))
 		end
 		
-		SearchBox = CreateFrame("EditBox", nil, Container)
 		SearchBox:SetFrameLevel(Container:GetFrameLevel() + 10)
 		SearchBox:SetMultiLine(false)
 		SearchBox:EnableMouse(true)
@@ -293,6 +294,22 @@ function Bags:CreateContainer(storagetype, ...)
 		SearchBox:SetScript("OnTextChanged", function(self) SetItemSearch(self:GetText()) end)
 		SearchBox:SetScript("OnEditFocusLost", function(self) self.Title:Show() SetItemSearch("") self.Backdrop:SetBorderColor(.3, .3, .3, 1) end)
 		SearchBox:SetScript("OnEditFocusGained", function(self) self.Title:Hide() self.Backdrop:SetBorderColor(1, 1, 1, 1) end)
+		
+		Sort:SetSize(30, 16)
+		Sort:SetPoint("RIGHT", ToggleBagsContainer, "LEFT", -6, 0)
+		Sort.Title = Sort:CreateFontString(nil, "OVERLAY")
+		Sort.Title:SetPoint("CENTER")
+		Sort.Title:SetFontTemplate(C.Medias.Font, 12)
+		Sort.Title:SetText("Sort")
+		Sort:SetScript("OnClick", function()
+			if TukuiBank:IsShown() then
+				SetSortBagsRightToLeft(true)
+				SortBankBags()
+			else
+				SetSortBagsRightToLeft(false)
+				SortBags()	
+			end
+		end)
 
 		Container.BagsContainer = BagsContainer
 		Container.CloseButton = ToggleBagsContainer
@@ -371,7 +388,8 @@ function Bags:SlotUpdate(id, button)
 	end
 
 	local _, _, _, Rarity, _, _, _, _, _, ItemID = GetContainerItemInfo(id, button:GetID())
-	local IsNewItem = C_NewItems.IsNewItem(id, button:GetID())
+	local itemLink = GetContainerItemLink(id, button:GetID())
+	local QuestItem = false
 
 	if (button.ItemID == ItemID) then
 		return
@@ -379,14 +397,21 @@ function Bags:SlotUpdate(id, button)
 
 	button.ItemID = ItemID
 
-	local NewItem = button.NewItemTexture
-	local IconQuestTexture = button.IconQuestTexture
+	if itemLink then
+		local itemName, itemString, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(itemLink)
+		
+		if itemString then
+			local _, itemID = strsplit(":", itemString)
 
-	if IconQuestTexture then
-		IconQuestTexture:SetAlpha(0)
+			if (itemType == TRANSMOG_SOURCE_2) then
+				QuestItem = true
+			end
+		end
 	end
-
-	if Rarity and Rarity > 1 then
+	
+	if QuestItem then
+		button:SetBorderColor(1, 1, 0)
+	elseif Rarity and Rarity > 1 then
 		button:SetBorderColor(GetItemQualityColor(Rarity))
 	else
 		button:SetBorderColor(unpack(C["General"].BorderColor))
@@ -784,7 +809,6 @@ function Bags:Enable()
 		return
 	end
 
-	-- SetSortBagsRightToLeft(false)
 	SetInsertItemsLeftToRight(true)
 	
 	-- Bug with mouse click
