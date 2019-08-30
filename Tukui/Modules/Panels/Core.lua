@@ -43,7 +43,7 @@ function Panels:Enable()
 
 	BottomLine:SetAlpha(0)
 
-	local LeftChatBG = CreateFrame("Frame", nil, DataTextLeft)
+	local LeftChatBG = CreateFrame("Frame", "TukuiChatLeftBackground", DataTextLeft)
 	LeftChatBG:Size(370 + 12, 177)
 	LeftChatBG:Point("BOTTOM", DataTextLeft, "BOTTOM", 0, -6)
 	LeftChatBG:SetFrameLevel(1)
@@ -51,7 +51,7 @@ function Panels:Enable()
 	LeftChatBG:CreateBackdrop("Transparent")
 	LeftChatBG.Backdrop:CreateShadow()
 
-	local RightChatBG = CreateFrame("Frame", nil, DataTextRight)
+	local RightChatBG = CreateFrame("Frame", "TukuiChatRightBackground", DataTextRight)
 	RightChatBG:Size(370 + 12, 177)
 	RightChatBG:Point("BOTTOM", DataTextRight, "BOTTOM", 0, -6)
 	RightChatBG:SetFrameLevel(1)
