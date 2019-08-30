@@ -46,7 +46,15 @@ function Loading:LoadCustomSettings()
 		end
 	end
 	
-	Settings = TukuiSettingsPerCharacter[T.MyRealm][T.MyName]
+	if not TukuiSettings then
+		TukuiSettings = {}
+	end
+	
+	if TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General and TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General.UseGlobal == true then
+		Settings = TukuiSettings
+	else
+		Settings = TukuiSettingsPerCharacter[T.MyRealm][T.MyName]
+	end
 	
 	for group, options in pairs(Settings) do
 		if C[group] then

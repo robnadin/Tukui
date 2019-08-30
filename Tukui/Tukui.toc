@@ -4,7 +4,7 @@
 ## Version: 1.08
 ## Title: |cffff8000Tukui|r
 ## Notes: UI of awesomeness!
-## SavedVariables: TukuiData, TukuiSettings, TukuiUseGlobal, TukuiGold, TukuiSettingsPerCharacter
+## SavedVariables: TukuiData, TukuiSettings, TukuiGold, TukuiSettingsPerCharacter
 ## SavedVariablesPerCharacter: TukuiSettingsPerChar
 ## OptionalDeps: Clique
 ## X-oUF: TukuiUnitFrameFramework

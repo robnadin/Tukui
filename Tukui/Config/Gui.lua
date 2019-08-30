@@ -92,7 +92,11 @@ local SetValue = function(group, option, value)
 		TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = {}
 	end
 	
-	Settings = TukuiSettingsPerCharacter[T.MyRealm][T.MyName]
+	if TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General and TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General.UseGlobal then
+		Settings = TukuiSettings
+	else
+		Settings = TukuiSettingsPerCharacter[T.MyRealm][T.MyName]
+	end
 	
 	if (not Settings[group]) then
 		Settings[group] = {}
@@ -1639,11 +1643,56 @@ GUI.Enable = function(self)
 	self.Footer:SetBackdropColor(unpack(LightColor))
 	
 	local FooterButtonWidth = ((HeaderWidth / 4) - Spacing) + 1
+
+	-- Global button
+	local GlobalButtonString = "You are currently using per-character gui settings, push me to switch to global"
+				
+	if TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General and TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General.UseGlobal then
+		GlobalButtonString = "You are currently using global gui settings, push me to switch to per-character"		
+	end
+				
+	local Global = CreateFrame("Frame", nil, self.Footer)
+	Global:Size(self.Footer:GetWidth(), HeaderHeight)
+	Global:Point("LEFT", self.Footer, 0, 0)
+	Global:SetTemplate(nil, Texture)
+	Global:CreateShadow()
+	Global:SetBackdropColor(unpack(BrightColor))
+	Global:SetScript("OnMouseDown", ButtonOnMouseDown)
+	Global:SetScript("OnMouseUp", ButtonOnMouseUp)
+	Global:SetScript("OnEnter", ButtonOnEnter)
+	Global:SetScript("OnLeave", ButtonOnLeave)
+	Global:HookScript("OnMouseUp", function()
+		local Settings = TukuiSettingsPerCharacter[T.MyRealm][T.MyName]
+		
+		if Settings.General and Settings.General.UseGlobal then
+			TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General.UseGlobal = false			
+		else
+			if not TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General then
+				TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General = {}
+			end
+							
+			TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General.UseGlobal = true
+		end
+						
+		ReloadUI()
+	end)
 	
+	Global.Highlight = Global:CreateTexture(nil, "OVERLAY")
+	Global.Highlight:SetAllPoints()
+	Global.Highlight:SetTexture(Texture)
+	Global.Highlight:SetVertexColor(0.5, 0.5, 0.5)
+	Global.Highlight:SetAlpha(0)
+	
+	Global.Middle = Global:CreateFontString(nil, "OVERLAY")
+	Global.Middle:SetAllPoints()
+	StyleFont(Global.Middle, Font, 14)
+	Global.Middle:SetJustifyH("CENTER")
+	Global.Middle:SetText(GlobalButtonString)
+				
 	-- Apply button
 	local Apply = CreateFrame("Frame", nil, self.Footer)
 	Apply:Size(FooterButtonWidth + 3, HeaderHeight)
-	Apply:Point("LEFT", self.Footer, 0, 0)
+	Apply:Point("LEFT", self.Footer, 0, -25)
 	Apply:SetTemplate(nil, Texture)
 	Apply:CreateShadow()
 	Apply:SetBackdropColor(unpack(BrightColor))
@@ -1892,17 +1941,7 @@ T.GUI = GUI
 
 local General = function(self)
 	local Window = self:CreateWindow("General", true)
-	
-	--[[Window:CreateSection("GUI Settings")
-	
-	local Switch = Window:CreateSwitch("General", "UseGlobal", "Store settings account-wide (clicking this will reload your ui)")
-	
-	Switch.Hook = function(value)
-		TukuiUseGlobal = value
-		
-		ReloadUI()
-	end]]
-	
+
 	Window:CreateSection("Theme")
 	Window:CreateDropdown("General", "Themes", "Set UI theme")
 	
