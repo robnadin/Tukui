@@ -51,7 +51,6 @@ T.SlashHandler = function(cmd)
 				TukuiData[GetRealmName()][UnitName("Player")].ChatReset = true
 				
 				Chat:Install()
-				Chat:SetDefaultChatFramesPositions()
 				
 				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiLeftDataTextBox = nil
 				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiRightDataTextBox = nil
@@ -181,12 +180,6 @@ T.SlashHandler = function(cmd)
 		end
 	elseif (arg1 == "profile" or arg1 == "p") then
 		if not TukuiData then return end
-		
-		if C.General.UseGlobal then
-			T.Print("You are currently using a global profile, you can't use this command.")
-			
-			return
-		end
 
 		if not arg2 then
 			print(" ")
@@ -244,7 +237,12 @@ T.Popups.Popup["TUKUI_IMPORT_PROFILE"] = {
 	Answer2 = CANCEL,
 	Function1 = function(self)
 		TukuiData[T.MyRealm][T.MyName] = Tukui.Profiles.Data[SelectedProfile]
-		TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = Tukui.Profiles.Options[SelectedProfile]
+		
+		if TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General and TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General.UseGlobal then
+			-- Look like we use globals for gui, don't import gui settings, keep globals
+		else
+			TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = Tukui.Profiles.Options[SelectedProfile]
+		end
 
 		ReloadUI()
 	end,
