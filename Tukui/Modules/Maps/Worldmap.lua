@@ -170,6 +170,8 @@ function WorldMap:Enable()
 	UIPanelWindows["WorldMapFrame"] = nil
 	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
+	
+	tinsert(UISpecialFrames, "WorldMapFrame")
 end
 
 T["Maps"].Worldmap = WorldMap
