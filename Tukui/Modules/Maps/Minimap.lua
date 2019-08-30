@@ -120,6 +120,7 @@ function Minimap:StyleMinimap()
 		MiniMapTrackingOverlay:SetInside(MiniMapTrackingIcon)
 		MiniMapTrackingOverlay:SetTemplate()
 		MiniMapTrackingOverlay:CreateShadow()
+		MiniMapTrackingOverlay:SetBackdropColor(0, 0, 0, 0)
 	end
 end
 
