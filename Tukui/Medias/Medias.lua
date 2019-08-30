@@ -17,6 +17,9 @@ C["Medias"] = {
 	["Copy"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\Copy]],
 	["Blank"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\Blank]],
 	["Logo"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\Logo]],
+	["Sort"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\Sort]],
+	["ArrowUp"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowUp]],
+	["ArrowDown"] = [[Interface\AddOns\Tukui\Medias\Textures\Others\ArrowDown]],
 
 	-- colors
 	["BorderColor"] = C.General.BorderColor or { 0, 0, 0 },
