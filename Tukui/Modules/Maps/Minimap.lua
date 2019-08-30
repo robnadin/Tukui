@@ -112,6 +112,7 @@ function Minimap:StyleMinimap()
 		end
 		
 		if (MiniMapTrackingIcon) then
+			MiniMapTrackingIcon:SetDrawLayer("ARTWORK")
 			MiniMapTrackingIcon:SetTexCoord(unpack(T.IconCoord))
 		end
 		
@@ -119,8 +120,6 @@ function Minimap:StyleMinimap()
 		MiniMapTrackingOverlay:SetInside(MiniMapTrackingIcon)
 		MiniMapTrackingOverlay:SetTemplate()
 		MiniMapTrackingOverlay:CreateShadow()
-		
-		MiniMapTrackingIcon:SetDrawLayer("ARTWORK")
 	end
 end
 
