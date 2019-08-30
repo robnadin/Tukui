@@ -2061,13 +2061,19 @@ end
 local Misc = function(self)
 	local Window = self:CreateWindow("Misc")
 	
-	Window:CreateSection("Enable")
+	Window:CreateSection("World Map")
+	Window:CreateSwitch("Misc", "WorldMapEnable", "Enable our custom world map")	
+	Window:CreateSwitch("Misc", "FadeWorldMapWhileMoving", "Fade world map while moving?")
+	Window:CreateSection("Experience")
 	Window:CreateSwitch("Misc", "ExperienceEnable", "Enable experience module")
+	Window:CreateSection("Reputation")		
 	Window:CreateSwitch("Misc", "ReputationEnable", "Enable reputation module")
+	Window:CreateSection("UI Error filter")
 	Window:CreateSwitch("Misc", "ErrorFilterEnable", "Enable error filter module")
+	Window:CreateSection("Screensaver")
 	Window:CreateSwitch("Misc", "AFKSaver", "Enable AFK screensaver")
-	Window:CreateSwitch("Misc", "AutoSellJunk", "Sell junk automatically when visiting a vendor?")
-	Window:CreateSwitch("Misc", "FadeWorldMapWhileMoving", "Fade world map while moving?")	
+	Window:CreateSection("Inventory")
+	Window:CreateSwitch("Misc", "AutoSellJunk", "Sell junk automatically when visiting a vendor?")	
 end
 
 local NamePlates = function(self)

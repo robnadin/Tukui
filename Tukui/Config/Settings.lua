@@ -87,6 +87,7 @@ C["Loot"] = {
 }
 
 C["Misc"] = {
+	["WorldMapEnable"] = true,
 	["ExperienceEnable"] = true,
 	["ReputationEnable"] = true,
 	["ErrorFilterEnable"] = true,

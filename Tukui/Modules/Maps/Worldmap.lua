@@ -156,6 +156,10 @@ function WorldMap:AddFading()
 end
 
 function WorldMap:Enable()
+	if not C.Misc.WorldMapEnable then
+		return
+	end
+	
 	self.Interval = 0.1
 	self:CreateCoords()
 	self:HookScript("OnUpdate", WorldMap.OnUpdate)
