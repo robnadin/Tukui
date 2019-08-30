@@ -283,11 +283,16 @@ function Bags:CreateContainer(storagetype, ...)
 		SearchBox.Backdrop:SetBackdropColor(0, 0, 0, 1)
 		SearchBox.Backdrop:SetPoint("TOPLEFT", -3, 4)
 		SearchBox.Backdrop:SetPoint("BOTTOMRIGHT", 3, -4)
+		SearchBox.Title = SearchBox:CreateFontString(nil, "OVERLAY")
+		SearchBox.Title:SetAllPoints()
+		SearchBox.Title:SetFontTemplate(C.Medias.Font, 12)
+		SearchBox.Title:SetJustifyH("CENTER")
+		SearchBox.Title:SetText("Type here to search an item")
 		SearchBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() self:SetText("") end)
 		SearchBox:SetScript("OnEnterPressed", function(self) self:ClearFocus() self:SetText("") end)
 		SearchBox:SetScript("OnTextChanged", function(self) SetItemSearch(self:GetText()) end)
-		SearchBox:SetScript("OnEditFocusLost", function(self) SetItemSearch("") self.Backdrop:SetBorderColor(.3, .3, .3, 1) end)
-		SearchBox:SetScript("OnEditFocusGained", function(self) self.Backdrop:SetBorderColor(1, 1, 1, 1) end)
+		SearchBox:SetScript("OnEditFocusLost", function(self) self.Title:Show() SetItemSearch("") self.Backdrop:SetBorderColor(.3, .3, .3, 1) end)
+		SearchBox:SetScript("OnEditFocusGained", function(self) self.Title:Hide() self.Backdrop:SetBorderColor(1, 1, 1, 1) end)
 
 		Container.BagsContainer = BagsContainer
 		Container.CloseButton = ToggleBagsContainer
