@@ -122,19 +122,32 @@ function WorldMap:SizeMap()
 end
 
 function WorldMap:AddMoving()
+	WorldMap.MoveButton = CreateFrame("Frame", nil, WorldMapFrame)
+	WorldMap.MoveButton:SetSize(60, 23)
+	WorldMap.MoveButton:SetPoint("TOPLEFT", 24, -80)
+	WorldMap.MoveButton:SetTemplate()
+	WorldMap.MoveButton:CreateShadow()
+	WorldMap.MoveButton:SetFrameLevel(WorldMapFrameCloseButton:GetFrameLevel())
+	WorldMap.MoveButton:EnableMouse(true)
+	WorldMap.MoveButton:RegisterForDrag("LeftButton")
+	
+	WorldMap.MoveButton.Title = WorldMap.MoveButton:CreateFontString(nil, "OVERLAY")
+	WorldMap.MoveButton.Title:SetPoint("LEFT", 5, 0)
+	WorldMap.MoveButton.Title:SetFontTemplate(C.Medias.Font, 16)
+	WorldMap.MoveButton.Title:SetText("Drag me")
+	
 	WorldMapFrame:SetMovable(true)
 	WorldMapFrame:SetUserPlaced(true)
-	WorldMapFrame:RegisterForDrag("LeftButton")
 	
 	WorldMapFrame.ClearAllPoints = function() end
 	WorldMapFrame.SetPoint = function() end
 	
-	WorldMapFrame:SetScript("OnDragStart", function(self)
-		self:StartMoving()
+	WorldMap.MoveButton:SetScript("OnDragStart", function(self)
+		WorldMapFrame:StartMoving()
 	end)
 	
-	WorldMapFrame:SetScript("OnDragStop", function(self)
-		self:StopMovingOrSizing()
+	WorldMap.MoveButton:SetScript("OnDragStop", function(self)
+		WorldMapFrame:StopMovingOrSizing()
 	end)
 end
 
