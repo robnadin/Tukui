@@ -152,7 +152,7 @@ function WorldMap:AddMoving()
 end
 
 function WorldMap:AddFading()
-	FadeMap(WorldMapFrame, .3)
+	FadeMap(WorldMapFrame, .5)
 end
 
 function WorldMap:Enable()
