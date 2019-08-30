@@ -102,6 +102,24 @@ function Minimap:StyleMinimap()
 	HelpOpenTicketButton:SetAlpha(0)
 	HelpOpenTicketButton:HookScript("OnShow", function(self) Minimap.Ticket:SetAlpha(1) end)
 	HelpOpenTicketButton:HookScript("OnHide", function(self) Minimap.Ticket:SetAlpha(0) end)
+	
+	if (MiniMapTrackingFrame) then
+		MiniMapTrackingFrame:ClearAllPoints()
+		MiniMapTrackingFrame:Point("TOPLEFT", Minimap, 0, 0)
+		
+		if (MiniMapTrackingBorder) then
+			MiniMapTrackingBorder:Hide()
+		end
+		
+		if (MiniMapTrackingIcon) then
+			MiniMapTrackingIcon:SetTexCoord(unpack(T.IconCoord))
+		end
+		
+		local MiniMapTrackingOverlay = CreateFrame("Frame", nil, MiniMapTrackingFrame)
+		MiniMapTrackingOverlay:SetInside(MiniMapTrackingIcon)
+		MiniMapTrackingOverlay:SetTemplate()
+		MiniMapTrackingOverlay:CreateShadow()
+	end
 end
 
 function Minimap:PositionMinimap()
