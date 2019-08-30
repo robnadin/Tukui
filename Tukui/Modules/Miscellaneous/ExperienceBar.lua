@@ -87,7 +87,7 @@ end
 
 function Experience:Create()
 	for i = 1, self.NumBars do
-		local XPBar = CreateFrame("StatusBar", nil, UIParent)
+		local XPBar = CreateFrame("StatusBar", "TukuiExperienceBar" .. i, UIParent)
 		local RestedBar = CreateFrame("StatusBar", nil, XPBar)
 
 		XPBar:SetStatusBarTexture(C.Medias.Normal)
@@ -115,6 +115,9 @@ function Experience:Create()
 
 		self["XPBar"..i] = XPBar
 		self["RestedBar"..i] = RestedBar
+		
+		-- Add moving
+		T.Movers:RegisterFrame(XPBar)
 	end
 
 	self:RegisterEvent("PLAYER_XP_UPDATE")
