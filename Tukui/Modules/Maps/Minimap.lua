@@ -119,6 +119,8 @@ function Minimap:StyleMinimap()
 		MiniMapTrackingOverlay:SetInside(MiniMapTrackingIcon)
 		MiniMapTrackingOverlay:SetTemplate()
 		MiniMapTrackingOverlay:CreateShadow()
+		
+		MiniMapTrackingIcon:SetDrawLayer("ARTWORK")
 	end
 end
 
