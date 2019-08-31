@@ -314,6 +314,31 @@ function TukuiUnitFrames:Player()
 	RestingIndicator:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\Resting]])
 	RestingIndicator:SetSize(20, 20)
 	RestingIndicator:SetPoint("CENTER", Panel, "CENTER", 0, 0)
+	
+	if C.UnitFrames.ScrollingCombatText then
+		local DamageFont = T.GetFont(C.UnitFrames.ScrollingCombatTextFont)
+		local DamageFontPath, DamageFontSize, DamageFontFlag = _G[DamageFont]:GetFont()
+
+		local ScrollingCombatText = CreateFrame("Frame", "TukuiPlayerFrameScrollingCombatText", UIParent)
+		ScrollingCombatText:SetSize(32, 32)
+		ScrollingCombatText:SetPoint("CENTER", 0, -(T.ScreenHeight / 8))
+		ScrollingCombatText.scrollTime = 1.5
+		ScrollingCombatText.font = DamageFontPath
+		ScrollingCombatText.fontHeight = C.UnitFrames.ScrollingCombatTextFontSize
+		ScrollingCombatText.radius = 100
+		ScrollingCombatText.fontFlags = DamageFontFlag
+		
+		for i = 1, 6 do
+			ScrollingCombatText[i] = ScrollingCombatText:CreateFontString("TukuiPlayerFrameScrollingCombatTextFont" .. i, "OVERLAY")
+		end
+		
+		self.FloatingCombatFeedback = ScrollingCombatText
+
+		T.Movers:RegisterFrame(ScrollingCombatText)
+	end
+
+
+	
 
 	self:HookScript("OnEnter", TukuiUnitFrames.MouseOnPlayer)
 	self:HookScript("OnLeave", TukuiUnitFrames.MouseOnPlayer)

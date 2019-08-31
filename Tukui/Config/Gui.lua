@@ -2175,6 +2175,11 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "Enable", "Enable unitframe module")
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")
+				
+	Window:CreateSection("Scrolling combat text")
+	Window:CreateSwitch("UnitFrames", "ScrollingCombatText", "Enable scrolling combat text")
+	Window:CreateSlider("UnitFrames", "ScrollingCombatTextFontSize", "Text size of scrolling", 10, 80, 1)
+	Window:CreateDropdown("UnitFrames", "ScrollingCombatTextFont", "Set scrolling combat font", "Font")
 	
 	Window:CreateSection("Auras")
 	Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
@@ -2190,8 +2195,6 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "Smooth", "Enable smooth health transitions")
 	Window:CreateSwitch("UnitFrames", "CombatLog", "Enable combat feedback text")
 	Window:CreateSwitch("UnitFrames", "TargetEnemyHostileColor", "Enemy health bar colored by hostile reaction color")
-	
-	Window:CreateSection("Font")
 	Window:CreateDropdown("UnitFrames", "Font", "Set unitframe font", "Font")
 end
 

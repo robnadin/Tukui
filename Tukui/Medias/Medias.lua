@@ -6,7 +6,7 @@ C["Medias"] = {
 	-- Fonts
 	["Font"] = [[Interface\AddOns\Tukui\Medias\Fonts\PtSansNarrow.ttf]],
 	["UnitFrameFont"] = [[Interface\AddOns\Tukui\Medias\Fonts\BigNoodleTitling.ttf]],
-	["DamageFont"] = [[Interface\AddOns\Tukui\Medias\Fonts\PtSansNarrow.ttf]],
+	["DamageFont"] = [[Interface\AddOns\Tukui\Medias\Fonts\DieDieDie.ttf]],
 	["PixelFont"] = [=[Interface\AddOns\Tukui\Medias\Fonts\Visitor.ttf]=],
 	["ActionBarFont"] = [[Interface\AddOns\Tukui\Medias\Fonts\Arial.ttf]],
 

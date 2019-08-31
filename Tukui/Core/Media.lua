@@ -23,6 +23,9 @@ TukuiUFFontOutline:SetFont(C["Medias"].UnitFrameFont, 12, "THINOUTLINE")
 local PixelFont = CreateFont("TukuiPixelFont")
 PixelFont:SetFont(C["Medias"].PixelFont, 12, "MONOCHROMEOUTLINE")
 
+local TukuiDamageFont = CreateFont("TukuiDamageFont")
+TukuiDamageFont:SetFont(C["Medias"].DamageFont, 12, "OUTLINE")
+
 local TextureTable = {
 	["Blank"] = [[Interface\BUTTONS\WHITE8X8]],
 	["Tukui"] = [[Interface\AddOns\Tukui\Medias\Textures\Status\Tukui]],
@@ -59,6 +62,7 @@ local FontTable = {
 	["Tukui UF Outline"] = "TukuiUFFontOutline",
 	["Pixel"] = "TukuiPixelFont",
 	["Game Font"] = "GameFontWhite",
+	["Tukui Damage"] = "TukuiDamageFont",
 }
 
 T.GetFont = function(font)
