@@ -4,6 +4,7 @@ local _G = _G
 local Miscellaneous = T["Miscellaneous"]
 local Maps = T["Maps"]
 local Interval = 2
+local Panels = T["Panels"]
 
 Minimap.ZoneColors = {
 	["friendly"] = {0.1, 1.0, 0.1},
@@ -136,7 +137,6 @@ function Minimap:PositionMinimap()
 end
 
 function Minimap:AddMinimapDataTexts()
-	local Panels = T["Panels"]
 	local Backdrop = self.Backdrop
 
 	local MinimapDataText = CreateFrame("Frame", nil, self)
@@ -301,6 +301,44 @@ function Minimap:EnableMouseWheelZoom()
 	end)
 end
 
+function Minimap:TaxiExitOnEvent(event)
+	if UnitOnTaxi("player") then
+		self:Show()
+	else
+		self:Hide()
+	end
+end
+
+function Minimap:TaxiExitOnClick()
+	if (UnitOnTaxi("player")) then
+		TaxiRequestEarlyLanding()
+		
+		Minimap.EarlyExitButton:Hide()
+	end
+end
+
+function Minimap:AddTaxiEarlyExit()
+	Minimap.EarlyExitButton = CreateFrame("Button", nil, self)
+	Minimap.EarlyExitButton:SetAllPoints(Panels.MinimapDataText)
+	Minimap.EarlyExitButton:SetSize(Panels.MinimapDataText:GetWidth(), Panels.MinimapDataText:GetHeight())
+	Minimap.EarlyExitButton:SkinButton()
+	Minimap.EarlyExitButton:CreateShadow()
+	Minimap.EarlyExitButton:ClearAllPoints()
+	Minimap.EarlyExitButton:SetPoint("TOP", Panels.MinimapDataText, "BOTTOM", 0, -6)
+	Minimap.EarlyExitButton:RegisterForClicks("AnyUp")
+	Minimap.EarlyExitButton:SetScript("OnClick", Minimap.TaxiExitOnClick)
+	Minimap.EarlyExitButton:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")
+	Minimap.EarlyExitButton:RegisterEvent("PLAYER_ENTERING_WORLD")
+	Minimap.EarlyExitButton:SetScript("OnEvent", Minimap.TaxiExitOnEvent)
+	Minimap.EarlyExitButton:Hide()	
+	
+	Minimap.EarlyExitButton.Text = Minimap.EarlyExitButton:CreateFontString(nil, "OVERLAY")
+	Minimap.EarlyExitButton.Text:SetFont(C.Medias.Font, 12)
+	Minimap.EarlyExitButton.Text:Point("CENTER", 0, 0)
+	Minimap.EarlyExitButton.Text:SetShadowOffset(1.25, -1.25)
+	Minimap.EarlyExitButton.Text:SetText("|cffFF0000Early Taxi Exit|r")	
+end
+
 function Minimap:Enable()
 	self:DisableMinimapElements()
 	self:SizeMinimap()
@@ -310,6 +348,7 @@ function Minimap:Enable()
 	self:AddZoneAndCoords()
 	self:EnableMouseOver()
 	self:EnableMouseWheelZoom()
+	self:AddTaxiEarlyExit()
 end
 
 T["Maps"].Minimap = Minimap
