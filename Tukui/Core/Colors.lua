@@ -102,49 +102,18 @@ oUF.colors.specpowertypes = {
 	},
 }
 
-RAID_CLASS_COLORS["DRUID"].colorStr = "ffff7b08"
-RAID_CLASS_COLORS["DRUID"].r = 1
-RAID_CLASS_COLORS["DRUID"].g = 0.49
-RAID_CLASS_COLORS["DRUID"].b = 0.03
+RAID_CLASS_COLORS["DRUID"] = CreateColor(unpack(oUF.colors.class["DRUID"]))
+RAID_CLASS_COLORS["HUNTER"] = CreateColor(unpack(oUF.colors.class["HUNTER"]))
+RAID_CLASS_COLORS["MAGE"] = CreateColor(unpack(oUF.colors.class["MAGE"]))
+RAID_CLASS_COLORS["PALADIN"] = CreateColor(unpack(oUF.colors.class["PALADIN"]))
+RAID_CLASS_COLORS["PRIEST"] = CreateColor(unpack(oUF.colors.class["PRIEST"]))
+RAID_CLASS_COLORS["ROGUE"] = CreateColor(unpack(oUF.colors.class["ROGUE"]))
+RAID_CLASS_COLORS["SHAMAN"] = CreateColor(unpack(oUF.colors.class["SHAMAN"]))
+RAID_CLASS_COLORS["WARLOCK"] = CreateColor(unpack(oUF.colors.class["WARLOCK"]))
+RAID_CLASS_COLORS["WARRIOR"] = CreateColor(unpack(oUF.colors.class["WARRIOR"]))
 
-RAID_CLASS_COLORS["HUNTER"].colorStr = "ffaad673"
-RAID_CLASS_COLORS["HUNTER"].r = 0.67
-RAID_CLASS_COLORS["HUNTER"].g = 0.84
-RAID_CLASS_COLORS["HUNTER"].b = 0.45
-
-RAID_CLASS_COLORS["MAGE"].colorStr = "ff69cdff"
-RAID_CLASS_COLORS["MAGE"].r = 0.41
-RAID_CLASS_COLORS["MAGE"].g = 0.80
-RAID_CLASS_COLORS["MAGE"].b = 1
-
-RAID_CLASS_COLORS["PALADIN"].colorStr = "fff58cba"
-RAID_CLASS_COLORS["PALADIN"].r = 0.96
-RAID_CLASS_COLORS["PALADIN"].g = 0.55
-RAID_CLASS_COLORS["PALADIN"].b = 0.73
-
-RAID_CLASS_COLORS["PRIEST"].colorStr = "fff2f2f2"
-RAID_CLASS_COLORS["PRIEST"].r = 0.95
-RAID_CLASS_COLORS["PRIEST"].g = 0.95
-RAID_CLASS_COLORS["PRIEST"].b = 0.95
-
-RAID_CLASS_COLORS["ROGUE"].colorStr = "fffff152"
-RAID_CLASS_COLORS["ROGUE"].r = 1
-RAID_CLASS_COLORS["ROGUE"].g = 0.95
-RAID_CLASS_COLORS["ROGUE"].b = 0.32
-
-RAID_CLASS_COLORS["SHAMAN"].colorStr = "ff0070de"
-RAID_CLASS_COLORS["SHAMAN"].r = 0.01
-RAID_CLASS_COLORS["SHAMAN"].g = 0.44
-RAID_CLASS_COLORS["SHAMAN"].b = 0.87
-
-RAID_CLASS_COLORS["WARLOCK"].colorStr = "ff9482c9"
-RAID_CLASS_COLORS["WARLOCK"].r = 0.58
-RAID_CLASS_COLORS["WARLOCK"].g = 0.51
-RAID_CLASS_COLORS["WARLOCK"].b = 0.79
-
-RAID_CLASS_COLORS["WARRIOR"].colorStr = "ffc79c68"
-RAID_CLASS_COLORS["WARRIOR"].r = 0.78
-RAID_CLASS_COLORS["WARRIOR"].g = 0.61
-RAID_CLASS_COLORS["WARRIOR"].b = 0.43
+for _, className in pairs({"DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR"}) do
+    RAID_CLASS_COLORS[className].colorStr = RAID_CLASS_COLORS[className]:GenerateHexColor()
+end
 
 T["Colors"] = oUF.colors
