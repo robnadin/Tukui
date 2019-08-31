@@ -336,7 +336,7 @@ function Minimap:AddTaxiEarlyExit()
 	Minimap.EarlyExitButton.Text:SetFont(C.Medias.Font, 12)
 	Minimap.EarlyExitButton.Text:Point("CENTER", 0, 0)
 	Minimap.EarlyExitButton.Text:SetShadowOffset(1.25, -1.25)
-	Minimap.EarlyExitButton.Text:SetText("|cffFF0000Land at nearest flightpath|r")	
+	Minimap.EarlyExitButton.Text:SetText("|cffFF0000Land at nearest flight path|r")	
 end
 
 function Minimap:Enable()
