@@ -24,7 +24,7 @@ EventTrace:SetScript("OnEvent", function(self, event)
 end)
 
 T.SlashHandler = function(cmd)
-	local arg1, arg2 = Split(cmd)
+	local arg1, arg2, arg3 = Split(cmd)
 
 	if (arg1 == "" or arg1 == "help") then
 		print(" ")
@@ -38,11 +38,17 @@ T.SlashHandler = function(cmd)
 		print(L.Help.Happiness)
 		print(L.Help.Install)
 		print(L.Help.Load)
+		print(L.Help.MobsHealth)
 		print(L.Help.Move)
 		print(L.Help.Profile)
 		print(L.Help.Status)
 		print(L.Help.Test)
 		print(" ")
+	elseif (arg1 == "mh") then
+		local SlashCommand = _G.SlashCmdList["LIBCLASSICMOBHEALTHONE"]
+		local Command = (arg3 and arg2.." "..arg3) or (arg2) or ""
+		
+		SlashCommand(Command)
 	elseif (arg1 == "chat") then
 		if (arg2 == "reset") then
 			local Chat = T.Chat

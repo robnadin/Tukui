@@ -4,7 +4,7 @@
 ## Version: 1.10
 ## Title: |cffff8000Tukui|r
 ## Notes: UI of awesomeness!
-## SavedVariables: TukuiData, TukuiSettings, TukuiGold, TukuiSettingsPerCharacter
+## SavedVariables: TukuiData, TukuiSettings, TukuiGold, TukuiSettingsPerCharacter, LibClassicMobHealth10DB, LibClassicMobHealth10Opt
 ## SavedVariablesPerCharacter: TukuiSettingsPerChar
 ## OptionalDeps: Clique
 ## X-oUF: TukuiUnitFrameFramework
