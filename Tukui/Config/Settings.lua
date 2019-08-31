@@ -101,6 +101,7 @@ C["NamePlates"] = {
 	["Enable"] = true,
 	["Width"] = 129,
 	["Height"] = 12,
+	["NameplateCastBar"] = true,
 	["Font"] = "Tukui Outline",
 	["OnlySelfDebuffs"] = true,
 }
@@ -174,6 +175,5 @@ C["UnitFrames"] = {
 	["TargetAuras"] = true,
 	["OnlySelfDebuffs"] = false,
 	["OnlySelfBuffs"] = false,
-	["NameplateCastBar"] = true,
 	["Font"] = "Tukui Outline",
 }

@@ -2082,6 +2082,7 @@ local NamePlates = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("NamePlates", "Enable", "Enable nameplate module")
+	Window:CreateSwitch("NamePlates", "NameplateCastBar", "Enable nameplate castbar")
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("NamePlates", "OnlySelfDebuffs", "Display only our debuffs")
@@ -2175,8 +2176,7 @@ local UnitFrames = function(self)
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("UnitFrames", "Enable", "Enable unitframe module")
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
-	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")
-	Window:CreateSwitch("UnitFrames", "NameplateCastBar", "Enable nameplate castbar")		
+	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")		
 				
 	Window:CreateSection("Scrolling combat text")
 	Window:CreateSwitch("UnitFrames", "ScrollingCombatText", "Enable scrolling combat text")
