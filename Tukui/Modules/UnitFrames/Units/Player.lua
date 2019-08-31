@@ -307,7 +307,7 @@ function TukuiUnitFrames:Player()
 	
 	if (C.UnitFrames.EnergyTick) and (Class == "ROGUE" or Class == "DRUID") then
 		Power.PowerTick = CreateFrame("Frame", nil, Power)
-		Power.PowerTick.Texture = Power:CreateTexture(nil, 'OVERLAY', 8)
+		Power.PowerTick.Texture = Power.PowerTick:CreateTexture(nil, 'OVERLAY', 8)
 		Power.PowerTick.Texture:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
 		Power.PowerTick.Texture:Size(Power:GetHeight() + 4)
 		Power.PowerTick.Texture:SetPoint("CENTER", Power, 0, 0)
