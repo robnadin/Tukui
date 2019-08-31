@@ -363,7 +363,7 @@ function Bags:CreateContainer(storagetype, ...)
 			end
 		end
 
-		BankBagsContainer:SetWidth((ButtonSize * 7) + (ButtonSpacing * (7 + 1)))
+		BankBagsContainer:SetWidth((ButtonSize * 6) + (ButtonSpacing * (6 + 1)))
 		BankBagsContainer:SetHeight(ButtonSize + (ButtonSpacing * 2))
 		BankBagsContainer:Hide()
 
