@@ -483,8 +483,10 @@ function TukuiChat:Setup()
 		if i == 2 then
 			CombatLogQuickButtonFrame_Custom:StripTextures()
 		else
-			Frame.DefaultAddMessage = Frame.AddMessage
-			Frame.AddMessage = TukuiChat.AddMessage
+			if C.Chat.ShortChannelName then
+				Frame.DefaultAddMessage = Frame.AddMessage
+				Frame.AddMessage = TukuiChat.AddMessage
+			end
 		end
 	end
 
