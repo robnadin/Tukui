@@ -32,7 +32,7 @@ oUF.colors.class = {
 	["HUNTER"]      = { 0.67, 0.84, 0.45 },
 	["MAGE"]        = { 0.41, 0.80, 1.00 },
 	["PALADIN"]     = { 0.96, 0.55, 0.73 },
-	["PRIEST"]      = { 0.83, 0.83, 0.83 },
+	["PRIEST"]      = { 0.95, 0.95, 0.95 },
 	["ROGUE"]       = { 1.00, 0.95, 0.32 },
 	["SHAMAN"]      = { 0.01, 0.44, 0.87 },
 	["WARLOCK"]     = { 0.58, 0.51, 0.79 },
@@ -122,10 +122,10 @@ RAID_CLASS_COLORS["PALADIN"].r = 0.96
 RAID_CLASS_COLORS["PALADIN"].g = 0.55
 RAID_CLASS_COLORS["PALADIN"].b = 0.73
 
-RAID_CLASS_COLORS["PRIEST"].colorStr = "ffd4d4d4"
-RAID_CLASS_COLORS["PRIEST"].r = 0.83
-RAID_CLASS_COLORS["PRIEST"].g = 0.83
-RAID_CLASS_COLORS["PRIEST"].b = 0.83
+RAID_CLASS_COLORS["PRIEST"].colorStr = "fff2f2f2"
+RAID_CLASS_COLORS["PRIEST"].r = 0.95
+RAID_CLASS_COLORS["PRIEST"].g = 0.95
+RAID_CLASS_COLORS["PRIEST"].b = 0.95
 
 RAID_CLASS_COLORS["ROGUE"].colorStr = "fffff152"
 RAID_CLASS_COLORS["ROGUE"].r = 1
