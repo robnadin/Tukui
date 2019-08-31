@@ -312,8 +312,6 @@ function TukuiUnitFrames:Player()
 		Power.PowerTick.Texture:Size(Power:GetHeight() + 4)
 		Power.PowerTick.Texture:SetPoint("CENTER", Power, 0, 0)
 		Power.PowerTick.Texture:SetBlendMode("ADD")
-		
-		Power.PowerTick:RegisterEvent("UNIT_POWER_UPDATE")
 		Power.PowerTick:SetScript("OnUpdate", TukuiUnitFrames.OnUpdateEnergyTick)
 	end
 
