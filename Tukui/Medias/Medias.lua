@@ -34,4 +34,6 @@ if (Locale == "koKR" or Locale == "zhTW" or Locale == "zhCN") then
 	C["Medias"].Font = STANDARD_TEXT_FONT
 	C["Medias"].UnitFrameFont = UNIT_NAME_FONT
 	C["Medias"].DamageFont = DAMAGE_TEXT_FONT
+elseif (Locale ~= "enUS" and Locale ~= "frFR" and Locale ~= "enGB") then
+	C["Medias"].DamageFont = C["Medias"].Font
 end
