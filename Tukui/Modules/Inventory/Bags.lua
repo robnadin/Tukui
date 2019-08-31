@@ -314,6 +314,7 @@ function Bags:CreateContainer(storagetype, ...)
 		local CostText = BankFrameSlotCost
 		local TotalCost = BankFrameDetailMoneyFrame
 		local Purchase = BankFramePurchaseInfo
+		local CloseButton = BankCloseButton
 		local BankBagsContainer = CreateFrame("Frame", nil, Container)
 
 		CostText:ClearAllPoints()
@@ -323,6 +324,7 @@ function Bags:CreateContainer(storagetype, ...)
 		PurchaseButton:ClearAllPoints()
 		PurchaseButton:SetPoint("BOTTOMRIGHT", -10, 10)
 		PurchaseButton:SkinButton()
+		CloseButton:Hide()
 
 		Purchase:ClearAllPoints()
 		Purchase:SetWidth(Container:GetWidth() + 50)
