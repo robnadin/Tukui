@@ -304,6 +304,18 @@ function TukuiUnitFrames:Player()
 
 		self.ComboPointsBar = ComboPoints
 	end
+	
+	if (C.UnitFrames.EnergyTick) and (Class == "ROGUE" or Class == "DRUID") then
+		Power.PowerTick = CreateFrame("Frame", nil, Power)
+		Power.PowerTick.Texture = Power:CreateTexture(nil, 'OVERLAY', 8)
+		Power.PowerTick.Texture:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
+		Power.PowerTick.Texture:Size(Power:GetHeight() + 4)
+		Power.PowerTick.Texture:SetPoint("CENTER", Power, 0, 0)
+		Power.PowerTick.Texture:SetBlendMode("ADD")
+		
+		Power.PowerTick:RegisterEvent("UNIT_POWER_UPDATE")
+		Power.PowerTick:SetScript("OnUpdate", TukuiUnitFrames.OnUpdateEnergyTick)
+	end
 
 	local RaidIcon = Health:CreateTexture(nil, "OVERLAY", 7)
 	RaidIcon:SetSize(16, 16)
@@ -336,9 +348,6 @@ function TukuiUnitFrames:Player()
 
 		T.Movers:RegisterFrame(ScrollingCombatText)
 	end
-
-
-	
 
 	self:HookScript("OnEnter", TukuiUnitFrames.MouseOnPlayer)
 	self:HookScript("OnLeave", TukuiUnitFrames.MouseOnPlayer)

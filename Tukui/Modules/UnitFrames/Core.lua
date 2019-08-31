@@ -487,6 +487,40 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 	end
 end
 
+local LastEnergyTickTime = GetTime()
+local LastEnergyValue = 0
+
+function TukuiUnitFrames:SetEnergyTickValue(timer)
+	local Width = self:GetWidth()
+	local Min, Max = UnitPower("player"), UnitPowerMax("player")
+	local PType = UnitPowerType("player")
+
+	if Min == Max or PType ~= Enum.PowerType.Energy then
+		self.PowerTick.Texture:Hide()
+	else
+		local Position = (Width * timer) / 2
+
+		self.PowerTick.Texture:Show()
+		self.PowerTick.Texture:SetPoint("CENTER", self, "LEFT", Position, 0)
+	end
+end
+
+function TukuiUnitFrames:OnUpdateEnergyTick()
+	local CurrentEnergy = UnitPower("player", Enum.PowerType.Energy)
+	local Power = self:GetParent()
+
+	local Now = GetTime()
+	local Value = Now - LastEnergyTickTime
+
+	if CurrentEnergy > LastEnergyValue or Now >= LastEnergyTickTime + 2 then
+		LastEnergyTickTime = Now
+	end
+
+	TukuiUnitFrames.SetEnergyTickValue(Power, Value)
+
+	LastEnergyValue = CurrentEnergy
+end
+
 function TukuiUnitFrames:GetPartyFramesAttributes()
 	return
 		"TukuiParty",
