@@ -510,13 +510,13 @@ function TukuiUnitFrames:OnUpdateEnergyTick()
 	local Power = self:GetParent()
 
 	local Now = GetTime()
-	local Value = Now - LastEnergyTickTime
+	local Timer = Now - LastEnergyTickTime
 
 	if CurrentEnergy > LastEnergyValue or Now >= LastEnergyTickTime + 2 then
 		LastEnergyTickTime = Now
 	end
 
-	TukuiUnitFrames.SetEnergyTickValue(Power, Value)
+	TukuiUnitFrames.SetEnergyTickValue(Power, Timer)
 
 	LastEnergyValue = CurrentEnergy
 end
