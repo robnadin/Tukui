@@ -74,7 +74,7 @@ C["Cooldowns"] = {
 
 C["DataTexts"] = {
 	["Battleground"] = true,
-	["HideBNConnected"] = true,
+	["HideFriendsNotPlaying"] = true,
 	["NameColor"] = {1, 1, 1},
 	["ValueColor"] = {1, 1, 1},
 	["Hour24"] = false,

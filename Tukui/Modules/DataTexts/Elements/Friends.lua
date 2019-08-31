@@ -273,7 +273,7 @@ local OnEnter = function(self)
 				local BNName = RemoveTagNumber(BNTable[i][3])
 
 				if BNTable[i][7] then
-					if C.DataTexts.HideBNConnected and (BNTable[i][6] == "BSAp" or BNTable[i][6] == "App") then
+					if C.DataTexts.HideFriendsNotPlaying and (BNTable[i][6] == "BSAp" or BNTable[i][6] == "App") then
 						-- ignore them on tooltip, not playing any game.
 					else
 						if (count <= DisplayLimit) then

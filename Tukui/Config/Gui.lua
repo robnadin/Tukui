@@ -2038,7 +2038,7 @@ local DataTexts = function(self)
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("DataTexts", "Battleground", "Enable battleground datatext")
 	Window:CreateSwitch("DataTexts", "Hour24", "Switch time datatext to 24h mode")
-	Window:CreateSwitch("DataTexts", "HideBNConnected", "Hide friends currently not playing any games")
+	Window:CreateSwitch("DataTexts", "HideFriendsNotPlaying", "Hide friends currently not playing any games")
 	
 	Window:CreateSection("Color")
 	Window:CreateColorSelection("DataTexts", "NameColor", "Name color")
