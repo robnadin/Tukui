@@ -2176,6 +2176,7 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "Enable", "Enable unitframe module")
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")
+	Window:CreateSwitch("UnitFrames", "NameplateCastBar", "Enable nameplate castbar")		
 				
 	Window:CreateSection("Scrolling combat text")
 	Window:CreateSwitch("UnitFrames", "ScrollingCombatText", "Enable scrolling combat text")

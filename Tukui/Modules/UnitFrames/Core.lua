@@ -462,7 +462,6 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 	local CurrentPower = cur
 	local MaxPower = max
 	local Nameplate = self:GetParent()
-	local CastBar = Nameplate.Castbar
 	local PowerBar = Nameplate.Power
 	local Health = Nameplate.Health
 	local IsPowerHidden = PowerBar.IsHidden

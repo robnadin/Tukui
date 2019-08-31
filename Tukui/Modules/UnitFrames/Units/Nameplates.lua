@@ -76,53 +76,53 @@ function TukuiUnitFrames:Nameplates()
 	Debuffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
 	Debuffs.onlyShowPlayer = C.NamePlates.OnlySelfDebuffs
 	
-	local CastBar = CreateFrame("StatusBar", "TukuiTargetCastBar", self)
-	CastBar:SetFrameStrata(self:GetFrameStrata())
-	CastBar:SetStatusBarTexture(CastTexture)
-	CastBar:SetFrameLevel(6)
-	CastBar:Height(3)
-	CastBar:Point("TOPLEFT", Health, "BOTTOMLEFT", 0, -1)
-	CastBar:Point("TOPRIGHT", Health, "BOTTOMRIGHT", 0, -1)
+	if C.UnitFrames.NameplateCastBar then
+		local CastBar = CreateFrame("StatusBar", "TukuiTargetCastBar", self)
+		CastBar:SetFrameStrata(self:GetFrameStrata())
+		CastBar:SetStatusBarTexture(CastTexture)
+		CastBar:SetFrameLevel(6)
+		CastBar:Height(3)
+		CastBar:Point("TOPLEFT", Health, "BOTTOMLEFT", 0, -1)
+		CastBar:Point("TOPRIGHT", Health, "BOTTOMRIGHT", 0, -1)
 
-	CastBar.Background = CastBar:CreateTexture(nil, "BORDER")
-	CastBar.Background:SetPoint("LEFT")
-	CastBar.Background:SetPoint("BOTTOM")
-	CastBar.Background:SetPoint("RIGHT")
-	CastBar.Background:SetPoint("TOP", 0, 1)
-	CastBar.Background:SetTexture(CastTexture)
-	CastBar.Background:SetVertexColor(0.15, 0.15, 0.15)
+		CastBar.Background = CastBar:CreateTexture(nil, "BORDER")
+		CastBar.Background:SetPoint("LEFT")
+		CastBar.Background:SetPoint("BOTTOM")
+		CastBar.Background:SetPoint("RIGHT")
+		CastBar.Background:SetPoint("TOP", 0, 1)
+		CastBar.Background:SetTexture(CastTexture)
+		CastBar.Background:SetVertexColor(0.15, 0.15, 0.15)
 
-	CastBar.Button = CreateFrame("Frame", nil, CastBar)
-	CastBar.Button:Size(self:GetHeight())
-	CastBar.Button:SetTemplate()
-	CastBar.Button:CreateShadow()
-	CastBar.Button:Point("TOPRIGHT", self, "TOPLEFT", -6, 0)
+		CastBar.Button = CreateFrame("Frame", nil, CastBar)
+		CastBar.Button:Size(self:GetHeight())
+		CastBar.Button:SetTemplate()
+		CastBar.Button:CreateShadow()
+		CastBar.Button:Point("TOPRIGHT", self, "TOPLEFT", -6, 0)
 
-	CastBar.Icon = CastBar.Button:CreateTexture(nil, "ARTWORK")
-	CastBar.Icon:SetInside()
-	CastBar.Icon:SetTexCoord(unpack(T.IconCoord))
+		CastBar.Icon = CastBar.Button:CreateTexture(nil, "ARTWORK")
+		CastBar.Icon:SetInside()
+		CastBar.Icon:SetTexCoord(unpack(T.IconCoord))
 
-	CastBar.Text = CastBar:CreateFontString(nil, "OVERLAY")
-	CastBar.Text:SetFontObject(Font)
-	CastBar.Text:Point("CENTER", CastBar)
-	CastBar.Text:SetTextColor(0.84, 0.75, 0.65)
-	CastBar.Text:SetWidth(C.NamePlates.Width)
-	CastBar.Text:SetJustifyH("CENTER")
+		CastBar.Text = CastBar:CreateFontString(nil, "OVERLAY")
+		CastBar.Text:SetFontObject(Font)
+		CastBar.Text:Point("CENTER", CastBar)
+		CastBar.Text:SetTextColor(0.84, 0.75, 0.65)
+		CastBar.Text:SetWidth(C.NamePlates.Width)
+		CastBar.Text:SetJustifyH("CENTER")
 
-	CastBar.PostCastStart = TukuiUnitFrames.CheckInterrupt
-	CastBar.PostCastInterruptible = TukuiUnitFrames.CheckInterrupt
-	CastBar.PostCastNotInterruptible = TukuiUnitFrames.CheckInterrupt
-	CastBar.PostChannelStart = TukuiUnitFrames.CheckInterrupt
-
-	CastBar:SetScript("OnShow", TukuiUnitFrames.DisplayNameplatePowerAndCastBar)
-	CastBar:SetScript("OnHide", TukuiUnitFrames.DisplayNameplatePowerAndCastBar)
+		CastBar.PostCastStart = TukuiUnitFrames.CheckInterrupt
+		CastBar.PostCastInterruptible = TukuiUnitFrames.CheckInterrupt
+		CastBar.PostCastNotInterruptible = TukuiUnitFrames.CheckInterrupt
+		CastBar.PostChannelStart = TukuiUnitFrames.CheckInterrupt
+		
+		self.Castbar = CastBar
+	end
 
 	local RaidIcon = Health:CreateTexture(nil, "OVERLAY")
 	RaidIcon:Size(self:GetHeight())
 	RaidIcon:Point("TOPLEFT", self, "TOPRIGHT", 4, 0)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
 
-	self.Castbar = CastBar
 	self.Health = Health
 	self.Buffs = Buffs
 	self.Debuffs = Debuffs

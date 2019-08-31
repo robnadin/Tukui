@@ -174,5 +174,6 @@ C["UnitFrames"] = {
 	["TargetAuras"] = true,
 	["OnlySelfDebuffs"] = false,
 	["OnlySelfBuffs"] = false,
+	["NameplateCastBar"] = true,
 	["Font"] = "Tukui Outline",
 }
