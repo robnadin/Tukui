@@ -2136,7 +2136,6 @@ local Tooltips = function(self)
 	Window:CreateSwitch("Tooltips", "UnitHealthText", "Enable unit health text")
 	
 	Window:CreateSection("Styling")
-	Window:CreateSwitch("Tooltips", "HideOnUnitFrames", "Hide tooltip on unitframes")
 	Window:CreateSwitch("Tooltips", "HideInCombat", "Hide tooltip while in combat")
 	Window:CreateSwitch("Tooltips", "MouseOver", "Display tooltips on the cursor")
 	

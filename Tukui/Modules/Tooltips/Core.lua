@@ -113,7 +113,7 @@ function Tooltip:OnTooltipSetUnit()
 		return
 	end
 
-	if (self:GetOwner() ~= UIParent and C.Tooltips.HideOnUnitFrames) then
+	if (self:GetOwner() ~= UIParent and C.Tooltips.MouseOver) then
 		self:Hide()
 		return
 	end
