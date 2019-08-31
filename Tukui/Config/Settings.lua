@@ -157,7 +157,7 @@ C["Textures"] = {
 
 C["UnitFrames"] = {
 	["Enable"] = true,
-	["ScrollingCombatText"] = true,
+	["ScrollingCombatText"] = false,
 	["ScrollingCombatTextFontSize"] = 32,
 	["ScrollingCombatTextFont"] = "Tukui Damage",
 	["Portrait"] = false,
