@@ -105,7 +105,7 @@ C["NamePlates"] = {
 }
 
 C["Party"] = {
-	["Enable"] = true,
+	["Enable"] = false,
 	["ShowPlayer"] = true,
 	["RangeAlpha"] = 0.3,
 	["Font"] = "Tukui",
