@@ -201,7 +201,7 @@ function TukuiDT:AddDefaults()
 	TukuiData[GetRealmName()][UnitName("player")].Texts = {}
 
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Guild"] = {true, 1}
-	TukuiData[GetRealmName()][UnitName("player")].Texts["Voice Chat"] = {true, 2}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["Durability"] = {true, 2}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Friends"] = {true, 3}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["FPS & MS"] = {true, 4}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Memory"] = {true, 5}
