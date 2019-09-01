@@ -789,9 +789,9 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 		elseif(event == 'NAME_PLATE_UNIT_ADDED' and unit) then
 			local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
 				
-			if(not nameplate) then return end
-				
 			if nameplate:IsForbidden() then return end
+				
+			if(not nameplate) then return end
 
 			if(not nameplate.unitFrame) then
 				nameplate.style = style
