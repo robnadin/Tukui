@@ -293,12 +293,7 @@ function TukuiUnitFrames:CreateAuraTimer(elapsed)
 		self.Elapsed = (self.Elapsed or 0) + elapsed
 
 		if self.Elapsed >= 0.1 then
-			if not self.First then
-				self.TimeLeft = self.TimeLeft - self.Elapsed
-			else
-				self.TimeLeft = self.TimeLeft - GetTime()
-				self.First = false
-			end
+			self.TimeLeft = self.TimeLeft - self.Elapsed
 
 			if self.TimeLeft > 0 then
 				local Time = T.FormatTime(self.TimeLeft)
@@ -377,8 +372,8 @@ function TukuiUnitFrames:PostCreateAura(button)
 
 	button.Animation.FadeOut = button.Animation:CreateAnimation("Alpha")
 	button.Animation.FadeOut:SetFromAlpha(1)
-	button.Animation.FadeOut:SetToAlpha(0)
-	button.Animation.FadeOut:SetDuration(.6)
+	button.Animation.FadeOut:SetToAlpha(.3)
+	button.Animation.FadeOut:SetDuration(.3)
 	button.Animation.FadeOut:SetSmoothing("IN_OUT")
 end
 
@@ -404,8 +399,9 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 				button:SetBorderColor(color.r * 0.8, color.g * 0.8, color.b * 0.8)
 			end
 		else
-			if button.Animation then
-				if (IsStealable or DType == "Magic") and not UnitIsFriend("player", unit) and not button.Animation.Playing then
+			-- These classes can purge, show them
+			if (button.Animation) and (T.MyClass == "PRIEST") or (T.MyClass == "SHAMAN") then
+				if (DType == "Magic") and not UnitIsFriend("player", unit) and not button.Animation.Playing then
 					button.Animation:Play()
 					button.Animation.Playing = true
 				else
@@ -436,7 +432,7 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 
 		button.Duration = Duration
 		button.TimeLeft = ExpirationTime
-		button.First = true
+		button.Elapsed = GetTime()
 	end
 end
 
