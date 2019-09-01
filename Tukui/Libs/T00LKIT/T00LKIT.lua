@@ -140,14 +140,20 @@ end
 -- Sizing & Pointing --
 
 Toolkit.API.Size = function(self, WidthSize, HeightSize)
+	if not WidthSize then WidthSize = 0 end
+	
 	self:SetSize(Toolkit.Functions.Scale(WidthSize), Toolkit.Functions.Scale(HeightSize or WidthSize))
 end
 
 Toolkit.API.Width = function(self, WidthSize)
+	if not WidthSize then WidthSize = 0 end
+	
 	self:SetWidth(Toolkit.Functions.Scale(WidthSize))
 end
 
 Toolkit.API.Height = function(self, HeightSize)
+	if not HeightSize then HeightSize = 0 end
+	
 	self:SetHeight(Toolkit.Functions.Scale(HeightSize))
 end
 
