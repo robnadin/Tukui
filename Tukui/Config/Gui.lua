@@ -1894,11 +1894,15 @@ GUI.Toggle = function(self)
 		self.FadeOut:Play()
 		
 		if IsBarEnabled then
+			local Pet = T.Panels["ActionBarPetToggleButton"]
+						
 			for i = 2, 5 do
 				local Toggle = Panels["ActionBar" .. i .. "ToggleButton"]
 
 				Toggle:Hide()
 			end
+						
+			Pet:Hide()
 		end
 	else
 		self:Show()
@@ -1906,11 +1910,15 @@ GUI.Toggle = function(self)
 		
 		-- Really annoying to receive each day the same question on discord about how to hide action bars, let's show them when GUI is displayed.
 		if IsBarEnabled then
+			local Pet = T.Panels["ActionBarPetToggleButton"]
+						
 			for i = 2, 5 do
 				local Toggle = Panels["ActionBar" .. i .. "ToggleButton"]
 
 				Toggle:Show()
 			end
+						
+			Pet:Show()
 		end
 	end
 end
