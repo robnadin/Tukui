@@ -742,7 +742,11 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 	-- Disable only not forbidden nameplates.
 	NamePlateDriverFrame:HookScript('OnEvent', function(_, event, unit)
 		if(event == 'NAME_PLATE_UNIT_ADDED' and unit) then
-			self:DisableBlizzard(unit)
+			local Plate = C_NamePlate.GetNamePlateForUnit(unit, true)
+				
+			if not Plate:IsForbidden() then
+				self:DisableBlizzard(unit)
+			end
 		end
 	end)
 
