@@ -315,6 +315,28 @@ function Tooltip:HideInCombat(event)
 	end
 end
 
+function Tooltip:SetCompareItemBorderColor(anchorFrame)
+	for i = 1, 2 do
+		local TT = _G["ShoppingTooltip"..i]
+		
+		if TT:IsShown() then
+			local Item = TT:GetItem()
+			
+			if Item then
+				local Quality = select(3, GetItemInfo(Item))
+				
+				if Quality then
+					local R, G, B = GetItemQualityColor(Quality)
+
+					TT.Backdrop:SetBorderColor(R, G, B)
+				else
+					TT.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
+				end
+			end
+		end
+	end
+end
+
 function Tooltip:Enable()
 	if (not C.Tooltips.Enable) then
 		return
@@ -323,6 +345,7 @@ function Tooltip:Enable()
 	self:CreateAnchor()
 
 	hooksecurefunc("GameTooltip_SetDefaultAnchor", self.SetTooltipDefaultAnchor)
+	hooksecurefunc("GameTooltip_ShowCompareItem", self.SetCompareItemBorderColor)
 
 	for _, Tooltip in pairs(Tooltip.Tooltips) do
 		Tooltip:HookScript("OnShow", self.Skin)
@@ -330,6 +353,7 @@ function Tooltip:Enable()
 	
 	GameTooltip:HookScript("OnTooltipSetUnit", self.OnTooltipSetUnit)
 	GameTooltip:HookScript("OnTooltipSetItem", self.OnTooltipSetItem)
+	
 
 	ItemRefCloseButton:SkinCloseButton()
 
@@ -356,6 +380,7 @@ function Tooltip:Enable()
 	end
 	
 	GameTooltip_SetBackdropStyle = function() end -- hope it doesn't taint
+	GameTooltip_UpdateStyle = function() return end
 end
 
 T["Tooltips"] = Tooltip
