@@ -386,6 +386,8 @@ function Tooltip:Enable()
 	
 	if C.Tooltips.AlwaysCompareItems then
 		SetCVar("alwaysCompareItems", 1)
+	else
+		SetCVar("alwaysCompareItems", 0)
 	end
 	
 	GameTooltip_SetBackdropStyle = function() end -- hope it doesn't taint
