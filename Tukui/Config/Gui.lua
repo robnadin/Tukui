@@ -2142,6 +2142,7 @@ local Tooltips = function(self)
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("Tooltips", "Enable", "Enable tooltip module")
 	Window:CreateSwitch("Tooltips", "UnitHealthText", "Enable unit health text")
+	Window:CreateSwitch("Tooltips", "AlwaysCompareItems", "Always compare items")
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Tooltips", "HideInCombat", "Hide tooltip while in combat")

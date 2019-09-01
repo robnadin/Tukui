@@ -320,7 +320,12 @@ function Tooltip:SetCompareItemBorderColor(anchorFrame)
 		local TT = _G["ShoppingTooltip"..i]
 		
 		if TT:IsShown() then
+			local FrameLevel = GameTooltip:GetFrameLevel()
 			local Item = TT:GetItem()
+			
+			if FrameLevel == TT:GetFrameLevel() then
+				TT:SetFrameLevel(i + 1)
+			end
 			
 			if Item then
 				local Quality = select(3, GetItemInfo(Item))
@@ -377,6 +382,10 @@ function Tooltip:Enable()
 		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 
 		self:SetScript("OnEvent", Tooltip.HideInCombat)
+	end
+	
+	if C.Tooltips.AlwaysCompareItems then
+		SetCVar("alwaysCompareItems", 1)
 	end
 	
 	GameTooltip_SetBackdropStyle = function() end -- hope it doesn't taint
