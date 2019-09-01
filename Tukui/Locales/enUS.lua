@@ -133,7 +133,7 @@ L.Help.Grid = "'|cff00ff00grid|r' or '|cff00ff00grid 128|r' : Display a grid whi
 L.Help.Happiness = "'|cff00ff00ph|r' or '|cff00ff00happiness|r' : For hunters, tell you what is the hapiness value of your current pet."
 L.Help.Install = "'|cff00ff00install|r' or '|cff00ff00reset|r' : Install or reset Tukui to default settings."
 L.Help.Load = "'|cff00ff00load X|r' or '|cff00ff00unload X|r' : Load or unload an addon. X = addon name."
-L.Help.Move = "'|cff00ff00mb|r' : Mobs health saving parameters."
+L.Help.MobsHealth = "'|cff00ff00mh|r' : Mobs health saving parameters."
 L.Help.Move = "'|cff00ff00move|r' or '|cff00ff00moveui|r' : Move Frames."
 L.Help.Profile = "'|cff00ff00profile|r' or '|cff00ff00p|r' : Use Tukui settings (existing profile) from another character."
 L.Help.Status = "'|cff00ff00status|r' or '|cff00ff00debug|r' : Show a debug window with information needed to investigate a bug in the UI"
