@@ -568,7 +568,7 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
 		]],
 		"initial-width", 79,
 		"initial-height", 55,
-		"showParty", true,
+		"showParty", false,
 		"showRaid", true,
 		"showPlayer", true,
 		"showSolo", true,
