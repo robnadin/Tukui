@@ -358,9 +358,6 @@ function TukuiChat:Install()
 	FCF_SetChatWindowFontSize(nil, ChatFrame3, 12)
 	FCF_SetChatWindowFontSize(nil, ChatFrame4, 12)
 
-	-- Enable Classcolor
-	ToggleChatColorNamesByClassGroup(true, "SAY")
-
 	DEFAULT_CHAT_FRAME:SetUserPlaced(true)
 	
 	self:SetDefaultChatFramesPositions()
