@@ -95,15 +95,6 @@ function Bags:SkinBagButton()
 		BattlePay:SetAlpha(0)
 	end
 
-	self.AutoCastShine = CreateFrame('Frame', '$parentShine', self, 'AutoCastShineTemplate')
-
-	for _, sparks in pairs(self.AutoCastShine.sparkles) do
-		sparks:SetSize(sparks:GetWidth() * 2, sparks:GetHeight() * 2)
-	end
-
-	self:HookScript("OnEnter", function(self) AutoCastShine_AutoCastStop(self.AutoCastShine) end)
-	self:HookScript("OnHide", function(self) AutoCastShine_AutoCastStop(self.AutoCastShine) end)
-
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
 	self:SetTemplate()
