@@ -196,6 +196,10 @@ function Tooltip:OnTooltipSetUnit()
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(UnitName(Unit .. "target"), R, G, B)
 	end
+	
+	if (C["Tooltips"].UnitHealthText) then
+		Tooltip.SetHealthValue(HealthBar, Unit)
+	end
 
 	self.fadeOut = nil
 end
@@ -279,6 +283,19 @@ function Tooltip:OnTooltipSetItem()
 	end
 end
 
+function Tooltip:SetHealthValue(unit)
+	local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
+	local Health, MaxHealth = UnitHealth(unit), UnitHealthMax(unit)
+
+	local Value = (IsFound and LibCurrentHP .. " / " .. LibMaxHP) or (floor(Health / MaxHealth * 100) .. "%")
+
+	if (UnitIsDeadOrGhost(unit)) then
+		self.Text:SetText(DEAD)
+	else
+		self.Text:SetText(Value)
+	end
+end
+
 function Tooltip:OnValueChanged()
 	if (not C["Tooltips"].UnitHealthText) then
 		return
@@ -298,15 +315,7 @@ function Tooltip:OnValueChanged()
 		return
 	end
 	
-	local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
-	local Health, MaxHealth = UnitHealth(unit), UnitHealthMax(unit)
-	local Value = (IsFound and LibCurrentHP .. " / " .. LibMaxHP) or (floor(Health / MaxHealth * 100) .. "%")
-	
-	if (UnitIsDeadOrGhost(unit)) then
-		self.Text:SetText(DEAD)
-	else
-		self.Text:SetText(Value)
-	end
+	Tooltip.SetHealthValue(HealthBar, unit)
 end
 
 function Tooltip:HideInCombat(event)
