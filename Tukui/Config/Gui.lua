@@ -2122,6 +2122,7 @@ local Raid = function(self)
 	Window:CreateSwitch("Raid", "Enable", "Enable raid module")
 	Window:CreateSwitch("Raid", "DebuffWatch", "Enable debuffwatch module")
 	Window:CreateSwitch("Raid", "VerticalHealth", "Enable vertical health")
+	Window:CreateSwitch("Raid", "MyRaidBuffs", "See my buffs on raid frames")
 	
 	Window:CreateSection("Styling")
 	Window:CreateSlider("Raid", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)

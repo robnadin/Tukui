@@ -29,7 +29,7 @@ function TukuiUnitFrames:Raid()
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetPoint("TOPLEFT")
 	Health:SetPoint("TOPRIGHT")
-	Health:Height(28)
+	Health:Height(33)
 	Health:SetStatusBarTexture(HealthTexture)
 
 	if C.Raid.VerticalHealth then
@@ -95,11 +95,30 @@ function TukuiUnitFrames:Raid()
 		outsideAlpha = C["Raid"].RangeAlpha,
 	}
 	
+	if C.Raid.MyRaidBuffs then
+		local Buffs = CreateFrame("Frame", self:GetName()..'Buffs', Health)
+		Buffs:Point("TOPLEFT", Health, "TOPLEFT", 0, 0)
+		Buffs:SetHeight(16)
+		Buffs:SetWidth(79)
+		Buffs.size = 16
+		Buffs.num = 5
+		Buffs.numRow = 1
+		Buffs.spacing = 0
+		Buffs.initialAnchor = "TOPLEFT"
+		Buffs.disableCooldown = true
+		Buffs.disableMouse = true
+		Buffs.onlyShowPlayer = true
+		Buffs.IsRaid = true
+		Buffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
+		
+		self.Buffs = Buffs
+	end
+	
 	local RaidDebuffs = CreateFrame("Frame", nil, Health)
 	RaidDebuffs:SetHeight(20)
 	RaidDebuffs:SetWidth(20)
 	RaidDebuffs:SetPoint("CENTER", Health)
-	RaidDebuffs:SetFrameStrata("MEDIUM")
+	RaidDebuffs:SetFrameLevel(Health:GetFrameLevel() + 10)
 	RaidDebuffs:SetTemplate()
 	RaidDebuffs:CreateShadow()
 	RaidDebuffs.Shadow:SetFrameLevel(RaidDebuffs:GetFrameLevel() + 1)
@@ -123,6 +142,7 @@ function TukuiUnitFrames:Raid()
 	RaidDebuffs.count:SetFont(C.Medias.Font, 12, "OUTLINE")
 	RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 2, 0)
 	RaidDebuffs.count:SetTextColor(1, .9, 0)
+	--RaidDebuffs.forceShow = true
 
 	self:Tag(Name, "[Tukui:GetRaidNameColor][Tukui:NameShort]")
 	self.Health = Health

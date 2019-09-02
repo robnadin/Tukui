@@ -121,6 +121,7 @@ C["Raid"] = {
 	["MaxUnitPerColumn"] = 10,
 	["Font"] = "Tukui",
 	["HealthFont"] = "Tukui Outline",
+	["MyRaidBuffs"] = true,
 	["GroupBy"] = {
 		["Options"] = {
 			["Group"] = "GROUP",

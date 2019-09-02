@@ -338,7 +338,10 @@ function TukuiUnitFrames:PostCreateAura(button)
 
 	-- Skin aura button
 	button:SetTemplate("Default")
-	button:CreateShadow()
+	
+	if not button:GetParent().IsRaid then
+		button:CreateShadow()
+	end
 
 	button.Remaining = button:CreateFontString(nil, "OVERLAY")
 	button.Remaining:SetFont(C.Medias.Font, 12, "THINOUTLINE")
@@ -356,7 +359,7 @@ function TukuiUnitFrames:PostCreateAura(button)
 	button.icon:SetTexCoord(unpack(T.IconCoord))
 	button.icon:SetDrawLayer("ARTWORK")
 
-	button.count:Point("BOTTOMRIGHT", 3, 3)
+	button.count:Point("BOTTOMRIGHT", 3, -3)
 	button.count:SetJustifyH("RIGHT")
 	button.count:SetFont(C.Medias.Font, 9, "THICKOUTLINE")
 	button.count:SetTextColor(0.84, 0.75, 0.65)
@@ -551,12 +554,12 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
 			self:SetWidth(header:GetAttribute("initial-width"))
 			self:SetHeight(header:GetAttribute("initial-height"))
 		]],
-		"initial-width", 66,
-		"initial-height", 50,
+		"initial-width", 79,
+		"initial-height", 55,
 		"showParty", true,
 		"showRaid", true,
 		"showPlayer", true,
-		"showSolo", false,
+		"showSolo", true,
 		"xoffset", 4,
 		"yOffset", -4,
 		"point", "TOP",
