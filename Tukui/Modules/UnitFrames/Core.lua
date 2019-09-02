@@ -264,7 +264,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 		
 		if Raid then
 			if (IsFound) and (LibCurrentHP ~= LibMaxHP) then
-				self.Value:SetFormattedText("|cff%02x%02x%02x-%d|r", r * 255, g * 255, b * 255, (HP and MaxHP and TukuiUnitFrames.ShortValue(MaxHP - HP)) or "")
+				self.Value:SetFormattedText("|cff%02x%02x%02x-%d|r", 255, 0, 0, (HP and MaxHP and TukuiUnitFrames.ShortValue(MaxHP - HP)) or "")
 			else
 				self.Value:SetText("")
 			end
