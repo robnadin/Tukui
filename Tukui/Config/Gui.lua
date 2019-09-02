@@ -1917,8 +1917,10 @@ GUI.Toggle = function(self)
 
 				Toggle:Show()
 			end
-				
-			Pet:Show()
+			
+			if T.Panels.PetActionBar:IsShown() then
+				Pet:Show()
+			end
 		end
 	end
 end
