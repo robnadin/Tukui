@@ -67,7 +67,7 @@ function TukuiUnitFrames:Nameplates()
 	Debuffs.size = 24
 	Debuffs.num = NumDebuffsPerRow
 	Debuffs.numRow = 1
-
+	Debuffs.disableMouse = true
 	Debuffs.spacing = 2
 	Debuffs.initialAnchor = "BOTTOMLEFT"
 	Debuffs["growth-y"] = "DOWN"
