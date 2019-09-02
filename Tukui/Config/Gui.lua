@@ -2017,9 +2017,6 @@ local Bags = function(self)
 	Window:CreateSlider("Bags", "ButtonSize", "Set bag slot size", 20, 36, 1)
 	Window:CreateSlider("Bags", "Spacing", "Set bag slot spacing", 0, 8, 1)
 	Window:CreateSlider("Bags", "ItemsPerRow", "Set items per row", 8, 16, 1)
-	
-	Window:CreateSection("Font")
-	Window:CreateDropdown("Bags", "Font", "Set bag font", "Font")
 end
 
 local Chat = function(self)

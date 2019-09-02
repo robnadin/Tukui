@@ -54,7 +54,6 @@ C["Bags"] = {
 	["ButtonSize"] = 28,
 	["Spacing"] = 4,
 	["ItemsPerRow"] = 11,
-	["Font"] = "Tukui Outline",
 }
 
 C["Chat"] = {

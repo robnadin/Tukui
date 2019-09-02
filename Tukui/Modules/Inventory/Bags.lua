@@ -2,7 +2,6 @@ local T, C, L = select(2, ...):unpack()
 
 local _G = _G
 local Noop = function() end
-local Font, FontPath
 local ReplaceBags = 0
 local LastButtonBag, LastButtonBank
 local Token1, Token2, Token3 = BackpackTokenFrameToken1, BackpackTokenFrameToken2, BackpackTokenFrameToken3
@@ -237,7 +236,7 @@ function Bags:CreateContainer(storagetype, ...)
 		SearchBox:SetMultiLine(false)
 		SearchBox:EnableMouse(true)
 		SearchBox:SetAutoFocus(false)
-		SearchBox:SetFontObject(ChatFontNormal)
+		SearchBox:SetFont(C.Medias.Font, 12)
 		SearchBox:Width(Container:GetWidth() - 28)
 		SearchBox:Height(16)
 		SearchBox:SetPoint("BOTTOM", Container, -1, 10)
@@ -810,8 +809,6 @@ function Bags:Enable()
 	-- Bug with mouse click
 	GroupLootContainer:EnableMouse(false)
 
-	Font = T.GetFont(C["Bags"].Font)
-	FontPath = _G[Font]:GetFont()
 	ButtonSize = C.Bags.ButtonSize
 	ButtonSpacing = C.Bags.Spacing
 	ItemsPerRow = C.Bags.ItemsPerRow
