@@ -335,7 +335,7 @@ function TukuiChat:SetChatFramePosition()
 			Frame:SetPoint(Anchor1, UIParent, Anchor2, X, Y)
 			Frame:SetSize(Width, Height)
 
-			if (C.Chat.RightChatAlignRight) then
+			if (ID == 4) and (C.Chat.RightChatAlignRight) then
 				Frame:SetJustifyH("RIGHT")
 			end
 		end
