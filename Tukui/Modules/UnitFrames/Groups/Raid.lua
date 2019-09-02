@@ -39,6 +39,10 @@ function TukuiUnitFrames:Raid()
 	Health.Background = Health:CreateTexture(nil, "BORDER")
 	Health.Background:SetAllPoints()
 	Health.Background:SetColorTexture(.1, .1, .1)
+	
+	Health.Value = Health:CreateFontString(nil, "OVERLAY")
+	Health.Value:SetFontObject(HealthFont)
+	Health.Value:Point("CENTER", Health, "CENTER", 0, -6)
 
 	Health.frequentUpdates = true
 	Health.colorDisconnected = true
@@ -48,6 +52,8 @@ function TukuiUnitFrames:Raid()
 	if (C.UnitFrames.Smooth) then
 		Health.Smooth = true
 	end
+	
+	Health.PostUpdate = TukuiUnitFrames.PostUpdateHealth
 
 	-- Power
 	local Power = CreateFrame("StatusBar", nil, self)

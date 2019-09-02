@@ -255,10 +255,22 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 		self.Value:SetText("|cffD7BEA5"..DEAD.."|r")
 	else
 		local r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+		local Parent = self:GetParent():GetName()
+		local Raid = string.match(Parent, "Raid")
 		local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
-		local HP = (unit == "player" and min) or (IsFound and LibCurrentHP)
+		local HP = IsFound and LibCurrentHP
+		local MaxHP = IsFound and LibMaxHP
+		local Parent = self:GetParent():GetName()
 		
-		self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", (HP and TukuiUnitFrames.ShortValue(HP)) or "???", r * 255, g * 255, b * 255, floor(min / max * 100))
+		if Raid then
+			if (IsFound) and (LibCurrentHP ~= LibMaxHP) then
+				self.Value:SetFormattedText("|cff%02x%02x%02x-%d|r", r * 255, g * 255, b * 255, (HP and MaxHP and TukuiUnitFrames.ShortValue(MaxHP - HP)) or "")
+			else
+				self.Value:SetText("")
+			end
+		else
+			self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", (HP and TukuiUnitFrames.ShortValue(HP)) or "???", r * 255, g * 255, b * 255, floor(min / max * 100))
+		end
 	end
 end
 
@@ -559,7 +571,7 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
 		"showParty", true,
 		"showRaid", true,
 		"showPlayer", true,
-		"showSolo", false,
+		"showSolo", true,
 		"xoffset", 4,
 		"yOffset", -4,
 		"point", "TOP",
