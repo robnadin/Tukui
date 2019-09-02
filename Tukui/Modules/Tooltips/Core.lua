@@ -110,11 +110,13 @@ function Tooltip:OnTooltipSetUnit()
 
 	if (not Unit) then
 		self:Hide()
+		
 		return
 	end
 
 	if (self:GetOwner() ~= UIParent and C.Tooltips.MouseOver) then
 		self:Hide()
+		
 		return
 	end
 
@@ -284,15 +286,14 @@ function Tooltip:OnTooltipSetItem()
 end
 
 function Tooltip:SetHealthValue(unit)
-	local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
-	local Health, MaxHealth = UnitHealth(unit), UnitHealthMax(unit)
-
-	local Value = (IsFound and LibCurrentHP .. " / " .. LibMaxHP) or (floor(Health / MaxHealth * 100) .. "%")
-
 	if (UnitIsDeadOrGhost(unit)) then
 		self.Text:SetText(DEAD)
 	else
-		self.Text:SetText(Value)
+		local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
+		local Health, MaxHealth = UnitHealth(unit), UnitHealthMax(unit)
+		local String = (IsFound and LibCurrentHP .. " / " .. LibMaxHP) or (Health and MaxHealth and (floor(Health / MaxHealth * 100) .. "%")) or "???"
+		
+		self.Text:SetText(String)
 	end
 end
 
