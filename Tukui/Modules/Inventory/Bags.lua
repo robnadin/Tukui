@@ -358,7 +358,6 @@ function Bags:CreateContainer(storagetype, ...)
 		BankFrame:EnableMouse(false)
 
 		Container.BagsContainer = BankBagsContainer
-		Container.SortButton = SortButton
 	end
 
 	self[storagetype] = Container
@@ -814,6 +813,9 @@ function Bags:OnEvent(event, ...)
 		local Bank = self.Bank
 
 		Bank:Hide()
+		
+		-- Clear search on close
+		self.Bag.SearchBox:SetText("")
 	elseif (event == "BANKFRAME_OPENED") then
 		local Bank = self.Bank
 
