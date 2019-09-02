@@ -183,7 +183,7 @@ function TukuiActionBars:AddPanels()
 	-- Stance Bar
 	local A7 = CreateFrame("Frame", "TukuiStanceBar", UIParent, "SecureHandlerStateTemplate")
 	A7:SetSize((PetSize * 10) + (Spacing * 11), PetSize + (Spacing * 2))
-	A7:SetPoint("TOPLEFT", 30, -30)
+	A7:SetPoint("BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", -1, 17)
 	A7:SetFrameStrata("LOW")
 	A7:SetFrameLevel(10)
 	A7.Backdrop = CreateFrame("Frame", nil, A7)
