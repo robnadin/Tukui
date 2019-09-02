@@ -3,6 +3,7 @@ local T, C, L = select(2, ...):unpack()
 local _G = _G
 local Noop = function() end
 local ReplaceBags = 0
+local NeedBagRefresh, NeedBankRefresh
 local LastButtonBag, LastButtonBank
 local Token1, Token2, Token3 = BackpackTokenFrameToken1, BackpackTokenFrameToken2, BackpackTokenFrameToken3
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
@@ -31,16 +32,6 @@ local BlizzardBags = {
 	CharacterBag3Slot,
 }
 
-local BlizzardBank = {
-	BankSlotsFrame["Bag1"],
-	BankSlotsFrame["Bag2"],
-	BankSlotsFrame["Bag3"],
-	BankSlotsFrame["Bag4"],
-	BankSlotsFrame["Bag5"],
-	BankSlotsFrame["Bag6"],
-	BankSlotsFrame["Bag7"],
-}
-
 local BagProfessions = {
 	[8] = "Leatherworking",
 	[16] = "Inscription",
@@ -51,6 +42,8 @@ local BagProfessions = {
 	[1024] = "Mining",
 	[32768] = "Fishing",
 }
+
+local BagSize = {}
 
 function Bags:GetBagProfessionType(bag)
 	local BagType = select(2, GetContainerNumFreeSlots(bag))
@@ -470,9 +463,25 @@ function Bags:BagUpdate(id)
 end
 
 function Bags:UpdateAllBags()
+	-- check if containers changed
+	for i = 1, 5 do
+		local ContainerSize = _G["ContainerFrame"..i].size
+		
+		if ContainerSize ~= BagSize[i] then
+			NeedBagRefresh = true
+			
+			BagSize[i] = ContainerSize
+		end
+	end
+	
+	if not NeedBagRefresh then
+		return
+	end
+
+	-- Refresh layout if a refresh if found
 	local NumRows, LastRowButton, NumButtons, LastButton = 0, ContainerFrame1Item1, 1, ContainerFrame1Item1
 	local FirstButton
-
+	
 	for Bag = 5, 1, -1 do
 		local ID = Bag - 1
 		local Slots = GetContainerNumSlots(ID)
@@ -492,19 +501,6 @@ function Bags:UpdateAllBags()
 			Button:SetFrameStrata("HIGH")
 			Button:SetFrameLevel(2)
 
-			Button.newitemglowAnim:Stop()
-			Button.newitemglowAnim.Play = Noop
-
-			Button.flashAnim:Stop()
-			Button.flashAnim.Play = Noop
-
-			Money:ClearAllPoints()
-			Money:Show()
-			Money:SetPoint("TOPLEFT", Bags.Bag, "TOPLEFT", 8, -10)
-			Money:SetFrameStrata("HIGH")
-			Money:SetFrameLevel(2)
-			Money:SetScale(1)
-
 			if (Button == FirstButton) then
 				Button:SetPoint("TOPLEFT", Bags.Bag, "TOPLEFT", 10, -40)
 				LastRowButton = Button
@@ -521,24 +517,53 @@ function Bags:UpdateAllBags()
 				NumButtons = NumButtons + 1
 			end
 
-			Bags.SkinBagButton(Button)
-
 			LastButton = Button
+
+			if not Button.IsSkinned then
+				Bags.SkinBagButton(Button)
+			end
+			
+			if not Money.IsMoved then
+				Money:ClearAllPoints()
+				Money:Show()
+				Money:SetPoint("TOPLEFT", Bags.Bag, "TOPLEFT", 8, -10)
+				Money:SetFrameStrata("HIGH")
+				Money:SetFrameLevel(2)
+				Money:SetScale(1)
+				Money.IsMoved = true
+			end
 		end
 
 		Bags:BagUpdate(ID)
 	end
+	
+	NeedBagRefresh = false
 
-	Bags.Bag:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 64 + (ButtonSpacing * 4)) - ButtonSpacing)
+	self.Bag:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 64 + (ButtonSpacing * 4)) - ButtonSpacing)
 end
 
 function Bags:UpdateAllBankBags()
+	-- check if containers changed
+	for i = 6, 11 do
+		local ContainerSize = _G["ContainerFrame"..i].size
+
+		if ContainerSize ~= BagSize[i] then
+			NeedBankRefresh = true
+			
+			BagSize[i] = ContainerSize
+		end
+	end
+	
+	if not NeedBankRefresh then
+		return
+	end
+
 	local NumRows, LastRowButton, NumButtons, LastButton = 0, ContainerFrame1Item1, 1, ContainerFrame1Item1
+	local BankFrameMoneyFrame = BankFrameMoneyFrame
 
 	for Bank = 1, 24 do
 		local Button = _G["BankFrameItem"..Bank]
 		local Money = ContainerFrame2MoneyFrame
-		local BankFrameMoneyFrame = BankFrameMoneyFrame
 
 		Button:ClearAllPoints()
 		Button:SetWidth(ButtonSize)
@@ -547,8 +572,6 @@ function Bags:UpdateAllBankBags()
 		Button:SetFrameLevel(2)
 		Button:SetScale(1)
 		Button.IconBorder:SetAlpha(0)
-
-		BankFrameMoneyFrame:Hide()
 
 		if (Bank == 1) then
 			Button:SetPoint("TOPLEFT", Bags.Bank, "TOPLEFT", 10, -10)
@@ -566,18 +589,22 @@ function Bags:UpdateAllBankBags()
 			NumButtons = NumButtons + 1
 		end
 
-		Bags.SkinBagButton(Button)
+		if not Button.IsSkinned then
+			Bags.SkinBagButton(Button)
+		end
+
 		Bags.SlotUpdate(self, -1, Button)
 
 		LastButton = Button
 	end
 
-	for Bag = 6, 12 do
+	BankFrameMoneyFrame:Hide()
+
+	for Bag = 6, 11 do
 		local Slots = GetContainerNumSlots(Bag - 1)
 
 		for Item = Slots, 1, -1 do
 			local Button = _G["ContainerFrame"..Bag.."Item"..Item]
-
 			Button:ClearAllPoints()
 			Button:SetWidth(ButtonSize)
 			Button:SetHeight(ButtonSize)
@@ -604,6 +631,8 @@ function Bags:UpdateAllBankBags()
 			LastButton = Button
 		end
 	end
+	
+	NeedBankRefresh = false
 
 	Bags.Bank:SetHeight(((ButtonSize + ButtonSpacing) * (NumRows + 1) + 20) - ButtonSpacing)
 end
