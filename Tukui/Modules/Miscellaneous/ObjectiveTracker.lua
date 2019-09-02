@@ -34,6 +34,7 @@ end
 function ObjectiveTracker:Skin()
 	local HeaderBar = CreateFrame("StatusBar", nil, QuestWatchFrame)
 	local HeaderText = HeaderBar:CreateFontString(nil, "OVERLAY")
+	local Font = T.GetFont(C.Misc.ObjectiveTrackerFont)
 	
 	HeaderBar:Size(QuestWatchFrame:GetWidth(), 2)
 	HeaderBar:SetPoint("TOPLEFT", QuestWatchFrame, 0, -4)
@@ -42,7 +43,7 @@ function ObjectiveTracker:Skin()
 	HeaderBar:SetTemplate()
 	HeaderBar:CreateShadow()
 	
-	HeaderText:SetFontTemplate(C.Medias.Font, 12)
+	HeaderText:SetFontObject(Font)
 	HeaderText:Point("LEFT", HeaderBar, "LEFT", -2, 14)
 	HeaderText:SetText(CURRENT_QUESTS)
 	
@@ -50,7 +51,7 @@ function ObjectiveTracker:Skin()
 	for i = 1, 30 do
 		local Line = _G["QuestWatchLine"..i]
 
-		Line:SetFont(C.Medias.Font, 12, "OUTLINE")
+		Line:SetFontObject(Font)
 	end
 	
 	self.HeaderBar = HeaderBar

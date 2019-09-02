@@ -2079,7 +2079,9 @@ local Misc = function(self)
 	Window:CreateSection("Screensaver")
 	Window:CreateSwitch("Misc", "AFKSaver", "Enable AFK screensaver")
 	Window:CreateSection("Inventory")
-	Window:CreateSwitch("Misc", "AutoSellJunk", "Sell junk automatically when visiting a vendor?")	
+	Window:CreateSwitch("Misc", "AutoSellJunk", "Sell junk automatically when visiting a vendor?")
+	Window:CreateSection("Objective Tracker")
+	Window:CreateDropdown("Misc", "ObjectiveTrackerFont", "Set objective tracker font", "Font")
 end
 
 local NamePlates = function(self)

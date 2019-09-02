@@ -94,6 +94,7 @@ C["Misc"] = {
 	["AutoSellJunk"] = true,
 	["AFKSaver"] = true,
 	["FadeWorldMapWhileMoving"] = false,
+	["ObjectiveTrackerFont"] = "Tukui Outline",
 }
 
 C["NamePlates"] = {
