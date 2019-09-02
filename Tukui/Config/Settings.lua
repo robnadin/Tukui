@@ -58,6 +58,10 @@ C["Bags"] = {
 
 C["Chat"] = {
 	["Enable"] = true,
+	["LeftWidth"] = 400,
+	["LeftHeight"] = 200,
+	["RightWidth"] = 400,
+	["RightHeight"] = 200,
 	["WhisperSound"] = true,
 	["ShortChannelName"] = true,
 	["LinkColor"] = {0.08, 1, 0.36},

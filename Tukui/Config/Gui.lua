@@ -1917,7 +1917,7 @@ GUI.Toggle = function(self)
 
 				Toggle:Show()
 			end
-						
+				
 			Pet:Show()
 		end
 	end
@@ -2025,6 +2025,12 @@ local Chat = function(self)
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("Chat", "Enable", "Enable chat module")
 	Window:CreateSwitch("Chat", "WhisperSound", "Enable whisper sound")
+				
+	Window:CreateSection("Size [Tukui 18 theme only]")
+	Window:CreateSlider("Chat", "LeftWidth", "Set left chat width", 300, 600, 10)
+	Window:CreateSlider("Chat", "LeftHeight", "Set left chat height", 150, 600, 10)
+	Window:CreateSlider("Chat", "RightWidth", "Set right chat width", 300, 600, 10)
+	Window:CreateSlider("Chat", "RightHeight", "Set right chat height", 150, 600, 10)
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Chat", "ShortChannelName", "Shorten channel names")

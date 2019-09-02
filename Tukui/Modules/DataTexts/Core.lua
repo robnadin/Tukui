@@ -72,7 +72,13 @@ function TukuiDT:CreateAnchors()
 
 	for i = 1, self.NumAnchors do
 		local Frame = CreateFrame("Button", nil, UIParent)
-		Frame:Size((DataTextLeft:GetWidth() / 3) - 1, DataTextLeft:GetHeight() - 2)
+		local DataWidth = (DataTextLeft:GetWidth() / 3) - 1
+		
+		if i >= 4 and i <= 6 then
+			DataWidth = (DataTextRight:GetWidth() / 3) - 1
+		end
+		
+		Frame:Size(DataWidth, DataTextLeft:GetHeight() - 2)
 		Frame:SetFrameLevel(DataTextLeft:GetFrameLevel() + 1)
 		Frame:SetFrameStrata("HIGH")
 		Frame:EnableMouse(false)
