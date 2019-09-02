@@ -2038,6 +2038,7 @@ local Chat = function(self)
 	Window:CreateSwitch("Chat", "ShortChannelName", "Shorten channel names")
 	Window:CreateSlider("Chat", "ScrollByX", "Set lines to scroll", 1, 6, 1)
 	Window:CreateSwitch("Chat", "LinkBrackets", "Display URL links in brackets")
+	Window:CreateSwitch("Chat", "RightChatAlignRight", "Align text to right on second chat frame")
 	Window:CreateColorSelection("Chat", "LinkColor", "Link color")
 	
 	Window:CreateSection("Font")

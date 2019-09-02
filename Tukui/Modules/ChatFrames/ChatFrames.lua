@@ -306,7 +306,10 @@ function TukuiChat:SetChatFramePosition()
 					Frame:ClearAllPoints()
 					Frame:SetSize(C.Chat.RightWidth, C.Chat.RightHeight - 62)
 					Frame:SetPoint("BOTTOMLEFT", Panels.DataTextRight, "TOPLEFT", 0, 2)
-					Frame:SetJustifyH("RIGHT")
+					
+					if C.Chat.RightChatAlignRight then
+						Frame:SetJustifyH("RIGHT")
+					end
 					
 					-- need to delay that
 					if not Frame.IsOnHideHooked then
@@ -332,7 +335,7 @@ function TukuiChat:SetChatFramePosition()
 			Frame:SetPoint(Anchor1, UIParent, Anchor2, X, Y)
 			Frame:SetSize(Width, Height)
 
-			if (ID == 4 and Anchor1 == "BOTTOMRIGHT" and math.floor(X) == -34 and math.floor(Y) == 50) then
+			if (C.Chat.RightChatAlignRight) then
 				Frame:SetJustifyH("RIGHT")
 			end
 		end

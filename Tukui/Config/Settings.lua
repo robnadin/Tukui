@@ -62,6 +62,7 @@ C["Chat"] = {
 	["LeftHeight"] = 200,
 	["RightWidth"] = 400,
 	["RightHeight"] = 200,
+	["RightChatAlignRight"] = true,
 	["WhisperSound"] = true,
 	["ShortChannelName"] = true,
 	["LinkColor"] = {0.08, 1, 0.36},
