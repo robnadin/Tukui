@@ -254,22 +254,24 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 	elseif (UnitIsDeadOrGhost(unit)) then
 		self.Value:SetText("|cffD7BEA5"..DEAD.."|r")
 	else
-		local r, g, b = T.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 		local Parent = self:GetParent():GetName()
 		local Raid = string.match(Parent, "Raid")
 		local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
-		local HP = IsFound and LibCurrentHP
-		local MaxHP = IsFound and LibMaxHP
-		local Parent = self:GetParent():GetName()
+		local HP = (IsFound and LibCurrentHP) or min
+		local MaxHP = (IsFound and LibMaxHP) or max
 
 		if Raid then
 			if (IsFound) and (LibCurrentHP ~= LibMaxHP) then
-				self.Value:SetFormattedText("|cff%02x%02x%02x-%s|r", 255, 0, 0, (HP and MaxHP and TukuiUnitFrames.ShortValue(MaxHP - HP)) or "")
+				self.Value:SetFormattedText("|cffc33331-%s|r", MaxHP - HP)
 			else
 				self.Value:SetText("")
 			end
 		else
-			self.Value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", (HP and TukuiUnitFrames.ShortValue(HP)) or "???", r * 255, g * 255, b * 255, floor(min / max * 100))
+			if (IsFound) then
+				self.Value:SetFormattedText("|cffc33331%s / %s|r", HP, MaxHP)
+			else
+				self.Value:SetFormattedText("|cffc33331%s%%|r", HP)
+			end
 		end
 	end
 end
@@ -290,13 +292,10 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	local r, g, b = T.ColorGradient(current, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 
 	if (unit == "player") then
-		if (not InCombatLockdown()) then
-			local Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
+		local PType = select(2, UnitPowerType(unit))
+		local Color = T.RGBToHex(unpack(T.Colors.power[PType]))
 
-			self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
-		else
-			self.Value:SetFormattedText("|cff%02x%02x%02x%d%%|r |cffD7BEA5-|r |cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, floor(current / max * 100), Pr * 255, Pg * 255, Pb * 255, TukuiUnitFrames.ShortValue(current))
-		end
+		self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
 	end
 end
 
