@@ -88,6 +88,7 @@ function WorldMap:SkinMap()
 	Frame.Backdrop:ClearAllPoints()
 	Frame.Backdrop:SetAllPoints(Map)
 	Frame.Backdrop:CreateShadow()
+	Frame:EnableMouse(false)
 
 	Blackout:StripTextures()
 	Blackout:EnableMouse(false)
