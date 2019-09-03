@@ -261,10 +261,10 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 		local HP = IsFound and LibCurrentHP
 		local MaxHP = IsFound and LibMaxHP
 		local Parent = self:GetParent():GetName()
-		
+
 		if Raid then
 			if (IsFound) and (LibCurrentHP ~= LibMaxHP) then
-				self.Value:SetFormattedText("|cff%02x%02x%02x-%d|r", 255, 0, 0, (HP and MaxHP and TukuiUnitFrames.ShortValue(MaxHP - HP)) or "")
+				self.Value:SetFormattedText("|cff%02x%02x%02x-%s|r", 255, 0, 0, (HP and MaxHP and TukuiUnitFrames.ShortValue(MaxHP - HP)) or "")
 			else
 				self.Value:SetText("")
 			end
