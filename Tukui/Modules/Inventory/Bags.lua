@@ -281,6 +281,12 @@ function Bags:CreateContainer(storagetype, ...)
 		Sort.Texture:SetTexture(C.Medias.Sort)
 		Sort:SetScript("OnEnter", GameTooltip_Hide)
 		Sort:SetScript("OnClick", function()
+			if InCombatLockdown() then
+				T.Print("You cannot sort your bag that in combat")
+					
+				return
+			end
+			
 			if TukuiBank:IsShown() then
 				SetSortBagsRightToLeft(true)
 				SortBankBags()
