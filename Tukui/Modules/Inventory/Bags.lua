@@ -282,7 +282,7 @@ function Bags:CreateContainer(storagetype, ...)
 		Sort:SetScript("OnEnter", GameTooltip_Hide)
 		Sort:SetScript("OnClick", function()
 			if InCombatLockdown() then
-				T.Print("You cannot sort your bag that in combat")
+				T.Print("You cannot sort your bag in combat")
 					
 				return
 			end
