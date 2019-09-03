@@ -397,11 +397,31 @@ function Bags:SlotUpdate(id, button)
 	end
 	
 	if QuestItem then
+		if not button.QuestTex then
+			button.Quest = CreateFrame("Frame", nil, button)
+			button.Quest:SetSize(8, button:GetHeight())
+			button.Quest:SetTemplate()
+			button.Quest:SetPoint("TOPLEFT")
+			button.Quest:SetBorderColor(1, 1, 0)
+			button.Quest.Texture = button.Quest:CreateTexture(nil, "OVERLAY")
+			button.Quest.Texture:SetTexture("Interface\\QuestFrame\\AutoQuest-Parts")
+			button.Quest.Texture:SetTexCoord(0.13476563, 0.17187500, 0.01562500, 0.53125000)
+			button.Quest.Texture:SetSize(8, 16)
+			button.Quest.Texture:SetPoint("CENTER")
+		end
+		
+		button.Quest:Show()
 		button:SetBorderColor(1, 1, 0)
-	elseif Rarity and Rarity > 1 then
-		button:SetBorderColor(GetItemQualityColor(Rarity))
 	else
-		button:SetBorderColor(unpack(C["General"].BorderColor))
+		if button.Quest and button.Quest:IsShown() then
+			button.Quest:Hide()
+		end
+		
+		if Rarity and Rarity > 1 then
+			button:SetBorderColor(GetItemQualityColor(Rarity))
+		else
+			button:SetBorderColor(unpack(C["General"].BorderColor))
+		end
 	end
 end
 
