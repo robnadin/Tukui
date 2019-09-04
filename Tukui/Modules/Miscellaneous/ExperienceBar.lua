@@ -54,7 +54,7 @@ function Experience:GetExperience()
 end
 
 function Experience:GetPetExperience()
-	return UnitXP("pet"), UnitXPMax("pet")
+	return GetPetExperience()
 end
 
 function Experience:Update(event, owner)
@@ -148,6 +148,7 @@ function Experience:Create()
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
 	self:RegisterEvent("PLAYER_MONEY")
 	self:RegisterEvent("UNIT_PET")
+	self:RegisterEvent("UNIT_PET_EXPERIENCE")
 
 	self:SetScript("OnEvent", self.Update)
 end
