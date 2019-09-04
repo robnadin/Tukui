@@ -122,6 +122,7 @@ C["Party"] = {
 C["Raid"] = {
 	["Enable"] = true,
 	["DebuffWatch"] = true,
+	["ShowPets"] = true,
 	["RangeAlpha"] = 0.3,
 	["VerticalHealth"] = false,
 	["MaxUnitPerColumn"] = 10,

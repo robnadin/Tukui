@@ -576,6 +576,32 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
 		"columnAnchorPoint", "LEFT"
 end
 
+function TukuiUnitFrames:GetPetRaidFramesAttributes()
+	local Properties = C.Party.Enable and "custom [@raid6,exists] show;hide" or "solo,party,raid"
+
+	return
+		"TukuiRaidPet",
+		"SecureGroupPetHeaderTemplate",
+		Properties,
+		"showParty", false,
+		"showRaid", C["Raid"].ShowPets,
+		"showSolo", false,
+		"maxColumns", math.ceil(40 / 5),
+		"point", "TOP",
+		"unitsPerColumn", C["Raid"].MaxUnitPerColumn,
+		"columnSpacing", 4,
+		"columnAnchorPoint", "LEFT",
+		"yOffset", -4,
+		"xOffset", 4,
+		"initial-width", 79,
+		"initial-height", 55,
+		"oUF-initialConfigFunction", [[
+			local header = self:GetParent()
+			self:SetWidth(header:GetAttribute("initial-width"))
+			self:SetHeight(header:GetAttribute("initial-height"))
+		]]
+end
+
 function TukuiUnitFrames:Style(unit)
 	if (not unit) then
 		return
@@ -591,7 +617,7 @@ function TukuiUnitFrames:Style(unit)
 		TukuiUnitFrames.TargetOfTarget(self)
 	elseif (unit == "pet") then
 		TukuiUnitFrames.Pet(self)
-	elseif (unit:find("raid")) then
+	elseif (unit:find("raid")) or (unit:find("raidpet")) then
 		if Parent:match("Party") then
 			TukuiUnitFrames.Party(self)
 		else
@@ -666,6 +692,16 @@ function TukuiUnitFrames:CreateUnits()
 			local Raid = oUF:SpawnHeader(TukuiUnitFrames:GetRaidFramesAttributes())
 			Raid:SetParent(UIParent)
 			Raid:Point("TOPLEFT", UIParent, "TOPLEFT", 30, -30)
+			
+			if C.Raid.ShowPets then
+				local Pet = oUF:SpawnHeader(TukuiUnitFrames:GetPetRaidFramesAttributes())
+				Pet:SetParent(UIParent)
+				Pet:Point("TOPLEFT", Raid, "TOPRIGHT", 4, 0)
+
+				TukuiUnitFrames.Headers.RaidPet = Pet
+
+				Movers:RegisterFrame(Pet)
+			end
 
 			TukuiUnitFrames.Headers.Raid = Raid
 
