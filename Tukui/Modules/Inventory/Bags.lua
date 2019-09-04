@@ -388,8 +388,6 @@ function Bags:SlotUpdate(id, button)
 		local itemName, itemString, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(itemLink)
 		
 		if itemString then
-			local _, itemID = strsplit(":", itemString)
-
 			if (itemType == TRANSMOG_SOURCE_2) then
 				QuestItem = true
 			end
