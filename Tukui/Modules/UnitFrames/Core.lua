@@ -282,18 +282,11 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	end
 	
 	local pType, pToken = UnitPowerType(unit)
-	local Color = T.Colors.power[pToken]
-	local Pr, Pg, Pb = 1, 1, 1
-	
-	if Color then
-		Pr, Pg, Pb = unpack(Color)
-	end
 
-	local r, g, b = T.ColorGradient(current, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 
 	if (unit == "player") then
 		local PType = select(2, UnitPowerType(unit))
-		local Color = T.RGBToHex(unpack(T.Colors.power[PType]))
+		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
 
 		self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
 	end
