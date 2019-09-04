@@ -2193,6 +2193,7 @@ local UnitFrames = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("UnitFrames", "Enable", "Enable unitframe module")
+	Window:CreateSwitch("UnitFrames", "OOCNameLevel", "Display my name/level while out of combat in my unitframe")
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")	
 	Window:CreateSwitch("UnitFrames", "EnergyTick", "Enable energy ticks")

@@ -287,8 +287,14 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	if (unit == "player") then
 		local PType = select(2, UnitPowerType(unit))
 		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
+		
+		if (not InCombatLockdown()) and (C.UnitFrames.OOCNameLevel) then
+			Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
 
-		self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
+			self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
+		else
+			self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
+		end
 	end
 end
 
