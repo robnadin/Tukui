@@ -73,10 +73,11 @@ function Experience:Update(event, owner)
 		local RestedBar = self["RestedBar"..i]
 		local r, g, b
 		local InstanceType = select(2, IsInInstance())
+		local HavePetXP = select(2, HasPetUI())
 		
 		Bar.BarType = "XP"
 		
-		if i == 2 and T.MyClass == "HUNTER" and UnitExists("pet") and GetPetExperience() then
+		if i == 2 and HavePetXP then
 			Current, Max = self:GetPetExperience()
 			
 			Bar.BarType = "PETXP"
