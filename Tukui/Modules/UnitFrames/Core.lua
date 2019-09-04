@@ -262,15 +262,15 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 
 		if Raid then
 			if (IsFound) and (LibCurrentHP ~= LibMaxHP) then
-				self.Value:SetFormattedText("|cffc33331-%s|r", MaxHP - HP)
+				self.Value:SetFormattedText("|cff4AAB5E-%s|r", MaxHP - HP)
 			else
 				self.Value:SetText("")
 			end
 		else
 			if (IsFound) then
-				self.Value:SetFormattedText("|cffc33331%s / %s|r", HP, MaxHP)
+				self.Value:SetFormattedText("|cff4AAB5E%s / %s|r", HP, MaxHP)
 			else
-				self.Value:SetFormattedText("|cffc33331%s%%|r", HP)
+				self.Value:SetFormattedText("|cff4AAB5E%s%%|r", HP)
 			end
 		end
 	end
