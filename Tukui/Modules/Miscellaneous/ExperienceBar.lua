@@ -76,7 +76,7 @@ function Experience:Update(event, owner)
 		
 		Bar.BarType = "XP"
 		
-		if i == 2 and T.MyClass == "HUNTER" and UnitExists("pet") and UnitXP("pet") then
+		if i == 2 and T.MyClass == "HUNTER" and UnitExists("pet") and GetPetExperience() then
 			Current, Max = self:GetPetExperience()
 			
 			Bar.BarType = "PETXP"
