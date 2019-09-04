@@ -9,6 +9,7 @@ local Bars = 20
 Experience.NumBars = 2
 Experience.RestedColor = {75 / 255, 175 / 255, 76 / 255}
 Experience.XPColor = {0 / 255, 144 / 255, 255 / 255}
+Experience.PetXPColor = {255 / 255, 255 / 255, 105 / 255}
 
 function Experience:SetTooltip()
 	local BarType = self.BarType
@@ -35,6 +36,14 @@ function Experience:SetTooltip()
 		if (IsRested == 1 and Rested) then
 			GameTooltip:AddLine("|cff4BAF4C"..TUTORIAL_TITLE26..": +" .. Rested .." (" .. floor(Rested / Max * 100) .. "%)|r")
 		end
+	elseif BarType == "PETXP" then
+		Current, Max = Experience:GetPetExperience()
+		
+		if Max == 0 then
+			return
+		end
+		
+		GameTooltip:AddLine("|cffFFFF66PET XP: " .. Current .. " / " .. Max .. " (" .. floor(Current / Max * 100) .. "% - " .. floor(Bars - (Bars * (Max - Current) / Max)) .. "/" .. Bars .. ")|r")
 	end
 
 	GameTooltip:Show()
@@ -44,6 +53,9 @@ function Experience:GetExperience()
 	return UnitXP("player"), UnitXPMax("player")
 end
 
+function Experience:GetPetExperience()
+	return UnitXP("pet"), UnitXPMax("pet")
+end
 
 function Experience:Update(event, owner)
 	if (event == "UNIT_INVENTORY_CHANGED" and owner ~= "player") then
@@ -61,8 +73,14 @@ function Experience:Update(event, owner)
 		local RestedBar = self["RestedBar"..i]
 		local r, g, b
 		local InstanceType = select(2, IsInInstance())
-
+		
 		Bar.BarType = "XP"
+		
+		if i == 2 and T.MyClass == "HUNTER" and UnitExists("pet") and UnitXP("pet") then
+			Current, Max = self:GetPetExperience()
+			
+			Bar.BarType = "PETXP"
+		end
 
 		local BarType = Bar.BarType
 
@@ -79,6 +97,8 @@ function Experience:Update(event, owner)
 
 		if BarType == "XP" then
 			r, g, b = unpack(self.XPColor)
+		elseif BarType == "PETXP" then
+			r, g, b = unpack(self.PetXPColor)
 		end
 
 		Bar:SetStatusBarColor(r, g, b)
@@ -126,11 +146,8 @@ function Experience:Create()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("PLAYER_UPDATE_RESTING")
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
-	--self:RegisterEvent("HONOR_XP_UPDATE")
-	--self:RegisterEvent("HONOR_LEVEL_UPDATE")
-	--self:RegisterEvent("AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED")
-	--self:RegisterEvent("RESPEC_AZERITE_EMPOWERED_ITEM_CLOSED")
 	self:RegisterEvent("PLAYER_MONEY")
+	self:RegisterEvent("UNIT_PET")
 
 	self:SetScript("OnEvent", self.Update)
 end
