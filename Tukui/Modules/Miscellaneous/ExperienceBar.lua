@@ -37,7 +37,7 @@ function Experience:SetTooltip()
 			GameTooltip:AddLine("|cff4BAF4C"..TUTORIAL_TITLE26..": +" .. Rested .." (" .. floor(Rested / Max * 100) .. "%)|r")
 		end
 	elseif BarType == "PETXP" then
-		Current, Max = Experience:GetPetExperience()
+		Current, Max = GetPetExperience()
 		
 		if Max == 0 then
 			return
