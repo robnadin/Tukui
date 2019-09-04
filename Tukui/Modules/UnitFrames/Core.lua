@@ -513,7 +513,7 @@ function TukuiUnitFrames:SetEnergyTickValue(timer)
 	local Min, Max = UnitPower("player"), UnitPowerMax("player")
 	local PType = UnitPowerType("player")
 
-	if (Min == Max or PType ~= Enum.PowerType.Energy) and not IsStealthed()
+	if (Min == Max or PType ~= Enum.PowerType.Energy) and not IsStealthed() then
 		self.PowerTick.Texture:Hide()
 	else
 		local Position = (Width * timer) / 2
