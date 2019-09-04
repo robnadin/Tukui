@@ -60,14 +60,14 @@ function Tooltip:SetTooltipDefaultAnchor(parent)
 
 	if (C.Tooltips.MouseOver) then
 		if (parent ~= UIParent) then
-			self:SetOwner(Anchor)
-			self:SetAnchorType("ANCHOR_TOPRIGHT", 0, 9)
+			self:ClearAllPoints()
+			self:SetPoint("BOTTOMRIGHT", Anchor, "TOPRIGHT", 0, 9)
 		else
 			self:SetOwner(parent, "ANCHOR_CURSOR")
 		end
 	else
-		self:SetOwner(Anchor)
-		self:SetAnchorType("ANCHOR_TOPRIGHT", 0, 9)
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMRIGHT", Anchor, "TOPRIGHT", 0, 9)
 	end
 end
 
