@@ -114,12 +114,6 @@ function Tooltip:OnTooltipSetUnit()
 		return
 	end
 
-	if (self:GetOwner() ~= UIParent and C.Tooltips.MouseOver) then
-		self:Hide()
-		
-		return
-	end
-
 	if (UnitIsUnit(Unit, "mouseover")) then
 		Unit = "mouseover"
 	end
@@ -369,7 +363,6 @@ function Tooltip:Enable()
 	GameTooltip:HookScript("OnTooltipSetUnit", self.OnTooltipSetUnit)
 	GameTooltip:HookScript("OnTooltipSetItem", self.OnTooltipSetItem)
 	
-
 	ItemRefCloseButton:SkinCloseButton()
 
 	HealthBar:SetScript("OnValueChanged", self.OnValueChanged)
