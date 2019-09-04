@@ -149,7 +149,7 @@ function TukuiUnitFrames:Raid()
 		RaidDebuffs.count:SetFont(C.Medias.Font, 12, "OUTLINE")
 		RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 2, 0)
 		RaidDebuffs.count:SetTextColor(1, .9, 0)
-		RaidDebuffs.forceShow = true
+		--RaidDebuffs.forceShow = true
 		
 		self.RaidDebuffs = RaidDebuffs
 	end
