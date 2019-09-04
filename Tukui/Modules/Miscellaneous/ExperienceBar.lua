@@ -53,10 +53,6 @@ function Experience:GetExperience()
 	return UnitXP("player"), UnitXPMax("player")
 end
 
-function Experience:GetPetExperience()
-	return GetPetExperience()
-end
-
 function Experience:Update(event, owner)
 	if (event == "UNIT_INVENTORY_CHANGED" and owner ~= "player") then
 		return
@@ -78,7 +74,7 @@ function Experience:Update(event, owner)
 		Bar.BarType = "XP"
 		
 		if i == 2 and HavePetXP then
-			Current, Max = self:GetPetExperience()
+			Current, Max = GetPetExperience()
 			
 			Bar.BarType = "PETXP"
 		end
