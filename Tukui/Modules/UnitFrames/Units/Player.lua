@@ -87,6 +87,12 @@ function TukuiUnitFrames:Player()
 	Power.Prediction:SetStatusBarColor(1, 1, 1, .3)
 
 	Power.PostUpdate = TukuiUnitFrames.PostUpdatePower
+	
+	local Name = Panel:CreateFontString(nil, "OVERLAY")
+	Name:Point("LEFT", Panel, "LEFT", 4, 0)
+	Name:SetJustifyH("LEFT")
+	Name:SetFontObject(Font)
+	Name:SetAlpha(0)
 
 	if C.UnitFrames.Portrait then
 		local Portrait = CreateFrame("PlayerModel", nil, Health)
@@ -351,10 +357,12 @@ function TukuiUnitFrames:Player()
 	self:HookScript("OnLeave", TukuiUnitFrames.MouseOnPlayer)
 
 	-- Register with oUF
+	self:Tag(Name, "[Tukui:GetNameColor][Tukui:NameLong] [Tukui:Classification][Tukui:DiffColor][level]")
 	self.Panel = Panel
 	self.Health = Health
 	self.Health.bg = Health.Background
 	self.Power = Power
+	self.Name = Name
 	self.Power.bg = Power.Background
 	self.CombatIndicator = Combat
 	self.Status = Status
@@ -367,4 +375,11 @@ function TukuiUnitFrames:Player()
 
 	-- Classes
 	TukuiUnitFrames.AddClassFeatures[Class](self)
+	
+	if C.UnitFrames.OOCNameLevel then
+		self:RegisterEvent("PLAYER_REGEN_ENABLED", TukuiUnitFrames.DisplayPlayerAndPetNames, true)
+		self:RegisterEvent("PLAYER_REGEN_DISABLED", TukuiUnitFrames.DisplayPlayerAndPetNames, true)
+		
+		TukuiUnitFrames.DisplayPlayerAndPetNames(self, "PLAYER_REGEN_ENABLED")
+	end
 end

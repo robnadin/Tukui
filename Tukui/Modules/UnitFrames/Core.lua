@@ -244,6 +244,24 @@ function TukuiUnitFrames:PreUpdateHealth(unit)
 	end
 end
 
+function TukuiUnitFrames:DisplayPlayerAndPetNames(event)
+	if event == "PLAYER_REGEN_DISABLED" then
+		self.Power.Value:SetAlpha(1)
+		self.Name:SetAlpha(0)
+		
+		if self.unit ~= "player" then
+			self.Health.Value:SetAlpha(1)
+		end
+	else
+		self.Power.Value:SetAlpha(0)
+		self.Name:SetAlpha(1)
+		
+		if self.unit ~= "player" then
+			self.Health.Value:SetAlpha(0)
+		end
+	end
+end
+
 function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 	if (not self.Value) then
 		return
@@ -282,19 +300,10 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	end
 	
 	local pType, pToken = UnitPowerType(unit)
+	local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
 
-
-	if (unit == "player") then
-		local PType = select(2, UnitPowerType(unit))
-		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
-		
-		if (not InCombatLockdown()) and (C.UnitFrames.OOCNameLevel) then
-			Color = T.RGBToHex(unpack(T.Colors.class[T.MyClass]))
-
-			self.Value:SetText(Color..T.MyName.."|r ".."|cffD7BEA5"..UnitLevel("player").."|r")
-		else
-			self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
-		end
+	if (unit == "player") or (unit == "pet") then
+		self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
 	end
 end
 

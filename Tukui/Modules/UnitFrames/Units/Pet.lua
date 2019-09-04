@@ -31,6 +31,10 @@ function TukuiUnitFrames:Pet()
 	Health.Background:Point("TOPLEFT", Health, -1, 1)
 	Health.Background:Point("BOTTOMRIGHT", Health, 1, -1)
 	Health.Background:SetColorTexture(.1, .1, .1)
+	
+	Health.Value = Panel:CreateFontString(nil, "OVERLAY")
+	Health.Value:SetFontObject(Font)
+	Health.Value:Point("RIGHT", Panel, "RIGHT", -4, 0)
 
 	Health.frequentUpdates = true
 	Health.colorDisconnected = true
@@ -44,6 +48,8 @@ function TukuiUnitFrames:Pet()
 	if C.UnitFrames.Smooth then
 		Health.Smooth = true
 	end
+	
+	Health.PostUpdate = TukuiUnitFrames.PostUpdateHealth
 
 	local Power = CreateFrame("StatusBar", nil, self)
 	Power:Height(4)
@@ -56,6 +62,10 @@ function TukuiUnitFrames:Pet()
 	Power.Background:Point("BOTTOMRIGHT", Power, 1, -1)
 	Power.Background:SetColorTexture(.4, .4, .4)
 	Power.Background.multiplier = 0.3
+	
+	Power.Value = Panel:CreateFontString(nil, "OVERLAY")
+	Power.Value:SetFontObject(Font)
+	Power.Value:Point("LEFT", Panel, "LEFT", 4, 0)
 
 	Power.frequentUpdates = true
 	Power.colorPower = true
@@ -63,11 +73,14 @@ function TukuiUnitFrames:Pet()
 	if C.UnitFrames.Smooth then
 		Power.Smooth = true
 	end
+	
+	Power.PostUpdate = TukuiUnitFrames.PostUpdatePower
 
 	local Name = Panel:CreateFontString(nil, "OVERLAY")
 	Name:SetPoint("CENTER", Panel, "CENTER", 0, 0)
 	Name:SetFontObject(Font)
 	Name:SetJustifyH("CENTER")
+	Name:SetAlpha(0)
 
 	local RaidIcon = Health:CreateTexture(nil, "OVERLAY")
 	RaidIcon:SetSize(16, 16)
@@ -82,4 +95,11 @@ function TukuiUnitFrames:Pet()
 	self.Power.bg = Power.Background
 	self.Name = Name
 	self.RaidTargetIndicator = RaidIcon
+	
+	if C.UnitFrames.OOCPetNameLevel then
+		self:RegisterEvent("PLAYER_REGEN_ENABLED", TukuiUnitFrames.DisplayPlayerAndPetNames, true)
+		self:RegisterEvent("PLAYER_REGEN_DISABLED", TukuiUnitFrames.DisplayPlayerAndPetNames, true)
+		
+		TukuiUnitFrames.DisplayPlayerAndPetNames(self, "PLAYER_REGEN_ENABLED")
+	end
 end

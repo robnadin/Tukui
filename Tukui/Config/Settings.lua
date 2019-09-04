@@ -171,6 +171,7 @@ C["UnitFrames"] = {
 	["ScrollingCombatTextFont"] = "Tukui Damage",
 	["EnergyTick"] = true,
 	["OOCNameLevel"] = false,
+	["OOCPetNameLevel"] = false,
 	["Portrait"] = false,
 	["CastBar"] = true,
 	["ComboBar"] = true,
