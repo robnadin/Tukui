@@ -312,13 +312,7 @@ function TukuiUnitFrames:Player()
 	end
 	
 	if (C.UnitFrames.EnergyTick) and (Class == "ROGUE" or Class == "DRUID") then
-		Power.PowerTick = CreateFrame("Frame", nil, Power)
-		Power.PowerTick.Texture = Power.PowerTick:CreateTexture(nil, 'OVERLAY', 8)
-		Power.PowerTick.Texture:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
-		Power.PowerTick.Texture:Size(Power:GetHeight() + 4)
-		Power.PowerTick.Texture:SetPoint("CENTER", Power, 0, 0)
-		Power.PowerTick.Texture:SetBlendMode("ADD")
-		Power.PowerTick:SetScript("OnUpdate", TukuiUnitFrames.OnUpdateEnergyTick)
+		self.PowerTicker = CreateFrame("Frame", nil, Power)
 	end
 
 	local RaidIcon = Health:CreateTexture(nil, "OVERLAY", 7)
