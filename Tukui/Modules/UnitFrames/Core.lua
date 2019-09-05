@@ -149,10 +149,6 @@ function TukuiUnitFrames:Highlight()
 	end
 end
 
-function TukuiUnitFrames:NameplatesPostUpdate(event, ...)
-	-- need rewrite
-end
-
 function TukuiUnitFrames:UpdateShadow(height)
 	local Frame = self:GetParent()
 	local Shadow = Frame.Shadow
@@ -695,7 +691,7 @@ function TukuiUnitFrames:CreateUnits()
 	end
 
 	if C.NamePlates.Enable then
-		oUF:SpawnNamePlates("Tukui", TukuiUnitFrames.NameplatesPostUpdate, TukuiUnitFrames.NameplatesVars)
+		oUF:SpawnNamePlates("Tukui", nil, TukuiUnitFrames.NameplatesVars)
 	end
 end
 
