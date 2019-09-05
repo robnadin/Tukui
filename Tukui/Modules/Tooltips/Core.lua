@@ -200,16 +200,24 @@ function Tooltip:OnTooltipSetUnit()
 	self.fadeOut = nil
 end
 
-function Tooltip:SetColor()
-	local GetMouseFocus = GetMouseFocus()
+function Tooltip:SetColor(unit)
+	local Unit = unit
+	
+	if not Unit then
+		local GetMouseFocus = GetMouseFocus()
 
-	local Unit = select(2, self:GetUnit()) or (GetMouseFocus and GetMouseFocus.GetAttribute and GetMouseFocus:GetAttribute("unit"))
+		Unit = select(2, self:GetUnit()) or (GetMouseFocus and GetMouseFocus.GetAttribute and GetMouseFocus:GetAttribute("unit"))
 
-	if (not Unit) and (UnitExists("mouseover")) then
-		Unit = 'mouseover'
+		if (not Unit) and (UnitExists("mouseover")) then
+			Unit = "mouseover"
+		end
 	end
 
-	self:SetBackdropColor(unpack(C["General"].BackdropColor))
+	if not Unit then
+		self.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
+
+		return
+	end
 
 	local Reaction = Unit and UnitReaction(Unit, "player")
 	local Player = Unit and UnitIsPlayer(Unit)
@@ -244,17 +252,12 @@ function Tooltip:SetColor()
 			
 			self.Backdrop:SetBorderColor(R, G, B)
 		else
-			local Color = T.Colors
-
-			HealthBar:SetStatusBarColor(unpack(Color.reaction[5]))
-			HealthBar.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
-			
 			self.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
 		end
 	end
 end
 
-function Tooltip:Skin()
+function Tooltip:Skin(unit)
 	if (not self.IsSkinned) then
 		self:StripTextures()
 		self:CreateBackdrop()
@@ -263,7 +266,7 @@ function Tooltip:Skin()
 	end
 
 	if not self:IsForbidden() and self == GameTooltip then
-		Tooltip.SetColor(self)
+		Tooltip.SetColor(self, unit)
 	end
 end
 
@@ -346,22 +349,26 @@ function Tooltip:SetCompareItemBorderColor(anchorFrame)
 	end
 end
 
-function Tooltip:Enable()
-	if (not C.Tooltips.Enable) then
-		return
-	end
-	
-	self:CreateAnchor()
-
+function Tooltip:AddHooks()
 	hooksecurefunc("GameTooltip_SetDefaultAnchor", self.SetTooltipDefaultAnchor)
 	hooksecurefunc("GameTooltip_ShowCompareItem", self.SetCompareItemBorderColor)
-
+	hooksecurefunc("GameTooltip_UnitColor", function(unit) Tooltip.Skin(GameTooltip, unit) end)
+	
 	for _, Tooltip in pairs(Tooltip.Tooltips) do
 		Tooltip:HookScript("OnShow", self.Skin)
 	end
 	
 	GameTooltip:HookScript("OnTooltipSetUnit", self.OnTooltipSetUnit)
 	GameTooltip:HookScript("OnTooltipSetItem", self.OnTooltipSetItem)
+end
+
+function Tooltip:Enable()
+	if (not C.Tooltips.Enable) then
+		return
+	end
+	
+	self:CreateAnchor()
+	self:AddHooks()
 	
 	ItemRefCloseButton:SkinCloseButton()
 
