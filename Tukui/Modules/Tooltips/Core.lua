@@ -214,7 +214,16 @@ function Tooltip:SetColor(unit)
 	end
 
 	if not Unit then
-		self.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
+		local Link = select(2, self:GetItem())
+		local Quality = Link and select(3, GetItemInfo(Link))
+
+		if (Quality and Quality >= 2) then
+			R, G, B = GetItemQualityColor(Quality)
+			
+			self.Backdrop:SetBorderColor(R, G, B)
+		else
+			self.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
+		end
 
 		return
 	end
@@ -243,17 +252,6 @@ function Tooltip:SetColor(unit)
 		HealthBar.Backdrop:SetBorderColor(R, G, B)
 		
 		self.Backdrop:SetBorderColor(R, G, B)
-	else
-		local Link = select(2, self:GetItem())
-		local Quality = Link and select(3, GetItemInfo(Link))
-
-		if (Quality and Quality >= 2) then
-			R, G, B = GetItemQualityColor(Quality)
-			
-			self.Backdrop:SetBorderColor(R, G, B)
-		else
-			self.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
-		end
 	end
 end
 
