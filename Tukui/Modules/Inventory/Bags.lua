@@ -381,6 +381,10 @@ function Bags:SlotUpdate(id, button)
 	if (button.ItemID == ItemID) then
 		return
 	end
+	
+	if button.Quest then
+		button.Quest:Hide()
+	end
 
 	button.ItemID = ItemID
 
@@ -411,10 +415,6 @@ function Bags:SlotUpdate(id, button)
 		button.Quest:Show()
 		button:SetBorderColor(1, 1, 0)
 	else
-		if button.Quest and button.Quest:IsShown() then
-			button.Quest:Hide()
-		end
-		
 		if Rarity and Rarity > 1 then
 			button:SetBorderColor(GetItemQualityColor(Rarity))
 		else
