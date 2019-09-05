@@ -75,6 +75,7 @@ function Install:SetDefaults()
 	SetCVar("profanityFilter", 0)
 	SetCVar("chatBubbles", 0)
 	SetCVar("chatBubblesParty", 0)
+	SetCVar("nameplateMaxDistance", 20) -- max on classic
 
 	local Chat = T["Chat"]
 	local ActionBars = T["ActionBars"]
