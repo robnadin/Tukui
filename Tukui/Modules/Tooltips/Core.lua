@@ -202,6 +202,7 @@ end
 
 function Tooltip:SetColor(unit)
 	local Unit = unit
+	local R, G, B
 	
 	if not Unit then
 		local GetMouseFocus = GetMouseFocus()
@@ -231,7 +232,6 @@ function Tooltip:SetColor(unit)
 	local Reaction = Unit and UnitReaction(Unit, "player")
 	local Player = Unit and UnitIsPlayer(Unit)
 	local Friend = Unit and UnitIsFriend("player", Unit)
-	local R, G, B
 
 	if Player and Friend then
 		local Class = select(2, UnitClass(Unit))
