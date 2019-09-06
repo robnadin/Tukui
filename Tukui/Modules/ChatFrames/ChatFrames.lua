@@ -310,17 +310,8 @@ function TukuiChat:SetChatFramePosition()
 					if C.Chat.RightChatAlignRight then
 						Frame:SetJustifyH("RIGHT")
 					end
-					
-					-- need to delay that
-					if not Frame.IsOnHideHooked then
-						T.Delay(10, function() Frame:HookScript("OnHide", TukuiChat.RemoveRightChat) end)
-						
-						Frame.IsOnHideHooked = true
-					end
 
 					Movers:RegisterFrame(T.Panels.DataTextRight)
-				else
-					TukuiChat:RemoveRightChat()
 				end
 			end
 		else
@@ -469,6 +460,140 @@ function TukuiChat:AddMessage(text, ...)
 	return self.DefaultAddMessage(self, text, ...)
 end
 
+function TukuiChat:HideChatFrame(button, id)
+	local Panels = T.Panels
+	local Background = id == 1 and Panels.LeftChatBG or Panels.RightChatBG
+	local DataText = id == 1 and Panels.DataTextLeft or Panels.DataTextRight
+	
+	Background:Hide()
+
+	if C.Misc.ExperienceEnable then
+		local XP = T.Miscellaneous.Experience["XPBar"..id]
+		
+		XP:SetParent(T.Hider)
+	end
+
+	if C.Misc.ReputationEnable then
+		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
+
+		Rep:SetParent(T.Hider)
+	end
+
+	DataText:Hide()
+	
+	for i = 1, 10 do
+		local Chat =  _G["ChatFrame"..i]
+		local Tab = _G["ChatFrame"..i.."Tab"]
+		
+		if id == 1 and Chat.isDocked then
+			Tab:SetParent(T.Hider)
+		elseif id == 2 and not Chat.isDocked then
+			Tab:SetParent(T.Hider)
+		end
+	end
+	
+	button.state = "hidden"
+	button.Texture:SetTexture(C.Medias.ArrowUp)
+	
+	local Data = TukuiData[T.MyRealm][T.MyName]
+	
+	if id == 1 then
+		Data.ChatLeftHidden = true
+	elseif id == 2 then
+		Data.ChatRightHidden = true
+	end
+end
+
+function TukuiChat:ShowChatFrame(button, id)
+	local Panels = T.Panels
+	local Background = id == 1 and Panels.LeftChatBG or Panels.RightChatBG
+	local DataText = id == 1 and Panels.DataTextLeft or Panels.DataTextRight
+	
+	Background:Show()
+
+	if C.Misc.ExperienceEnable then
+		local XP = T.Miscellaneous.Experience["XPBar"..id]
+		
+		XP:SetParent(UIParent)
+	end
+
+	if C.Misc.ReputationEnable then
+		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
+
+		Rep:SetParent(UIParent)
+	end
+
+	DataText:Show()
+	
+	for i = 1, 10 do
+		local Chat =  _G["ChatFrame"..i]
+		local Tab = _G["ChatFrame"..i.."Tab"]
+		
+		if id == 1 and Chat.isDocked then
+			Tab:SetParent(UIParent)
+		elseif id == 2 and not Chat.isDocked then
+			Tab:SetParent(UIParent)
+		end
+	end
+	
+	button.state = "show"
+	button.Texture:SetTexture(C.Medias.ArrowDown)
+	
+	local Data = TukuiData[T.MyRealm][T.MyName]
+	
+	if id == 1 then
+		Data.ChatLeftHidden = false
+	elseif id == 2 then
+		Data.ChatRightHidden = false
+	end
+end
+
+function TukuiChat:ToggleChat()
+	if self.state == "show" then
+		TukuiChat:HideChatFrame(self, self.id)
+	else
+		TukuiChat:ShowChatFrame(self, self.id)
+	end
+end
+
+function TukuiChat:AddToggles()
+	if C.General.Themes.Value ~= "Tukui 18" then
+		return
+	end
+	
+	local Panels = T.Panels
+	
+	for i = 1, 2 do
+		local Button = CreateFrame("Button", nil, UIParent)
+		
+		if i == 1 then
+			Button:SetSize(19, Panels.LeftChatBG:GetHeight())
+			Button:SetPoint("TOPRIGHT", Panels.LeftChatBG, "TOPLEFT", -6, 0)
+			
+			Panels.LeftChatToggle = Button
+		else
+			Button:SetSize(19, Panels.RightChatBG:GetHeight())
+			Button:SetPoint("TOPLEFT", Panels.RightChatBG, "TOPRIGHT", 6, 0)
+			
+			Panels.RightChatToggle = Button
+		end
+		
+		Button:SetTemplate()
+		Button:CreateShadow()
+		Button:SetAlpha(0)
+		Button.Texture = Button:CreateTexture(nil, "OVERLAY", 8)
+		Button.Texture:Size(14)
+		Button.Texture:Point("CENTER")
+		Button.Texture:SetTexture(C.Medias.ArrowDown)
+		Button.id = i
+		Button.state = "show"
+		
+		Button:SetScript("OnClick", self.ToggleChat)
+		Button:SetScript("OnEnter", function(self) self:SetAlpha(1) end)
+		Button:SetScript("OnLeave", function(self) self:SetAlpha(0) end)
+	end
+end
+
 function TukuiChat:Setup()
 	for i = 1, NUM_CHAT_WINDOWS do
 		local Frame = _G["ChatFrame"..i]
@@ -550,6 +675,21 @@ function TukuiChat:Setup()
 		CHAT_FLAG_AFK = "[AFK] "
 		CHAT_FLAG_DND = "[DND] "
 		CHAT_FLAG_GM = "[GM] "
+	end
+	
+	self:AddToggles()
+	
+	if C.General.Themes.Value == "Tukui 18" then
+		local Data = TukuiData[T.MyRealm][T.MyName]
+
+		if Data.ChatLeftHidden then
+			-- Need to delay this one, because of docked tabs
+			T.Delay(5, function() TukuiChat.ToggleChat(T.Panels.LeftChatToggle) end)
+		end
+
+		if Data.ChatRightHidden then
+			TukuiChat.ToggleChat(T.Panels.RightChatToggle)
+		end
 	end
 end
 

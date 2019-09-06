@@ -21,6 +21,13 @@ function TukuiChat:Enable()
 		self.SetChatFramePosition(ChatFrame)
 		self.SetChatFont(ChatFrame)
 	end
+	
+	FCF_UpdateButtonSide = function() end
+	
+	if C.General.Themes.Value == "Tukui 18" then
+		FCF_ToggleLock = self.LockChat
+		FCF_ToggleLockOnDockedFrame = self.LockChat
+	end
 
 	if (not C.Chat.WhisperSound) then
 		return
@@ -32,13 +39,6 @@ function TukuiChat:Enable()
 	Whisper:SetScript("OnEvent", function(self, event)
 		TukuiChat:PlayWhisperSound()
 	end)
-
-	FCF_UpdateButtonSide = function() end
-	
-	if C.General.Themes.Value == "Tukui 18" then
-		FCF_ToggleLock = self.LockChat
-		FCF_ToggleLockOnDockedFrame = self.LockChat
-	end
 end
 
 T["Chat"] = TukuiChat
