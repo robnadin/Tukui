@@ -310,10 +310,6 @@ function TukuiUnitFrames:Player()
 
 		self.ComboPointsBar = ComboPoints
 	end
-	
-	if (C.UnitFrames.EnergyTick) and (Class == "ROGUE" or Class == "DRUID") then
-		self.PowerTicker = CreateFrame("Frame", nil, Power)
-	end
 
 	local RaidIcon = Health:CreateTexture(nil, "OVERLAY", 7)
 	RaidIcon:SetSize(16, 16)
