@@ -149,6 +149,11 @@ function WorldMap:AddMoving()
 	
 	WorldMap.MoveButton:SetScript("OnDragStop", function(self)
 		WorldMapFrame:StopMovingOrSizing()
+		
+		local A1, P, A2, X, Y = WorldMapFrame:GetPoint()
+		local Data = TukuiData[T.MyRealm][T.MyName]
+			
+		Data.WorldMapPosition = {A1, "UIParent", A2, X, Y}
 	end)
 end
 
@@ -159,6 +164,12 @@ end
 function WorldMap:Enable()
 	if not C.Misc.WorldMapEnable then
 		return
+	end
+	
+	local Data = TukuiData[T.MyRealm][T.MyName]
+	
+	if Data.WorldMapPosition then
+		WorldMapFrame:SetPoint(unpack(Data.WorldMapPosition))
 	end
 	
 	self.Interval = 0.1
