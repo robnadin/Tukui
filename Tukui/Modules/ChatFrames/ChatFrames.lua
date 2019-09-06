@@ -313,7 +313,7 @@ function TukuiChat:SetChatFramePosition()
 					
 					-- need to delay that
 					if not Frame.IsOnHideHooked then
-						T.Delay(2, function() Frame:HookScript("OnHide", TukuiChat.RemoveRightChat) end)
+						T.Delay(10, function() Frame:HookScript("OnHide", TukuiChat.RemoveRightChat) end)
 						
 						Frame.IsOnHideHooked = true
 					end
