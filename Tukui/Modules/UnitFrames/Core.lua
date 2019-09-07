@@ -418,7 +418,7 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 		else
 			-- These classes can purge, show them
 			if (button.Animation) and (T.MyClass == "PRIEST") or (T.MyClass == "SHAMAN") then
-				if (DType == "Magic") and not UnitIsFriend("player", unit) and not button.Animation.Playing then
+				if (DType == "Magic") and (not UnitIsFriend("player", unit)) and (not button.Animation.Playing) then
 					button.Animation:Play()
 					button.Animation.Playing = true
 				else
