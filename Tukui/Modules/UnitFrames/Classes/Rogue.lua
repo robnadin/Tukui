@@ -8,6 +8,8 @@ if (Class ~= "ROGUE") then
 end
 
 TukuiUnitFrames.AddClassFeatures["ROGUE"] = function(self)
-	self.EnergyTicker = CreateFrame("Frame", nil, self)
-	self.EnergyTicker:SetFrameLevel(self.Power:GetFrameLevel() + 1)
+	if C.UnitFrames.EnergyTick then
+		self.EnergyTicker = CreateFrame("Frame", nil, self)
+		self.EnergyTicker:SetFrameLevel(self.Power:GetFrameLevel() + 1)
+	end
 end
