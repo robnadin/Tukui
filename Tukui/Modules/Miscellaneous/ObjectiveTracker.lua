@@ -88,10 +88,10 @@ end
 function ObjectiveTracker:SetClickFrame(index, quest, text)
 	if not ClickFrames[index] then
 		ClickFrames[index] = CreateFrame("Frame")
-		ClickFrames[index]:SetScript("OnMouseUp", self.OnQuestClick)
 	end
 	
 	local Frame = ClickFrames[index]
+	Frame:SetScript("OnMouseUp", self.OnQuestClick)
 	
 	Frame:SetAllPoints(text)
 	Frame.Quest = quest
@@ -100,6 +100,16 @@ end
 function ObjectiveTracker:AddQuestClick()
 	local Index = 0
 	
+	-- Reset clicks
+	for i = 1, 5 do
+		local Frame = ClickFrames[i]
+		
+		if Frame then
+			Frame:SetScript("OnMouseUp", nil)
+		end
+	end
+	
+	-- Set new clicks
 	for i = 1, GetNumQuestWatches() do
 		local Quest = GetQuestIndexForWatch(i)
 
