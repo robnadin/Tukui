@@ -407,7 +407,7 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 
 	if button then
 		if(button.filter == "HARMFUL") then
-			if(not UnitIsFriend("player", unit) and not button.isPlayer) then
+			if (not UnitIsFriend("player", unit) and not button.isPlayer) then
 				button.icon:SetDesaturated(true)
 				button:SetBorderColor(unpack(C["General"].BorderColor))
 			else
