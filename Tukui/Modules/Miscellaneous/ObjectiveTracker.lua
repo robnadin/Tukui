@@ -37,7 +37,7 @@ function ObjectiveTracker:Skin()
 	local HeaderText = HeaderBar:CreateFontString(nil, "OVERLAY")
 	local Font = T.GetFont(C.Misc.ObjectiveTrackerFont)
 	
-	HeaderBar:Size(QuestWatchFrame:GetWidth(), 2)
+	HeaderBar:Size(160, 2)
 	HeaderBar:SetPoint("TOPLEFT", QuestWatchFrame, 0, -4)
 	HeaderBar:SetStatusBarTexture(C.Medias.Blank)
 	HeaderBar:SetStatusBarColor(unpack(CustomClassColor))
