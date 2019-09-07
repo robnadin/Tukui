@@ -559,7 +559,7 @@ function TukuiUnitFrames:GetPetRaidFramesAttributes()
 		"TukuiRaidPet",
 		"SecureGroupPetHeaderTemplate",
 		Properties,
-		"showParty", true,
+		"showParty", C["Raid"].ShowPets,
 		"showRaid", C["Raid"].ShowPets,
 		"showSolo", false,
 		"maxColumns", math.ceil(40 / 5),
