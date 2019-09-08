@@ -561,6 +561,7 @@ function TukuiUnitFrames:GetPetRaidFramesAttributes()
 		Properties,
 		"showParty", C["Raid"].ShowPets,
 		"showRaid", C["Raid"].ShowPets,
+		"showPlayer", true,
 		"showSolo", false,
 		"maxColumns", math.ceil(40 / 5),
 		"point", "TOP",
