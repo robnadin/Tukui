@@ -80,7 +80,7 @@ do
 		},
 		['PALADIN'] = {
 			['Poison'] = true,
-			['Magic'] = false,
+			['Magic'] = true,
 			['Disease'] = true,
 		},
 		['DRUID'] = {
