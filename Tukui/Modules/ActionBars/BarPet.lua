@@ -47,7 +47,7 @@ function TukuiActionBars:CreatePetBar()
 
 	TukuiActionBars:SkinPetButtons()
 
-	RegisterStateDriver(Bar, "visibility", "[pet] show; hide")
+	RegisterStateDriver(Bar, "visibility", "[@pet,exists,nopossessbar]show;hide")
 
 	Movers:RegisterFrame(Bar)
 end
