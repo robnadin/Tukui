@@ -37,7 +37,12 @@ function AFK:OnUpdate(Elapsed)
 		self.Total = (self.Total or 0) + 1
 
 		self.LocalDate:SetFormattedText("%s", date( "%A |cffffffff%B %d|r"))
-		self.LocalTime:SetFormattedText("%s", date( "|cffffffff%I:%M:%S|r %p"))
+		
+		if C.DataTexts.Hour24 then
+			self.LocalTime:SetFormattedText("%s", date( "|cffffffff%H:%M:%S|r"))
+		else
+			self.LocalTime:SetFormattedText("%s", date( "|cffffffff%I:%M:%S|r %p"))
+		end
 
 		AFK:UpdateTime(self.Total)
 
