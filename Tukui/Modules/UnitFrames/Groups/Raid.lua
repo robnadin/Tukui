@@ -29,7 +29,7 @@ function TukuiUnitFrames:Raid()
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetPoint("TOPLEFT")
 	Health:SetPoint("TOPRIGHT")
-	Health:Height(33)
+	Health:Height(self:GetHeight() - 3 - 23)
 	Health:SetStatusBarTexture(HealthTexture)
 
 	if C.Raid.VerticalHealth then
