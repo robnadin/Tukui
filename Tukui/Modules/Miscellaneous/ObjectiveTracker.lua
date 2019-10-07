@@ -131,6 +131,31 @@ function ObjectiveTracker:AddQuestClick()
 	end
 end
 
+function ObjectiveTracker:AddToggle()
+	local Button = CreateFrame("Button", nil, UIParent)
+	local HeaderBar = self.HeaderBar
+	local Holder = self.Holder
+	
+	Button:Size(20)
+	Button:Point("BOTTOMRIGHT", HeaderBar, "TOPRIGHT", 5, 3)
+	Button:SetScript("OnClick", function(self)
+		if QuestWatchFrame:GetParent() == Holder then
+			self.Texture:SetTexture(C.Medias.ArrowDown)
+				
+			QuestWatchFrame:SetParent(T.Hider)
+		else
+			self.Texture:SetTexture(C.Medias.ArrowUp)
+				
+			QuestWatchFrame:SetParent(Holder)
+		end
+	end)
+	
+	Button.Texture = Button:CreateTexture(nil, "OVERLAY")
+	Button.Texture:Size(12)
+	Button.Texture:Point("CENTER")
+	Button.Texture:SetTexture(C.Medias.ArrowUp)
+end
+
 function ObjectiveTracker:AddHooks()
 	hooksecurefunc("QuestWatch_Update", self.AddQuestClick)
 end
@@ -144,6 +169,7 @@ function ObjectiveTracker:Enable()
 	self:SetDefaultPosition()
 	self:Skin()
 	self:SkinQuestTimer()
+	self:AddToggle()
 	self:AddHooks()
 	
 	self.IsEnabled = true
