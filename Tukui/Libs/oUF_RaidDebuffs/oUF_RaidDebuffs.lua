@@ -76,7 +76,8 @@ do
 			['Disease'] = true,
 		},
 		['SHAMAN'] = {
-			['Curse'] = true,
+			['Poison'] = true,
+			['Disease'] = true,
 		},
 		['PALADIN'] = {
 			['Poison'] = true,
