@@ -617,6 +617,12 @@ function TukuiChat:Setup()
 	end
 
 	local CubeLeft = T["Panels"].CubeLeft
+	local LeftBG = T["Panels"].LeftChatBG
+	local RightBG = T["Panels"].RightChatBG
+	local BGR, BGG, BGB = LeftBG.Backdrop:GetBackdropColor()
+	
+	LeftBG.Backdrop:SetBackdropColor(BGR, BGG, BGB, C.Chat.BackgroundAlpha / 100)
+	RightBG.Backdrop:SetBackdropColor(BGR, BGG, BGB, C.Chat.BackgroundAlpha / 100)
 
 	ChatConfigFrameDefaultButton:Kill()
 	ChatFrameMenuButton:Kill()
