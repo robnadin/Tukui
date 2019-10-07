@@ -95,16 +95,24 @@ function TukuiUnitFrames:Player()
 	Name:SetAlpha(0)
 
 	if C.UnitFrames.Portrait then
-		local Portrait = CreateFrame("PlayerModel", nil, Health)
-		Portrait:SetFrameStrata(self:GetFrameStrata())
+		local Portrait 
+		
+		if C.UnitFrames.Portrait2D then
+			Portrait = self:CreateTexture(nil, 'OVERLAY')
+			Portrait:SetTexCoord(0.1,0.9,0.1,0.9)
+		else
+			Portrait = CreateFrame("PlayerModel", nil, Health)
+			Portrait:SetFrameStrata(self:GetFrameStrata())
+			Portrait:SetBackdrop(TukuiUnitFrames.Backdrop)
+			Portrait:SetBackdropColor(0, 0, 0)
+			Portrait:CreateBackdrop()
+
+			Portrait.Backdrop:SetOutside(Portrait, -1, 1)
+			Portrait.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
+		end
+		
 		Portrait:Size(Health:GetHeight() + Power:GetHeight() + 1)
 		Portrait:SetPoint("TOPLEFT", self, "TOPLEFT", 0 ,0)
-		Portrait:SetBackdrop(TukuiUnitFrames.Backdrop)
-		Portrait:SetBackdropColor(0, 0, 0)
-		Portrait:CreateBackdrop()
-
-		Portrait.Backdrop:SetOutside(Portrait, -1, 1)
-		Portrait.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
 
 		Health:ClearAllPoints()
 		Health:SetPoint("TOPLEFT", Portrait:GetWidth() + 1, 0)

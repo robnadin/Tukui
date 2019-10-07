@@ -2222,6 +2222,7 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "Smooth", "Enable smooth health transitions")
 	Window:CreateSwitch("UnitFrames", "CombatLog", "Enable combat feedback text")
 	Window:CreateSwitch("UnitFrames", "TargetEnemyHostileColor", "Enemy health bar colored by hostile reaction color")
+	Window:CreateSwitch("UnitFrames", "Portrait2D", "Use 2D Portrait")
 	Window:CreateDropdown("UnitFrames", "Font", "Set unitframe font", "Font")
 end
 
