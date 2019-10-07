@@ -2089,6 +2089,7 @@ local Misc = function(self)
 	Window:CreateSwitch("Misc", "AFKSaver", "Enable AFK screensaver")
 	Window:CreateSection("Inventory")
 	Window:CreateSwitch("Misc", "AutoSellJunk", "Sell junk automatically when visiting a vendor?")
+	Window:CreateSwitch("Misc", "AutoRepair", "Auto repair your equipment when visiting a vendor?")
 	Window:CreateSection("Objective Tracker")
 	Window:CreateDropdown("Misc", "ObjectiveTrackerFont", "Set objective tracker font", "Font")
 end

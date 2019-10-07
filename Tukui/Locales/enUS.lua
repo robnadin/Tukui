@@ -144,6 +144,8 @@ L.Help.ChatMove = "Please use |cff00ff00/tukui move|r and move datatexts to move
 L.Merchant = {} -- Merchant
 ------------------------------------------------
 
+L.Merchant.NotEnoughMoney = "You don't have enough money to repair!"
+L.Merchant.RepairCost = "Your items have been repaired for"
 L.Merchant.SoldTrash = "Your vendor trash has been sold and you earned"
 
 ------------------------------------------------

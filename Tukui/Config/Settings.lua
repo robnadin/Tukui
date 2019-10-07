@@ -97,6 +97,7 @@ C["Misc"] = {
 	["ReputationEnable"] = true,
 	["ErrorFilterEnable"] = true,
 	["AutoSellJunk"] = true,
+	["AutoRepair"] = true,
 	["AFKSaver"] = true,
 	["FadeWorldMapWhileMoving"] = false,
 	["ObjectiveTrackerFont"] = "Tukui Outline",

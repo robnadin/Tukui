@@ -37,9 +37,32 @@ function Merchant:SellJunk()
 	end
 end
 
+function Merchant:AutoRepair()
+	if (CanMerchantRepair()) then
+		local Cost, Possible = GetRepairAllCost()
+
+		if (Cost > 0) then
+			if Possible then
+				RepairAllItems()
+
+				local Copper = Cost % 100
+				local Silver = math.floor((Cost % 10000) / 100)
+				local Gold = math.floor(Cost / 10000)
+				DEFAULT_CHAT_FRAME:AddMessage(L.Merchant.RepairCost.." |cffffffff"..Gold..L.DataText.GoldShort.." |cffffffff"..Silver..L.DataText.SilverShort.." |cffffffff"..Copper..L.DataText.CopperShort..".", 255, 255, 0)
+			else
+				DEFAULT_CHAT_FRAME:AddMessage(L.Merchant.NotEnoughMoney, 255, 0, 0)
+			end
+		end
+	end
+end
+
 function Merchant:OnEvent(event)
 	if C.Misc.AutoSellJunk then
 		Merchant:SellJunk()
+	end
+	
+	if C.Misc.AutoRepair then
+		Merchant:AutoRepair()
 	end
 end
 
