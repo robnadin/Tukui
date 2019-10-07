@@ -291,7 +291,7 @@ function Bags:CreateContainer(storagetype, ...)
 				SetSortBagsRightToLeft(true)
 				SortBankBags()
 			else
-				SetSortBagsRightToLeft(false)
+				SetSortBagsRightToLeft(true)
 				SortBags()	
 			end
 		end)
@@ -499,7 +499,7 @@ function Bags:UpdateAllBags()
 	local NumRows, LastRowButton, NumButtons, LastButton = 0, ContainerFrame1Item1, 1, ContainerFrame1Item1
 	local FirstButton
 	
-	for Bag = 5, 1, -1 do
+	for Bag = 1, 5 do
 		local ID = Bag - 1
 		local Slots = GetContainerNumSlots(ID)
 
@@ -852,8 +852,6 @@ function Bags:Enable()
 	if (not C.Bags.Enable) then
 		return
 	end
-
-	SetInsertItemsLeftToRight(true)
 	
 	-- Bug with mouse click
 	GroupLootContainer:EnableMouse(false)
