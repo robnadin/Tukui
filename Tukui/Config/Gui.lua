@@ -2116,6 +2116,7 @@ local Party = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("Party", "Enable", "Enable party module")
+	Window:CreateSwitch("Party", "ShowPets", "Display Pets")
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Party", "ShowPlayer", "Display self in party")

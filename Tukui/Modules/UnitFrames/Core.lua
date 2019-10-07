@@ -522,6 +522,28 @@ function TukuiUnitFrames:GetPartyFramesAttributes()
 		"yOffset", -50
 end
 
+function TukuiUnitFrames:GetPetPartyFramesAttributes()
+	return
+		"TukuiPartyPet",
+		"SecureGroupPetHeaderTemplate",
+		"custom [@raid6,exists] hide;show",
+		"oUF-initialConfigFunction", [[
+			local header = self:GetParent()
+			self:SetWidth(header:GetAttribute("initial-width"))
+			self:SetHeight(header:GetAttribute("initial-height"))
+		]],
+		"initial-width", 180,
+		"initial-height", 24,
+		"showSolo", false,
+		"showParty", true,
+		"showPlayer", C["Party"].ShowPlayer,
+		"showRaid", true,
+		"groupFilter", "1,2,3,4,5,6,7,8",
+		"groupingOrder", "1,2,3,4,5,6,7,8",
+		"groupBy", "GROUP",
+		"yOffset", -50
+end
+
 function TukuiUnitFrames:GetRaidFramesAttributes()
 	local Properties = C.Party.Enable and "custom [@raid6,exists] show;hide" or "solo,party,raid"
 
@@ -659,6 +681,16 @@ function TukuiUnitFrames:CreateUnits()
 			local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
 			Party:SetParent(UIParent)
 			Party:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -(UIParent:GetHeight() / 2) + 200)
+			
+			if C.Party.ShowPets then
+				local Pet = oUF:SpawnHeader(TukuiUnitFrames:GetPetPartyFramesAttributes())
+				Pet:SetParent(UIParent)
+				Pet:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -28)
+
+				TukuiUnitFrames.Headers.RaidPet = Pet
+
+				Movers:RegisterFrame(Pet)
+			end
 
 			TukuiUnitFrames.Headers.Party = Party
 
