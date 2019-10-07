@@ -124,6 +124,10 @@ local function UNIT_SPELLCAST_START(self, event, unit)
 	if(not name) then
 		return element:Hide()
 	end
+	
+	if texture and texture == 136235 then
+		texture = "Interface\\ICONS\\INV_Misc_QuestionMark"
+	end
 
 	endTime = endTime / 1e3
 	startTime = startTime / 1e3
@@ -286,6 +290,10 @@ local function UNIT_SPELLCAST_CHANNEL_START(self, event, unit, _, spellID)
 	local name, _, texture, startTime, endTime, _, notInterruptible = UnitChannelInfo(unit)
 	if(not name) then
 		return
+	end
+	
+	if texture and texture == 136235 then
+		texture = "Interface\\ICONS\\INV_Misc_QuestionMark"
 	end
 
 	endTime = endTime / 1e3
