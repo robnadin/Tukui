@@ -113,7 +113,8 @@ function TukuiChat:StyleFrame(frame)
 
 	Frame:SetClampRectInsets(0, 0, 0, 0)
 	Frame:SetClampedToScreen(false)
-	Frame:SetFading(false)
+	Frame:SetFading(C.Chat.TextFading)
+	Frame:SetTimeVisible(C.Chat.TextFadingTimer)
 
 	-- Move the edit box
 	EditBox:ClearAllPoints()

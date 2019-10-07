@@ -68,6 +68,8 @@ C["Chat"] = {
 	["LinkColor"] = {0.08, 1, 0.36},
 	["LinkBrackets"] = true,
 	["ScrollByX"] = 3,
+	["TextFading"] = true,
+	["TextFadingTimer"] = 60,
 	["TabFont"] = "Tukui",
 	["ChatFont"] = "Tukui",
 }
