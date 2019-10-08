@@ -2145,7 +2145,7 @@ local Raid = function(self)
 	Window:CreateSlider("Raid", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)
 	Window:CreateSlider("Raid", "MaxUnitPerColumn", "Set max units per column", 1, 15, 1)
 	Window:CreateSlider("Raid", "WidthSize", "Set raid unit width", 79, 150, 1)
-	Window:CreateSlider("Raid", "HeightSize", "Set raid unit height", 55, 150, 1)
+	Window:CreateSlider("Raid", "HeightSize", "Set raid unit height", 36, 150, 1)
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Raid", "Font", "Set raid font", "Font")
