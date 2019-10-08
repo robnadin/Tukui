@@ -853,6 +853,8 @@ function Bags:Enable()
 		return
 	end
 	
+	SetInsertItemsLeftToRight(false)
+	
 	-- Bug with mouse click
 	GroupLootContainer:EnableMouse(false)
 
