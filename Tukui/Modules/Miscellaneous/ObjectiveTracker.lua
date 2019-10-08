@@ -99,6 +99,7 @@ end
 
 function ObjectiveTracker:AddQuestClick()
 	local Index = 0
+	local Toggle = ObjectiveTracker.Toggle
 	
 	-- Reset clicks
 	for i = 1, 5 do
@@ -129,6 +130,15 @@ function ObjectiveTracker:AddQuestClick()
 			end
 		end
 	end
+	
+	-- Toggle display
+	if Toggle then
+		if GetNumQuestWatches() == 0 then
+			Toggle:Hide()
+		else
+			Toggle:Show()
+		end
+	end
 end
 
 function ObjectiveTracker:AddToggle()
@@ -154,6 +164,8 @@ function ObjectiveTracker:AddToggle()
 	Button.Texture:Size(12)
 	Button.Texture:Point("CENTER")
 	Button.Texture:SetTexture(C.Medias.ArrowUp)
+	
+	self.Toggle = Button
 end
 
 function ObjectiveTracker:AddHooks()
