@@ -45,6 +45,7 @@
 	<Script file="Miscellaneous\AFK.lua"/>
 	<Script file="Miscellaneous\Grid.lua"/>
 	<Script file="Miscellaneous\UIErrorFilter.lua"/>
+	<Script file="Miscellaneous\GuildNamesByClassColor.lua"/>
 
 	<!-- Auras -->
 	<Include file="Auras\Templates.xml"/>
