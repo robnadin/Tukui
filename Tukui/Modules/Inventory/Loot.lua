@@ -373,13 +373,9 @@ end
 
 function Loot:Enable()
 	if not C.Loot.Enable then
-		return
-	end
-
-	if C.Loot.StandardLoot then
 		self:SkinStandardLootFrame()
 		self:AddStandardLootHooks()
-
+		
 		return
 	end
 

@@ -2070,7 +2070,6 @@ local Loot = function(self)
 	
 	Window:CreateSection("Enable")
 	Window:CreateSwitch("Loot", "Enable", "Enable loot module")
-	Window:CreateSwitch("Loot", "StandardLoot", "Enable standard loot")
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Loot", "Font", "Set loot font", "Font")
