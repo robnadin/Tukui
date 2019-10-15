@@ -350,6 +350,16 @@ function TukuiUnitFrames:Player()
 
 		T.Movers:RegisterFrame(ScrollingCombatText)
 	end
+	
+	if C.UnitFrames.PowerTick then
+		local EnergyManaRegen = CreateFrame("StatusBar", nil, Power)
+		
+		EnergyManaRegen:SetFrameLevel(Power:GetFrameLevel() + 3)
+		EnergyManaRegen:SetAllPoints()
+		EnergyManaRegen.Spark = EnergyManaRegen:CreateTexture(nil, 'OVERLAY')
+		
+		self.EnergyManaRegen = EnergyManaRegen
+	end
 
 	self:HookScript("OnEnter", TukuiUnitFrames.MouseOnPlayer)
 	self:HookScript("OnLeave", TukuiUnitFrames.MouseOnPlayer)

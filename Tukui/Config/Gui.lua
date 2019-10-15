@@ -2203,7 +2203,7 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "OOCPetNameLevel", "Display my pet name/level while out of combat")
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")	
-	Window:CreateSwitch("UnitFrames", "EnergyTick", "Enable energy ticks")
+	Window:CreateSwitch("UnitFrames", "PowerTick", "Enable power ticks")
 				
 	Window:CreateSection("Scrolling combat text")
 	Window:CreateSwitch("UnitFrames", "ScrollingCombatText", "Enable scrolling combat text")

@@ -28,9 +28,4 @@ TukuiUnitFrames.AddClassFeatures["DRUID"] = function(self)
 
 	self.DruidMana = DruidMana
 	self.DruidMana.bg = Background
-	
-	if C.UnitFrames.EnergyTick then
-		self.EnergyTicker = CreateFrame("Frame", nil, self)
-		self.EnergyTicker:SetFrameLevel(self.Power:GetFrameLevel() + 1)
-	end
 end
