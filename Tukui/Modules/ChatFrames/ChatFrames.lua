@@ -628,7 +628,7 @@ function TukuiChat:Setup()
 	ChatFrameMenuButton:Kill()
 
 	ChatMenu:ClearAllPoints()
-	ChatMenu:SetPoint("BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", 0, 16)
+	ChatMenu:SetPoint("BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", -1, 16)
 
 	VoiceChatPromptActivateChannel:SetTemplate()
 	VoiceChatPromptActivateChannel:CreateShadow()
