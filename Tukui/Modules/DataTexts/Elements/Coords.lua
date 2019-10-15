@@ -21,11 +21,17 @@ local Update = function(self, Elapsed)
 				X, Y = C_Map.GetPlayerMapPosition(UnitMap, "player"):GetXY()
 			end
 		end
-		
-		X = 100 * math.floor(X * 10000) / 10000
-		Y = 100 * math.floor(Y * 10000) / 10000
-		
-		self.Text:SetText(DataText.ValueColor..X.."|r, "..DataText.ValueColor..Y.."|r")
+
+		if X == 0 and Y == 0 then
+			local Name = GetInstanceInfo()
+			
+			self.Text:SetText(DataText.ValueColor..Name.."|r")
+		else
+			X = 100 * math.floor(X * 10000) / 10000
+			Y = 100 * math.floor(Y * 10000) / 10000
+			
+			self.Text:SetText(DataText.ValueColor..X.."|r, "..DataText.ValueColor..Y.."|r")
+		end
 		
 		Timer = Interval
 	end

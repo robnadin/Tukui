@@ -236,8 +236,10 @@ function Minimap:UpdateCoords(t)
 		Y = math.floor(100 * Y)
 
 		if (X == 0 and Y == 0) then
-			Minimap.MinimapCoords.Text:SetText("?, ?")
+			Minimap.MinimapCoords:Hide()
 		else
+			Minimap.MinimapCoords:Show()
+			
 			if (X < 10) then
 				XText = "0"..X
 			else
