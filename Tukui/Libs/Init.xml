@@ -10,7 +10,6 @@
 	<Script file="LibClassicMobHealth\LibClassicMobHealth.lua"/>
 	<Script file="LibClassicCasterino\LibClassicCasterino.lua"/>
 	<Include file="LibClassicDurations\LibClassicDurations.xml"/>
-	<Include file="LibClassicHealComm\lib.xml"/>
 	<Include file="oUF\oUF.xml"/>
 	<Script file="oUF_ComboPointsBar\oUF_ComboPointsBar.lua"/>
 	<Script file="oUF_CombatFeedback\oUF_CombatFeedback.lua"/>
