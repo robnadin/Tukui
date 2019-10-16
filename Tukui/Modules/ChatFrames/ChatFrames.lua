@@ -509,7 +509,7 @@ function TukuiChat:ShowChatFrame(button, id)
 		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
 		
 		XP:SetParent(UIParent)
-		Rep:SetParent(XP)
+		Rep:SetParent(UIParent)
 		Rep:SetFrameLevel(XP:GetFrameLevel() + 2)
 	end
 
