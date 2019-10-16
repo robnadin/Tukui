@@ -165,7 +165,6 @@ function Bind:Update(b, spellmacro)
 end
 
 function Bind:Listener(key)
-	print(key)
 	if key == "ESCAPE" or key == "RightButton" then
 		for i = 1, #self.button.bindings do
 			SetBinding(self.button.bindings[i])
