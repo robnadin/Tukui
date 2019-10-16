@@ -68,7 +68,9 @@ function Minimap:StyleMinimap()
 	self:SetMaskTexture(C.Medias.Blank)
 	self:CreateBackdrop()
 	self:SetScript("OnMouseUp", Minimap.OnMouseClick)
-
+	
+	self.Backdrop:SetFrameStrata("BACKGROUND")
+	self.Backdrop:SetFrameLevel(2)
 	self.Backdrop:CreateShadow()
 
 	self.Ticket = CreateFrame("Frame", nil, Minimap)
@@ -286,10 +288,20 @@ function Minimap:EnableMouseOver()
 end
 
 function Minimap:SizeMinimap()
+	local LibDBIcon = nil
+
+	if LibStub then
+		LibDBIcon = LibStub("LibDBIcon-1.0", true)
+	end
+
 	local X, Y = self:GetSize()
 	local Scale = C.General.MinimapScale / 100
 	
-	self:Size(X * Scale, Y * Scale)
+	if LibDBIcon then
+		self:SetScale(Scale)
+	else
+		self:Size(X * Scale, Y * Scale)
+	end
 end
 
 function Minimap:EnableMouseWheelZoom()
