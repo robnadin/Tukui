@@ -16,10 +16,14 @@ local activezone, inactivezone = {r = 0.3, g = 1.0, b = 0.3}, {r = 0.65, g = 0.6
 local statusTable = { "|cffff0000[AFK]|r", "|cffff0000[DND]|r", "" }
 local groupedTable = { "|cffaaaaaa*|r", "" }
 local BNTable = {}
+local WoWTable = {}
 local BNTotalOnline = 0
 local BNGetGameAccountInfo = BNGetGameAccountInfo
 local GetFriendInfo = GetFriendInfo
 local BNGetFriendInfo = BNGetFriendInfo
+local C_FriendList_GetNumFriends = C_FriendList.GetNumFriends
+local C_FriendList_GetNumOnlineFriends = C_FriendList.GetNumOnlineFriends
+local C_FriendList_GetFriendInfoByIndex = C_FriendList.GetFriendInfoByIndex
 
 Popups.Popup["BROADCAST"] = {
 	Question = BN_BROADCAST_TOOLTIP,
@@ -210,7 +214,7 @@ local OnMouseUp = function(self, btn)
 			if (BNTable[i][7]) then
 				realID = BNTable[i][2]
 				menuCountWhispers = menuCountWhispers + 1
-				menuList[3].menuList[menuCountWhispers] = {text = RemoveTagNumber(BNTable[i][3]), arg1 = realID, arg2 = true, notCheckable=true, func = whisperClick}
+				menuList[3].menuList[menuCountWhispers] = {text = "|cff00ccff"..RemoveTagNumber(BNTable[i][3].."|r"), arg1 = realID, arg2 = true, notCheckable=true, func = whisperClick}
 
 				if BNTable[i][6] == wowString and UnitFactionGroup("player") == BNTable[i][12] and BNTable[i][11] == T.MyRealm then
 					classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[BNTable[i][14]], GetQuestDifficultyColor(BNTable[i][16])
@@ -228,6 +232,31 @@ local OnMouseUp = function(self, btn)
 					menuCountInvites = menuCountInvites + 1
 					menuList[2].menuList[menuCountInvites] = {text = format(levelNameString,levelc.r*255,levelc.g*255,levelc.b*255,BNTable[i][16],classc.r*255,classc.g*255,classc.b*255,BNTable[i][4]), arg1 = BNTable[i][5],notCheckable=true, func = inviteClick}
 				end
+			end
+		end
+		
+		if #WoWTable > 0 then
+			-- add a separator
+			menuCountWhispers = menuCountWhispers + 1
+			
+			menuList[3].menuList[menuCountWhispers] = {text = "----------", arg1 = nil, arg2 = nil, notCheckable=true, func = nil}
+		end
+
+		for i = 1, #WoWTable do
+			if WoWTable[i].connected then
+				local Class = WoWTable[i].className
+				local R, G, B = unpack(T.Colors.class[Class])
+				local Hex = T.RGBToHex(R, G, B)
+				local levelc = GetQuestDifficultyColor(WoWTable[i].level)
+				local levelhex = T.RGBToHex(levelc.r, levelc.g, levelc.b)
+				
+				menuCountWhispers = menuCountWhispers + 1
+
+				menuList[3].menuList[menuCountWhispers] = {text = WoWTable[i].hex..WoWTable[i].name.."|r", arg1 = WoWTable[i].name, arg2 = false, notCheckable=true, func = whisperClick}
+				
+				menuCountInvites = menuCountInvites + 1
+				
+				menuList[2].menuList[menuCountInvites] = {text = levelhex..WoWTable[i].level.."|r "..Hex..WoWTable[i].name.."|r", arg1 = WoWTable[i].name, notCheckable=true, func = inviteClick}
 			end
 		end
 	end
@@ -256,13 +285,14 @@ local OnEnter = function(self)
 	end
 
 	local totalonline = BNTotalOnline
+	local wowonline = C_FriendList_GetNumFriends()
 	local zonec, classc, levelc, realmc, grouped
 	local DisplayLimit = floor((T.ScreenHeight / 100) * 2)
 
 	if (totalonline > 0) then
 		GameTooltip:SetOwner(self:GetTooltipAnchor())
 		GameTooltip:ClearLines()
-		GameTooltip:AddDoubleLine(L.DataText.FriendsList, format(totalOnlineString, totalonline, #BNTable),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
+		GameTooltip:AddDoubleLine("Battle.net:", format(totalOnlineString, totalonline, #BNTable),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
 		GameTooltip:AddLine(" ")
 
 		if BNTotalOnline > 0 then
@@ -368,6 +398,43 @@ local OnEnter = function(self)
 				end
 			end
 		end
+		
+		---- Add wow friends listing
+		wipe(WoWTable)
+		
+		GameTooltip:AddLine(" ")
+		GameTooltip:AddDoubleLine("|cffff8000World of Warcraft:|r", "|cffff8000"..C_FriendList.GetNumOnlineFriends().."/"..C_FriendList.GetNumFriends().."|r")
+		GameTooltip:AddLine(" ")
+		
+		for i = 1, wowonline do
+			local friendinfo = C_FriendList_GetFriendInfoByIndex(i)
+			
+			WoWTable[i] = friendinfo
+			
+			if friendinfo and friendinfo.connected then
+				local name = friendinfo.name
+				local level = friendinfo.level
+				local class = friendinfo.className
+				local area = friendinfo.area
+				
+				for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
+					if class == v then
+						class = k
+						
+						WoWTable[i].className = class
+					end
+				end
+				
+				local R, G, B = unpack(T.Colors.class[class])
+				local Hex = T.RGBToHex(R, G, B)
+				local levelc = GetQuestDifficultyColor(level)
+				local levelhex = T.RGBToHex(levelc.r, levelc.g, levelc.b)
+				
+				WoWTable[i].hex = Hex
+				
+				GameTooltip:AddDoubleLine(Hex..name.."|r ("..levelhex..level.."|r)", area)
+			end
+		end
 
 		GameTooltip:Show()
 	else
@@ -390,7 +457,7 @@ local Update = function(self, event)
 		BuildBNTable(BNTotal)
 	end
 
-	self.Text:SetFormattedText("%s %s%s", DataText.NameColor .. FRIENDS .. "|r", DataText.ValueColor, BNTotalOnline)
+	self.Text:SetFormattedText("%s %s%s", DataText.NameColor .. FRIENDS .. "|r", DataText.ValueColor, BNTotalOnline + C_FriendList.GetNumOnlineFriends())
 end
 
 local Enable = function(self)
