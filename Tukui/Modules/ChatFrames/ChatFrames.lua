@@ -263,13 +263,9 @@ function TukuiChat:RemoveRightChat()
 
 	if C.Misc.ExperienceEnable then
 		local XP = T.Miscellaneous.Experience.XPBar2
+		local Rep = T.Miscellaneous.Reputation.RepBar2
 		
 		XP:SetParent(T.Hider)
-	end
-
-	if C.Misc.ReputationEnable then
-		local Rep = T.Miscellaneous.Reputation.RepBar2
-
 		Rep:SetParent(T.Hider)
 	end
 
@@ -470,13 +466,9 @@ function TukuiChat:HideChatFrame(button, id)
 
 	if C.Misc.ExperienceEnable then
 		local XP = T.Miscellaneous.Experience["XPBar"..id]
+		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
 		
 		XP:SetParent(T.Hider)
-	end
-
-	if C.Misc.ReputationEnable then
-		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
-
 		Rep:SetParent(T.Hider)
 	end
 
@@ -514,14 +506,11 @@ function TukuiChat:ShowChatFrame(button, id)
 
 	if C.Misc.ExperienceEnable then
 		local XP = T.Miscellaneous.Experience["XPBar"..id]
+		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
 		
 		XP:SetParent(UIParent)
-	end
-
-	if C.Misc.ReputationEnable then
-		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
-
-		Rep:SetParent(UIParent)
+		Rep:SetParent(XP)
+		Rep:SetFrameLevel(XP:GetFrameLevel() + 2)
 	end
 
 	DataText:Show()
