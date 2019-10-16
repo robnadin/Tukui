@@ -39,6 +39,7 @@ TukuiUnitFrames.NameplatesVars = {
 	nameplateMaxAlpha = 1,
 	nameplateMinAlpha = 1,
 	nameplateSelectedAlpha = 1,
+	nameplateNotSelectedAlpha = 1,
 	nameplateMaxScale = 1,
 	nameplateMinScale = 1,
 	nameplateSelectedScale = 1,

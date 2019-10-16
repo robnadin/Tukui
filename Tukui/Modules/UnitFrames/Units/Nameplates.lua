@@ -129,6 +129,10 @@ function TukuiUnitFrames:Nameplates()
 	self.Name = Name
 	self.Power = Power
 	self.RaidTargetIndicator = RaidIcon
+	
+	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
+	self:RegisterEvent("NAME_PLATE_UNIT_ADDED", TukuiUnitFrames.Highlight, true)
+	self:RegisterEvent("NAME_PLATE_UNIT_REMOVED", TukuiUnitFrames.Highlight, true)
 
 	-- Needed on nameplate else if will bug on AOE multi nameplates. (I'm not sure about this)
 	self:EnableMouse(false)
