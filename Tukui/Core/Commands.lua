@@ -44,6 +44,8 @@ T.SlashHandler = function(cmd)
 		print(L.Help.Status)
 		print(L.Help.Test)
 		print(" ")
+	elseif (arg1 == "kb" or arg1 == "keybinds") then
+		T.Miscellaneous.Keybinds:Toggle()
 	elseif (arg1 == "mh") then
 		local SlashCommand = _G.SlashCmdList["LIBCLASSICMOBHEALTHONE"]
 		local Command = (arg3 and arg2.." "..arg3) or (arg2) or ""
