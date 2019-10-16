@@ -186,9 +186,14 @@ function TukuiUnitFrames:UpdateDebuffsHeaderPosition()
 	if NumBuffs == 0 then
 		Addition = 0
 	end
-
+	
 	Debuffs:ClearAllPoints()
-	Debuffs:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", -2, Y + Addition)
+	
+	if C.UnitFrames.AurasBelow then
+		Debuffs:Point("BOTTOMLEFT", self, "BOTTOMLEFT", -2, -Y - Addition)
+	else
+		Debuffs:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", -2, Y + Addition)
+	end
 end
 
 function TukuiUnitFrames:CustomCastTimeText(duration)

@@ -189,6 +189,7 @@ C["UnitFrames"] = {
 	["CombatLog"] = true,
 	["PlayerAuras"] = true,
 	["TargetAuras"] = true,
+	["AurasBelow"] = false,
 	["OnlySelfDebuffs"] = false,
 	["OnlySelfBuffs"] = false,
 	["Font"] = "Tukui Outline",

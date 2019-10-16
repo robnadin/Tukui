@@ -215,6 +215,11 @@ function TukuiUnitFrames:Target()
 		Debuffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
 		Debuffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
 		Debuffs.onlyShowPlayer = C.UnitFrames.OnlySelfDebuffs
+		
+		if C.UnitFrames.AurasBelow then
+			Buffs:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, -32)
+			Debuffs["growth-y"] = "DOWN"
+		end
 
 		self.Buffs = Buffs
 		self.Debuffs = Debuffs

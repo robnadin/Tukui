@@ -2213,6 +2213,7 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
 	Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "Display only our buffs on unitframes")
 	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "Display only our debuffs on unitframes")
+	Window:CreateSwitch("UnitFrames", "AurasBelow", "Move auras below unitframes")
 	
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("UnitFrames", "UnlinkCastBar", "Unlink cast bars from unitframes")
