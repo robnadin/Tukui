@@ -2122,6 +2122,8 @@ local Party = function(self)
 	Window:CreateSection("Styling")
 	Window:CreateSwitch("Party", "ShowPlayer", "Display self in party")
 	Window:CreateSlider("Party", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)
+	Window:CreateSwitch("Party", "ShowHealthText", "Display health text values")
+	Window:CreateSwitch("Party", "ShowManaText", "Display mana text values")
 	
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Party", "Font", "Set party font", "Font")

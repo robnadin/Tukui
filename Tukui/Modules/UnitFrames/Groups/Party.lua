@@ -35,6 +35,13 @@ function TukuiUnitFrames:Party()
 	Health.Background = Health:CreateTexture(nil, "BORDER")
 	Health.Background:SetAllPoints()
 	Health.Background:SetColorTexture(.1, .1, .1)
+	
+	if C.Party.ShowHealthText then
+		Health.Value = Health:CreateFontString(nil, "OVERLAY")
+		Health.Value:SetFontObject(Font)
+		Health.Value:SetPoint("TOPRIGHT", -4, 16)
+		Health.PostUpdate = TukuiUnitFrames.PostUpdateHealth
+	end
 
 	Health.frequentUpdates = true
 	Health.colorDisconnected = true
@@ -56,6 +63,13 @@ function TukuiUnitFrames:Party()
 	Power.Background:SetAllPoints(Power)
 	Power.Background:SetColorTexture(.4, .4, .4)
 	Power.Background.multiplier = 0.3
+	
+	if C.Party.ShowManaText then
+		Power.Value = Power:CreateFontString(nil, "OVERLAY")
+		Power.Value:SetFontObject(Font)
+		Power.Value:SetPoint("BOTTOMRIGHT", -4, 0)
+		Power.PostUpdate = TukuiUnitFrames.PostUpdatePower
+	end
 
 	Power.frequentUpdates = true
 	Power.colorPower = true
@@ -65,7 +79,7 @@ function TukuiUnitFrames:Party()
 	end
 
 	local Name = Health:CreateFontString(nil, "OVERLAY")
-	Name:SetPoint("TOPLEFT", 4, 6)
+	Name:SetPoint("TOPLEFT", 4, 16)
 	Name:SetFontObject(Font)
 
 	local Buffs = CreateFrame("Frame", self:GetName()..'Buffs', self)

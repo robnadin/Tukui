@@ -117,8 +117,10 @@ C["Party"] = {
 	["Enable"] = false,
 	["ShowPets"] = false,
 	["ShowPlayer"] = true,
+	["ShowHealthText"] = true,
+	["ShowManaText"] = false,
 	["RangeAlpha"] = 0.3,
-	["Font"] = "Tukui",
+	["Font"] = "Tukui Outline",
 	["HealthFont"] = "Tukui Outline",
 }
 
@@ -186,6 +188,7 @@ C["UnitFrames"] = {
 	["CastBarLatency"] = true,
 	["Smooth"] = true,
 	["TargetEnemyHostileColor"] = true,
+	["ShowTargetManaText"] = false,
 	["CombatLog"] = true,
 	["PlayerAuras"] = true,
 	["TargetAuras"] = true,

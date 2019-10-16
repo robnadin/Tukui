@@ -64,6 +64,13 @@ function TukuiUnitFrames:Target()
 	Power.Background:SetAllPoints()
 	Power.Background:SetColorTexture(.4, .4, .4)
 	Power.Background.multiplier = 0.3
+	
+	if C.UnitFrames.ShowTargetManaText then
+		Power.Value = Power:CreateFontString(nil, "OVERLAY")
+		Power.Value:SetFontObject(Font)
+		Power.Value:SetPoint("RIGHT", -4, 4)
+		Power.PostUpdate = TukuiUnitFrames.PostUpdatePower
+	end
 
 	Power.frequentUpdates = true
 	Power.colorPower = true
