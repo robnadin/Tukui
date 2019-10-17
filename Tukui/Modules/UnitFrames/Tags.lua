@@ -9,7 +9,19 @@ TukuiUnitFrames.ShortNameLength = 10
 
 oUF.Tags.Events["Tukui:GetRaidNameColor"] = "RAID_ROSTER_UPDATE GROUP_ROSTER_UPDATE"
 oUF.Tags.Methods["Tukui:GetRaidNameColor"] = function(unit)
-	return string.format("|cff%02x%02x%02x", 255, 255, 255)
+	local IsPlayer = UnitIsPlayer(unit)
+	local Reaction = UnitReaction(unit, "player")
+	local R, G, B = 1, 1, 1
+	
+	if IsPlayer then
+		local Class = select(2, UnitClass(unit))
+		
+		R, G, B = unpack(T.Colors.class[Class])
+	elseif Reaction then
+		R, G, B = unpack(T.Colors.reaction[Reaction])
+	end
+	
+	return string.format("|cff%02x%02x%02x", R * 255, G * 255, B * 255)
 end
 
 oUF.Tags.Events["Tukui:GetNameColor"] = "UNIT_POWER_UPDATE UNIT_HAPPINESS"
