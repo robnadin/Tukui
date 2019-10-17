@@ -12,7 +12,7 @@ function GuildNamesByClassColor:Update()
 			local FullName, _, _, _, _, _, _, _, Online, _, Class = GetGuildRosterInfo(Index)
 			local Button = _G["GuildFrameButton"..i.."Name"]
 
-			if Class then
+			if Class and T.Colors.class[Class] then
 				local R, G, B = unpack(T.Colors.class[Class])
 				local Hex = T.RGBToHex(R, G, B)
 
