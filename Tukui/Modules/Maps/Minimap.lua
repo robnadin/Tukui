@@ -288,20 +288,10 @@ function Minimap:EnableMouseOver()
 end
 
 function Minimap:SizeMinimap()
-	local LibDBIcon = nil
-
-	if LibStub then
-		LibDBIcon = LibStub("LibDBIcon-1.0", true)
-	end
-
 	local X, Y = self:GetSize()
 	local Scale = C.General.MinimapScale / 100
-	
-	if LibDBIcon then
-		self:SetScale(Scale)
-	else
-		self:Size(X * Scale, Y * Scale)
-	end
+
+	self:Size(X * Scale, Y * Scale)
 end
 
 function Minimap:EnableMouseWheelZoom()
@@ -355,7 +345,6 @@ end
 
 function Minimap:Enable()
 	self:DisableMinimapElements()
-	self:SizeMinimap()
 	self:StyleMinimap()
 	self:PositionMinimap()
 	self:AddMinimapDataTexts()
@@ -364,5 +353,14 @@ function Minimap:Enable()
 	self:EnableMouseWheelZoom()
 	self:AddTaxiEarlyExit()
 end
+
+-- Need to be sized as soon as possible, because of LibDBIcon10
+Minimap:RegisterEvent("VARIABLES_LOADED")
+Minimap:SetScript("OnEvent", function(self, event)
+	if event == "VARIABLES_LOADED" then
+		self:SizeMinimap()
+		self:UnregisterEvent("VARIABLES_LOADED")
+	end
+end)
 
 T["Maps"].Minimap = Minimap
