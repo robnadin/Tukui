@@ -301,9 +301,12 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	end
 	
 	local pType, pToken = UnitPowerType(unit)
-	local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
+	
+	if T.Colors.power[pToken] then
+		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
 
-	self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
+		self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
+	end
 end
 
 function TukuiUnitFrames:CreateAuraTimer(elapsed)
