@@ -48,7 +48,7 @@ local Update = function(self, elapsed)
 			elseif Timer < 0 then
 				-- if negative, it's mp5delay
 				element.Spark:Show()
-				element:SetMinMaxValues(0, 5)
+				element:SetMinMaxValues(0, Mp5Delay)
 				element.Spark:SetVertexColor(1, 1, 0, 1)
 				
 				element:SetValue(math.abs(Timer))
