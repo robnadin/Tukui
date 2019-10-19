@@ -21,7 +21,7 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 	local Buffs = self.Buffs
 	
 	local totems = CreateFrame("Frame", "TukuiTotemBar", self)
-	totems:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT", 0, 2)
+	totems:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT", 0, 1)
 	totems:SetFrameStrata(self.Health:GetFrameStrata())
 	totems:SetFrameLevel(self.Health:GetFrameLevel() + 3)
 	totems:SetSize(250, 8)
@@ -63,11 +63,11 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 		totems.Destroy[i]:SetAttribute("*totem-slot*", i)
 	end
 	
-	Shadow:SetPoint("TOPLEFT", -4, 14)
+	Shadow:SetPoint("TOPLEFT", -4, 13)
 	
 	if not C.UnitFrames.AurasBelow then
 		Buffs:ClearAllPoints()
-		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 16)
+		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 15)
 	end
 	
 	-- Register with oUF
