@@ -18,7 +18,6 @@ TukuiUnitFrames.TotemColors = {
 TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 	local HealthTexture = T.GetTexture(C["Textures"].UFHealthTexture)
 	local Shadow = self.Shadow
-	local Buffs = self.Buffs
 	
 	local totems = CreateFrame("Frame", "TukuiTotemBar", self)
 	totems:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT", 0, 1)
@@ -65,9 +64,12 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 	
 	Shadow:SetPoint("TOPLEFT", -4, 13)
 	
-	if not C.UnitFrames.AurasBelow then
-		Buffs:ClearAllPoints()
-		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 15)
+	if C.UnitFrames.PlayerAuraBars then
+		self.AuraBars:ClearAllPoints()
+		self.AuraBars:SetPoint("TOPLEFT", -2, 20)
+	elseif C.UnitFrames.PlayerAuras and not C.UnitFrames.AurasBelow then
+		self.Buffs:ClearAllPoints()
+		self.Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 15)
 	end
 	
 	-- Register with oUF

@@ -173,6 +173,7 @@ C["Textures"] = {
 
 C["UnitFrames"] = {
 	["Enable"] = true,
+	["PlayerAuraBars"] = true,
 	["ScrollingCombatText"] = false,
 	["ScrollingCombatTextFontSize"] = 32,
 	["ScrollingCombatTextFont"] = "Tukui Damage",

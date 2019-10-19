@@ -98,7 +98,7 @@ function TukuiUnitFrames:Player()
 		local Portrait 
 		
 		if C.UnitFrames.Portrait2D then
-			Portrait = self:CreateTexture(nil, 'OVERLAY')
+			Portrait = self:CreateTexture(nil, "OVERLAY")
 			Portrait:SetTexCoord(0.1,0.9,0.1,0.9)
 		else
 			Portrait = CreateFrame("PlayerModel", nil, Health)
@@ -121,9 +121,25 @@ function TukuiUnitFrames:Player()
 		self.Portrait = Portrait
 	end
 	
-	if (C.UnitFrames.PlayerAuras) then
-		local Buffs = CreateFrame("Frame", self:GetName()..'Buffs', self)
-		local Debuffs = CreateFrame("Frame", self:GetName()..'Debuffs', self)
+	if C.UnitFrames.PlayerAuraBars then
+		local AuraBars = CreateFrame("Frame", self:GetName().."AuraBars", self)
+		AuraBars:SetHeight(10)
+		AuraBars:SetWidth(250)
+		AuraBars:SetPoint("TOPLEFT", -2, 12)
+		AuraBars.auraBarTexture = HealthTexture
+		AuraBars.PostCreateBar = TukuiUnitFrames.PostCreateAuraBar
+		AuraBars.gap = 2
+		AuraBars.width = 236
+		AuraBars.height = 12
+		AuraBars.spellNameObject = Font
+		AuraBars.spellTimeObject = Font
+		
+		T.Movers:RegisterFrame(AuraBars)
+		
+		self.AuraBars = AuraBars
+	elseif (C.UnitFrames.PlayerAuras) then
+		local Buffs = CreateFrame("Frame", self:GetName().."Buffs", self)
+		local Debuffs = CreateFrame("Frame", self:GetName().."Debuffs", self)
 
 		Buffs:SetFrameStrata(self:GetFrameStrata())
 		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 4)
@@ -288,7 +304,7 @@ function TukuiUnitFrames:Player()
 	end
 
 	if (C.UnitFrames.ComboBar) and (Class == "ROGUE" or Class == "DRUID") then
-		local ComboPoints = CreateFrame("Frame", self:GetName()..'ComboPointsBar', self)
+		local ComboPoints = CreateFrame("Frame", self:GetName().."ComboPointsBar", self)
 		ComboPoints:SetFrameStrata(self:GetFrameStrata())
 		ComboPoints:SetHeight(8)
 		ComboPoints:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 1)
@@ -361,7 +377,7 @@ function TukuiUnitFrames:Player()
 		
 		EnergyManaRegen:SetFrameLevel(Power:GetFrameLevel() + 3)
 		EnergyManaRegen:SetAllPoints()
-		EnergyManaRegen.Spark = EnergyManaRegen:CreateTexture(nil, 'OVERLAY')
+		EnergyManaRegen.Spark = EnergyManaRegen:CreateTexture(nil, "OVERLAY")
 		
 		self.EnergyManaRegen = EnergyManaRegen
 	end

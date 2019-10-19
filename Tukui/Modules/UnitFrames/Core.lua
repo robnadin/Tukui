@@ -150,6 +150,17 @@ function TukuiUnitFrames:Highlight()
 	end
 end
 
+function TukuiUnitFrames:PostCreateAuraBar(bar)
+	if not bar.Backdrop then
+		bar:CreateBackdrop("Transparent")
+		bar.Backdrop:CreateShadow()
+		
+		bar.IconBackdrop = CreateFrame("Frame", nil, bar)
+		bar.IconBackdrop:SetAllPoints(bar.icon)
+		bar.IconBackdrop:CreateShadow()
+	end
+end
+
 function TukuiUnitFrames:UpdateShadow(height)
 	local Frame = self:GetParent()
 	local Shadow = Frame.Shadow
