@@ -54,11 +54,11 @@ end
 
 -- Format seconds to min/hour/day
 T.FormatTime = function(s)
-	local Day, Hour, Minute = 86400, 3600, 60
-	
 	if s == Infinity then
-		s = 0
+		return
 	end
+
+	local Day, Hour, Minute = 86400, 3600, 60
 
 	if (s >= Day) then
 		return format("%dd", ceil(s / Day))
