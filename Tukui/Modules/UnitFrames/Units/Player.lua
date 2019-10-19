@@ -129,10 +129,11 @@ function TukuiUnitFrames:Player()
 		AuraBars.auraBarTexture = HealthTexture
 		AuraBars.PostCreateBar = TukuiUnitFrames.PostCreateAuraBar
 		AuraBars.gap = 2
-		AuraBars.width = 236
-		AuraBars.height = 12
+		AuraBars.width = 231
+		AuraBars.height = 17
 		AuraBars.spellNameObject = Font
 		AuraBars.spellTimeObject = Font
+		--AuraBars.buffColor = T.Colors.class[select(2, UnitClass("player"))]
 		
 		T.Movers:RegisterFrame(AuraBars)
 		
