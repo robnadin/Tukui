@@ -74,7 +74,7 @@ local function createAuraBar(element, index)
 	local nameText = statusBar:CreateFontString(nil, 'OVERLAY', element.spellNameObject)
 	nameText:SetPoint('LEFT', statusBar, 'LEFT', 2, 0)
 
-	local countText = statusBar:CreateFontString(nil, 'OVERLAY', element.spellTimeObject)
+	local countText = statusBar:CreateFontString(nil, 'OVERLAY', element.spellNameObject)
 	countText:SetPoint('LEFT', nameText, 'RIGHT', 2, 0)
 
 	local timeText = statusBar:CreateFontString(nil, 'OVERLAY', element.spellTimeObject)
