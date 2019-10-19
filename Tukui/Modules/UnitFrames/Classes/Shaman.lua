@@ -17,12 +17,14 @@ TukuiUnitFrames.TotemColors = {
 
 TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 	local HealthTexture = T.GetTexture(C["Textures"].UFHealthTexture)
+	local Shadow = self.Shadow
+	local Buffs = self.Buffs
 	
 	local totems = CreateFrame("Frame", "TukuiTotemBar", self)
-	totems:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 0, 0)
+	totems:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT", 0, 2)
 	totems:SetFrameStrata(self.Health:GetFrameStrata())
 	totems:SetFrameLevel(self.Health:GetFrameLevel() + 3)
-	totems:SetSize(250, 6)
+	totems:SetSize(250, 8)
 	totems:CreateBackdrop()
 	totems.Destroy = {}
 
@@ -47,10 +49,10 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 		
 		if i == 1 then
 			totems[i]:Point("BOTTOMLEFT", totems, "BOTTOMLEFT", 0, 0)
-			totems[i]:Size(61, 6)
+			totems[i]:Size(61, 8)
 		else
 			totems[i]:Point("BOTTOMLEFT", totems[i-1], "BOTTOMRIGHT", 1, 0)
-			totems[i]:Size(62, 6)
+			totems[i]:Size(62, 8)
 		end
 
 		totems.Destroy[i] = CreateFrame("Button", totems[i]:GetName().."Destroy", UIParent, "SecureUnitButtonTemplate")
@@ -61,5 +63,13 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 		totems.Destroy[i]:SetAttribute("*totem-slot*", i)
 	end
 	
+	Shadow:SetPoint("TOPLEFT", -4, 14)
+	
+	if not C.UnitFrames.AurasBelow then
+		Buffs:ClearAllPoints()
+		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 16)
+	end
+	
+	-- Register with oUF
 	self.Totems = totems
 end
