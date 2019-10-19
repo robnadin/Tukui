@@ -6,7 +6,6 @@ local CurrentValue = UnitPower('player')
 local LastValue = CurrentValue
 local allowPowerEvent = true
 local myClass = select(2, UnitClass("player"))
-local Reverse = false
 local Mp5Delay = 5
 
 local Update = function(self, elapsed)
