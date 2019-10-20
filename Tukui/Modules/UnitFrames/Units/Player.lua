@@ -133,7 +133,6 @@ function TukuiUnitFrames:Player()
 		AuraBars.height = 17
 		AuraBars.spellNameObject = Font
 		AuraBars.spellTimeObject = Font
-		--AuraBars.buffColor = T.Colors.class[select(2, UnitClass("player"))]
 		
 		T.Movers:RegisterFrame(AuraBars)
 		
