@@ -305,7 +305,7 @@ local function UpdateAuras(self, event, unit)
 			end
 		end
 
-		local visibleDebuffs = filterBars(element, unit, 'HARMFUL', min(numDebuffs, max), true, visibleBuffs)
+		local visibleDebuffs = filterBars(element, unit, 'HARMFUL', min(numDebuffs, max - visibleBuffs), true, visibleBuffs)
 		element.visibleDebuffs = visibleDebuffs
 
 		if(hasGap and visibleDebuffs == 0) then
