@@ -7,6 +7,18 @@ local LastValue = CurrentValue
 local allowPowerEvent = true
 local myClass = select(2, UnitClass("player"))
 local Mp5Delay = 5
+local Mp5IgnoredSpells = {
+	75 = true, -- auto shot
+	5019 = true, -- shoot
+	11689 = true, -- life tap 6
+	11688 = true, -- life tap 5
+	11687 = true, -- life tap 4
+	1456 = true, -- life tap 3
+	1455 = true, -- life tap 2
+	1454 = true, -- life tap 1
+	18182 = true, -- improved life tap 1
+	18183 = true, -- improved life tap 2
+}
 
 local Update = function(self, elapsed)
 	local element = self.EnergyManaRegen
@@ -83,7 +95,7 @@ local EventHandler = function(self, event, _, _, spellID)
 	end
 
 	if event == 'UNIT_SPELLCAST_SUCCEEDED' then
-		if spellID == 75 or spellID == 5019 then
+		if Mp5IgnoredSpells[spellID] then
 			return
 		end
 
