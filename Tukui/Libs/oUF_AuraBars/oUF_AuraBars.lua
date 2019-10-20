@@ -257,78 +257,37 @@ local function showShamanTotems(element, unit, _, offset)
 end
 
 local function UpdateAuras(self, event, unit)
-	if(self.unit ~= unit) then return end
+    if(self.unit ~= unit) then return end
 
-	local element = self.AuraBars
-	if(element) then
-		if(element.PreUpdate) then element:PreUpdate(unit) end
+    local element = self.AuraBars
+    if(element) then
+        if(element.PreUpdate) then element:PreUpdate(unit) end
 
-		local numBuffs = element.numBuffs or 32
-		local numDebuffs = element.numDebuffs or 16
-		local max = element.numTotal or numBuffs + numDebuffs
+        local numBuffs = element.numBuffs or 32
+        local numDebuffs = element.numDebuffs or 16
+        local max = element.numTotal or numBuffs + numDebuffs
 
-		local visibleBuffs = filterBars(element, unit, 'HELPFUL', min(numBuffs, max), nil, 0, true)
+        local visibleBuffs = filterBars(element, unit, 'HELPFUL', min(numBuffs, max), nil, 0, true)
 
-		local hasGap
-		if(visibleBuffs ~= 0 and element.gap) then
-			hasGap = true
-			visibleBuffs = visibleBuffs + 1
+        local visibleDebuffs = filterBars(element, unit, 'HARMFUL', min(numDebuffs, max - visibleBuffs), true, visibleBuffs)
+        element.visibleDebuffs = visibleDebuffs
 
-			local statusBar = element[visibleBuffs]
-			if(not statusBar) then
-				statusBar = (element.CreateBar or createAuraBar) (element, visibleBuffs)
-				tinsert(element, statusBar)
-				element.createdBars = element.createdBars + 1
-			end
+        element.visibleBuffs = visibleBuffs
+        element.visibleAuras = element.visibleBuffs + element.visibleDebuffs
 
-			if(statusBar.spark) then statusBar.spark:Hide() end
-			if(statusBar.icon) then statusBar.icon:SetTexture() end
-			if(statusBar.countText) then statusBar.countText:SetText() end
-			if(statusBar.nameText) then statusBar.nameText:SetText() end
-			if(statusBar.timeText) then statusBar.timeText:SetText() end
+        local fromRange, toRange
 
-			--statusBar:SetAlpha(0)
+        if(element.PreSetPosition) then
+            fromRange, toRange = element:PreSetPosition(max)
+        end
 
-			statusBar:EnableMouse(false)
-			statusBar:Show()
+        if(fromRange or element.createdBars > element.anchoredBars) then
+            (element.SetPosition or SetPosition) (element, fromRange or element.anchoredBars + 1, toRange or element.createdBars)
+            element.anchoredBars = element.createdBars
+        end
 
-			--[[ Callback: Auras:PostUpdateGapIcon(unit, gapButton, visibleBuffs)
-			Called after an invisible aura button has been created. Only used by Auras when the `gap` option is enabled.
-
-			* self         - the widget holding the aura buttons
-			* unit         - the unit that has the invisible aura button (string)
-			* gapButton    - the invisible aura button (Button)
-			* visibleBuffs - the number of currently visible aura buttons (number)
-			--]]
-			if(element.PostUpdateGapBar) then
-				element:PostUpdateGapBar(unit, statusBar, visibleBuffs)
-			end
-		end
-
-		local visibleDebuffs = filterBars(element, unit, 'HARMFUL', min(numDebuffs, max - visibleBuffs), true, visibleBuffs)
-		element.visibleDebuffs = visibleDebuffs
-
-		if(hasGap and visibleDebuffs == 0) then
-			element[visibleBuffs]:Hide()
-			visibleBuffs = visibleBuffs - 1
-		end
-
-		element.visibleBuffs = visibleBuffs
-		element.visibleAuras = element.visibleBuffs + element.visibleDebuffs
-
-		local fromRange, toRange
-
-		if(element.PreSetPosition) then
-			fromRange, toRange = element:PreSetPosition(max)
-		end
-
-		if(fromRange or element.createdBars > element.anchoredBars) then
-			(element.SetPosition or SetPosition) (element, fromRange or element.anchoredBars + 1, toRange or element.createdBars)
-			element.anchoredBars = element.createdBars
-		end
-
-		if(element.PostUpdate) then element:PostUpdate(unit) end
-	end
+        if(element.PostUpdate) then element:PostUpdate(unit) end
+    end
 end
 
 local function Update(self, event, unit)
