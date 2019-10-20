@@ -267,7 +267,7 @@ local function UpdateAuras(self, event, unit)
 		local numDebuffs = element.numDebuffs or 16
 		local max = element.numTotal or numBuffs + numDebuffs
 
-		local visibleBuffs = filterBars(element, unit, 'HELPFUL', min(numBuffs, max), nil, 0)
+		local visibleBuffs = filterBars(element, unit, 'HELPFUL', min(numBuffs, max), nil, 0, true)
 
 		local hasGap
 		if(visibleBuffs ~= 0 and element.gap) then
@@ -287,7 +287,7 @@ local function UpdateAuras(self, event, unit)
 			if(statusBar.nameText) then statusBar.nameText:SetText() end
 			if(statusBar.timeText) then statusBar.timeText:SetText() end
 
-			statusBar:SetAlpha(0)
+			--statusBar:SetAlpha(0)
 
 			statusBar:EnableMouse(false)
 			statusBar:Show()
@@ -319,7 +319,7 @@ local function UpdateAuras(self, event, unit)
 		local fromRange, toRange
 
 		if(element.PreSetPosition) then
-			fromRange, toRange = element:PreSetPosition(element.maxBars)
+			fromRange, toRange = element:PreSetPosition(max)
 		end
 
 		if(fromRange or element.createdBars > element.anchoredBars) then
