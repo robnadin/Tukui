@@ -2205,6 +2205,10 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")	
 	Window:CreateSwitch("UnitFrames", "PowerTick", "Enable power ticks")
+	
+	if T.MyClass == "SHAMAN" then
+		Window:CreateSwitch("UnitFrames", "TotemBar", "Enable totem bar")
+	end
 				
 	Window:CreateSection("Scrolling combat text")
 	Window:CreateSwitch("UnitFrames", "ScrollingCombatText", "Enable scrolling combat text")

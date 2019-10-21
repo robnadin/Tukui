@@ -173,6 +173,7 @@ C["Textures"] = {
 
 C["UnitFrames"] = {
 	["Enable"] = true,
+	["TotemBar"] = true,
 	["PlayerAuraBars"] = true,
 	["ScrollingCombatText"] = false,
 	["ScrollingCombatTextFontSize"] = 32,

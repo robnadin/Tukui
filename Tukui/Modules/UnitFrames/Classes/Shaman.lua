@@ -16,6 +16,10 @@ TukuiUnitFrames.TotemColors = {
 }
 
 TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
+	if not C.UnitFrames.TotemBar then
+		return
+	end
+	
 	local HealthTexture = T.GetTexture(C["Textures"].UFHealthTexture)
 	local Shadow = self.Shadow
 	
