@@ -37,16 +37,15 @@ end
 local function onUpdate(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed >= 0.01 then
-		if self.noTime then
-			self:SetScript("OnUpdate", nil)
-		else
-			local timeNow = GetTime()
-			self:SetValue((self.expiration - timeNow) / self.duration)
-			self.timeText:SetText(FormatTime(self.expiration - timeNow))
-			if self.sparkEnabled then
-				self.spark:Show()
-			end
+		local timeNow = GetTime()
+		
+		self:SetValue((self.expiration - timeNow) / self.duration)
+		self.timeText:SetText(FormatTime(self.expiration - timeNow))
+		
+		if self.sparkEnabled then
+			self.spark:Show()
 		end
+
 		self.elapsed = 0
 	end
 end
@@ -152,9 +151,19 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 			statusBar:SetStatusBarColor(r, g, b)
 			statusBar:SetSize(element.width, element.height)
 			statusBar.icon:SetSize(element.height, element.height)
-			statusBar:SetScript('OnUpdate', onUpdate)
 			statusBar:SetID(index)
 			statusBar:Show()
+			
+			if statusBar.noTime then
+				statusBar:SetScript('OnUpdate', nil)
+				statusBar:SetMinMaxValues(0, 1)
+				statusBar:SetValue(1)
+				statusBar.countText:SetText("")
+				statusBar.timeText:SetText("")
+				statusBar.spark:Hide()
+			else
+				statusBar:SetScript('OnUpdate', onUpdate)
+			end
 
 			if(element.PostUpdateBar) then
 				element:PostUpdateBar(unit, statusBar, index, position, duration, expiration, debuffType, isStealable)
