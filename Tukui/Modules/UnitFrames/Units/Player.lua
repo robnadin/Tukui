@@ -121,13 +121,14 @@ function TukuiUnitFrames:Player()
 		self.Portrait = Portrait
 	end
 	
-	if C.UnitFrames.PlayerAuraBars then
+	if C.UnitFrames.PlayerAuras and C.UnitFrames.PlayerAuraBars then
 		local AuraBars = CreateFrame("Frame", self:GetName().."AuraBars", self)
 		AuraBars:SetHeight(10)
 		AuraBars:SetWidth(250)
 		AuraBars:SetPoint("TOPLEFT", -2, 12)
 		AuraBars.auraBarTexture = HealthTexture
 		AuraBars.PostCreateBar = TukuiUnitFrames.PostCreateAuraBar
+		AuraBars.onlyShowPlayer = C.UnitFrames.OnlySelfBuffs
 		AuraBars.gap = 2
 		AuraBars.width = 231
 		AuraBars.height = 17

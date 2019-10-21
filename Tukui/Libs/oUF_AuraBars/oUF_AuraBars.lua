@@ -91,7 +91,7 @@ local function createAuraBar(element, index)
 end
 
 local function customFilter(element, unit, button, name)
-	if((element.onlyShowPlayer and button.isPlayer) or (not element.onlyShowPlayer and name)) then
+	if((element.onlyShowPlayer and button.isPlayer and not button.isDebuff) or (not element.onlyShowPlayer and name)) then
 		return true
 	end
 end
@@ -115,7 +115,7 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 		statusBar.caster = caster
 		statusBar.filter = filter
 		statusBar.isDebuff = isDebuff
-		statusBar.isPlayer = caster == 'player' or caster == 'vehicle'
+		statusBar.isPlayer = caster == 'player'
 
 		if LCD and spellID and not UnitIsUnit('player', unit) then
 			local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
