@@ -2216,11 +2216,16 @@ local UnitFrames = function(self)
 	Window:CreateDropdown("UnitFrames", "ScrollingCombatTextFont", "Set scrolling combat font", "Font")
 	
 	Window:CreateSection("Auras")
-	Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
 	Window:CreateSwitch("UnitFrames", "PlayerAuraBars", "Enable player buffs as status bars")
+				
+	if not C.UnitFrames.PlayerAuraBars then
+		Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
+		Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "Display only our buffs on unitframes")
+	else
+		Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "Display only our buffs on target")
+	end
+	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "Display only our debuffs on target")
 	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
-	Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "Display only our buffs on unitframes")
-	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "Display only our debuffs on unitframes")
 	Window:CreateSwitch("UnitFrames", "AurasBelow", "Move auras below unitframes")
 	
 	Window:CreateSection("Styling")
