@@ -95,7 +95,15 @@ local EventHandler = function(self, event, _, _, spellID)
 	end
 
 	if event == 'UNIT_SPELLCAST_SUCCEEDED' then
+		-- Some spells should not trigger mp5 delay
 		if Mp5IgnoredSpells[spellID] then
+			return
+		end
+		
+		-- We also don't want drink and food to trigger mp5 delay
+		local Icon = select(3, GetSpellInfo(spellID))
+		
+		if Icon == 132794 or Icon == 134062 then
 			return
 		end
 
