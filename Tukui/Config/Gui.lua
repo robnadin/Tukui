@@ -2217,7 +2217,7 @@ local UnitFrames = function(self)
 	
 	Window:CreateSection("Auras")
 	Window:CreateSwitch("UnitFrames", "PlayerAuras", "Enable player auras")
-	Window:CreateSwitch("UnitFrames", "PlayerAuraBars", "Enable player buffs as status bars")
+	Window:CreateSwitch("UnitFrames", "PlayerAuraBars", "Enable player auras as status bars")
 	Window:CreateSwitch("UnitFrames", "OnlySelfBuffs", "Display only our buffs on unitframes")
 	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "Display only our debuffs on target")
 	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
