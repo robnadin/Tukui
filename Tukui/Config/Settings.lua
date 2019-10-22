@@ -174,6 +174,7 @@ C["Textures"] = {
 C["UnitFrames"] = {
 	["Enable"] = true,
 	["TotemBar"] = true,
+	["HealComm"] = true,
 	["PlayerAuraBars"] = true,
 	["ScrollingCombatText"] = false,
 	["ScrollingCombatTextFontSize"] = 32,
@@ -198,4 +199,6 @@ C["UnitFrames"] = {
 	["OnlySelfDebuffs"] = false,
 	["OnlySelfBuffs"] = false,
 	["Font"] = "Tukui Outline",
+	["HealCommSelfColor"] = {0.29, 1, 0.30},
+	["HealCommOtherColor"] = {1, 1, 0.36},
 }

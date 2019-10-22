@@ -153,6 +153,48 @@ function TukuiUnitFrames:Raid()
 		
 		self.RaidDebuffs = RaidDebuffs
 	end
+	
+	if C.UnitFrames.HealComm then
+		local myBar = CreateFrame("StatusBar", nil, Health)
+		local otherBar = CreateFrame("StatusBar", nil, Health)
+
+		myBar:SetFrameLevel(Health:GetFrameLevel())
+		myBar:SetStatusBarTexture(HealthTexture)
+		myBar:SetPoint("TOP")
+		myBar:SetPoint("BOTTOM")
+		myBar:SetPoint("LEFT", Health:GetStatusBarTexture(), "RIGHT")
+		myBar:SetWidth(C.Raid.WidthSize)
+		myBar:SetStatusBarColor(unpack(C.UnitFrames.HealCommSelfColor))
+
+		otherBar:SetFrameLevel(Health:GetFrameLevel())
+		otherBar:SetPoint("TOP")
+		otherBar:SetPoint("BOTTOM")
+		otherBar:SetPoint("LEFT", myBar:GetStatusBarTexture(), "RIGHT")
+		otherBar:SetWidth(C.Raid.WidthSize)
+		otherBar:SetStatusBarTexture(HealthTexture)
+		otherBar:SetStatusBarColor(C.UnitFrames.HealCommOtherColor)
+		
+		if C.Raid.VerticalHealth then
+			myBar:SetOrientation("VERTICAL")
+			otherBar:SetOrientation("VERTICAL")
+			
+			myBar:SetPoint("BOTTOM", Health:GetStatusBarTexture(), "TOP")
+			myBar:SetPoint("LEFT")
+			myBar:SetPoint("RIGHT")
+			
+			otherBar:SetPoint("BOTTOM", myBar:GetStatusBarTexture(), "TOP")
+			otherBar:SetPoint("LEFT")
+			otherBar:SetPoint("RIGHT")
+		end
+
+		local HealthPrediction = {
+			myBar = myBar,
+			otherBar = otherBar,
+			maxOverflow = 1,
+		}
+		
+		self.HealthPrediction = HealthPrediction
+	end
 
 	self:Tag(Name, "[Tukui:GetRaidNameColor][Tukui:NameShort]")
 	self.Health = Health

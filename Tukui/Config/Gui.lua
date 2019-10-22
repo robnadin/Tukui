@@ -2205,6 +2205,7 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "Portrait", "Enable unit portraits")
 	Window:CreateSwitch("UnitFrames", "CastBar", "Enable castbar")	
 	Window:CreateSwitch("UnitFrames", "PowerTick", "Enable power ticks")
+	Window:CreateSwitch("UnitFrames", "HealComm", "Enable HealComm")
 	
 	if T.MyClass == "SHAMAN" then
 		Window:CreateSwitch("UnitFrames", "TotemBar", "Enable totem bar")
@@ -2233,6 +2234,8 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "TargetEnemyHostileColor", "Enemy health bar colored by hostile reaction color")
 	Window:CreateSwitch("UnitFrames", "Portrait2D", "Use 2D Portrait")
 	Window:CreateDropdown("UnitFrames", "Font", "Set unitframe font", "Font")
+	Window:CreateColorSelection("UnitFrames", "HealCommSelfColor", "HealComm - my heals")
+	Window:CreateColorSelection("UnitFrames", "HealCommOtherColor", "HealComm - others heals")
 end
 
 GUI:AddWidgets(General)
