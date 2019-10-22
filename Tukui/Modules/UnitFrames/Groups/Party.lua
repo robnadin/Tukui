@@ -39,7 +39,7 @@ function TukuiUnitFrames:Party()
 	if C.Party.ShowHealthText then
 		Health.Value = Health:CreateFontString(nil, "OVERLAY")
 		Health.Value:SetFontObject(Font)
-		Health.Value:SetPoint("TOPRIGHT", -4, 16)
+		Health.Value:SetPoint("TOPRIGHT", -4, 6)
 		Health.PostUpdate = TukuiUnitFrames.PostUpdateHealth
 	end
 
@@ -79,7 +79,7 @@ function TukuiUnitFrames:Party()
 	end
 
 	local Name = Health:CreateFontString(nil, "OVERLAY")
-	Name:SetPoint("TOPLEFT", 4, 16)
+	Name:SetPoint("TOPLEFT", 4, 7)
 	Name:SetFontObject(Font)
 
 	local Buffs = CreateFrame("Frame", self:GetName()..'Buffs', self)

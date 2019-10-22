@@ -286,6 +286,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 	else
 		local Parent = self:GetParent():GetName()
 		local Raid = string.match(Parent, "Raid")
+		local Party = string.match(Parent, "Party")
 		local PC = floor(min / max * 100)
 		local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
 		local HP = (IsFound and LibCurrentHP) or min
@@ -299,7 +300,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 			end
 		else
 			if (IsFound) then
-				if unit == "player" or unit == "target" then
+				if (not Party) and (unit == "player" or unit == "target") then
 					self.Value:SetFormattedText("|cff4AAB5E%s/%s - %s%%|r", HP, MaxHP, PC)
 				else
 					self.Value:SetFormattedText("|cff4AAB5E%s / %s|r", HP, MaxHP)
@@ -319,11 +320,18 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	local pType, pToken = UnitPowerType(unit)
 	
 	if T.Colors.power[pToken] then
+		local Parent = self:GetParent():GetName()
+		local Raid = string.match(Parent, "Raid")
+		local Party = string.match(Parent, "Party")
 		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
 		local PC = floor(current / max * 100)
 		
-		if unit == "player" or unit == "target" then
-			self.Value:SetFormattedText(Color.."%s%% - %s/%s|r", PC, current, max)
+		if (not Party) and (unit == "player" or unit == "target") then
+			if unit == "player" then
+				self.Value:SetFormattedText(Color.."%s%% - %s/%s|r", PC, current, max)
+			else
+				self.Value:SetFormattedText(Color.."%s/%s - %s%%|r", current, max, PC)
+			end
 		else
 			self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
 		end
@@ -540,7 +548,7 @@ function TukuiUnitFrames:GetPartyFramesAttributes()
 		]],
 		"initial-width", 180,
 		"initial-height", 24,
-		"showSolo", false,
+		"showSolo", true,
 		"showParty", true,
 		"showPlayer", C["Party"].ShowPlayer,
 		"showRaid", true,
