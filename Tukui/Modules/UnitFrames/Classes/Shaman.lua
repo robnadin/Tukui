@@ -68,7 +68,7 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 	
 	Shadow:SetPoint("TOPLEFT", -4, 13)
 	
-	if C.UnitFrames.PlayerAuraBars then
+	if C.UnitFrames.PlayerAuras and C.UnitFrames.PlayerAuraBars then
 		self.AuraBars:ClearAllPoints()
 		self.AuraBars:SetPoint("TOPLEFT", -2, 20)
 	elseif C.UnitFrames.PlayerAuras and not C.UnitFrames.AurasBelow then

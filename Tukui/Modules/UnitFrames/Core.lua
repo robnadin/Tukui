@@ -286,6 +286,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 	else
 		local Parent = self:GetParent():GetName()
 		local Raid = string.match(Parent, "Raid")
+		local PC = floor(min / max * 100)
 		local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
 		local HP = (IsFound and LibCurrentHP) or min
 		local MaxHP = (IsFound and LibMaxHP) or max
@@ -298,7 +299,11 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 			end
 		else
 			if (IsFound) then
-				self.Value:SetFormattedText("|cff4AAB5E%s / %s|r", HP, MaxHP)
+				if unit == "player" or unit == "target" then
+					self.Value:SetFormattedText("|cff4AAB5E%s/%s - %s%%|r", HP, MaxHP, PC)
+				else
+					self.Value:SetFormattedText("|cff4AAB5E%s / %s|r", HP, MaxHP)
+				end
 			else
 				self.Value:SetFormattedText("|cff4AAB5E%s%%|r", HP)
 			end
@@ -315,8 +320,13 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	
 	if T.Colors.power[pToken] then
 		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
-
-		self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
+		local PC = floor(current / max * 100)
+		
+		if unit == "player" or unit == "target" then
+			self.Value:SetFormattedText(Color.."%s%% - %s/%s|r", PC, current, max)
+		else
+			self.Value:SetFormattedText(Color.."%s / %s|r", current, max)
+		end
 	end
 end
 
