@@ -24,7 +24,7 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 	local Shadow = self.Shadow
 	
 	local totems = CreateFrame("Frame", "TukuiTotemBar", self)
-	totems:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT", 0, 1)
+	totems:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 1)
 	totems:SetFrameStrata(self.Health:GetFrameStrata())
 	totems:SetFrameLevel(self.Health:GetFrameLevel() + 3)
 	totems:SetSize(250, 8)
