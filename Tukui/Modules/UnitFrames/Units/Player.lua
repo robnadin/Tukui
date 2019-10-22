@@ -122,10 +122,12 @@ function TukuiUnitFrames:Player()
 	end
 	
 	if C.UnitFrames.PlayerAuras and C.UnitFrames.PlayerAuraBars then
+		local Gap = (T.MyClass == "ROGUE" or T.MyClass == "DRUID") and 8 or 0
 		local AuraBars = CreateFrame("Frame", self:GetName().."AuraBars", self)
+		
 		AuraBars:SetHeight(10)
 		AuraBars:SetWidth(250)
-		AuraBars:SetPoint("TOPLEFT", -2, 12)
+		AuraBars:SetPoint("TOPLEFT", -2, 12 + Gap)
 		AuraBars.auraBarTexture = HealthTexture
 		AuraBars.PostCreateBar = TukuiUnitFrames.PostCreateAuraBar
 		AuraBars.onlyShowPlayer = C.UnitFrames.OnlySelfBuffs
