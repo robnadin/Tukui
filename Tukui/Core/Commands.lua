@@ -80,10 +80,7 @@ T.SlashHandler = function(cmd)
 			DataText:ToggleDataPositions()
 		end
 	elseif (arg1 == "install" or arg1 == "reset") then
-		local Install = T["Install"]
-
-		Install:ResetSettings()
-		Install:ResetData()
+		T.Popups.ShowPopup("RESETUI")
 	elseif (arg1 == "load" or arg1 == "unload") then
 		local Loaded, Reason = LoadAddOn(arg2)
 		
@@ -254,6 +251,18 @@ T.Popups.Popup["TUKUI_IMPORT_PROFILE"] = {
 		end
 
 		ReloadUI()
+	end,
+}
+
+T.Popups.Popup["RESETUI"] = {
+	Question = "Are you sure you want to reset Tukui to default?",
+	Answer1 = ACCEPT,
+	Answer2 = CANCEL,
+	Function1 = function(self)
+		local Install = T["Install"]
+
+		Install:ResetSettings()
+		Install:ResetData()
 	end,
 }
 
