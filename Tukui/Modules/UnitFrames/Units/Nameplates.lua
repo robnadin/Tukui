@@ -16,6 +16,7 @@ function TukuiUnitFrames:Nameplates()
 	self:SetBackdropColor(0, 0, 0)
 	
 	self:CreateShadow()
+	self.Shadow:SetFrameLevel(2)
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetFrameStrata(self:GetFrameStrata())
@@ -122,6 +123,13 @@ function TukuiUnitFrames:Nameplates()
 	RaidIcon:Size(self:GetHeight())
 	RaidIcon:Point("TOPLEFT", self, "TOPRIGHT", 4, 0)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
+	
+	local Highlight = CreateFrame("Frame", nil, self)
+	Highlight:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = C.NamePlates.HighlightSize})
+	Highlight:SetOutside(self, C.NamePlates.HighlightSize, C.NamePlates.HighlightSize)
+	Highlight:SetBackdropBorderColor(unpack(C.NamePlates.HighlightColor))
+	Highlight:SetFrameLevel(0)
+	Highlight:Hide()
 
 	self.Health = Health
 	self.Buffs = Buffs
@@ -129,6 +137,7 @@ function TukuiUnitFrames:Nameplates()
 	self.Name = Name
 	self.Power = Power
 	self.RaidTargetIndicator = RaidIcon
+	self.Highlight = Highlight
 	
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
 	self:RegisterEvent("NAME_PLATE_UNIT_ADDED", TukuiUnitFrames.Highlight, true)

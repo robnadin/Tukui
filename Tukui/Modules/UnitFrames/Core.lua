@@ -131,21 +131,23 @@ function TukuiUnitFrames:MouseOnPlayer()
 end
 
 function TukuiUnitFrames:Highlight()
-	local Shadow = self.Shadow
+	local Highlight = self.Highlight or self.Shadow
+	
+	if not Highlight then
+		return
+	end
 
-	if Shadow then
-		if UnitIsUnit("target", self.unit) then
-			if C.General.HideShadows then
-				Shadow:Show()
-			end
-
-			Shadow:SetBackdropBorderColor(1, 1, 0, 1)
+	if UnitIsUnit("target", self.unit) then
+		if self.Highlight then
+			Highlight:Show()
 		else
-			if C.General.HideShadows then
-				Shadow:Hide()
-			else
-				Shadow:SetBackdropBorderColor(0, 0, 0, 1)
-			end
+			Highlight:SetBackdropBorderColor(1, 1, 0, 1)
+		end
+	else
+		if self.Highlight then
+			Highlight:Hide()
+		else
+			Highlight:SetBackdropBorderColor(0, 0, 0, 1)
 		end
 	end
 end

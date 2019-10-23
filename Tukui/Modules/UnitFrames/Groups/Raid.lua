@@ -16,15 +16,7 @@ function TukuiUnitFrames:Raid()
 	self:SetBackdropColor(0, 0, 0)
 	
 	self:CreateShadow()
-	
-	-- We need a shadow for highlighting target
-	if C.General.HideShadows then
-		self.Shadow:SetBackdrop( {
-			edgeFile = C.Medias.Glow, edgeSize = 4,
-			insets = {left = 4, right = 4, top = 4, bottom = 4},
-		})
-		self.Shadow:Hide()
-	end
+	self.Shadow:SetFrameLevel(2)
 
 	local Health = CreateFrame("StatusBar", nil, self)
 	Health:SetPoint("TOPLEFT")
@@ -195,6 +187,13 @@ function TukuiUnitFrames:Raid()
 		
 		self.HealthPrediction = HealthPrediction
 	end
+	
+	local Highlight = CreateFrame("Frame", nil, self)
+	Highlight:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = C.Raid.HighlightSize})
+	Highlight:SetOutside(self, C.Raid.HighlightSize, C.Raid.HighlightSize)
+	Highlight:SetBackdropBorderColor(unpack(C.Raid.HighlightColor))
+	Highlight:SetFrameLevel(0)
+	Highlight:Hide()
 
 	self:Tag(Name, "[Tukui:GetRaidNameColor][Tukui:NameShort]")
 	self.Health = Health
@@ -206,7 +205,7 @@ function TukuiUnitFrames:Raid()
 	self.ReadyCheckIndicator = ReadyCheck
 	self.Range = Range
 	self.RaidTargetIndicator = RaidIcon
-	
+	self.Highlight = Highlight
 	
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
 	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight, true)

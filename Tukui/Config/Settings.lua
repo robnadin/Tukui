@@ -111,6 +111,8 @@ C["NamePlates"] = {
 	["NameplateCastBar"] = true,
 	["Font"] = "Tukui Outline",
 	["OnlySelfDebuffs"] = true,
+	["HighlightColor"] = {1, 1, 0},
+	["HighlightSize"] = 10,
 }
 
 C["Party"] = {
@@ -122,6 +124,8 @@ C["Party"] = {
 	["RangeAlpha"] = 0.3,
 	["Font"] = "Tukui Outline",
 	["HealthFont"] = "Tukui Outline",
+	["HighlightColor"] = {0, 1, 0},
+	["HighlightSize"] = 10,
 }
 
 C["Raid"] = {
@@ -136,6 +140,8 @@ C["Raid"] = {
 	["MyRaidBuffs"] = true,
 	["WidthSize"] = 79,
 	["HeightSize"] = 55,
+	["HighlightColor"] = {0, 1, 0},
+	["HighlightSize"] = 10,
 	["GroupBy"] = {
 		["Options"] = {
 			["Group"] = "GROUP",
