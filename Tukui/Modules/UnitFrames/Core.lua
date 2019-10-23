@@ -286,9 +286,8 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 	elseif (UnitIsDeadOrGhost(unit)) then
 		self.Value:SetText("|cffD7BEA5"..DEAD.."|r")
 	else
-		local Parent = self:GetParent():GetName()
-		local Raid = string.match(Parent, "Raid")
-		local Party = string.match(Parent, "Party")
+		local Raid = self.isRaid
+		local Party = self.isParty
 		local PC = floor(min / max * 100)
 		local LibCurrentHP, LibMaxHP, IsFound = LibClassicMobHealth:GetUnitHealth(unit)
 		local HP = (IsFound and LibCurrentHP) or min
@@ -322,9 +321,8 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	local pType, pToken = UnitPowerType(unit)
 	
 	if T.Colors.power[pToken] then
-		local Parent = self:GetParent():GetName()
-		local Raid = string.match(Parent, "Raid")
-		local Party = string.match(Parent, "Party")
+		local Raid = self.isRaid
+		local Party = self.isParty
 		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
 		local PC = floor(current / max * 100)
 		

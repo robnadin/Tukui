@@ -39,6 +39,7 @@ function TukuiUnitFrames:Party()
 	Health.colorDisconnected = true
 	Health.colorClass = true
 	Health.colorReaction = true
+	Health.isParty = true
 
 	if (C.UnitFrames.Smooth) then
 		Health.Smooth = true
@@ -65,6 +66,7 @@ function TukuiUnitFrames:Party()
 
 	Power.frequentUpdates = true
 	Power.colorPower = true
+	Power.isParty = true
 
 	if (C.UnitFrames.Smooth) then
 		Power.Smooth = true

@@ -40,6 +40,7 @@ function TukuiUnitFrames:Raid()
 	Health.colorDisconnected = true
 	Health.colorClass = true
 	Health.colorReaction = true
+	Health.isRaid = true
 
 	if (C.UnitFrames.Smooth) then
 		Health.Smooth = true
@@ -62,6 +63,7 @@ function TukuiUnitFrames:Raid()
 
 	Power.frequentUpdates = true
 	Power.colorPower = true
+	Power.isRaid = true
 
 	if (C.UnitFrames.Smooth) then
 		Power.Smooth = true
