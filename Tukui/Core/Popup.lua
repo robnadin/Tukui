@@ -153,7 +153,7 @@ function TukuiPopups:ShowPopup()
 	Popup:Show()
 end
 
-function TukuiPopups:HidePopup()
+function TukuiPopups:HidePopupByName()
 	for i = 1, 4 do
 		local Popups = TukuiPopups.Frames
 		local Popup = Popups[i]

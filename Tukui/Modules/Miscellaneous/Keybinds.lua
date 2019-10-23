@@ -243,7 +243,7 @@ function Bind:Deactivate(save)
 	self:HideFrame()
 	self:UnregisterEvent("PLAYER_REGEN_DISABLED")
 	
-	T.Popups.HidePopup("KEYBIND_MODE")
+	T.Popups.HidePopupByName("KEYBIND_MODE")
 end
 
 function Bind:Enable()
