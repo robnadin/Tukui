@@ -60,13 +60,9 @@ function MicroMenu:Enable()
 		end,
 		notCheckable = true},
 		
-		{text = _G.TIMEMANAGER_TITLE,
+		{text = STOPWATCH_TITLE,
     	func = function()
-			TimeManagerFrame:SetMovable(true)
-			TimeManagerFrame:RegisterForDrag("LeftButton")
-			TimeManagerFrame:SetScript("OnDragStart", WorldMapFrame.StartMoving)
-			TimeManagerFrame:SetScript("OnDragStop", WorldMapFrame.StopMovingOrSizing)
-			ToggleFrame(TimeManagerFrame)
+			Stopwatch_Toggle()
 		end,
 		notCheckable = true},
 

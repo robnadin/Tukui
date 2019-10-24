@@ -139,6 +139,10 @@ function Loading:OnEvent(event)
 		T["UnitFrames"]:Enable()
 		T["Tooltips"]:Enable()
 		
+		-- restore original stopwatch commands
+		SlashCmdList["STOPWATCH"] = Stopwatch_Toggle
+		
+		-- welcome message
 		T.Print("Welcome |c"..RAID_CLASS_COLORS[T.MyClass].colorStr..T.MyName.."|r! For a commands list, type /tukui")
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		T["Miscellaneous"]["ObjectiveTracker"]:Enable()
