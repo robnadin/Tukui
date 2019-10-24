@@ -116,6 +116,7 @@ local Enable = function(self, unit)
 
 	if (unit == "player") and element and Power and myClass ~= 'WARRIOR' then
 		element.__owner = self
+		element.sparksize = element.sparksize or 20
 
 		if(element:IsObjectType('StatusBar')) then
 			element:SetStatusBarTexture([[Interface\Buttons\WHITE8X8]])
@@ -125,10 +126,13 @@ local Enable = function(self, unit)
 
 		local spark = element.Spark
 		if(spark and spark:IsObjectType('Texture')) then
+			local orientation = element:GetOrientation()
+			local relativepoint = orientation == "VERTICAL" and 'TOP' or 'RIGHT'
+			
 			spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
-			spark:SetSize(20, 20)
+			spark:SetSize(element.sparksize, element.sparksize)
 			spark:SetBlendMode('ADD')
-			spark:SetPoint('CENTER', element:GetStatusBarTexture(), 'RIGHT')
+			spark:SetPoint('CENTER', element:GetStatusBarTexture(), relativepoint)
 		end
 
 		self:RegisterEvent("PLAYER_REGEN_ENABLED", EventHandler, true)
