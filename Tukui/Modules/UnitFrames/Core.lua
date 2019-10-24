@@ -326,7 +326,7 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
 		local PC = floor(current / max * 100)
 		
-		if (not Party) and (unit == "player" or unit == "target") then
+		if (not Party) and (max ~= 100) and (unit == "player" or unit == "target") then
 			if unit == "player" then
 				self.Value:SetFormattedText(Color.."%s%% - %s/%s|r", PC, current, max)
 			else
