@@ -59,6 +59,16 @@ function MicroMenu:Enable()
 			ToggleFriendsFrame(4)
 		end,
 		notCheckable = true},
+		
+		{text = _G.TIMEMANAGER_TITLE,
+    	func = function()
+			TimeManagerFrame:SetMovable(true)
+			TimeManagerFrame:RegisterForDrag("LeftButton")
+			TimeManagerFrame:SetScript("OnDragStart", WorldMapFrame.StartMoving)
+			TimeManagerFrame:SetScript("OnDragStop", WorldMapFrame.StopMovingOrSizing)
+			ToggleFrame(TimeManagerFrame)
+		end,
+		notCheckable = true},
 
 		{text = HELP_BUTTON,
 		func = function()
