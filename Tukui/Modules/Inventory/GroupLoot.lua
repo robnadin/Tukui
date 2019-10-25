@@ -86,14 +86,14 @@ end
 function GroupLoot:UpdateGroupLoot(Frame)
 	Frame.Name:ClearAllPoints()
 	Frame.Name:Point("LEFT", Frame.OverlayContrainerFrame, 6, 0)
-	Frame.Name:SetFontTemplate("Default", 14)
+	--Frame.Name:SetFontTemplate("Default", 14) -- Needs to be changed for Tukui
 	
 	Frame.IconFrame.Count:ClearAllPoints()
 	Frame.IconFrame.Count:Point("BOTTOMRIGHT", -2, 4)
-	Frame.IconFrame.Count:SetFontTemplate("Default", 14)
+	--Frame.IconFrame.Count:SetFontTemplate("Default", 14) -- Needs to be changed for Tukui
 	
 	Frame.Timer:StripTexture(true)
-	Frame.Timer:SetStatusBarTexture(C.Media.Texture)
+	--Frame.Timer:SetStatusBarTexture(C.Media.Texture) -- Needs to be changed for Tukui
 	Frame.Timer:ClearAllPoints()
 	Frame.Timer:Size(232, 8)
 	Frame.Timer:Point("BOTTOM", Frame.OverlayContrainerFrame, 0, -12)
