@@ -386,6 +386,10 @@ local OnEnter = function(self)
 							if BNTable[i][6] == "VIPR" then
 								GameTooltip:AddDoubleLine("|cffeeeeee"..BNName.."|r", "Call of Duty: Black Ops 4")
 							end
+							
+							if BNTable[i][6] == "ODIN" then
+								GameTooltip:AddDoubleLine("|cffeeeeee"..BNName.."|r", "Call of Duty: Modern Warfare")
+							end
 
 							count = count + 1
 						elseif count == DisplayLimit + 1 then
