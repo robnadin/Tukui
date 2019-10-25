@@ -9,13 +9,36 @@ local unpack = unpack
 local pairs = pairs
 
 -- WoW Globals
-local GetLootRollItemInfo = GetLootRollItemInfo
+--local GetLootRollItemInfo = GetLootRollItemInfo -- Comment out only for testing.
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
 local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 
 -- Locals
 GroupLoot.Height = 0
 GroupLoot.PreviousFrame = {}
+
+function GroupLoot:TestGroupLootFrames()
+	GetLootRollItemInfo = function(RollID)
+		Texture = 135226
+		Name = "Atiesh, Greatstaff of the Guardian"
+		Count = RollID
+		Quality	= RollID + 1
+		BindOnPickUp = math.random(0, 1) > 0.5
+		CanNeed	= true
+		CanGreed = true
+		ReasonNeed = 0
+		ReasonGreed = 0
+
+		return Texture, Name, Count, Quality, BindOnPickUp, CanNeed, CanGreed, ReasonNeed, ReasonGreed
+	end
+	
+	function GroupLootFrame_OnUpdate() end
+
+	for i = 1, NUM_GROUP_LOOT_FRAMES do
+		GroupLootFrame_OpenNewFrame(i, 300)
+		_G["GroupLootFrame" .. i].Timer:SetValue(math.random(8, 300))
+	end
+end
 
 function GroupLoot:SkinGroupLoot(Frame)
 	Frame:StripTexture()
@@ -121,6 +144,8 @@ function GroupLoot:Enable()
 	-- So we can move the Group Loot Container.
 	UIPARENT_MANAGED_FRAME_POSITIONS.GroupLootContainer = nil
 	hooksecurefunc("GroupLootContainer_Update", self.UpdateGroupLootContainer)
+	
+	--self:TestGroupLootFrames() -- FOR TESTING!
 end
 
 Inventory.GroupLoot = GroupLoot
