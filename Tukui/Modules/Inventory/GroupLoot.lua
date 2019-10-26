@@ -123,10 +123,10 @@ function GroupLoot:UpdateGroupLootContainer()
 			Frame:Point("CENTER", UIParent, 0, -42)
 		else
 
-			Frame:Point("BOTTOM", CustomGroupLoot.PreviousFrame, "TOP", 0, -22)
+			Frame:Point("BOTTOM", GroupLoot.PreviousFrame, "TOP", 0, -22)
 		end
 
-		CustomGroupLoot.PreviousFrame = Frame
+		GroupLoot.PreviousFrame = Frame
 	end
 end
 
