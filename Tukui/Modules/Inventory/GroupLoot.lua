@@ -14,7 +14,6 @@ local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
 local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 
 -- Locals
-GroupLoot.Height = 0
 GroupLoot.PreviousFrame = {}
 
 function GroupLoot:TestGroupLootFrames()
@@ -116,21 +115,19 @@ function GroupLoot:GroupLootFrameOnShow()
 end
 
 function GroupLoot:UpdateGroupLootContainer()
-	for ID, Frames in ipairs(self.rollFrames) do
-		Frames:ClearAllPoints()
+	for i = 1, NUM_GROUP_LOOT_FRAMES do
+		local Frame = _G["GroupLootFrame" .. i]
+		Frame:ClearAllPoints()
 		
-		if (ID == 1) then
-			Frames:Point("TOP", UIParent, 0, -6)
+		if (i == 1) then
+			Frame:Point("CENTER", UIParent, 0, -42)
 		else
 
-			Frames:Point("TOP", GroupLoot.PreviousFrame, "BOTTOM", 0, 28)
+			Frame:Point("BOTTOM", CustomGroupLoot.PreviousFrame, "TOP", 0, -22)
 		end
 
-		GroupLoot.PreviousFrame = Frames
-		GroupLoot.Height = GroupLoot.Height + 128 + 4
+		CustomGroupLoot.PreviousFrame = Frame
 	end
-
-	self:Height(GroupLoot.Height, 4)
 end
 
 function GroupLoot:Enable()
