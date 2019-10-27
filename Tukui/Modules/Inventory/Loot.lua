@@ -263,8 +263,11 @@ function Loot:LOOT_SLOT_CLEARED(_, slot)
 	if not TukuiLootFrame:IsShown() then
 		return
 	end
+    
+    if TukuiLootFrame.LootSlots[slot] then
+    	TukuiLootFrame.LootSlots[slot]:Hide()
+    end
 
-	TukuiLootFrame.LootSlots[slot]:Hide()
 	Loot.AnchorSlots(TukuiLootFrame)
 end
 
@@ -394,6 +397,7 @@ function Loot:Enable()
 	self.DefaultPosition = {"TOPLEFT", UIParent, "TOPLEFT", 50, -50}
 
 	TukuiLootFrame = CreateFrame("Button", "TukuiLootFrame", UIParent)
+	TukuiLootFrame:Hide()
 	TukuiLootFrame:SetClampedToScreen(true)
 	TukuiLootFrame:SetToplevel(true)
 	TukuiLootFrame:Size(198, 58)
