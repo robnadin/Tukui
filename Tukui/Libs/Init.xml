@@ -9,6 +9,7 @@
 	<Script file="CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
 	<Script file="LibClassicMobHealth\LibClassicMobHealth.lua"/>
 	<Script file="LibClassicCasterino\LibClassicCasterino.lua"/>
+	<Script file="LibRangeCheck-2.0\LibRangeCheck-2.0.lua"/>
 	<Include file="LibHealComm-4.0\LibHealComm-4.0.xml"/>
 	<Include file="LibClassicDurations\LibClassicDurations.xml"/>
 	<Include file="oUF\oUF.xml"/>
