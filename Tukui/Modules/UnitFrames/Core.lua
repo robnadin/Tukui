@@ -3,6 +3,7 @@ local AddOn, Plugin = ...
 local oUF = Plugin.oUF or oUF
 local LibClassicDurations = LibStub("LibClassicDurations")
 local LibClassicMobHealth = LibStub("LibClassicMobHealth-1.0")
+local CheckRange = LibStub("LibRangeCheck-2.0")
 local Panels = T["Panels"]
 local Noop = function() end
 local TukuiUnitFrames = CreateFrame("Frame")
@@ -534,6 +535,23 @@ function TukuiUnitFrames:DisplayNameplatePowerAndCastBar(unit, cur, min, max)
 			PowerBar:SetAlpha(1)
 			PowerBar.IsHidden = false
 		end
+	end
+end
+
+function TukuiUnitFrames:UpdateRange()
+	local Range = self.Range
+	local Unit = self.unit
+
+	if (Unit) then
+		local Distance = select(2, CheckRange:GetRange(Unit))
+
+		if not (Distance) then
+			self:SetAlpha(Range.outsideAlpha)
+		elseif (Distance) then
+			self:SetAlpha(Range.insideAlpha)
+		end
+	else
+		self:SetAlpha(Range.insideAlpha)
 	end
 end
 

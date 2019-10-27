@@ -169,6 +169,7 @@ function TukuiUnitFrames:Party()
 	self.ReadyCheckIndicator = ReadyCheck
 	self.RaidTargetIndicator = RaidIcon
 	self.Range = Range
+	self.Range.Override = TukuiUnitFrames.UpdateRange
 	self:Tag(Name, "[level] [Tukui:NameLong]")
 	self.Highlight = Highlight
 	

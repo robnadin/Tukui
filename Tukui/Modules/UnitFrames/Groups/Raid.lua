@@ -206,6 +206,7 @@ function TukuiUnitFrames:Raid()
 	self.Name = Name
 	self.ReadyCheckIndicator = ReadyCheck
 	self.Range = Range
+	self.Range.Override = TukuiUnitFrames.UpdateRange
 	self.RaidTargetIndicator = RaidIcon
 	self.Highlight = Highlight
 	
