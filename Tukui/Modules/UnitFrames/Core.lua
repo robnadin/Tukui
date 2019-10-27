@@ -315,7 +315,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 end
 
 function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
-	if (not self.Value) then
+	if (not self.Value) or (max == 0) then
 		return
 	end
 	
