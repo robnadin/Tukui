@@ -40,6 +40,10 @@ function GroupLoot:TestGroupLootFrames()
 end
 
 function GroupLoot:SkinGroupLoot(Frame)
+    if (Frame.IsSkinned) then
+		return
+	end
+    
 	Frame:StripTexture()
 
 	if (Frame.Timer.Background) then
@@ -100,6 +104,8 @@ function GroupLoot:SkinGroupLoot(Frame)
 	Frame.NeedButton:Size(28, 28)
 	Frame.NeedButton:ClearAllPoints()
 	Frame.NeedButton:Point("LEFT", Frame.GreedButton, -32, 1)
+	
+	Frame.IsSkinned = true
 end
 
 function GroupLoot:GroupLootFrameOnShow()
