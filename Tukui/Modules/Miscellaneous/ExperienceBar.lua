@@ -99,6 +99,10 @@ function Experience:Update(event, owner)
 		end
 
 		Bar:SetStatusBarColor(r, g, b)
+		
+		if Bar.BarType == "XP" and PlayerLevel == MAX_PLAYER_LEVEL then
+			Bar:Hide()
+		end
 	end
 end
 
