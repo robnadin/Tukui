@@ -166,7 +166,7 @@ function GroupLoot:Enable()
 	self:AddMover()
 	self:SkinFrames()
 	self:AddHooks()
-	self:TestGroupLootFrames()
+	--self:TestGroupLootFrames()
 end
 
 Inventory.GroupLoot = GroupLoot
