@@ -2242,6 +2242,7 @@ local UnitFrames = function(self)
 	Window:CreateDropdown("UnitFrames", "Font", "Set unitframe font", "Font")
 	Window:CreateColorSelection("UnitFrames", "HealCommSelfColor", "HealComm - my heals")
 	Window:CreateColorSelection("UnitFrames", "HealCommOtherColor", "HealComm - others heals")
+	Window:CreateSlider("UnitFrames", "RaidIconSize", "Size of raid icons", 16, 32, 1)
 end
 
 GUI:AddWidgets(General)

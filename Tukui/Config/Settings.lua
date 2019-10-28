@@ -207,4 +207,5 @@ C["UnitFrames"] = {
 	["Font"] = "Tukui Outline",
 	["HealCommSelfColor"] = {0.29, 1, 0.30},
 	["HealCommOtherColor"] = {1, 1, 0.36},
+	["RaidIconSize"] = 24,
 }

@@ -120,8 +120,8 @@ function TukuiUnitFrames:Nameplates()
 	end
 
 	local RaidIcon = Health:CreateTexture(nil, "OVERLAY")
-	RaidIcon:Size(self:GetHeight())
-	RaidIcon:Point("TOPLEFT", self, "TOPRIGHT", 4, 0)
+	RaidIcon:Size(C.UnitFrames.RaidIconSize)
+	RaidIcon:Point("LEFT", self, "RIGHT", 4, 0)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
 	
 	local Highlight = CreateFrame("Frame", nil, self)

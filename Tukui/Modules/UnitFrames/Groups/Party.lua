@@ -112,7 +112,7 @@ function TukuiUnitFrames:Party()
 	ReadyCheck:SetSize(16, 16)
 
 	local RaidIcon = Health:CreateTexture(nil, "OVERLAY")
-	RaidIcon:SetSize(16, 16)
+	RaidIcon:Size(C.UnitFrames.RaidIconSize)
 	RaidIcon:SetPoint("CENTER", Health, "CENTER")
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
 

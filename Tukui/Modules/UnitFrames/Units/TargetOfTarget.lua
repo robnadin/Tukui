@@ -48,8 +48,8 @@ function TukuiUnitFrames:TargetOfTarget()
 	Name:SetJustifyH("CENTER")
 
 	local RaidIcon = Health:CreateTexture(nil, "OVERLAY")
-	RaidIcon:SetSize(16, 16)
-	RaidIcon:SetPoint("TOP", self, 0, 8)
+	RaidIcon:Size(C.UnitFrames.RaidIconSize)
+	RaidIcon:SetPoint("TOP", self, 0, C.UnitFrames.RaidIconSize / 2)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
 	
 	if C.UnitFrames.HealComm then
