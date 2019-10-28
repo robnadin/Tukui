@@ -9,6 +9,7 @@
 	<Script file="Inventory\Core.lua"/>
 	<Script file="Inventory\Bags.lua"/>
 	<Script file="Inventory\Loot.lua"/>
+	<Script file="Inventory\GroupLoot.lua"/>
 	<Script file="Inventory\Merchant.lua"/>
 
 	<!-- Action Bars -->

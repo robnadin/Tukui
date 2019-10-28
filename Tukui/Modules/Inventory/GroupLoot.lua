@@ -44,7 +44,7 @@ function GroupLoot:SkinGroupLoot(Frame)
 		return
 	end
     
-	Frame:StripTexture()
+	Frame:StripTextures()
 
 	if (Frame.Timer.Background) then
 		Frame.Timer.Background:Kill()
@@ -70,11 +70,11 @@ function GroupLoot:SkinGroupLoot(Frame)
 	Frame.IconFrame.Count:Point("BOTTOMRIGHT", -2, 4)
 	Frame.IconFrame.Count:SetFontTemplate(C.Medias.Font, 12)
 	
-	Frame.Timer:StripTexture(true)
+	Frame.Timer:StripTextures(true)
 	Frame.Timer:SetStatusBarTexture(C.Medias.Blank)
 	Frame.Timer:ClearAllPoints()
-	Frame.Timer:Size(232, 8)
-	Frame.Timer:Point("BOTTOM", Frame.OverlayContrainerFrame, 0, -12)
+	Frame.Timer:Size(Frame.OverlayContrainerFrame:GetWidth() + 1, 8)
+	Frame.Timer:Point("BOTTOMLEFT", Frame.OverlayContrainerFrame, 0, -12)
 	
 	Frame.Timer.OverlayTimerFrame = CreateFrame("Frame", nil, 	Frame.Timer)
 	Frame.Timer.OverlayTimerFrame:SetFrameLevel(Frame.Timer:GetFrameLevel() - 1)
@@ -121,13 +121,15 @@ end
 function GroupLoot:UpdateGroupLootContainer()
 	for i = 1, NUM_GROUP_LOOT_FRAMES do
 		local Frame = _G["GroupLootFrame" .. i]
+		local Mover = GroupLoot.Mover
+		
 		Frame:ClearAllPoints()
 		
 		if (i == 1) then
-			Frame:Point("CENTER", UIParent, 0, -42)
+			Frame:Point("CENTER", Mover, 24, -32)
 		else
 
-			Frame:Point("BOTTOM", GroupLoot.PreviousFrame, "TOP", 0, -22)
+			Frame:Point("BOTTOM", GroupLoot.PreviousFrame, "BOTTOM", 0, -52)
 		end
 
 		GroupLoot.PreviousFrame = Frame
@@ -139,6 +141,14 @@ function GroupLoot:SkinFrames()
 		local Frame = _G["GroupLootFrame" .. i]
 		self:SkinGroupLoot(Frame)
 	end
+end
+
+function GroupLoot:AddMover()
+	self.Mover = CreateFrame("Frame", "TukuiGroupLoot", UIParent)
+	self.Mover:Point("TOP", UIParent, 0, 0)
+	self.Mover:Size(284, 22)
+	
+	T.Movers:RegisterFrame(self.Mover)
 end
 
 function GroupLoot:AddHooks()
@@ -153,9 +163,10 @@ function GroupLoot:AddHooks()
 end
 
 function GroupLoot:Enable()
+	self:AddMover()
 	self:SkinFrames()
-	self:AddHooks()	
-	--self:TestGroupLootFrames()
+	self:AddHooks()
+	self:TestGroupLootFrames()
 end
 
 Inventory.GroupLoot = GroupLoot
