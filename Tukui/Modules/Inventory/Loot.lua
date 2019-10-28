@@ -263,8 +263,11 @@ function Loot:LOOT_SLOT_CLEARED(_, slot)
 	if not TukuiLootFrame:IsShown() then
 		return
 	end
+    
+    if TukuiLootFrame.LootSlots[slot] then
+    	TukuiLootFrame.LootSlots[slot]:Hide()
+    end
 
-	TukuiLootFrame.LootSlots[slot]:Hide()
 	Loot.AnchorSlots(TukuiLootFrame)
 end
 
@@ -371,6 +374,14 @@ function Loot:LOOT_OPENED(_, autoloot)
 	Loot.AnchorSlots(TukuiLootFrame)
 end
 
+function Loot:OPEN_MASTER_LOOT_LIST()
+	ToggleDropDownMenu(1, nil, GroupLootDropDown, TukuiLootFrame.LootSlots[LootFrame.selectedSlot], -33, -6)
+end
+
+function Loot:UPDATE_MASTER_LOOT_LIST()
+	UIDropDownMenu_Refresh(GroupLootDropDown)
+end
+
 function Loot:Enable()
 	if not C.Loot.Enable then
 		self:SkinStandardLootFrame()
@@ -386,6 +397,7 @@ function Loot:Enable()
 	self.DefaultPosition = {"TOPLEFT", UIParent, "TOPLEFT", 50, -50}
 
 	TukuiLootFrame = CreateFrame("Button", "TukuiLootFrame", UIParent)
+	TukuiLootFrame:Hide()
 	TukuiLootFrame:SetClampedToScreen(true)
 	TukuiLootFrame:SetToplevel(true)
 	TukuiLootFrame:Size(198, 58)
@@ -410,7 +422,8 @@ function Loot:Enable()
 	self:RegisterEvent("LOOT_OPENED")
 	self:RegisterEvent("LOOT_SLOT_CLEARED")
 	self:RegisterEvent("LOOT_CLOSED")
-
+	self:RegisterEvent("OPEN_MASTER_LOOT_LIST")
+	self:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
 	self:SetScript("OnEvent", function(self, event, ...)
 		self[event](self, event, ...)
 	end)
