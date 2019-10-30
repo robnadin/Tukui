@@ -43,7 +43,7 @@ function Experience:SetTooltip()
 			return
 		end
 		
-		GameTooltip:AddLine("|cffFFFF66PET XP: " .. Current .. " / " .. Max .. " (" .. floor(Current / Max * 100) .. "% - " .. floor(Bars - (Bars * (Max - Current) / Max)) .. "/" .. Bars .. ")|r")
+		GameTooltip:AddLine("|cffFFFF66Pet XP: " .. Current .. " / " .. Max .. " (" .. floor(Current / Max * 100) .. "% - " .. floor(Bars - (Bars * (Max - Current) / Max)) .. "/" .. Bars .. ")|r")
 	end
 
 	GameTooltip:Show()
