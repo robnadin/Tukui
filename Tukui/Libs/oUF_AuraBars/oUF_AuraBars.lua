@@ -6,20 +6,24 @@ local HIDDEN = 0
 
 local LCD = LibStub('LibClassicDurations', true)
 local infinity = math.huge
-local myClass = select(2, UnitClass('player'))
+local format = format
+local floor = floor
+local UnitIsUnit = UnitIsUnit
+local UnitAura = UnitAura
+local tinsert = tinsert
 
 local DAY, HOUR, MINUTE = 86400, 3600, 60
 local function FormatTime(s)
 	if s == infinity then return end
 
 	if s < MINUTE then
-		return ("%.1fs"):format(s)
+		return format("%.1fs", s)
 	elseif s < HOUR then
-		return ("%dm %ds"):format(s/60%60, s%60)
+		return format("%dm %ds", s/60%60, s%60)
 	elseif s < DAY then
-		return ("%dh %dm"):format(s/(60*60), s/60%60)
+		return format("%dh %dm", s/(60*60), s/60%60)
 	else
-		return ("%dd %dh"):format(s/DAY, (s / HOUR) - (floor(s/DAY) * 24))
+		return format("%dd %dh", s/DAY, (s / HOUR) - (floor(s/DAY) * 24))
 	end
 end
 
@@ -38,10 +42,10 @@ local function onUpdate(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed >= 0.01 then
 		local timeNow = GetTime()
-		
+
 		self:SetValue((self.expiration - timeNow) / self.duration)
 		self.timeText:SetText(FormatTime(self.expiration - timeNow))
-		
+
 		if self.sparkEnabled then
 			self.spark:Show()
 		end
@@ -106,7 +110,7 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 		local statusBar = element[position]
 		if(not statusBar) then
 			statusBar = (element.CreateBar or createAuraBar) (element, position)
-			table.insert(element, statusBar)
+			tinsert(element, statusBar)
 			element.createdBars = element.createdBars + 1
 		end
 
@@ -153,7 +157,7 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 			statusBar.icon:SetSize(element.height, element.height)
 			statusBar:SetID(index)
 			statusBar:Show()
-			
+
 			if statusBar.noTime then
 				statusBar:SetScript('OnUpdate', nil)
 				statusBar:SetMinMaxValues(0, 1)
@@ -215,54 +219,6 @@ local function filterBars(element, unit, filter, limit, isDebuff, offset, dontHi
 	end
 
 	return visible, hidden
-end
-
-local function showShamanTotems(element, unit, _, offset)
-	local visible = 0
-
-	for i = visible + offset + 1, #element do
-		element[i]:Hide()
-	end
-
-	for slot = 1, 4 do
-		local haveTotem, totemName, startTime, duration, icon = GetTotemInfo(slot)
-
-		if haveTotem and startTime > 0 then
-			local position = visible + offset + 1
-			local statusBar = element[position]
-			if(not statusBar) then
-				statusBar = (element.CreateBar or createAuraBar) (element, position)
-				table.insert(element, statusBar)
-				element.createdBars = element.createdBars + 1
-			end
-
-			if(statusBar.icon) then statusBar.icon:SetTexture(icon) end
-			if(statusBar.overlay) then statusBar.overlay:Hide() end
-
-			statusBar.spell = totemName
-			statusBar.duration = duration
-			statusBar.expiration = startTime + duration
-			statusBar.sparkEnabled = element.sparkEnabled
-
-			local r, g, b = .2, .6, 1
-			if element.buffColor then r, g, b = unpack(element.buffColor) end
-
-			statusBar.nameText:SetText(totemName)
-			statusBar.spark:Hide()
-			statusBar:SetStatusBarColor(r, g, b)
-			statusBar:SetScript('OnUpdate', onUpdate)
-			statusBar:SetAlpha(1)
-			statusBar:Show()
-
-			if(element.PostUpdateBar) then
-				element:PostUpdateBar(unit, statusBar, nil, position)
-			end
-
-			visible = visible + 1
-		end
-	end
-
-	return visible
 end
 
 local function UpdateAuras(self, event, unit)
