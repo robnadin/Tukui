@@ -121,6 +121,6 @@ function TukuiActionBars:CreateBar1()
 		local Button = _G["ActionButton"..i]
 		ActionBar1["Button"..i] = Button
 	end
-	
+
 	Movers:RegisterFrame(ActionBar1)
 end

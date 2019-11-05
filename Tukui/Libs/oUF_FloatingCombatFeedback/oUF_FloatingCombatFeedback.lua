@@ -264,13 +264,13 @@ local function Update(self, bevent, unit, event, flag, amount, school, texture)
 		unit = "player"
 		event = "COMBAT"
 	end
-	
+
 	if self.unit ~= unit then return end
-	
+
 	local element = self.FloatingCombatFeedback
 
 	local unitGUID = UnitGUID(unit)
-	
+
 	if unitGUID ~= element.unitGUID then
 		flush(element)
 		element.unitGUID = unitGUID
@@ -293,11 +293,11 @@ local function Update(self, bevent, unit, event, flag, amount, school, texture)
 	elseif event == "COMBAT" then
 		if bevent == "PLAYER_REGEN_DISABLED" then
 			color = rgb(255, 0, 0)
-			
+
 			text = "+ "..COMBAT
 		else
 			color = rgb(0, 255, 0)
-			
+
 			text = "- "..COMBAT
 		end
 	else

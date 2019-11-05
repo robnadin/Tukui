@@ -54,14 +54,14 @@ local Update = function(self, elapsed)
 				element.Spark:SetVertexColor(1, 1, 1, 1)
 				element:SetValue(Timer)
 				allowPowerEvent = true
-				
+
 				LastValue = CurrentValue
 			elseif Timer < 0 then
 				-- if negative, it's mp5delay
 				element.Spark:Show()
 				element:SetMinMaxValues(0, Mp5Delay)
 				element.Spark:SetVertexColor(1, 1, 0, 1)
-				
+
 				element:SetValue(math.abs(Timer))
 			end
 
@@ -128,7 +128,7 @@ local Enable = function(self, unit)
 		if(spark and spark:IsObjectType('Texture')) then
 			local orientation = element:GetOrientation()
 			local relativepoint = orientation == "VERTICAL" and 'TOP' or 'RIGHT'
-			
+
 			spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
 			spark:SetSize(element.sparksize, element.sparksize)
 			spark:SetBlendMode('ADD')

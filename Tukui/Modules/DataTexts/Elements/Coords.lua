@@ -24,15 +24,15 @@ local Update = function(self, Elapsed)
 
 		if X == 0 and Y == 0 then
 			local Name = GetInstanceInfo()
-			
+
 			self.Text:SetText(DataText.ValueColor..Name.."|r")
 		else
 			X = 100 * math.floor(X * 10000) / 10000
 			Y = 100 * math.floor(Y * 10000) / 10000
-			
+
 			self.Text:SetText(DataText.ValueColor..X.."|r, "..DataText.ValueColor..Y.."|r")
 		end
-		
+
 		Timer = Interval
 	end
 end

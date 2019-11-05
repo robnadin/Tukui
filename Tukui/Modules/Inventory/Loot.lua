@@ -65,7 +65,7 @@ end
 
 function Loot:SkinStandardLootFrame()
 	local ItemText = select(19, LootFrame:GetRegions())
-	
+
 	LootFrame:StripTextures()
 	LootFrameInset:StripTextures()
 	LootFrameInset:CreateBackdrop("Transparent")
@@ -263,7 +263,7 @@ function Loot:LOOT_SLOT_CLEARED(_, slot)
 	if not TukuiLootFrame:IsShown() then
 		return
 	end
-    
+
     if TukuiLootFrame.LootSlots[slot] then
     	TukuiLootFrame.LootSlots[slot]:Hide()
     end
@@ -386,7 +386,7 @@ function Loot:Enable()
 	if not C.Loot.Enable then
 		self:SkinStandardLootFrame()
 		self:AddStandardLootHooks()
-		
+
 		return
 	end
 

@@ -20,7 +20,7 @@ function Durability:Enable()
 	self.Warning:SetText(L.Miscellaneous.Repair)
 	self.Warning:SetTextColor(1, 0, 0)
 	self.Warning:Hide()
-	
+
 	self:SetAllPoints(self.Warning)
 	self:SetScript("OnClick", self.Hide)
 

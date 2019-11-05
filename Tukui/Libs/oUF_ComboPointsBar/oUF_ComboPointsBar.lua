@@ -22,7 +22,7 @@ local Update = function(self, event, unit, powerType)
 	if cpb.PreUpdate then
 		cpb:PreUpdate(points)
 	end
-	
+
 	points = GetComboPoints("player", "target")
 
 	if points then
@@ -73,10 +73,10 @@ local Enable = function(self, unit)
 			Point:SetStatusBarColor(unpack(Colors[i]))
 			Point:SetFrameLevel(cpb:GetFrameLevel() + 1)
 			Point:GetStatusBarTexture():SetHorizTile(false)
-			
+
 			Point.Width = Point:GetWidth()
 		end
-		
+
 		cpb:Hide()
 
 		return true

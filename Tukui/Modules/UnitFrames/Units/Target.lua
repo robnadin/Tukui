@@ -64,7 +64,7 @@ function TukuiUnitFrames:Target()
 	Power.Background:SetAllPoints()
 	Power.Background:SetColorTexture(.4, .4, .4)
 	Power.Background.multiplier = 0.3
-	
+
 	if C.UnitFrames.ShowTargetManaText then
 		Power.Value = Power:CreateFontString(nil, "OVERLAY")
 		Power.Value:SetFontObject(Font)
@@ -78,10 +78,10 @@ function TukuiUnitFrames:Target()
 	if (C.UnitFrames.Smooth) then
 		Power.Smooth = true
 	end
-	
+
 	if C.UnitFrames.Portrait then
-		local Portrait 
-		
+		local Portrait
+
 		if C.UnitFrames.Portrait2D then
 			Portrait = self:CreateTexture(nil, 'OVERLAY')
 			Portrait:SetTexCoord(0.1,0.9,0.1,0.9)
@@ -95,7 +95,7 @@ function TukuiUnitFrames:Target()
 			Portrait.Backdrop:SetOutside(Portrait, -1, 1)
 			Portrait.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
 		end
-		
+
 		Portrait:Size(Health:GetHeight() + Power:GetHeight() + 1)
 		Portrait:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0 ,0)
 
@@ -222,7 +222,7 @@ function TukuiUnitFrames:Target()
 		Debuffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
 		Debuffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
 		Debuffs.onlyShowPlayer = C.UnitFrames.OnlySelfDebuffs
-		
+
 		if C.UnitFrames.AurasBelow then
 			Buffs:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, -32)
 			Debuffs["growth-y"] = "DOWN"
@@ -261,7 +261,7 @@ function TukuiUnitFrames:Target()
 	RaidIcon:Size(C.UnitFrames.RaidIconSize)
 	RaidIcon:SetPoint("TOP", self, 0, C.UnitFrames.RaidIconSize / 2)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
-	
+
 	if C.UnitFrames.HealComm then
 		local myBar = CreateFrame("StatusBar", nil, Health)
 		local otherBar = CreateFrame("StatusBar", nil, Health)
@@ -287,7 +287,7 @@ function TukuiUnitFrames:Target()
 			otherBar = otherBar,
 			maxOverflow = 1,
 		}
-		
+
 		self.HealthPrediction = HealthPrediction
 	end
 

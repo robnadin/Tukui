@@ -34,7 +34,7 @@ end
 
 local OnEnter = function(self)
 	local UnitMap = C_Map.GetBestMapForUnit("player")
-	
+
 	if not UnitMap or InCombatLockdown() then
 		return
 	end

@@ -9,7 +9,7 @@ T.Popups.Popup["TUKUI_RESET_SETTINGS"] = {
 	Answer2 = CANCEL,
 	Function1 = function(self)
 		Install.ResetSettings()
-		
+
 		ReloadUI()
 	end,
 }
@@ -21,7 +21,7 @@ function Install:ResetSettings()
 	else
 		TukuiSettingsPerCharacter[T.MyRealm][T.MyName] = {}
 	end
-	
+
 	if TukuiData[GetRealmName()][UnitName("Player")].Move then
 		TukuiData[GetRealmName()][UnitName("Player")].Move = {}
 	end
@@ -34,13 +34,13 @@ function Install:ResetData()
 	end
 
 	TukuiData[GetRealmName()][UnitName("Player")] = {}
-	
+
 	FCF_ResetChatWindows()
-	
+
 	if ChatConfigFrame:IsShown() then
 		ChatConfig_UpdateChatSettings()
 	end
-	
+
 	self:SetDefaults()
 
 	ReloadUI()
@@ -88,7 +88,7 @@ function Install:SetDefaults()
 	if (Chat) then
 		Chat:Install()
 	end
-	
+
 	if (ActionBars) then
 		TukuiData[GetRealmName()][UnitName("Player")].HideBar5 = true
 	end
@@ -100,8 +100,8 @@ function Install:MoveChannels()
 	if (Chat) then
 		Chat:MoveChannels()
 	end
-	
-	TukuiData[GetRealmName()][UnitName("Player")].InstallDone = true	
+
+	TukuiData[GetRealmName()][UnitName("Player")].InstallDone = true
 end
 
 Install:RegisterEvent("VARIABLES_LOADED")
@@ -109,7 +109,7 @@ Install:RegisterEvent("PLAYER_ENTERING_WORLD")
 Install:SetScript("OnEvent", function(self, event)
 	local Name = UnitName("Player")
 	local Realm = GetRealmName()
-		
+
 	if (event == "VARIABLES_LOADED") then
 		if (not TukuiData) then
 			TukuiData = {}
@@ -122,7 +122,7 @@ Install:SetScript("OnEvent", function(self, event)
 		if (not TukuiData[Realm][Name]) then
 			TukuiData[Realm][Name] = {}
 		end
-			
+
 		if (not TukuiData[Realm][Name].Move) then
 			TukuiData[Realm][Name].Move = {}
 		end
@@ -133,7 +133,7 @@ Install:SetScript("OnEvent", function(self, event)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		if (TukuiData[Realm][Name].ChatReset) or (not TukuiData[Realm][Name].InstallDone) then
 			self:MoveChannels()
-				
+
 			if (TukuiData[Realm][Name].ChatReset) then
 				TukuiData[Realm][Name].ChatReset = false
 			end

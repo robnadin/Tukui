@@ -234,11 +234,11 @@ local OnMouseUp = function(self, btn)
 				end
 			end
 		end
-		
+
 		if #WoWTable > 0 then
 			-- add a separator
 			menuCountWhispers = menuCountWhispers + 1
-			
+
 			menuList[3].menuList[menuCountWhispers] = {text = "----------", arg1 = nil, arg2 = nil, notCheckable=true, func = nil}
 		end
 
@@ -249,13 +249,13 @@ local OnMouseUp = function(self, btn)
 				local Hex = T.RGBToHex(R, G, B)
 				local levelc = GetQuestDifficultyColor(WoWTable[i].level)
 				local levelhex = T.RGBToHex(levelc.r, levelc.g, levelc.b)
-				
+
 				menuCountWhispers = menuCountWhispers + 1
 
 				menuList[3].menuList[menuCountWhispers] = {text = WoWTable[i].hex..WoWTable[i].name.."|r", arg1 = WoWTable[i].name, arg2 = false, notCheckable=true, func = whisperClick}
-				
+
 				menuCountInvites = menuCountInvites + 1
-				
+
 				menuList[2].menuList[menuCountInvites] = {text = levelhex..WoWTable[i].level.."|r "..Hex..WoWTable[i].name.."|r", arg1 = WoWTable[i].name, notCheckable=true, func = inviteClick}
 			end
 		end
@@ -386,7 +386,7 @@ local OnEnter = function(self)
 							if BNTable[i][6] == "VIPR" then
 								GameTooltip:AddDoubleLine("|cffeeeeee"..BNName.."|r", "Call of Duty: Black Ops 4")
 							end
-							
+
 							if BNTable[i][6] == "ODIN" then
 								GameTooltip:AddDoubleLine("|cffeeeeee"..BNName.."|r", "Call of Duty: Modern Warfare")
 							end
@@ -402,40 +402,40 @@ local OnEnter = function(self)
 				end
 			end
 		end
-		
+
 		---- Add wow friends listing
 		wipe(WoWTable)
-		
+
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddDoubleLine("|cffff8000World of Warcraft:|r", "|cffff8000"..C_FriendList.GetNumOnlineFriends().."/"..C_FriendList.GetNumFriends().."|r")
 		GameTooltip:AddLine(" ")
-		
+
 		for i = 1, wowonline do
 			local friendinfo = C_FriendList_GetFriendInfoByIndex(i)
-			
+
 			WoWTable[i] = friendinfo
-			
+
 			if friendinfo and friendinfo.connected then
 				local name = friendinfo.name
 				local level = friendinfo.level
 				local class = friendinfo.className
 				local area = friendinfo.area
-				
+
 				for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 					if class == v then
 						class = k
-						
+
 						WoWTable[i].className = class
 					end
 				end
-				
+
 				local R, G, B = unpack(T.Colors.class[class])
 				local Hex = T.RGBToHex(R, G, B)
 				local levelc = GetQuestDifficultyColor(level)
 				local levelhex = T.RGBToHex(levelc.r, levelc.g, levelc.b)
-				
+
 				WoWTable[i].hex = Hex
-				
+
 				GameTooltip:AddDoubleLine(Hex..name.."|r ("..levelhex..level.."|r)", area)
 			end
 		end

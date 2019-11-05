@@ -14,7 +14,7 @@ function TukuiUnitFrames:Raid()
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 	self:SetBackdrop(TukuiUnitFrames.Backdrop)
 	self:SetBackdropColor(0, 0, 0)
-	
+
 	self:CreateShadow()
 	self.Shadow:SetFrameLevel(2)
 
@@ -31,7 +31,7 @@ function TukuiUnitFrames:Raid()
 	Health.Background = Health:CreateTexture(nil, "BORDER")
 	Health.Background:SetAllPoints()
 	Health.Background:SetColorTexture(.1, .1, .1)
-	
+
 	Health.Value = Health:CreateFontString(nil, "OVERLAY")
 	Health.Value:SetFontObject(HealthFont)
 	Health.Value:Point("CENTER", Health, "CENTER", 0, -6)
@@ -45,7 +45,7 @@ function TukuiUnitFrames:Raid()
 	if (C.UnitFrames.Smooth) then
 		Health.Smooth = true
 	end
-	
+
 	Health.PostUpdate = TukuiUnitFrames.PostUpdateHealth
 
 	-- Power
@@ -94,7 +94,7 @@ function TukuiUnitFrames:Raid()
 		insideAlpha = 1,
 		outsideAlpha = C["Raid"].RangeAlpha,
 	}
-	
+
 	if C.Raid.MyRaidBuffs then
 		local Buffs = CreateFrame("Frame", self:GetName()..'Buffs', Health)
 		Buffs:Point("TOPLEFT", Health, "TOPLEFT", 0, 0)
@@ -110,10 +110,10 @@ function TukuiUnitFrames:Raid()
 		Buffs.onlyShowPlayer = true
 		Buffs.IsRaid = true
 		Buffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
-		
+
 		self.Buffs = Buffs
 	end
-	
+
 	if C.Raid.DebuffWatch then
 		local RaidDebuffs = CreateFrame("Frame", nil, Health)
 		RaidDebuffs:SetHeight(20)
@@ -144,10 +144,10 @@ function TukuiUnitFrames:Raid()
 		RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 2, 0)
 		RaidDebuffs.count:SetTextColor(1, .9, 0)
 		--RaidDebuffs.forceShow = true
-		
+
 		self.RaidDebuffs = RaidDebuffs
 	end
-	
+
 	if C.UnitFrames.HealComm then
 		local myBar = CreateFrame("StatusBar", nil, Health)
 		local otherBar = CreateFrame("StatusBar", nil, Health)
@@ -167,15 +167,15 @@ function TukuiUnitFrames:Raid()
 		otherBar:SetWidth(C.Raid.WidthSize)
 		otherBar:SetStatusBarTexture(HealthTexture)
 		otherBar:SetStatusBarColor(C.UnitFrames.HealCommOtherColor)
-		
+
 		if C.Raid.VerticalHealth then
 			myBar:SetOrientation("VERTICAL")
 			otherBar:SetOrientation("VERTICAL")
-			
+
 			myBar:SetPoint("BOTTOM", Health:GetStatusBarTexture(), "TOP")
 			myBar:SetPoint("LEFT")
 			myBar:SetPoint("RIGHT")
-			
+
 			otherBar:SetPoint("BOTTOM", myBar:GetStatusBarTexture(), "TOP")
 			otherBar:SetPoint("LEFT")
 			otherBar:SetPoint("RIGHT")
@@ -186,10 +186,10 @@ function TukuiUnitFrames:Raid()
 			otherBar = otherBar,
 			maxOverflow = 1,
 		}
-		
+
 		self.HealthPrediction = HealthPrediction
 	end
-	
+
 	local Highlight = CreateFrame("Frame", nil, self)
 	Highlight:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = C.Raid.HighlightSize})
 	Highlight:SetOutside(self, C.Raid.HighlightSize, C.Raid.HighlightSize)
@@ -209,7 +209,7 @@ function TukuiUnitFrames:Raid()
 	self.Range.Override = TukuiUnitFrames.UpdateRange
 	self.RaidTargetIndicator = RaidIcon
 	self.Highlight = Highlight
-	
+
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
 	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight, true)
 end

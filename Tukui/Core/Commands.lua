@@ -50,20 +50,20 @@ T.SlashHandler = function(cmd)
 	elseif (arg1 == "mh") then
 		local SlashCommand = _G.SlashCmdList["LIBCLASSICMOBHEALTHONE"]
 		local Command = (arg3 and arg2.." "..arg3) or (arg2) or ""
-		
+
 		SlashCommand(Command)
 	elseif (arg1 == "chat") then
 		if (arg2 == "reset") then
 			local Chat = T.Chat
-			
+
 			if Chat then
 				TukuiData[GetRealmName()][UnitName("Player")].ChatReset = true
-				
+
 				Chat:Install()
-				
+
 				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiLeftDataTextBox = nil
 				TukuiData[GetRealmName()][UnitName("Player")].Move.TukuiRightDataTextBox = nil
-				
+
 				ReloadUI()
 			end
 		end
@@ -83,13 +83,13 @@ T.SlashHandler = function(cmd)
 		T.Popups.ShowPopup("RESETUI")
 	elseif (arg1 == "load" or arg1 == "unload") then
 		local Loaded, Reason = LoadAddOn(arg2)
-		
+
 		if (Reason == "MISSING") then
 			T.Print("["..arg2.."] is not installed")
 
 			return
 		end
-		
+
 		if arg1 == "load" then
 			if (IsAddOnLoaded(arg2)) then
 				T.Print("["..arg2.."] is already loaded")
@@ -101,7 +101,7 @@ T.SlashHandler = function(cmd)
 		else
 			DisableAddOn(arg2)
 		end
-		
+
 		ReloadUI()
 	elseif (arg1 == "br" or arg1 == "report") then
 		if arg2 == "enable" then
@@ -109,7 +109,7 @@ T.SlashHandler = function(cmd)
 		else
 			DisableAddOn("Blizzard_PTRFeedback")
 		end
-		
+
 		ReloadUI()
 	elseif (arg1 == "status" or arg1 == "debug") then
 		local Status = TukuiStatus
@@ -133,22 +133,22 @@ T.SlashHandler = function(cmd)
 		if T.MyClass ~= "HUNTER" then
 			return T.Print("Sorry, you are not an |c"..RAID_CLASS_COLORS["HUNTER"].colorStr.."hunter|r, this command is useless for you. :P")
 		end
-		
+
 		local Red, Yellow, Green = T.RGBToHex(unpack(T.Colors.happiness[1])), T.RGBToHex(unpack(T.Colors.happiness[2])), T.RGBToHex(unpack(T.Colors.happiness[3]))
-		
+
 		local Happiness, DamagePercentage, LoyaltyRate = GetPetHappiness()
-		
+
 		if not Happiness then
 			T.Print("You don't have any pet summoned at the moment")
 		else
 			local Happy = ({"Unhappy", "Content", "Happy"})[Happiness]
 			local Loyalty = LoyaltyRate > 0 and "gaining" or "losing"
-			
+
 			T.Print("Pet is " .. Happy)
 			T.Print("Pet is doing " .. DamagePercentage .. "% damage")
 			T.Print("Pet is " .. Loyalty .. " loyalty")
 		end
-		
+
 		T.Print("You can also track your current pet happiness according to the pet frame health bar color. "..Red.."Red|r mean unhappy, "..Yellow.."yellow|r mean content, "..Green.."green|r mean happy.")
 	elseif (arg1 == "c" or arg1 == "config") then
 		T.GUI:Toggle()
@@ -199,7 +199,7 @@ T.SlashHandler = function(cmd)
 				Tukui.Profiles = {}
 				Tukui.Profiles.Data = {}
 				Tukui.Profiles.Options = {}
-				
+
 				local EmptyTable = {}
 
 				for Server, Table in pairs(TukuiData) do
@@ -208,7 +208,7 @@ T.SlashHandler = function(cmd)
 					for Character, Table in pairs(TukuiData[Server]) do
 						-- Data
 						tinsert(Tukui.Profiles.Data, TukuiData[Server][Character])
-						
+
 						-- GUI options, it can be not found if you didn't log at least once since version 1.10 on that toon.
 						if TukuiSettingsPerCharacter and TukuiSettingsPerCharacter[Server] and TukuiSettingsPerCharacter[Server][Character] then
 							tinsert(Tukui.Profiles.Options, TukuiSettingsPerCharacter[Server][Character])
@@ -243,7 +243,7 @@ T.Popups.Popup["TUKUI_IMPORT_PROFILE"] = {
 	Answer2 = CANCEL,
 	Function1 = function(self)
 		TukuiData[T.MyRealm][T.MyName] = Tukui.Profiles.Data[SelectedProfile]
-		
+
 		if TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General and TukuiSettingsPerCharacter[T.MyRealm][T.MyName].General.UseGlobal then
 			-- Look like we use globals for gui, don't import gui settings, keep globals
 		else

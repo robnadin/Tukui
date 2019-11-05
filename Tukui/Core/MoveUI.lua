@@ -35,7 +35,7 @@ function Movers:RestoreDefaults(button)
 		local Anchor1, ParentName, Anchor2, X, Y = unpack(Data)
 		local Frame = _G[FrameName]
 		local Parent = _G[ParentName]
-		
+
 		if not Parent then
 			Parent = UIParent
 		end
@@ -61,7 +61,7 @@ end
 
 function Movers:OnDragStart()
 	GameTooltip_Hide()
-	
+
 	self:StartMoving()
 end
 
@@ -81,7 +81,7 @@ function Movers:OnDragStop()
 	end
 
 	Data[FrameName] = {Anchor1, Parent:GetName(), Anchor2, X, Y}
-	
+
 	Movers:OnEnter()
 end
 

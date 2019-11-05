@@ -38,11 +38,11 @@ function Experience:SetTooltip()
 		end
 	elseif BarType == "PETXP" then
 		Current, Max = GetPetExperience()
-		
+
 		if Max == 0 then
 			return
 		end
-		
+
 		GameTooltip:AddLine("|cffFFFF66Pet XP: " .. Current .. " / " .. Max .. " (" .. floor(Current / Max * 100) .. "% - " .. floor(Bars - (Bars * (Max - Current) / Max)) .. "/" .. Bars .. ")|r")
 	end
 
@@ -70,12 +70,12 @@ function Experience:Update(event, owner)
 		local r, g, b
 		local InstanceType = select(2, IsInInstance())
 		local HavePetXP = select(2, HasPetUI())
-		
+
 		Bar.BarType = "XP"
-		
+
 		if i == 2 and HavePetXP then
 			Current, Max = GetPetExperience()
-			
+
 			Bar.BarType = "PETXP"
 		end
 
@@ -99,7 +99,7 @@ function Experience:Update(event, owner)
 		end
 
 		Bar:SetStatusBarColor(r, g, b)
-		
+
 		if Bar.BarType == "XP" and PlayerLevel == MAX_PLAYER_LEVEL then
 			Bar:Hide()
 		end
@@ -136,7 +136,7 @@ function Experience:Create()
 
 		self["XPBar"..i] = XPBar
 		self["RestedBar"..i] = RestedBar
-		
+
 		-- Add moving
 		T.Movers:RegisterFrame(XPBar)
 	end

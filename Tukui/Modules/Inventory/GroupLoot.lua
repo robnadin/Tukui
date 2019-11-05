@@ -30,7 +30,7 @@ function GroupLoot:TestGroupLootFrames()
 
 		return Texture, Name, Count, Quality, BindOnPickUp, CanNeed, CanGreed, ReasonNeed, ReasonGreed
 	end
-	
+
 	function GroupLootFrame_OnUpdate() end
 
 	for i = 1, NUM_GROUP_LOOT_FRAMES do
@@ -43,13 +43,13 @@ function GroupLoot:SkinGroupLoot(Frame)
     if (Frame.IsSkinned) then
 		return
 	end
-    
+
 	Frame:StripTextures()
 
 	if (Frame.Timer.Background) then
 		Frame.Timer.Background:Kill()
 	end
-	
+
 	if (_G[Frame:GetName().."NameFrame"] or _G[Frame:GetName().."Corner"]) then
 		_G[Frame:GetName().."NameFrame"]:Kill()
 		_G[Frame:GetName().."Corner"]:Kill()
@@ -65,38 +65,38 @@ function GroupLoot:SkinGroupLoot(Frame)
 	Frame.Name:ClearAllPoints()
 	Frame.Name:Point("LEFT", Frame.OverlayContrainerFrame, 6, 0)
 	Frame.Name:SetFontTemplate(C.Medias.Font, 12)
-	
+
 	Frame.IconFrame.Count:ClearAllPoints()
 	Frame.IconFrame.Count:Point("BOTTOMRIGHT", -2, 4)
 	Frame.IconFrame.Count:SetFontTemplate(C.Medias.Font, 12)
-	
+
 	Frame.Timer:StripTextures(true)
 	Frame.Timer:SetStatusBarTexture(C.Medias.Blank)
 	Frame.Timer:ClearAllPoints()
 	Frame.Timer:Size(Frame.OverlayContrainerFrame:GetWidth() + 1, 8)
 	Frame.Timer:Point("BOTTOMLEFT", Frame.OverlayContrainerFrame, 0, -12)
-	
+
 	Frame.Timer.OverlayTimerFrame = CreateFrame("Frame", nil, 	Frame.Timer)
 	Frame.Timer.OverlayTimerFrame:SetFrameLevel(Frame.Timer:GetFrameLevel() - 1)
 	Frame.Timer.OverlayTimerFrame:SetInside()
 	Frame.Timer.OverlayTimerFrame:CreateBackdrop("Transparent")
 	Frame.Timer.OverlayTimerFrame:CreateShadow()
-	
+
 	Frame.IconFrame:SetTemplate()
 	Frame.IconFrame:CreateShadow()
 	Frame.IconFrame:Size(44, 44)
 	Frame.IconFrame:ClearAllPoints()
 	Frame.IconFrame:Point("LEFT", Frame.OverlayContrainerFrame, -48, -6)
-	
+
 	Frame.IconFrame.Icon:SetTexCoord(unpack(T.IconCoord))
 	Frame.IconFrame.Icon:SetInside()
 	Frame.IconFrame.Icon:SetSnapToPixelGrid(false)
 	Frame.IconFrame.Icon:SetTexelSnappingBias(0)
-	
+
 	Frame.PassButton:ClearAllPoints()
 	Frame.PassButton:Point("RIGHT", Frame.OverlayContrainerFrame, 0, 0)
 	Frame.PassButton:SkinCloseButton(nil, nil, 16)
-	
+
 	Frame.GreedButton:Size(28, 28)
 	Frame.GreedButton:ClearAllPoints()
 	Frame.GreedButton:Point("LEFT", Frame.PassButton, -26, -2)
@@ -104,7 +104,7 @@ function GroupLoot:SkinGroupLoot(Frame)
 	Frame.NeedButton:Size(28, 28)
 	Frame.NeedButton:ClearAllPoints()
 	Frame.NeedButton:Point("LEFT", Frame.GreedButton, -32, 1)
-	
+
 	Frame.IsSkinned = true
 end
 
@@ -122,9 +122,9 @@ function GroupLoot:UpdateGroupLootContainer()
 	for i = 1, NUM_GROUP_LOOT_FRAMES do
 		local Frame = _G["GroupLootFrame" .. i]
 		local Mover = GroupLoot.Mover
-		
+
 		Frame:ClearAllPoints()
-		
+
 		if (i == 1) then
 			Frame:Point("CENTER", Mover, 24, -32)
 		else
@@ -147,7 +147,7 @@ function GroupLoot:AddMover()
 	self.Mover = CreateFrame("Frame", "TukuiGroupLoot", UIParent)
 	self.Mover:Point("TOP", UIParent, 0, 0)
 	self.Mover:Size(284, 22)
-	
+
 	T.Movers:RegisterFrame(self.Mover)
 end
 
@@ -156,7 +156,7 @@ function GroupLoot:AddHooks()
 		local Frame = _G["GroupLootFrame" .. i]
 		Frame:HookScript("OnShow", self.GroupLootFrameOnShow)
 	end
-	
+
 	-- So we can move the Group Loot Container.
 	UIPARENT_MANAGED_FRAME_POSITIONS.GroupLootContainer = nil
 	hooksecurefunc("GroupLootContainer_Update", self.UpdateGroupLootContainer)

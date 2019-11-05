@@ -76,7 +76,7 @@ function TukuiUnitFrames:Player()
 	if (C.UnitFrames.Smooth) then
 		Power.Smooth = true
 	end
-	
+
 	Power.Prediction = CreateFrame("StatusBar", nil, Power)
 	Power.Prediction:SetReverseFill(true)
 	Power.Prediction:SetPoint("TOP")
@@ -87,7 +87,7 @@ function TukuiUnitFrames:Player()
 	Power.Prediction:SetStatusBarColor(1, 1, 1, .3)
 
 	Power.PostUpdate = TukuiUnitFrames.PostUpdatePower
-	
+
 	local Name = Panel:CreateFontString(nil, "OVERLAY")
 	Name:Point("LEFT", Panel, "LEFT", 4, 0)
 	Name:SetJustifyH("LEFT")
@@ -95,8 +95,8 @@ function TukuiUnitFrames:Player()
 	Name:SetAlpha(0)
 
 	if C.UnitFrames.Portrait then
-		local Portrait 
-		
+		local Portrait
+
 		if C.UnitFrames.Portrait2D then
 			Portrait = self:CreateTexture(nil, "OVERLAY")
 			Portrait:SetTexCoord(0.1,0.9,0.1,0.9)
@@ -110,7 +110,7 @@ function TukuiUnitFrames:Player()
 			Portrait.Backdrop:SetOutside(Portrait, -1, 1)
 			Portrait.Backdrop:SetBorderColor(unpack(C["General"].BorderColor))
 		end
-		
+
 		Portrait:Size(Health:GetHeight() + Power:GetHeight() + 1)
 		Portrait:SetPoint("TOPLEFT", self, "TOPLEFT", 0 ,0)
 
@@ -120,11 +120,11 @@ function TukuiUnitFrames:Player()
 
 		self.Portrait = Portrait
 	end
-	
+
 	if C.UnitFrames.PlayerAuras and C.UnitFrames.PlayerAuraBars then
 		local Gap = (T.MyClass == "ROGUE" or T.MyClass == "DRUID") and 8 or 0
 		local AuraBars = CreateFrame("Frame", self:GetName().."AuraBars", self)
-		
+
 		AuraBars:SetHeight(10)
 		AuraBars:SetWidth(250)
 		AuraBars:SetPoint("TOPLEFT", -2, 12 + Gap)
@@ -136,9 +136,9 @@ function TukuiUnitFrames:Player()
 		AuraBars.height = 17
 		AuraBars.spellNameObject = Font
 		AuraBars.spellTimeObject = Font
-		
+
 		T.Movers:RegisterFrame(AuraBars)
-		
+
 		self.AuraBars = AuraBars
 	elseif (C.UnitFrames.PlayerAuras) then
 		local Buffs = CreateFrame("Frame", self:GetName().."Buffs", self)
@@ -175,7 +175,7 @@ function TukuiUnitFrames:Player()
 		Debuffs["growth-x"] = "LEFT"
 		Debuffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
 		Debuffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
-		
+
 		if C.UnitFrames.AurasBelow then
 			Buffs:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, -32)
 			Debuffs["growth-y"] = "DOWN"
@@ -346,12 +346,12 @@ function TukuiUnitFrames:Player()
 	RaidIcon:Size(C.UnitFrames.RaidIconSize)
 	RaidIcon:SetPoint("TOP", self, 0, C.UnitFrames.RaidIconSize / 2)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
-	
+
 	local RestingIndicator = Panel:CreateTexture(nil, "OVERLAY", 7)
 	RestingIndicator:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\Resting]])
 	RestingIndicator:SetSize(20, 20)
 	RestingIndicator:SetPoint("CENTER", Panel, "CENTER", 0, 0)
-	
+
 	if C.UnitFrames.ScrollingCombatText then
 		local DamageFont = T.GetFont(C.UnitFrames.ScrollingCombatTextFont)
 		local DamageFontPath, DamageFontSize, DamageFontFlag = _G[DamageFont]:GetFont()
@@ -364,26 +364,26 @@ function TukuiUnitFrames:Player()
 		ScrollingCombatText.fontHeight = C.UnitFrames.ScrollingCombatTextFontSize
 		ScrollingCombatText.radius = 100
 		ScrollingCombatText.fontFlags = DamageFontFlag
-		
+
 		for i = 1, 6 do
 			ScrollingCombatText[i] = ScrollingCombatText:CreateFontString("TukuiPlayerFrameScrollingCombatTextFont" .. i, "OVERLAY")
 		end
-		
+
 		self.FloatingCombatFeedback = ScrollingCombatText
 
 		T.Movers:RegisterFrame(ScrollingCombatText)
 	end
-	
+
 	if C.UnitFrames.PowerTick then
 		local EnergyManaRegen = CreateFrame("StatusBar", nil, Power)
-		
+
 		EnergyManaRegen:SetFrameLevel(Power:GetFrameLevel() + 3)
 		EnergyManaRegen:SetAllPoints()
 		EnergyManaRegen.Spark = EnergyManaRegen:CreateTexture(nil, "OVERLAY")
-		
+
 		self.EnergyManaRegen = EnergyManaRegen
 	end
-	
+
 	if C.UnitFrames.HealComm then
 		local myBar = CreateFrame("StatusBar", nil, Health)
 		local otherBar = CreateFrame("StatusBar", nil, Health)
@@ -409,7 +409,7 @@ function TukuiUnitFrames:Player()
 			otherBar = otherBar,
 			maxOverflow = 1,
 		}
-		
+
 		self.HealthPrediction = HealthPrediction
 	end
 
@@ -436,11 +436,11 @@ function TukuiUnitFrames:Player()
 
 	-- Classes
 	TukuiUnitFrames.AddClassFeatures[Class](self)
-	
+
 	if C.UnitFrames.OOCNameLevel then
 		self:RegisterEvent("PLAYER_REGEN_ENABLED", TukuiUnitFrames.DisplayPlayerAndPetNames, true)
 		self:RegisterEvent("PLAYER_REGEN_DISABLED", TukuiUnitFrames.DisplayPlayerAndPetNames, true)
-		
+
 		TukuiUnitFrames.DisplayPlayerAndPetNames(self, "PLAYER_REGEN_ENABLED")
 	end
 end

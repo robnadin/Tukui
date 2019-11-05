@@ -1,11 +1,11 @@
 --[[--------------------------------------------------------------------------------------
 
-Since WotLK, lots of peoples were using our API in multiples new UI. However, lots of 
+Since WotLK, lots of peoples were using our API in multiples new UI. However, lots of
 peoples edited it, and there is now too many deviated API. This make addons/plugins
 authors a hard time to make their addons compatible with all existing users interfaces
 because of all of these deviated API.
 
-Starting with WoW Classic and WoW 9.0, Tukui staff will make an API toolkit for everyone. 
+Starting with WoW Classic and WoW 9.0, Tukui staff will make an API toolkit for everyone.
 Every developers who use our API is invited to participate for their need.
 
 The library will be called T00LKIT, available to download at www.tukui.org/toolkit
@@ -21,7 +21,7 @@ Thank you
 --[[--------------------------------------------------------------------------------------
 
 Usage example in Tukui [Tukui\Core\Toolkit.lua]:
-	
+
 	local T, C, L = select(2, ...):unpack()
 	local Toolkit = T00LKIT
 	local Settings = Toolkit.Settings
@@ -141,19 +141,19 @@ end
 
 Toolkit.API.Size = function(self, WidthSize, HeightSize)
 	if not WidthSize then WidthSize = 0 end
-	
+
 	self:SetSize(Toolkit.Functions.Scale(WidthSize), Toolkit.Functions.Scale(HeightSize or WidthSize))
 end
 
 Toolkit.API.Width = function(self, WidthSize)
 	if not WidthSize then WidthSize = 0 end
-	
+
 	self:SetWidth(Toolkit.Functions.Scale(WidthSize))
 end
 
 Toolkit.API.Height = function(self, HeightSize)
 	if not HeightSize then HeightSize = 0 end
-	
+
 	self:SetHeight(Toolkit.Functions.Scale(HeightSize))
 end
 
@@ -174,7 +174,7 @@ end
 Toolkit.API.SetOutside = function(self, Anchor, OffsetX, OffsetY)
 	OffsetX = OffsetX or 1
 	OffsetY = OffsetY or 1
-	
+
 	Anchor = Anchor or self:GetParent()
 
 	if self:GetPoint() then
@@ -188,7 +188,7 @@ end
 Toolkit.API.SetInside = function(self, Anchor, OffsetX, OffsetY)
 	OffsetX = OffsetX or 1
 	OffsetY = OffsetY or 1
-	
+
 	Anchor = Anchor or self:GetParent()
 
 	if self:GetPoint() then
@@ -205,11 +205,11 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 	if (self.BorderIsCreated) then
 		return
 	end
-	
+
 	local BackgroundAlpha = (BackgroundTemplate == "Transparent" and 0.8) or (1)
 	local BorderR, BorderG, BorderB = unpack(Toolkit.Settings.BorderColor)
 	local BackdropR, BackdropG, BackdropB = unpack(Toolkit.Settings.BackdropColor)
-	
+
 	self:SetBackdrop({bgFile = BackgroundTexture or Toolkit.Settings.NormalTexture})
 	self:SetBackdropColor(BackdropR, BackdropG, BackdropB, BackgroundAlpha)
 
@@ -219,7 +219,7 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 	self.BorderTop:Point("TOPRIGHT", self, "TOPRIGHT", 0, 0)
 	self.BorderTop:SetSnapToPixelGrid(false)
 	self.BorderTop:SetTexelSnappingBias(0)
-	
+
 	self.BorderBottom = self:CreateTexture(nil, "BORDER", nil, 1)
 	self.BorderBottom:Size(1, 1)
 	self.BorderBottom:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
@@ -240,9 +240,9 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 	self.BorderRight:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
 	self.BorderRight:SetSnapToPixelGrid(false)
 	self.BorderRight:SetTexelSnappingBias(0)
-	
+
 	self:SetBorderColor(BorderR, BorderG, BorderB, BorderA)
-	
+
 	if (BorderTemplate == "Triple") then
 		self.OutsideBorderTop = self:CreateTexture(nil, "BORDER", nil, 1)
 		self.OutsideBorderTop:Size(1, 1)
@@ -299,18 +299,18 @@ Toolkit.API.SetTemplate = function(self, BackgroundTemplate, BackgroundTexture, 
 		self.InsideBorderRight:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT", 1, 1)
 		self.InsideBorderRight:SetSnapToPixelGrid(false)
 		self.InsideBorderRight:SetTexelSnappingBias(0)
-		
+
 		self.OutsideBorderTop:SetColorTexture(0, 0, 0, 1)
 		self.OutsideBorderBottom:SetColorTexture(0, 0, 0, 1)
 		self.OutsideBorderLeft:SetColorTexture(0, 0, 0, 1)
 		self.OutsideBorderRight:SetColorTexture(0, 0, 0, 1)
-		
+
 		self.InsideBorderTop:SetColorTexture(0, 0, 0, 1)
 		self.InsideBorderBottom:SetColorTexture(0, 0, 0, 1)
 		self.InsideBorderLeft:SetColorTexture(0, 0, 0, 1)
 		self.InsideBorderRight:SetColorTexture(0, 0, 0, 1)
 	end
-	
+
 	self.BorderIsCreated = true
 end
 
@@ -318,15 +318,15 @@ Toolkit.API.SetBorderColor = function(self, R, G, B, Alpha)
 	if self.BorderTop then
 		self.BorderTop:SetColorTexture(R, G, B, Alpha)
 	end
-	
+
 	if self.BorderBottom then
 		self.BorderBottom:SetColorTexture(R, G, B, Alpha)
 	end
-	
+
 	if self.BorderRight then
 		self.BorderRight:SetColorTexture(R, G, B, Alpha)
 	end
-	
+
 	if self.BorderLeft then
 		self.BorderLeft:SetColorTexture(R, G, B, Alpha)
 	end
@@ -361,7 +361,7 @@ Toolkit.API.CreateShadow = function(self, ShadowScale)
 	Shadow:SetOutside(self, 4, 4)
 	Shadow:SetBackdropBorderColor(0, 0, 0, .8)
 	Shadow:SetScale(Toolkit.Functions.Scale(Scale))
-	
+
 	self.Shadow = Shadow
 end
 
@@ -371,7 +371,7 @@ Toolkit.API.CreateGlow = function(self, Scale, EdgeSize, R, G, B, Alpha)
 	end
 
 	local Level = (self:GetFrameLevel() - 1 >= 0 and self:GetFrameLevel() - 1) or (0)
-	
+
 	local Glow = CreateFrame("Frame", nil, self)
 	Glow:SetFrameStrata("BACKGROUND")
 	Glow:SetFrameLevel(Level)
@@ -387,39 +387,39 @@ end
 
 Toolkit.API.StyleButton = function(self)
 	local Cooldown = self:GetName() and _G[self:GetName().."Cooldown"]
-	
+
 	if (self.SetHighlightTexture and not self.Highlight) then
 		local Highlight = self:CreateTexture()
-		
+
 		Highlight:SetColorTexture(1, 1, 1, 0.3)
 		Highlight:SetInside(self, 1, 1)
 		Highlight:SetSnapToPixelGrid(false)
 		Highlight:SetTexelSnappingBias(0)
-		
+
 		self.Highlight = Highlight
 		self:SetHighlightTexture(Highlight)
 	end
 
 	if (self.SetPushedTexture and not self.Pushed) then
 		local Pushed = self:CreateTexture()
-		
+
 		Pushed:SetColorTexture(0.9, 0.8, 0.1, 0.3)
 		Pushed:SetInside(self, 1, 1)
 		Pushed:SetSnapToPixelGrid(false)
 		Pushed:SetTexelSnappingBias(0)
-		
+
 		self.Pushed = Pushed
 		self:SetPushedTexture(Pushed)
 	end
 
 	if (self.SetCheckedTexture and not self.Checked) then
 		local Checked = self:CreateTexture()
-		
+
 		Checked:SetColorTexture(0, 1, 0, 0.3)
 		Checked:SetInside(self, 1, 1)
 		Checked:SetSnapToPixelGrid(false)
 		Checked:SetTexelSnappingBias(0)
-		
+
 		self.Checked = Checked
 		self:SetCheckedTexture(Checked)
 	end
@@ -454,7 +454,7 @@ Toolkit.API.SkinButton = function(self, BackdropStyle, Shadows, Strip)
 	if self.SetPushedTexture then self:SetPushedTexture("") end
 	if self.SetDisabledTexture then self:SetDisabledTexture("") end
 	if Strip then self:StripTexture() end
-	
+
 	-- Push our style
 	self:SetTemplate(BackdropStyle)
 
@@ -465,7 +465,7 @@ Toolkit.API.SkinButton = function(self, BackdropStyle, Shadows, Strip)
 	self:HookScript("OnEnter", function()
 		local Class = select(2, UnitClass("player"))
 		local Color = RAID_CLASS_COLORS[Class]
-			
+
 		if Toolkit.Settings.ClassColors then
 			Color.r, Color.g, Color.b = unpack(Toolkit.Settings.ClassColors[Class])
 		end
@@ -490,7 +490,7 @@ Toolkit.API.SkinCloseButton = function(self, OffsetX, OffsetY, CloseSize)
 	self.Texture:Point("CENTER", OffsetX or 0, OffsetY or 0)
 	self.Texture:Size(CloseSize or 12)
 	self.Texture:SetTexture(Toolkit.Settings.CloseTexture)
-	
+
 	self:SetScript("OnEnter", function(self) self.Texture:SetVertexColor(1, 0, 0) end)
 	self:SetScript("OnLeave", function(self) self.Texture:SetVertexColor(1, 1, 1) end)
 end
@@ -704,11 +704,11 @@ end
 ---------------------------------------------------
 -- Functions
 ---------------------------------------------------
-		
+
 Toolkit.Functions.Scale = function(size)
 	local Mult = PixelPerfectScale / GetCVar("uiScale")
 	local Value = (size == 1 and Mult) or (Mult * math.floor(size / Mult + .5))
-	
+
 	return Value
 end
 
@@ -767,13 +767,13 @@ Toolkit.Enable = function(self)
 	while Object do
 		if not Object:IsForbidden() and not Handled[Object:GetObjectType()] then
 			AddAPI(Object)
-			
+
 			Handled[Object:GetObjectType()] = true
 		end
 
 		Object = EnumerateFrames(Object)
 	end
-	
+
 	RegisterDefaultSettings(self)
 	HideBlizzard(self)
 end
@@ -788,7 +788,7 @@ Toolkit:SetScript("OnEvent", Toolkit.Functions.OnEvent)
 C_UI.Reload = function()
 	SetCVar("useUiScale", 1)
 	SetCVar("uiScale", Toolkit.Settings.UIScale)
-	
+
 	-- Reload now
 	Reload()
 end

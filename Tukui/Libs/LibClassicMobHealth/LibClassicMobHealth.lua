@@ -108,7 +108,7 @@ function frame:ADDON_LOADED(name)
 		else
 			_G.LibClassicMobHealth10DB = data
 		end
-		
+
 		local options = _G.LibClassicMobHealth10Opt
 		if type(options) ~= "table" then
 			options = {
@@ -117,7 +117,7 @@ function frame:ADDON_LOADED(name)
 			}
 			_G.LibClassicMobHealth10Opt = options
 		end
-		
+
 		_G.hash_SlashCmdList["LIBCLASSICMOBHEALTHONE"] = nil
 		_G.SlashCmdList["LIBCLASSICMOBHEALTHONE"] = function(text)
 			text = text:lower():trim()
@@ -146,12 +146,12 @@ function frame:ADDON_LOADED(name)
 				DEFAULT_CHAT_FRAME:AddMessage(("|cffffff7f%s|r - unknown command %q"):format(MAJOR_VERSION, alpha))
 			end
 		end
-		
+
 		_G.SLASH_LIBCLASSICMOBHEALTHONE1 = "/lcmh1"
 		_G.SLASH_LIBCLASSICMOBHEALTHONE2 = "/lcmh"
 		_G.SLASH_LIBCLASSICMOBHEALTHONE3 = "/libclassicmobhealth1"
 		_G.SLASH_LIBCLASSICMOBHEALTHONE4 = "/libclassicmobhealth"
-		
+
 		function frame:PLAYER_LOGOUT()
 			if not options.save then
 				_G.LibClassicMobHealth10DB = nil
@@ -179,7 +179,7 @@ function frame:ADDON_LOADED(name)
 			if count <= prune then
 				return
 			end
-			
+
 			-- let's try to only have one mob-level, don't have duplicates for each level, since they can be estimated, and for players/pets, this will get rid of old data
 			local mobs = {}
 			for _, kind in ipairs({ 'npc', 'pc', 'pet' }) do
@@ -190,7 +190,7 @@ function frame:ADDON_LOADED(name)
 							count = count - 1
 						end
 						mobs[mob] = level
-					end	
+					end
 					if next(d) == nil then
 						data[kind][level] = nil
 					end
@@ -242,7 +242,7 @@ local function PLAYER_unit_CHANGED(unit)
 		currentAccumulatedPercent = nil
 		return
 	end
-	
+
 	local name, server = UnitName(unit)
 	if server and server ~= "" then
 		name = name .. "-" .. server
@@ -252,13 +252,13 @@ local function PLAYER_unit_CHANGED(unit)
 	currentName = name
 	local level = UnitLevel(unit)
 	currentLevel = level
-	
+
 	recentDamage = 0
 	lastPercent = UnitHealth(unit)
-	
+
 	currentAccumulatedHP = accumulatedHP[level][name]
 	currentAccumulatedPercent = accumulatedPercent[level][name]
-	
+
 	if not isPlayer and not isPet then
 		-- Mob
 		if not currentAccumulatedHP then
@@ -275,7 +275,7 @@ local function PLAYER_unit_CHANGED(unit)
 			currentAccumulatedHP = accumulatedHP[level][name]
 			currentAccumulatedPercent = accumulatedPercent[level][name]
 		end
-		
+
 		if currentAccumulatedPercent > 200 then
 			-- keep accumulated percentage below 200% in case we hit mobs with different hp
 			currentAccumulatedHP = currentAccumulatedHP / currentAccumulatedPercent * 100
@@ -312,7 +312,7 @@ function frame:UNIT_HEALTH(unit)
 	if unit ~= "target" or not currentAccumulatedHP then
 		return
 	end
-	
+
 	local current = UnitHealth(unit)
 	local max = UnitHealthMax(unit)
 	local name = currentName
@@ -325,7 +325,7 @@ function frame:UNIT_HEALTH(unit)
 	else
 		kind = 'npc'
 	end
-	
+
 	if calculationUnneeded[level][name] then
 		return
 	elseif current == 0 then
@@ -348,7 +348,7 @@ function frame:UNIT_HEALTH(unit)
 			currentAccumulatedPercent = currentAccumulatedPercent + (lastPercent - current)
 			recentDamage = 0
 			lastPercent = current
-			
+
 			if currentAccumulatedPercent >= 10 then
 				local num = currentAccumulatedHP / currentAccumulatedPercent * 100
 				if kind == 'npc' then
@@ -366,7 +366,7 @@ local function guessAtMaxHealth(name, level, kind, known)
 	if not kind then
 		return guessAtMaxHealth(name, level, 'npc') or guessAtMaxHealth(name, level, 'pc') or guessAtMaxHealth(name, level, 'pet')
 	end
-	
+
 	local value = data[kind][level][name]
 	if value or level <= 0 or known then
 		return value
@@ -432,7 +432,7 @@ function lib:GetUnitMaxHP(unit)
 		name = name .. "-" .. server
 	end
 	local level = UnitLevel(unit)
-	
+
 	local kind
 	if UnitIsPlayer(unit) then
 		kind = 'pc'
@@ -441,7 +441,7 @@ function lib:GetUnitMaxHP(unit)
 	else
 		kind = 'npc'
 	end
-	
+
 	local value = guessAtMaxHealth(name, level, kind)
 	if value then
 		return math_floor(value + 0.5), true
@@ -463,13 +463,13 @@ function lib:GetUnitCurrentHP(unit)
 	if max ~= 100 then
 		return current, true
 	end
-	
+
 	local name, server = UnitName(unit)
 	if server and server ~= "" then
 		name = name .. "-" .. server
 	end
 	local level = UnitLevel(unit)
-	
+
 	local kind
 	if UnitIsPlayer(unit) then
 		kind = 'pc'
@@ -478,7 +478,7 @@ function lib:GetUnitCurrentHP(unit)
 	else
 		kind = 'npc'
 	end
-	
+
 	local value = guessAtMaxHealth(name, level, kind)
 	if value then
 		return math_floor(current/max * value + 0.5), true
@@ -506,7 +506,7 @@ function lib:GetUnitHealth(unit)
 		name = name .. "-" .. server
 	end
 	local level = UnitLevel(unit)
-	
+
 	local kind
 	if UnitIsPlayer(unit) then
 		kind = 'pc'
@@ -515,7 +515,7 @@ function lib:GetUnitHealth(unit)
 	else
 		kind = 'npc'
 	end
-	
+
 	local value = guessAtMaxHealth(name, level, kind)
 	if value then
 		return math_floor(current/max * value + 0.5), math_floor(value + 0.5), true

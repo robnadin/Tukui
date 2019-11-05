@@ -39,7 +39,7 @@ function Minimap:DisableMinimapElements()
 	end
 
 	North:SetTexture(nil)
-	
+
 	if Time then
 		Time:Kill()
 	end
@@ -68,7 +68,7 @@ function Minimap:StyleMinimap()
 	self:SetMaskTexture(C.Medias.Blank)
 	self:CreateBackdrop()
 	self:SetScript("OnMouseUp", Minimap.OnMouseClick)
-	
+
 	self.Backdrop:SetFrameStrata("BACKGROUND")
 	self.Backdrop:SetFrameLevel(2)
 	self.Backdrop:CreateShadow()
@@ -91,7 +91,7 @@ function Minimap:StyleMinimap()
 	Mail:SetFrameLevel(self:GetFrameLevel() + 2)
 	MailBorder:Hide()
 	MailIcon:SetTexture("Interface\\AddOns\\Tukui\\Medias\\Textures\\Others\\Mail")
-	
+
 	BGFrame:ClearAllPoints()
 	BGFrame:Point("BOTTOMRIGHT", Minimap, 3, 0)
 	BGFrameBorder:Hide()
@@ -105,21 +105,21 @@ function Minimap:StyleMinimap()
 	HelpOpenTicketButton:SetAlpha(0)
 	HelpOpenTicketButton:HookScript("OnShow", function(self) Minimap.Ticket:SetAlpha(1) end)
 	HelpOpenTicketButton:HookScript("OnHide", function(self) Minimap.Ticket:SetAlpha(0) end)
-	
+
 	if (MiniMapTrackingFrame) then
 		MiniMapTrackingFrame:ClearAllPoints()
 		MiniMapTrackingFrame:Point("TOPRIGHT", Minimap, 4, -1)
-		
+
 		if (MiniMapTrackingBorder) then
 			MiniMapTrackingBorder:Hide()
 		end
-		
+
 		if (MiniMapTrackingIcon) then
 			MiniMapTrackingIcon:SetDrawLayer("ARTWORK")
 			MiniMapTrackingIcon:SetTexCoord(unpack(T.IconCoord))
 			MiniMapTrackingIcon:Size(16)
 		end
-		
+
 		MiniMapTrackingFrame:CreateBackdrop()
 		MiniMapTrackingFrame.Backdrop:SetFrameLevel(MiniMapTrackingFrame:GetFrameLevel())
 		MiniMapTrackingFrame.Backdrop:SetOutside(MiniMapTrackingIcon)
@@ -214,10 +214,10 @@ end
 function Minimap:UpdateCoords(t)
 	if (Minimap.MinimapCoords:GetAlpha() == 0) then
 		Interval = 0
-		
+
 		return
 	end
-	
+
 	Interval = Interval - t
 
 	if (Interval < 0) then
@@ -241,7 +241,7 @@ function Minimap:UpdateCoords(t)
 			Minimap.MinimapCoords:Hide()
 		else
 			Minimap.MinimapCoords:Show()
-			
+
 			if (X < 10) then
 				XText = "0"..X
 			else
@@ -316,7 +316,7 @@ end
 function Minimap:TaxiExitOnClick()
 	if (UnitOnTaxi("player")) then
 		TaxiRequestEarlyLanding()
-		
+
 		Minimap.EarlyExitButton:Hide()
 	end
 end
@@ -334,13 +334,13 @@ function Minimap:AddTaxiEarlyExit()
 	Minimap.EarlyExitButton:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")
 	Minimap.EarlyExitButton:RegisterEvent("PLAYER_ENTERING_WORLD")
 	Minimap.EarlyExitButton:SetScript("OnEvent", Minimap.TaxiExitOnEvent)
-	Minimap.EarlyExitButton:Hide()	
-	
+	Minimap.EarlyExitButton:Hide()
+
 	Minimap.EarlyExitButton.Text = Minimap.EarlyExitButton:CreateFontString(nil, "OVERLAY")
 	Minimap.EarlyExitButton.Text:SetFont(C.Medias.Font, 12)
 	Minimap.EarlyExitButton.Text:Point("CENTER", 0, 0)
 	Minimap.EarlyExitButton.Text:SetShadowOffset(1.25, -1.25)
-	Minimap.EarlyExitButton.Text:SetText("|cffFF0000Land at nearest flight path|r")	
+	Minimap.EarlyExitButton.Text:SetText("|cffFF0000Land at nearest flight path|r")
 end
 
 function Minimap:Enable()

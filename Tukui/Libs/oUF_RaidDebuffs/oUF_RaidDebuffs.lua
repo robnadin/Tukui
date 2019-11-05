@@ -3,7 +3,7 @@ local T, C, L = select(2, ...):unpack()
 local _, ns = ...
 local oUF = ns.oUF or oUF
 local addon = {}
-	
+
 ns.oUF_RaidDebuffs = addon
 oUF_RaidDebuffs = ns.oUF_RaidDebuffs
 
@@ -12,7 +12,7 @@ if not _G.oUF_RaidDebuffs then
 end
 
 local debuff_data = {}
-	
+
 addon.DebuffData = debuff_data
 addon.ShowDispellableDebuff = true
 addon.FilterDispellableDebuff = true
@@ -23,7 +23,7 @@ local function add(spell, priority, stackThreshold)
 	if addon.MatchBySpellName and type(spell) == 'number' then
 		spell = GetSpellInfo(spell)
 	end
-	
+
 	if(spell) then
 		debuff_data[spell] = {
 			priority = (addon.priority + priority),
@@ -92,7 +92,7 @@ do
 			['Curse'] = true,
 		},
 	}
-	
+
 	DispellFilter = dispellClasses[select(2, UnitClass('player'))] or {}
 end
 
@@ -101,7 +101,7 @@ local function OnUpdate(self, elapsed)
 
 	if (self.elapsed >= 0.1) then
 		local timeLeft = self.endTime - GetTime()
-	
+
 		if (timeLeft > 0) then
 			local text = T.FormatTime(timeLeft)
 			self.time:SetText(text)
@@ -109,7 +109,7 @@ local function OnUpdate(self, elapsed)
 			self:SetScript('OnUpdate', nil)
 			self.time:Hide()
 		end
-	
+
 		self.elapsed = 0
 	end
 end
@@ -121,7 +121,7 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 		f.icon:SetTexture(icon)
 		f.icon:Show()
 		f.duration = duration
-		
+
 		if f.count then
 			if count and (count > 1) then
 				f.count:SetText(count)
@@ -131,7 +131,7 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 				f.count:Hide()
 			end
 		end
-		
+
 		if f.time then
 			if duration and (duration > 0) then
 				f.endTime = endTime
@@ -143,7 +143,7 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 				f.time:Hide()
 			end
 		end
-		
+
 		if f.cd then
 			if duration and (duration > 0) then
 				f.cd:SetCooldown(endTime - duration, duration)
@@ -152,10 +152,10 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 				f.cd:Hide()
 			end
 		end
-		
+
 		local c = DispellColor[debuffType] or DispellColor.none
 		f:SetBorderColor(c[1], c[2], c[3])
-		
+
 		f:Show()
 	else
 		f:Hide()
@@ -167,21 +167,21 @@ local function Update(self, event, unit)
 	local _name, _icon, _count, _dtype, _duration, _endTime, _spellId
 	local _priority, priority = 0, 0
 	local _stackThreshold = 0
-	
+
 	--store if the unit its charmed, mind controlled units (Imperial Vizier Zor'lok: Convert)
-	local isCharmed = UnitIsCharmed(unit)		
-	
+	local isCharmed = UnitIsCharmed(unit)
+
 	--store if we cand attack that unit, if its so the unit its hostile (Amber-Shaper Un'sok: Reshape Life)
 	local canAttack = UnitCanAttack("player", unit)
-	
+
 	for i = 1, 40 do
 		local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId, canApplyAura, isBossDebuff = UnitAura(unit, i, 'HARMFUL')
-		
+
 		if (not name) then break end
 
 		--we coudln't dispell if the unit its charmed, or its not friendly
 		if addon.ShowDispellableDebuff and (self.RaidDebuffs.showDispellableDebuff ~= false) and debuffType and (not isCharmed) and (not canAttack) then
-			if addon.FilterDispellableDebuff then						
+			if addon.FilterDispellableDebuff then
 				DispellPriority[debuffType] = (DispellPriority[debuffType] or 0) + addon.priority --Make Dispell buffs on top of Boss Debuffs
 				priority = DispellFilter[debuffType] and DispellPriority[debuffType] or 0
 				if priority == 0 then
@@ -189,7 +189,7 @@ local function Update(self, event, unit)
 				end
 			else
 				priority = DispellPriority[debuffType] or 0
-			end			
+			end
 
 			if priority > _priority then
 				_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellId = priority, name, icon, count, debuffType, duration, expirationTime, spellId
@@ -197,7 +197,7 @@ local function Update(self, event, unit)
 		end
 
 		local debuff
-		
+
 		if self.RaidDebuffs.onlyMatchSpellID then
 			debuff = debuff_data[spellId]
 		else
@@ -209,7 +209,7 @@ local function Update(self, event, unit)
 		end
 
 		priority = debuff and debuff.priority
-		
+
 		if priority and (priority > _priority) then
 			_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellId = priority, name, icon, count, debuffType, duration, expirationTime, spellId
 		end
@@ -231,7 +231,7 @@ end
 local function Enable(self)
 	if self.RaidDebuffs then
 		self:RegisterEvent('UNIT_AURA', Update)
-			
+
 		return true
 	end
 end
@@ -239,7 +239,7 @@ end
 local function Disable(self)
 	if self.RaidDebuffs then
 		self:UnregisterEvent('UNIT_AURA', Update)
-			
+
 		self.RaidDebuffs:Hide()
 	end
 end

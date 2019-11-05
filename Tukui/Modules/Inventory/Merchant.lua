@@ -60,7 +60,7 @@ function Merchant:OnEvent(event)
 	if C.Misc.AutoSellJunk then
 		Merchant:SellJunk()
 	end
-	
+
 	if C.Misc.AutoRepair then
 		Merchant:AutoRepair()
 	end

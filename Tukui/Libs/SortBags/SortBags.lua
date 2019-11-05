@@ -147,7 +147,7 @@ do
 		if InCombatLockdown() or GetTime() > timeout then
 			f:Hide()
 			return
-		end 
+		end
 		delay = delay - arg1
 		if delay <= 0 then
 			delay = .2
@@ -178,7 +178,7 @@ end
 function Move(src, dst)
     local texture, _, srcLocked = GetContainerItemInfo(src.container, src.position)
     local _, _, dstLocked = GetContainerItemInfo(dst.container, dst.position)
-    
+
 	if texture and not srcLocked and not dstLocked then
 		ClearCursor()
        	PickupContainerItem(src.container, src.position)
@@ -367,13 +367,13 @@ end
 function ContainerClass(container)
 	if container ~= 0 and container ~= BANK_CONTAINER then
 		local name = GetBagName(container)
-		if name then		
+		if name then
 			for class, info in pairs(CLASSES) do
 				for _, itemID in pairs(info.containers) do
 					if name == GetItemInfo(itemID) then
 						return class
 					end
-				end	
+				end
 			end
 		end
 	end
@@ -453,7 +453,7 @@ function Item(container, position)
 		elseif quality == 0 then
 			tinsert(sortKey, 14)
 		end
-		
+
 		tinsert(sortKey, classId)
 		tinsert(sortKey, slot)
 		tinsert(sortKey, subClassId)

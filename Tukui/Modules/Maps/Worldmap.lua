@@ -8,7 +8,7 @@ function WorldMap:OnUpdate(elapsed)
 	if not WorldMapFrame:IsShown() then
 		return
 	end
-	
+
 	WorldMap.Interval = WorldMap.Interval - elapsed
 
 	if WorldMap.Interval < 0 then
@@ -32,20 +32,20 @@ function WorldMap:OnUpdate(elapsed)
 		else
 			WorldMap.Coords.PlayerText:SetText(" ")
 		end
-		
+
 		-- Mouse Coords
 		local Scale = WorldMapFrame:GetCanvas():GetEffectiveScale()
 		MouseX = MouseX / Scale
 		MouseY = MouseY / Scale
-		
+
 		local Width = WorldMapFrame:GetCanvas():GetWidth()
 		local Height = WorldMapFrame:GetCanvas():GetHeight()
 		local Left = WorldMapFrame:GetCanvas():GetLeft()
 		local Top = WorldMapFrame:GetCanvas():GetTop()
-		
+
 		MouseX = math.floor((MouseX - Left) / Width * 100)
 		MouseY = math.floor((Top - MouseY) / Height * 100)
-		
+
 		if MouseX ~= 0 and MouseY ~= 0 then
 			WorldMap.Coords.CursorText:SetText(MOUSE_LABEL..":   "..MouseX..", "..MouseY)
 		else
@@ -58,7 +58,7 @@ end
 
 function WorldMap:CreateCoords()
 	local Map = WorldMapFrame.ScrollContainer.Child
-	
+
 	self.Coords = CreateFrame("Frame", nil, WorldMapFrame)
 	self.Coords:SetFrameLevel(90)
 	self.Coords.PlayerText = self.Coords:CreateFontString(nil, "OVERLAY")
@@ -83,7 +83,7 @@ function WorldMap:SkinMap()
 	local ZoneButton = WorldMapZoneDropDown
 	local ZoonButton = WorldMapZoomOutButton
 	local MagnifyButton = WorldMapMagnifyingGlassButton
-	
+
 	Frame:CreateBackdrop()
 	Frame.Backdrop:ClearAllPoints()
 	Frame.Backdrop:SetAllPoints(Map)
@@ -92,17 +92,17 @@ function WorldMap:SkinMap()
 
 	Blackout:StripTextures()
 	Blackout:EnableMouse(false)
-	
+
 	Borders:SetAlpha(0)
-	
+
 	ContinentButton:SetParent(T.Hider)
-	
+
 	ZoneButton:SetParent(T.Hider)
-	
+
 	WorldMapZoomOutButton:SetParent(T.Hider)
-	
+
 	MagnifyButton:SetParent(T.Hider)
-	
+
 	CloseButton:ClearAllPoints()
 	CloseButton:SetPoint("TOPRIGHT", -10, -72)
 	CloseButton:SetFrameStrata("FULLSCREEN")
@@ -111,13 +111,13 @@ end
 
 function WorldMap:SizeMap()
 	local Scale = C.General.WorldMapScale / 100
-	
+
 	WorldMapFrame:SetScale(Scale)
-	
+
 	WorldMapFrame.ScrollContainer.GetCursorPosition = function(self)
 	   local X, Y = MapCanvasScrollControllerMixin.GetCursorPosition(self)
 	   local Scale = WorldMapFrame:GetScale()
-		
+
 	   return X / Scale, Y / Scale
 	end
 end
@@ -131,28 +131,28 @@ function WorldMap:AddMoving()
 	WorldMap.MoveButton:SetFrameLevel(WorldMapFrameCloseButton:GetFrameLevel())
 	WorldMap.MoveButton:EnableMouse(true)
 	WorldMap.MoveButton:RegisterForDrag("LeftButton")
-	
+
 	WorldMap.MoveButton.Title = WorldMap.MoveButton:CreateFontString(nil, "OVERLAY")
 	WorldMap.MoveButton.Title:SetPoint("LEFT", 5, 0)
 	WorldMap.MoveButton.Title:SetFontTemplate(C.Medias.Font, 16)
 	WorldMap.MoveButton.Title:SetText("Drag me")
-	
+
 	WorldMapFrame:SetMovable(true)
 	WorldMapFrame:SetUserPlaced(true)
-	
+
 	WorldMapFrame.ClearAllPoints = function() end
 	WorldMapFrame.SetPoint = function() end
-	
+
 	WorldMap.MoveButton:SetScript("OnDragStart", function(self)
 		WorldMapFrame:StartMoving()
 	end)
-	
+
 	WorldMap.MoveButton:SetScript("OnDragStop", function(self)
 		WorldMapFrame:StopMovingOrSizing()
-		
+
 		local A1, P, A2, X, Y = WorldMapFrame:GetPoint()
 		local Data = TukuiData[T.MyRealm][T.MyName]
-			
+
 		Data.WorldMapPosition = {A1, "UIParent", A2, X, Y}
 	end)
 end
@@ -165,28 +165,28 @@ function WorldMap:Enable()
 	if not C.Misc.WorldMapEnable then
 		return
 	end
-	
+
 	local Data = TukuiData[T.MyRealm][T.MyName]
-	
+
 	if Data.WorldMapPosition then
 		WorldMapFrame:SetPoint(unpack(Data.WorldMapPosition))
 	end
-	
+
 	self.Interval = 0.1
 	self:CreateCoords()
 	self:HookScript("OnUpdate", WorldMap.OnUpdate)
 	self:SkinMap()
 	self:SizeMap()
 	self:AddMoving()
-	
+
 	if C.Misc.FadeWorldMapWhileMoving then
 		self:AddFading()
 	end
-	
+
 	UIPanelWindows["WorldMapFrame"] = nil
 	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
-	
+
 	tinsert(UISpecialFrames, "WorldMapFrame")
 end
 

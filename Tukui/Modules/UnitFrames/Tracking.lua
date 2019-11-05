@@ -30,7 +30,7 @@ TukuiUnitFrames.DebuffsTracking["RaidDebuffs"] = {
 TukuiUnitFrames.DebuffsTracking["CCDebuffs"] = {
 	-- BROKEN: Need to build a new classic cc debuffs list
 	-- EXAMPLE: See comment in spells table
-	
+
 	["type"] = "Whitelist",
 	["spells"] = {
 		-- [107079] = Defaults(4), -- Quaking Palm

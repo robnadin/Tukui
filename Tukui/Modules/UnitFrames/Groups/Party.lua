@@ -14,7 +14,7 @@ function TukuiUnitFrames:Party()
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 	self:SetBackdrop(TukuiUnitFrames.Backdrop)
 	self:SetBackdropColor(0, 0, 0)
-	
+
 	self:CreateShadow()
 	self.Shadow:SetFrameLevel(2)
 
@@ -27,7 +27,7 @@ function TukuiUnitFrames:Party()
 	Health.Background = Health:CreateTexture(nil, "BORDER")
 	Health.Background:SetAllPoints()
 	Health.Background:SetColorTexture(.1, .1, .1)
-	
+
 	if C.Party.ShowHealthText then
 		Health.Value = Health:CreateFontString(nil, "OVERLAY")
 		Health.Value:SetFontObject(Font)
@@ -56,7 +56,7 @@ function TukuiUnitFrames:Party()
 	Power.Background:SetAllPoints(Power)
 	Power.Background:SetColorTexture(.4, .4, .4)
 	Power.Background.multiplier = 0.3
-	
+
 	if C.Party.ShowManaText then
 		Power.Value = Power:CreateFontString(nil, "OVERLAY")
 		Power.Value:SetFontObject(Font)
@@ -120,7 +120,7 @@ function TukuiUnitFrames:Party()
 		insideAlpha = 1,
 		outsideAlpha = C["Party"].RangeAlpha,
 	}
-	
+
 	if C.UnitFrames.HealComm then
 		local myBar = CreateFrame("StatusBar", nil, Health)
 		local otherBar = CreateFrame("StatusBar", nil, Health)
@@ -146,10 +146,10 @@ function TukuiUnitFrames:Party()
 			otherBar = otherBar,
 			maxOverflow = 1,
 		}
-		
+
 		self.HealthPrediction = HealthPrediction
 	end
-	
+
 	local Highlight = CreateFrame("Frame", nil, self)
 	Highlight:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = C.Party.HighlightSize})
 	Highlight:SetOutside(self, C.Party.HighlightSize, C.Party.HighlightSize)
@@ -172,7 +172,7 @@ function TukuiUnitFrames:Party()
 	self.Range.Override = TukuiUnitFrames.UpdateRange
 	self:Tag(Name, "[level] [Tukui:NameLong]")
 	self.Highlight = Highlight
-	
+
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
 	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight, true)
 end

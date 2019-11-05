@@ -16,7 +16,7 @@ function MicroMenu:Enable()
 			ShowUIPanel(SpellBookFrame)
 		end,
 		notCheckable = true},
-		
+
 		{text = QUESTLOG_BUTTON,
 		func = function()
 			ShowUIPanel(QuestLogFrame)
@@ -35,7 +35,7 @@ function MicroMenu:Enable()
 			ToggleFriendsFrame(1)
 		end,
 		notCheckable = true},
-		
+
 		{text = TALENTS,
 		func = function()
 			ToggleTalentFrame()
@@ -59,7 +59,7 @@ function MicroMenu:Enable()
 			ToggleFriendsFrame(4)
 		end,
 		notCheckable = true},
-		
+
 		{text = STOPWATCH_TITLE,
     	func = function()
 			Stopwatch_Toggle()

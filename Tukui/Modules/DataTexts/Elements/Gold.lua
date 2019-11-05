@@ -70,7 +70,7 @@ local Update = function(self, event)
 	end
 
 	local NewMoney = GetMoney()
-	
+
 	TukuiGold = TukuiGold or {}
 	TukuiGold[MyRealm] = TukuiGold[MyRealm] or {}
 	TukuiGold[MyRealm][MyName] = TukuiGold[MyRealm][MyName] or NewMoney

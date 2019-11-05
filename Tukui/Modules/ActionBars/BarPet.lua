@@ -17,7 +17,7 @@ function TukuiActionBars:CreatePetBar()
 	local Spacing = C.ActionBars.ButtonSpacing
 	local PetActionBarFrame = PetActionBarFrame
 	local PetActionBar_UpdateCooldowns = PetActionBar_UpdateCooldowns
-	
+
 	PetActionBarFrame:EnableMouse(0)
 	PetActionBarFrame:ClearAllPoints()
 	PetActionBarFrame:SetParent(T.Hider)

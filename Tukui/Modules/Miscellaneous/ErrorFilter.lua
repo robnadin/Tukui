@@ -24,7 +24,7 @@ function TukuiError:Enable()
 	if not C.Misc.ErrorFilterEnable then
 		return
 	end
-	
+
 	UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
 	TukuiError:RegisterEvent("UI_ERROR_MESSAGE")
 	TukuiError:SetScript("OnEvent", TukuiError.OnEvent)

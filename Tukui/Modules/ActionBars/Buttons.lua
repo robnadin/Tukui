@@ -18,7 +18,7 @@ local OnEnter = function(self)
 	else
 		GameTooltip:AddLine("Click to show action bar "..self.Num)
 	end
-	
+
 	GameTooltip:Show()
 end
 
@@ -105,11 +105,11 @@ function ActionBars:ShowTopButtons(bar)
 
 		Button:Show()
 	end
-	
+
 	if MainBar.Backdrop.BorderTop then
 		MainBar.Backdrop.BorderTop:SetColorTexture(0, 0, 0, 0) -- Fix a border display bug
 	end
-	
+
 	bar:Height((MultiBarBottomLeftButton1:GetWidth() * 2) + (C.ActionBars.ButtonSpacing * 3))
 end
 
@@ -123,11 +123,11 @@ function ActionBars:HideTopButtons()
 		Bar2["Button"..i]:Hide()
 		Bar3["Button"..i]:Hide()
 	end
-	
+
 	if MainBar.Backdrop.BorderTop then
 		MainBar.Backdrop.BorderTop:SetColorTexture(R, G, B, 1) -- Fix a border display bug
 	end
-	
+
 	Bar2:Height((MultiBarBottomLeftButton1:GetWidth() * 1) + (C.ActionBars.ButtonSpacing * 2))
 	Bar3:Height((MultiBarBottomRightButton1:GetWidth() * 1) + (C.ActionBars.ButtonSpacing * 2))
 end
@@ -227,13 +227,13 @@ function ActionBars:SetPetBarHorizontal(state)
 	local Button = T.Panels["ActionBarPetToggleButton"]
 	local Bar = T.Panels.PetActionBar
 	local Spacing = C.ActionBars.ButtonSpacing
-	
+
 	if state then
 		Button.Text:SetText(L.ActionBars.ArrowRight)
-		
+
 		for i = 1, NUM_PET_ACTION_SLOTS do
 			local Button = _G["PetActionButton"..i]
-			
+
 			Button:ClearAllPoints()
 
 			if (i == 1) then
@@ -243,13 +243,13 @@ function ActionBars:SetPetBarHorizontal(state)
 			else
 				Button:SetPoint("LEFT", _G["PetActionButton"..(i - 1)], "RIGHT", Spacing, 0)
 			end
-		end		
+		end
 	else
 		Button.Text:SetText(L.ActionBars.ArrowLeft)
-		
+
 		for i = 1, NUM_PET_ACTION_SLOTS do
 			local Button = _G["PetActionButton"..i]
-			
+
 			Button:ClearAllPoints()
 
 			if (i == 1) then
@@ -260,9 +260,9 @@ function ActionBars:SetPetBarHorizontal(state)
 			else
 				Button:SetPoint("TOP", _G["PetActionButton"..(i - 1)], "BOTTOM", 0, -Spacing)
 			end
-		end			
+		end
 	end
-	
+
 	Button:SetWidth(Bar:GetWidth())
 end
 
@@ -270,14 +270,14 @@ function ActionBars:OnPetClick()
 	local Data = TukuiData[GetRealmName()][UnitName("Player")]
 	local Button = T.Panels["ActionBarPetToggleButton"]
 	local Bar = T.Panels.PetActionBar
-	
+
 	if Data.HPet then
 		ActionBars:SetPetBarHorizontal(false)
-		
+
 		Data.HPet = false
 	else
 		ActionBars:SetPetBarHorizontal(true)
-		
+
 		Data.HPet = true
 	end
 end
@@ -335,14 +335,14 @@ function ActionBars:CreateToggleButtons()
 			Button:Point("TOP", Bar, "BOTTOM", 0, -3)
 			Button.Text:SetText(L.ActionBars.ArrowRight)
 		end
-		
+
 		Button:Hide()
 
 		BarButtons[i] = Button
 
 		T.Panels["ActionBar" .. i .. "ToggleButton"] = Button
 	end
-	
+
 	-- for pets
 	local Button = CreateFrame("Button", nil, UIParent)
 	Button:SetFrameStrata("BACKGROUND")
@@ -397,7 +397,7 @@ function ActionBars:LoadVariables()
 			OnClick(Button)
 		end
 	end
-	
+
 	-- Pet bar orientation
 	if Data.HPet then
 		ActionBars:SetPetBarHorizontal(true)

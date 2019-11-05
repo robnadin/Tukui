@@ -51,7 +51,7 @@ function TukuiUnitFrames:TargetOfTarget()
 	RaidIcon:Size(C.UnitFrames.RaidIconSize)
 	RaidIcon:SetPoint("TOP", self, 0, C.UnitFrames.RaidIconSize / 2)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
-	
+
 	if C.UnitFrames.HealComm then
 		local myBar = CreateFrame("StatusBar", nil, Health)
 		local otherBar = CreateFrame("StatusBar", nil, Health)
@@ -77,7 +77,7 @@ function TukuiUnitFrames:TargetOfTarget()
 			otherBar = otherBar,
 			maxOverflow = 1,
 		}
-		
+
 		self.HealthPrediction = HealthPrediction
 	end
 

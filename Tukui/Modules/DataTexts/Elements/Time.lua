@@ -12,9 +12,9 @@ local Update = function(self, Elapsed)
 
 	if Timer < 0 then
 		local String = C.DataTexts.Hour24 and "%H:%M|r" or "%I:%M|r %p"
-		
+
 		self.Text:SetFormattedText("%s", date(DataText.ValueColor .. String))
-		
+
 		Timer = Interval
 	end
 end

@@ -73,11 +73,11 @@ function TukuiDT:CreateAnchors()
 	for i = 1, self.NumAnchors do
 		local Frame = CreateFrame("Button", nil, UIParent)
 		local DataWidth = (DataTextLeft:GetWidth() / 3) - 1
-		
+
 		if i >= 4 and i <= 6 then
 			DataWidth = (DataTextRight:GetWidth() / 3) - 1
 		end
-		
+
 		Frame:Size(DataWidth, DataTextLeft:GetHeight() - 2)
 		Frame:SetFrameLevel(DataTextLeft:GetFrameLevel() + 1)
 		Frame:SetFrameStrata("HIGH")
@@ -212,7 +212,7 @@ function TukuiDT:AddDefaults()
 	TukuiData[GetRealmName()][UnitName("player")].Texts["FPS & MS"] = {true, 4}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Memory"] = {true, 5}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Gold"] = {true, 6}
-	
+
 	if UnitLevel("player") == MAX_PLAYER_LEVEL then
 		TukuiData[GetRealmName()][UnitName("player")].Texts["Time"] = {true, 7}
 	else
@@ -291,7 +291,7 @@ function TukuiDT:Enable()
 	self.ValueColor = T.RGBToHex(unpack(C["DataTexts"].ValueColor))
 	self:Load()
 	self:AddRemove()
-	
+
 	if self.BGFrame then
 		self.BGFrame:Enable()
 	end

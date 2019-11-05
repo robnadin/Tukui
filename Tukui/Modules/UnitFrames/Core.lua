@@ -133,7 +133,7 @@ end
 
 function TukuiUnitFrames:Highlight()
 	local Highlight = self.Highlight or self.Shadow
-	
+
 	if not Highlight then
 		return
 	end
@@ -157,7 +157,7 @@ function TukuiUnitFrames:PostCreateAuraBar(bar)
 	if not bar.Backdrop then
 		bar:CreateBackdrop("Transparent")
 		bar.Backdrop:CreateShadow()
-		
+
 		bar.IconBackdrop = CreateFrame("Frame", nil, bar)
 		bar.IconBackdrop:SetAllPoints(bar.icon)
 		bar.IconBackdrop:CreateShadow()
@@ -200,9 +200,9 @@ function TukuiUnitFrames:UpdateDebuffsHeaderPosition()
 	if NumBuffs == 0 then
 		Addition = 0
 	end
-	
+
 	Debuffs:ClearAllPoints()
-	
+
 	if C.UnitFrames.AurasBelow then
 		Debuffs:Point("BOTTOMLEFT", self, "BOTTOMLEFT", -2, -Y - Addition)
 	else
@@ -263,14 +263,14 @@ function TukuiUnitFrames:DisplayPlayerAndPetNames(event)
 	if event == "PLAYER_REGEN_DISABLED" then
 		self.Power.Value:SetAlpha(1)
 		self.Name:SetAlpha(0)
-		
+
 		if self.unit ~= "player" then
 			self.Health.Value:SetAlpha(1)
 		end
 	else
 		self.Power.Value:SetAlpha(0)
 		self.Name:SetAlpha(1)
-		
+
 		if self.unit ~= "player" then
 			self.Health.Value:SetAlpha(0)
 		end
@@ -281,7 +281,7 @@ function TukuiUnitFrames:PostUpdateHealth(unit, min, max)
 	if (not self.Value) then
 		return
 	end
-	
+
 	if (not UnitIsConnected(unit)) then
 		self.Value:SetText("|cffD7BEA5"..FRIENDS_LIST_OFFLINE.."|r")
 	elseif (UnitIsDeadOrGhost(unit)) then
@@ -318,22 +318,22 @@ function TukuiUnitFrames:PostUpdatePower(unit, current, min, max)
 	if (not self.Value) then
 		return
 	end
-	
+
 	if (max and max == 0) then
 		self.Value:SetText("")
-		
+
 		return
 	end
-	
+
 	local pType, pToken = UnitPowerType(unit)
-	
+
 	if T.Colors.power[pToken] then
 		local Raid = self.isRaid
 		local Party = self.isParty
 		local Color = T.RGBToHex(unpack(T.Colors.power[pToken]))
 		local PC = floor(current / max * 100)
 		local Space = max == 100 and "" or " "
-		
+
 		if (not Party) and (max ~= 100) and (unit == "player" or unit == "target") then
 			if unit == "player" then
 				self.Value:SetFormattedText(Color.."%s%% - %s/%s|r", PC, current, max)
@@ -396,7 +396,7 @@ function TukuiUnitFrames:PostCreateAura(button)
 
 	-- Skin aura button
 	button:SetTemplate("Default")
-	
+
 	if not button:GetParent().IsRaid then
 		button:CreateShadow()
 	end
@@ -443,7 +443,7 @@ function TukuiUnitFrames:PostUpdateAura(unit, button, index, offset, filter, isD
 
 	if Duration == 0 and ExpirationTime == 0 then
 		Duration, ExpirationTime = LibClassicDurations:GetAuraDurationByUnit(unit, SpellID, UnitCaster, Name)
-		
+
 		button.IsLibClassicDuration = true
 	else
 		button.IsLibClassicDuration = false
@@ -737,12 +737,12 @@ function TukuiUnitFrames:CreateUnits()
 		self.Units.Target = Target
 		self.Units.TargetOfTarget = TargetOfTarget
 		self.Units.Pet = Pet
-		
+
 		if C.Party.Enable then
 			local Party = oUF:SpawnHeader(TukuiUnitFrames:GetPartyFramesAttributes())
 			Party:SetParent(UIParent)
 			Party:Point("TOPLEFT", UIParent, "TOPLEFT", 28, -(UIParent:GetHeight() / 2) + 200)
-			
+
 			if C.Party.ShowPets then
 				local Pet = oUF:SpawnHeader(TukuiUnitFrames:GetPetPartyFramesAttributes())
 				Pet:SetParent(UIParent)
@@ -762,7 +762,7 @@ function TukuiUnitFrames:CreateUnits()
 			local Raid = oUF:SpawnHeader(TukuiUnitFrames:GetRaidFramesAttributes())
 			Raid:SetParent(UIParent)
 			Raid:Point("TOPLEFT", UIParent, "TOPLEFT", 30, -30)
-			
+
 			if C.Raid.ShowPets then
 				local Pet = oUF:SpawnHeader(TukuiUnitFrames:GetPetRaidFramesAttributes())
 				Pet:SetParent(UIParent)

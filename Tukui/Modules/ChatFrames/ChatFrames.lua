@@ -25,16 +25,16 @@ function TukuiChat:UpdateEditBoxColor()
 
 			if (ID == 0) then
 				local R, G, B = unpack(C["General"].BorderColor)
-				
+
 				Backdrop:SetBorderColor(R, G, B, 1)
 			else
 				local R, G, B = ChatTypeInfo[ChatType..ID].r, ChatTypeInfo[ChatType..ID].g, ChatTypeInfo[ChatType..ID].b
-				
+
 				Backdrop:SetBorderColor(R, G, B, 1)
 			end
 		else
 			local R, G, B = ChatTypeInfo[ChatType].r, ChatTypeInfo[ChatType].g, ChatTypeInfo[ChatType].b
-			
+
 			Backdrop:SetBorderColor(R, G, B, 1)
 		end
 	end
@@ -256,15 +256,15 @@ function TukuiChat:RemoveRightChat()
 	if not UIParent:IsShown() then
 		return
 	end
-	
+
 	local Panels = T.Panels
-	
+
 	Panels.RightChatBG:Hide()
 
 	if C.Misc.ExperienceEnable then
 		local XP = T.Miscellaneous.Experience.XPBar2
 		local Rep = T.Miscellaneous.Reputation.RepBar2
-		
+
 		XP:SetParent(T.Hider)
 		Rep:SetParent(T.Hider)
 	end
@@ -276,7 +276,7 @@ function TukuiChat:SetChatFramePosition()
 	if (not TukuiData[GetRealmName()][UnitName("Player")].Chat) then
 		return
 	end
-	
+
 	local Frame = self
 	local ID = Frame:GetID()
 
@@ -294,7 +294,7 @@ function TukuiChat:SetChatFramePosition()
 				Frame:ClearAllPoints()
 				Frame:SetSize(C.Chat.LeftWidth, C.Chat.LeftHeight - 62)
 				Frame:SetPoint("BOTTOMLEFT", Panels.DataTextLeft, "TOPLEFT", 0, 2)
-				
+
 				Movers:RegisterFrame(T.Panels.DataTextLeft)
 			elseif (ID == 4) then
 				if Frame:IsShown() and not Frame.isDocked then
@@ -303,7 +303,7 @@ function TukuiChat:SetChatFramePosition()
 					Frame:ClearAllPoints()
 					Frame:SetSize(C.Chat.RightWidth, C.Chat.RightHeight - 62)
 					Frame:SetPoint("BOTTOMLEFT", Panels.DataTextRight, "TOPLEFT", 0, 2)
-					
+
 					if C.Chat.RightChatAlignRight then
 						Frame:SetJustifyH("RIGHT")
 					end
@@ -347,7 +347,7 @@ function TukuiChat:Install()
 	FCF_SetChatWindowFontSize(nil, ChatFrame4, 12)
 
 	DEFAULT_CHAT_FRAME:SetUserPlaced(true)
-	
+
 	self:SetDefaultChatFramesPositions()
 end
 
@@ -360,7 +360,7 @@ function TukuiChat:MoveChannels()
 			ChatFrame_RemoveAllMessageGroups(ChatFrame)
 		end
 	end
-	
+
 	ChatFrame_AddMessageGroup(ChatFrame1, "SAY")
 	ChatFrame_AddMessageGroup(ChatFrame1, "EMOTE")
 	ChatFrame_AddMessageGroup(ChatFrame1, "YELL")
@@ -389,7 +389,7 @@ function TukuiChat:MoveChannels()
 	ChatFrame_AddMessageGroup(ChatFrame1, "ACHIEVEMENT")
 	ChatFrame_AddMessageGroup(ChatFrame1, "BN_WHISPER")
 	ChatFrame_AddMessageGroup(ChatFrame1, "BN_CONVERSATION")
-	
+
 	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_XP_GAIN")
 	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_HONOR_GAIN")
 	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_FACTION_CHANGE")
@@ -400,7 +400,7 @@ function TukuiChat:MoveChannels()
 	ChatFrame_AddMessageGroup(ChatFrame4, "IGNORED")
 	ChatFrame_AddMessageGroup(ChatFrame4, "SKILL")
 	ChatFrame_AddMessageGroup(ChatFrame4, "CURRENCY")
-	
+
 	ChatFrame_RemoveChannel(ChatFrame1, "General")
 	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
 	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
@@ -408,7 +408,7 @@ function TukuiChat:MoveChannels()
 	ChatFrame_AddChannel(ChatFrame3, "General")
 	ChatFrame_AddChannel(ChatFrame3, "Trade")
 	ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
-	
+
 	T.Delay(5, function()
 		ChatFrame_RemoveChannel(ChatFrame1, "General")
 		ChatFrame_RemoveChannel(ChatFrame1, "Trade")
@@ -461,35 +461,35 @@ function TukuiChat:HideChatFrame(button, id)
 	local Panels = T.Panels
 	local Background = id == 1 and Panels.LeftChatBG or Panels.RightChatBG
 	local DataText = id == 1 and Panels.DataTextLeft or Panels.DataTextRight
-	
+
 	Background:Hide()
 
 	if C.Misc.ExperienceEnable then
 		local XP = T.Miscellaneous.Experience["XPBar"..id]
 		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
-		
+
 		XP:SetParent(T.Hider)
 		Rep:SetParent(T.Hider)
 	end
 
 	DataText:Hide()
-	
+
 	for i = 1, 10 do
 		local Chat =  _G["ChatFrame"..i]
 		local Tab = _G["ChatFrame"..i.."Tab"]
-		
+
 		if id == 1 and Chat.isDocked then
 			Tab:SetParent(T.Hider)
 		elseif id == 2 and not Chat.isDocked then
 			Tab:SetParent(T.Hider)
 		end
 	end
-	
+
 	button.state = "hidden"
 	button.Texture:SetTexture(C.Medias.ArrowUp)
-	
+
 	local Data = TukuiData[T.MyRealm][T.MyName]
-	
+
 	if id == 1 then
 		Data.ChatLeftHidden = true
 	elseif id == 2 then
@@ -501,36 +501,36 @@ function TukuiChat:ShowChatFrame(button, id)
 	local Panels = T.Panels
 	local Background = id == 1 and Panels.LeftChatBG or Panels.RightChatBG
 	local DataText = id == 1 and Panels.DataTextLeft or Panels.DataTextRight
-	
+
 	Background:Show()
 
 	if C.Misc.ExperienceEnable then
 		local XP = T.Miscellaneous.Experience["XPBar"..id]
 		local Rep = T.Miscellaneous.Reputation["RepBar"..id]
-		
+
 		XP:SetParent(UIParent)
 		Rep:SetParent(UIParent)
 		Rep:SetFrameLevel(XP:GetFrameLevel() + 2)
 	end
 
 	DataText:Show()
-	
+
 	for i = 1, 10 do
 		local Chat =  _G["ChatFrame"..i]
 		local Tab = _G["ChatFrame"..i.."Tab"]
-		
+
 		if id == 1 and Chat.isDocked then
 			Tab:SetParent(UIParent)
 		elseif id == 2 and not Chat.isDocked then
 			Tab:SetParent(UIParent)
 		end
 	end
-	
+
 	button.state = "show"
 	button.Texture:SetTexture(C.Medias.ArrowDown)
-	
+
 	local Data = TukuiData[T.MyRealm][T.MyName]
-	
+
 	if id == 1 then
 		Data.ChatLeftHidden = false
 	elseif id == 2 then
@@ -550,24 +550,24 @@ function TukuiChat:AddToggles()
 	if C.General.Themes.Value ~= "Tukui 18" then
 		return
 	end
-	
+
 	local Panels = T.Panels
-	
+
 	for i = 1, 2 do
 		local Button = CreateFrame("Button", nil, UIParent)
-		
+
 		if i == 1 then
 			Button:SetSize(19, Panels.LeftChatBG:GetHeight())
 			Button:SetPoint("TOPRIGHT", Panels.LeftChatBG, "TOPLEFT", -6, 0)
-			
+
 			Panels.LeftChatToggle = Button
 		else
 			Button:SetSize(19, Panels.RightChatBG:GetHeight())
 			Button:SetPoint("TOPLEFT", Panels.RightChatBG, "TOPRIGHT", 6, 0)
-			
+
 			Panels.RightChatToggle = Button
 		end
-		
+
 		Button:SetTemplate()
 		Button:CreateShadow()
 		Button:SetAlpha(0)
@@ -577,7 +577,7 @@ function TukuiChat:AddToggles()
 		Button.Texture:SetTexture(C.Medias.ArrowDown)
 		Button.id = i
 		Button.state = "show"
-		
+
 		Button:SetScript("OnClick", self.ToggleChat)
 		Button:SetScript("OnEnter", function(self) self:SetAlpha(1) end)
 		Button:SetScript("OnLeave", function(self) self:SetAlpha(0) end)
@@ -609,7 +609,7 @@ function TukuiChat:Setup()
 	local LeftBG = T["Panels"].LeftChatBG
 	local RightBG = T["Panels"].RightChatBG
 	local BGR, BGG, BGB = LeftBG.Backdrop:GetBackdropColor()
-	
+
 	LeftBG.Backdrop:SetBackdropColor(BGR, BGG, BGB, C.Chat.BackgroundAlpha / 100)
 	RightBG.Backdrop:SetBackdropColor(BGR, BGG, BGB, C.Chat.BackgroundAlpha / 100)
 
@@ -626,14 +626,14 @@ function TukuiChat:Setup()
 	VoiceChatPromptActivateChannel:SetPoint(unpack(TukuiChat.VoiceAlertPosition))
 	VoiceChatPromptActivateChannel.ClearAllPoints = Noop
 	VoiceChatPromptActivateChannel.SetPoint = Noop
-	
+
 	-- Remember last channel
 	ChatTypeInfo.WHISPER.sticky = 1
 	ChatTypeInfo.BN_WHISPER.sticky = 1
 	ChatTypeInfo.OFFICER.sticky = 1
 	ChatTypeInfo.RAID_WARNING.sticky = 1
 	ChatTypeInfo.CHANNEL.sticky = 1
-	
+
 	-- Enable nicknames classcolor
 	SetCVar("chatClassColorOverride", 0)
 
@@ -672,9 +672,9 @@ function TukuiChat:Setup()
 		CHAT_FLAG_DND = "[DND] "
 		CHAT_FLAG_GM = "[GM] "
 	end
-	
+
 	self:AddToggles()
-	
+
 	if C.General.Themes.Value == "Tukui 18" then
 		local Data = TukuiData[T.MyRealm][T.MyName]
 

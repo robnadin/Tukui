@@ -31,7 +31,7 @@ function Bind:TooltipOnUpdate(e)
 	if elapsed < .2 then
 		return
 	else
-		elapsed = 0 
+		elapsed = 0
 	end
 
 	if (not self.comparing and IsModifiedClick("COMPAREITEMS")) then
@@ -72,7 +72,7 @@ function Bind:Update(b, spellmacro)
 	if not self.enabled or InCombatLockdown() then
 		return
 	end
-	
+
 	self.button = b
 	self.spellmacro = spellmacro
 
@@ -103,17 +103,17 @@ function Bind:Update(b, spellmacro)
 		GameTooltip:AddLine(Bind.button.name, 1, 1, 1)
 
 		Bind.button.bindings = {GetBindingKey(spellmacro.." "..Bind.button.name)}
-		
+
 		if #Bind.button.bindings == 0 then
 			GameTooltip:AddLine("No bindings set.", .6, .6, .6)
 		else
 			GameTooltip:AddDoubleLine("Binding", "Key", .6, .6, .6, .6, .6, .6)
-			
+
 			for i = 1, #Bind.button.bindings do
 				GameTooltip:AddDoubleLine("Binding"..i, Bind.button.bindings[i], 1, 1, 1)
 			end
 		end
-		
+
 		GameTooltip:Show()
 	elseif spellmacro=="STANCE" or spellmacro=="PET" then
 		self.button.id = tonumber(b:GetID())
@@ -144,7 +144,7 @@ function Bind:Update(b, spellmacro)
 			self.button.bindstring = "CLICK "..self.button.name..":LeftButton"
 		else
 			local modact = 1+(self.button.action-1)%12
-			
+
 			if self.button.action < 25 or self.button.action > 72 then
 				self.button.bindstring = "ACTIONBUTTON"..modact
 			elseif self.button.action < 73 and self.button.action > 60 then
@@ -169,15 +169,15 @@ function Bind:Listener(key)
 		for i = 1, #self.button.bindings do
 			SetBinding(self.button.bindings[i])
 		end
-		
+
 		T.Print("All keybindings cleared for |cff00ff00"..self.button.name.."|r.")
-		
+
 		self:Update(self.button, self.spellmacro)
-		
+
 		if self.spellmacro~="MACRO" then
 			GameTooltip:Hide()
 		end
-		
+
 		return
 	end
 
@@ -188,11 +188,11 @@ function Bind:Listener(key)
 	if key == "MiddleButton" then
 		key = "BUTTON3"
 	end
-	
+
 	if key == "Button4" then
 		key = "BUTTON4"
 	end
-	
+
 	if key == "Button5" then
 		key = "BUTTON5"
 	end
@@ -206,11 +206,11 @@ function Bind:Listener(key)
 	else
 		SetBinding(alt..ctrl..shift..key, self.spellmacro.." "..self.button.name)
 	end
-	
+
 	T.Print(alt..ctrl..shift..key.." |cff00ff00bound to |r"..self.button.name..".")
-	
+
 	self:Update(self.button, self.spellmacro)
-	
+
 	if self.spellmacro~="MACRO" then
 		GameTooltip:Hide()
 	end
@@ -219,7 +219,7 @@ end
 function Bind:HideFrame()
 	self:ClearAllPoints()
 	self:Hide()
-	
+
 	GameTooltip:Hide()
 end
 
@@ -231,18 +231,18 @@ end
 function Bind:Deactivate(save)
 	if save then
 		AttemptToSaveBindings(2)
-		
+
 		T.Print("All keybindings have been saved.")
 	else
 		LoadBindings(2)
-		
+
 		T.Print("All newly set keybindings have been discarded.")
 	end
-	
+
 	self.enabled = false
 	self:HideFrame()
 	self:UnregisterEvent("PLAYER_REGEN_DISABLED")
-	
+
 	T.Popups.HidePopupByName("KEYBIND_MODE")
 end
 
@@ -269,7 +269,7 @@ function Bind:Enable()
 	Bind:SetScript("OnKeyUp", function(self, key) self:Listener(key) end)
 	Bind:SetScript("OnMouseUp", function(self, key) self:Listener(key) end)
 	Bind:SetScript("OnMouseWheel", function(self, delta)
-		if delta>0 then 
+		if delta>0 then
 			self:Listener("MOUSEWHEELUP")
 		else self:Listener("MOUSEWHEELDOWN")
 
@@ -298,7 +298,7 @@ function Bind:Enable()
 
 	for i=1,12 do
 		local sb = _G["SpellButton"..i]
-		
+
 		sb:HookScript("OnEnter", function(self) Bind:Update(self, "SPELL") end)
 	end
 

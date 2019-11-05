@@ -6,7 +6,7 @@ function TukuiAuras:Enable()
 	if not C.Auras.Enable then
 		return
 	end
-	
+
 	self:DisableBlizzardAuras()
 	self:CreateHeaders()
 

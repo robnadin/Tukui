@@ -162,13 +162,13 @@ local OnEnter = function(self)
 
 				Count = Count + 1
 			end
-			
+
 			local MaxOnlineGuildMembersToDisplay = floor((T.ScreenHeight / 100) * 2)
-			
+
 			if Count > MaxOnlineGuildMembersToDisplay then
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(format("+ "..INSPECT_GUILD_NUM_MEMBERS, online - Count),ttsubh.r,ttsubh.g,ttsubh.b)
-				
+
 				break -- too many members online
 			end
 		end

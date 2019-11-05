@@ -309,7 +309,7 @@ function lib:UnitCastingInfo(unit)
             local duration = endTimeMS - startTimeMS
             endTimeMS = startTimeMS + duration * slowdown
         end
-        
+
         if castType == "CAST" and endTimeMS > GetTime()*1000 then
             local castID = nil
             return name, nil, icon, startTimeMS, endTimeMS, nil, castID, false, spellID

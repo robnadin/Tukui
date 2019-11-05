@@ -12,15 +12,15 @@ oUF.Tags.Methods["Tukui:GetRaidNameColor"] = function(unit)
 	local IsPlayer = UnitIsPlayer(unit)
 	local Reaction = UnitReaction(unit, "player")
 	local R, G, B = 1, 1, 1
-	
+
 	if IsPlayer then
 		local Class = select(2, UnitClass(unit))
-		
+
 		R, G, B = unpack(T.Colors.class[Class])
 	elseif Reaction then
 		R, G, B = unpack(T.Colors.reaction[Reaction])
 	end
-	
+
 	return string.format("|cff%02x%02x%02x", R * 255, G * 255, B * 255)
 end
 
@@ -30,13 +30,13 @@ oUF.Tags.Methods["Tukui:GetNameColor"] = function(unit)
 
 	if (unit == "pet" and GetPetHappiness()) then
 		local c = T.Colors.happiness[GetPetHappiness()]
-		
+
 		return string.format('|cff%02x%02x%02x', c[1] * 255, c[2] * 255, c[3] * 255)
 	elseif (UnitIsPlayer(unit)) then
 		return _TAGS["raidcolor"](unit)
 	elseif (Reaction) then
 		local c = T.Colors.reaction[Reaction]
-		
+
 		return string.format("|cff%02x%02x%02x", c[1] * 255, c[2] * 255, c[3] * 255)
 	else
 		return string.format("|cff%02x%02x%02x", 1, 1, 1)

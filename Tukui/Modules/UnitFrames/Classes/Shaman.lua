@@ -19,10 +19,10 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 	if not C.UnitFrames.TotemBar then
 		return
 	end
-	
+
 	local HealthTexture = T.GetTexture(C["Textures"].UFHealthTexture)
 	local Shadow = self.Shadow
-	
+
 	local totems = CreateFrame("Frame", "TukuiTotemBar", self)
 	totems:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 1)
 	totems:SetFrameStrata(self.Health:GetFrameStrata())
@@ -49,7 +49,7 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 		totems[i].bg.multiplier = 0.3
 
 		totems[i].bg:SetVertexColor(r * .3, g * .3, b * .3)
-		
+
 		if i == 1 then
 			totems[i]:Point("BOTTOMLEFT", totems, "BOTTOMLEFT", 0, 0)
 			totems[i]:Size(61, 8)
@@ -65,9 +65,9 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 		totems.Destroy[i]:SetAttribute("type2", "destroytotem")
 		totems.Destroy[i]:SetAttribute("*totem-slot*", i)
 	end
-	
+
 	Shadow:SetPoint("TOPLEFT", -4, 13)
-	
+
 	if C.UnitFrames.PlayerAuras and C.UnitFrames.PlayerAuraBars then
 		self.AuraBars:ClearAllPoints()
 		self.AuraBars:SetPoint("TOPLEFT", -2, 20)
@@ -75,7 +75,7 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 		self.Buffs:ClearAllPoints()
 		self.Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 15)
 	end
-	
+
 	-- Register with oUF
 	self.Totems = totems
 end

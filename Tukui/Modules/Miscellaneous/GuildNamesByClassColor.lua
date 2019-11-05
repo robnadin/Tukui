@@ -6,7 +6,7 @@ local GuildNamesByClassColor = CreateFrame("Frame")
 function GuildNamesByClassColor:Update()
 	if (FriendsFrame.playerStatusFrame) then
 		local Offset = FauxScrollFrame_GetOffset(GuildListScrollFrame)
-		
+
 		for i=1, GUILDMEMBERS_TO_DISPLAY, 1 do
 			local Index = Offset + i
 			local FullName, _, _, _, _, _, _, _, Online, _, Class = GetGuildRosterInfo(Index)

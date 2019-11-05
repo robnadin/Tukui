@@ -9,7 +9,7 @@ end
 
 TukuiUnitFrames.AddClassFeatures["DRUID"] = function(self)
 	local Texture = T.GetTexture(C["Textures"].UFPowerTexture)
-	
+
 	local DruidMana = CreateFrame("StatusBar", nil, self.Health)
 	DruidMana:SetFrameStrata(self.Health:GetFrameStrata())
 	DruidMana:SetHeight(self.Health:GetFrameLevel() + 1)

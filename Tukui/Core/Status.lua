@@ -19,7 +19,7 @@ function Status:ShowWindow()
 	self:SetPoint("CENTER")
 	self:SetTemplate("Transparent")
 	self:CreateShadow()
-	
+
 	self.FrameLogo = CreateFrame("Frame", nil, self)
 	self.FrameLogo:SetAllPoints()
 	self.FrameLogo:SetFrameLevel(self:GetFrameLevel() + 1)

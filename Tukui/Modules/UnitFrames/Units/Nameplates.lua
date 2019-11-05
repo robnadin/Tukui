@@ -14,7 +14,7 @@ function TukuiUnitFrames:Nameplates()
 	self:SetPoint("CENTER", 0, 0)
 	self:SetBackdrop(TukuiUnitFrames.Backdrop)
 	self:SetBackdropColor(0, 0, 0)
-	
+
 	self:CreateShadow()
 	self.Shadow:SetFrameLevel(2)
 
@@ -76,7 +76,7 @@ function TukuiUnitFrames:Nameplates()
 	Debuffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
 	Debuffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
 	Debuffs.onlyShowPlayer = C.NamePlates.OnlySelfDebuffs
-	
+
 	if C.NamePlates.NameplateCastBar then
 		local CastBar = CreateFrame("StatusBar", "TukuiTargetCastBar", self)
 		CastBar:SetFrameStrata(self:GetFrameStrata())
@@ -115,7 +115,7 @@ function TukuiUnitFrames:Nameplates()
 		CastBar.PostCastInterruptible = TukuiUnitFrames.CheckInterrupt
 		CastBar.PostCastNotInterruptible = TukuiUnitFrames.CheckInterrupt
 		CastBar.PostChannelStart = TukuiUnitFrames.CheckInterrupt
-		
+
 		self.Castbar = CastBar
 	end
 
@@ -123,7 +123,7 @@ function TukuiUnitFrames:Nameplates()
 	RaidIcon:Size(C.UnitFrames.RaidIconSize)
 	RaidIcon:Point("LEFT", self, "RIGHT", 4, 0)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
-	
+
 	local Highlight = CreateFrame("Frame", nil, self)
 	Highlight:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = C.NamePlates.HighlightSize})
 	Highlight:SetOutside(self, C.NamePlates.HighlightSize, C.NamePlates.HighlightSize)
@@ -138,7 +138,7 @@ function TukuiUnitFrames:Nameplates()
 	self.Power = Power
 	self.RaidTargetIndicator = RaidIcon
 	self.Highlight = Highlight
-	
+
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
 	self:RegisterEvent("NAME_PLATE_UNIT_ADDED", TukuiUnitFrames.Highlight, true)
 	self:RegisterEvent("NAME_PLATE_UNIT_REMOVED", TukuiUnitFrames.Highlight, true)
