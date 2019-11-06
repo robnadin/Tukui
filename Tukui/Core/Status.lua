@@ -71,7 +71,7 @@ function Status:ShowWindow()
 	self.Resolution:SetText("Resolution: "..self.Resolution.Value)
 
 	self.Mac = self:CreateFontString(nil, "OVERLAY")
-	self.Mac.Value = IsMacClient() == 1 and "Yes" or "No"
+	self.Mac.Value = IsMacClient() == true and "Yes" or "No"
 	self.Mac:SetFont(C.Medias.Font, 12, "THINOUTLINE")
 	self.Mac:SetPoint("TOP", self.Resolution, 0, -20)
 	self.Mac:SetText("Mac client: "..self.Mac.Value)
