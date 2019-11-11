@@ -79,6 +79,7 @@
 	<Script file="DataTexts\Elements\Micromenu.lua"/>
 	<Script file="DataTexts\Elements\Power.lua"/>
 	<Script file="DataTexts\Elements\Regen.lua"/>
+	<Script file="DataTexts\Elements\Stats.lua"/>
 	<Script file="DataTexts\Elements\Time.lua"/>
 	<Script file="DataTexts\Elements\Battleground.lua"/>
 	<Script file="DataTexts\Elements\Zone.lua"/>
