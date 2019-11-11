@@ -402,7 +402,7 @@ function TukuiUnitFrames:Player()
 		otherBar:SetPoint("LEFT", myBar:GetStatusBarTexture(), "RIGHT")
 		otherBar:SetWidth(250)
 		otherBar:SetStatusBarTexture(HealthTexture)
-		otherBar:SetStatusBarColor(C.UnitFrames.HealCommOtherColor)
+		otherBar:SetStatusBarColor(unpack(C.UnitFrames.HealCommOtherColor))
 
 		local HealthPrediction = {
 			myBar = myBar,

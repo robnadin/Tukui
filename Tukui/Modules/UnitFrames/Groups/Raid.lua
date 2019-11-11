@@ -166,7 +166,7 @@ function TukuiUnitFrames:Raid()
 		otherBar:SetPoint("LEFT", myBar:GetStatusBarTexture(), "RIGHT")
 		otherBar:SetWidth(C.Raid.WidthSize)
 		otherBar:SetStatusBarTexture(HealthTexture)
-		otherBar:SetStatusBarColor(C.UnitFrames.HealCommOtherColor)
+		otherBar:SetStatusBarColor(unpack(C.UnitFrames.HealCommOtherColor))
 
 		if C.Raid.VerticalHealth then
 			myBar:SetOrientation("VERTICAL")
