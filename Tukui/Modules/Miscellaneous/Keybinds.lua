@@ -33,6 +33,10 @@ function Bind:TooltipOnUpdate(e)
 	else
 		elapsed = 0
 	end
+	
+	if not Bind.enabled then
+		return
+	end
 
 	if (not self.comparing and IsModifiedClick("COMPAREITEMS")) then
 		GameTooltip_ShowCompareItem(self)
