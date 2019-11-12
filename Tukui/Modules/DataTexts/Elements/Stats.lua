@@ -27,6 +27,8 @@ local OnEnter = function(self)
 		
 		GameTooltip:SetOwner(self:GetTooltipAnchor())
 		GameTooltip:ClearLines()
+		GameTooltip:AddLine("Character Stats")
+		GameTooltip:AddLine(" ")
 		
 		for i=1, NUM_STATS, 1 do
 			local Text = _G["CharacterStatFrame"..i.."StatText"]
@@ -37,6 +39,8 @@ local OnEnter = function(self)
 			GameTooltip:AddDoubleLine(Stat, Value)
 		end
 		
+		GameTooltip:AddLine(" ")
+
 		if UnitPowerType("player") == Enum.PowerType.Mana then
 			GameTooltip:AddDoubleLine(STAT_SPELLPOWER..":", SpellPower)
 			GameTooltip:AddDoubleLine(BONUS_HEALING..":", BonusHealing)
