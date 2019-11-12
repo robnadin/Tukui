@@ -7,6 +7,7 @@ local OnEnter = function(self)
 	if (not InCombatLockdown()) then
 		local SpellPower = GetSpellBonusDamage(7)
 		local BonusHealing = GetSpellBonusHealing()
+		local PowerRegenBase, PowerRegenCombat = GetPowerRegen()
 		local CritMelee = GetCritChance()
 		local CritSpell = GetSpellCritChance(1)
 		local CritRanged = GetRangedCritChance()
@@ -36,8 +37,11 @@ local OnEnter = function(self)
 			GameTooltip:AddDoubleLine(Stat, Value)
 		end
 		
-		GameTooltip:AddDoubleLine(STAT_SPELLPOWER..":", SpellPower)
-		GameTooltip:AddDoubleLine(BONUS_HEALING..":", SpellPower)
+		if UnitPowerType("player") == Enum.PowerType.Mana then
+			GameTooltip:AddDoubleLine(STAT_SPELLPOWER..":", SpellPower)
+			GameTooltip:AddDoubleLine(BONUS_HEALING..":", BonusHealing)
+			GameTooltip:AddDoubleLine(ITEM_MOD_POWER_REGEN0_SHORT..":", floor(PowerRegenCombat + 0.5))
+		end
 		
 		GameTooltip:AddDoubleLine(MELEE_CRIT_CHANCE..":", CritValue.."%")
 		
@@ -50,8 +54,6 @@ local OnEnter = function(self)
 		GameTooltip:AddDoubleLine(CharacterRangedAttackFrame.Label:GetText()..":", CharacterRangedAttackFrameStatText:GetText())
 		GameTooltip:AddDoubleLine(CharacterRangedAttackPowerFrame.Label:GetText(), CharacterRangedAttackPowerFrameStatText:GetText())
 		GameTooltip:AddDoubleLine(CharacterRangedDamageFrame.Label:GetText(), CharacterRangedDamageFrameStatText:GetText())
-		
-		GameTooltip:AddDoubleLine(CharacterRangedAttackFrame.Label:GetText()..":", CharacterRangedAttackFrameStatText:GetText())
 		
 		GameTooltip:Show()
 	end
