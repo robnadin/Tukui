@@ -27,9 +27,8 @@ local OnEnter = function(self)
 		
 		GameTooltip:SetOwner(self:GetTooltipAnchor())
 		GameTooltip:ClearLines()
-		GameTooltip:AddLine("Character Stats")
-		GameTooltip:AddLine(" ")
-		
+		GameTooltip:AddLine("Character Stats:")
+
 		for i=1, NUM_STATS, 1 do
 			local Text = _G["CharacterStatFrame"..i.."StatText"]
 			local Frame = _G["CharacterStatFrame"..i]
