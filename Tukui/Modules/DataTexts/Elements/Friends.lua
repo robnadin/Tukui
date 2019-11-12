@@ -405,10 +405,8 @@ local OnEnter = function(self)
 
 		---- Add wow friends listing
 		wipe(WoWTable)
-
-		GameTooltip:AddLine(" ")
-		GameTooltip:AddDoubleLine("|cffff8000World of Warcraft:|r", "|cffff8000"..C_FriendList.GetNumOnlineFriends().."/"..C_FriendList.GetNumFriends().."|r")
-		GameTooltip:AddLine(" ")
+		
+		local WoWFriendCount = 0
 
 		for i = 1, wowonline do
 			local friendinfo = C_FriendList_GetFriendInfoByIndex(i)
@@ -435,6 +433,13 @@ local OnEnter = function(self)
 				local levelhex = T.RGBToHex(levelc.r, levelc.g, levelc.b)
 
 				WoWTable[i].hex = Hex
+				WoWFriendCount = WoWFriendCount + 1
+				
+				if WoWFriendCount == 1 then
+					GameTooltip:AddLine(" ")
+					GameTooltip:AddDoubleLine("|cffff8000World of Warcraft:|r", "|cffff8000"..C_FriendList.GetNumOnlineFriends().."/"..C_FriendList.GetNumFriends().."|r")
+					GameTooltip:AddLine(" ")
+				end
 
 				GameTooltip:AddDoubleLine(Hex..name.."|r ("..levelhex..level.."|r)", area)
 			end
