@@ -99,7 +99,7 @@ C["Misc"] = {
 	["ErrorFilterEnable"] = true,
 	["AutoSellJunk"] = true,
 	["AutoRepair"] = true,
-	["AFKSaver"] = true,
+	["AFKSaver"] = false,
 	["FadeWorldMapWhileMoving"] = false,
 	["ObjectiveTrackerFont"] = "Tukui Outline",
 }
