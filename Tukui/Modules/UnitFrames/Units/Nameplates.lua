@@ -132,7 +132,6 @@ function TukuiUnitFrames:Nameplates()
 	Highlight:Hide()
 
 	self.Health = Health
-	self.Buffs = Buffs
 	self.Debuffs = Debuffs
 	self.Name = Name
 	self.Power = Power
