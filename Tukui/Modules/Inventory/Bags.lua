@@ -176,7 +176,7 @@ function Bags:CreateContainer(storagetype, ...)
 		ToggleBagsContainer:SkinCloseButton()
 		ToggleBagsContainer:SetScript("OnEnter", GameTooltip_Hide)
 		ToggleBagsContainer:SetScript("OnMouseUp", function(self, button)
-			Bags:CloseAllBags()
+			CloseAllBags()
 			CloseBankBagFrames()
 			CloseBankFrame()
 
@@ -762,7 +762,6 @@ function Bags:CloseAllBags()
 	end
 
 	CloseAllBags()
-	CloseBag(-2) -- Keys
 
 	PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE)
 end
@@ -929,9 +928,12 @@ function Bags:Enable()
 	self:RegisterEvent("BANKFRAME_OPENED")
 	self:SetScript("OnEvent", self.OnEvent)
 
-	if ContainerFrame5 then
-		ContainerFrame5:EnableMouse(false)
+	for i = 1, 6 do
+		_G["ContainerFrame"..i]:EnableMouse(false)
 	end
+	
+	-- Just in case some other addon are calling CloseAllBags
+	hooksecurefunc("CloseAllBags", function() CloseBag(-2) end)
 
 	ToggleAllBags()
 	ToggleAllBags()

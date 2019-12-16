@@ -99,7 +99,6 @@ local OnMouseDown = function(self)
 	else
 		if ContainerFrame1:IsShown() then
 			CloseAllBags()
-			CloseBag(-2)
 		else
 			ToggleAllBags()
 		end
