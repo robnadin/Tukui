@@ -184,18 +184,19 @@ function TukuiUnitFrames:UpdateBuffsHeaderPosition(height)
 	end
 
 	Buffs:ClearAllPoints()
-	Buffs:Point("BOTTOMLEFT", Frame, "TOPLEFT", 0, height)
+	Buffs:Point("BOTTOMLEFT", Frame, "TOPLEFT", -1, height)
 end
 
 function TukuiUnitFrames:UpdateDebuffsHeaderPosition()
 	local NumBuffs = self.visibleBuffs
 	local PerRow = self.numRow
 	local Size = self.size
-	local Row = math.ceil((NumBuffs / PerRow))
+	local Row = math.ceil((NumBuffs / 8))
 	local Parent = self:GetParent()
 	local Debuffs = Parent.Debuffs
+	local Spacing = Debuffs.spacing
 	local Y = Size * Row
-	local Addition = Size
+	local Addition = (Spacing * Row)
 
 	if NumBuffs == 0 then
 		Addition = 0
@@ -204,9 +205,9 @@ function TukuiUnitFrames:UpdateDebuffsHeaderPosition()
 	Debuffs:ClearAllPoints()
 
 	if C.UnitFrames.AurasBelow then
-		Debuffs:Point("BOTTOMLEFT", self, "BOTTOMLEFT", -2, -Y - Addition)
+		Debuffs:Point("BOTTOMLEFT", self, "BOTTOMLEFT", 0, -Y - Addition)
 	else
-		Debuffs:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", -2, Y + Addition)
+		Debuffs:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, Y + Addition)
 	end
 end
 

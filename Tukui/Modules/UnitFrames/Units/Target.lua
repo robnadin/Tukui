@@ -192,30 +192,30 @@ function TukuiUnitFrames:Target()
 		local Debuffs = CreateFrame("Frame", self:GetName()..'Debuffs', self)
 
 		Buffs:SetFrameStrata(self:GetFrameStrata())
-		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 4)
+		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", -1, 4)
 
-		Buffs:SetHeight(26)
+		Buffs:SetHeight(28)
 		Buffs:SetWidth(252)
-		Buffs.size = 26
-		Buffs.num = 36
-		Buffs.numRow = 9
+		Buffs.size = 28
+		Buffs.num = 32
+		Buffs.numRow = 4
 
 		Debuffs:SetFrameStrata(self:GetFrameStrata())
-		Debuffs:SetHeight(26)
+		Debuffs:SetHeight(28)
 		Debuffs:SetWidth(252)
-		Debuffs:SetPoint("BOTTOMLEFT", Buffs, "TOPLEFT", -2, 2)
-		Debuffs.size = 26
-		Debuffs.num = 36
-		Debuffs.numRow = 9
+		Debuffs:SetPoint("BOTTOMLEFT", Buffs, "TOPLEFT", 0, 18)
+		Debuffs.size = 28
+		Debuffs.num = 16
+		Debuffs.numRow = 2
 
-		Buffs.spacing = 2
+		Buffs.spacing = 4
 		Buffs.initialAnchor = "TOPLEFT"
 		Buffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
 		Buffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
 		Buffs.PostUpdate = TukuiUnitFrames.UpdateDebuffsHeaderPosition
 		Buffs.onlyShowPlayer = C.UnitFrames.OnlySelfBuffs
 
-		Debuffs.spacing = 2
+		Debuffs.spacing = 4
 		Debuffs.initialAnchor = "TOPRIGHT"
 		Debuffs["growth-y"] = "UP"
 		Debuffs["growth-x"] = "LEFT"

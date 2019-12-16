@@ -148,9 +148,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		nameplateShowSelf, spellID, canApply, isBossDebuff, casterIsPlayer, nameplateShowAll,
 		timeMod, effect1, effect2, effect3 = UnitAura(unit, index, filter)
 	
-	--spellID = 111
-	--name, _, texture = GetSpellInfo(spellID)
-	--count, debuffType, duration, expiration, caster, isStealable, nameplateShowSelf, isBossDebuff = 5, "Magic", 0, 60, "player", nil, nil, nil
+	--spellID = 111 name, _, texture = GetSpellInfo(spellID) count, debuffType, duration, expiration, caster, isStealable, nameplateShowSelf, isBossDebuff = 5, "Magic", 0, 60, "player", nil, nil, nil
 
 	if(name) then
 		local position = visible + offset + 1
