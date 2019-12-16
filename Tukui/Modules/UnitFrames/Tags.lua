@@ -16,7 +16,9 @@ oUF.Tags.Methods["Tukui:GetRaidNameColor"] = function(unit)
 	if IsPlayer then
 		local Class = select(2, UnitClass(unit))
 
-		R, G, B = unpack(T.Colors.class[Class])
+		if Class then
+			R, G, B = unpack(T.Colors.class[Class])
+		end
 	elseif Reaction then
 		R, G, B = unpack(T.Colors.reaction[Reaction])
 	end
