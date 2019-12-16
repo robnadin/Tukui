@@ -176,7 +176,7 @@ function Bags:CreateContainer(storagetype, ...)
 		ToggleBagsContainer:SkinCloseButton()
 		ToggleBagsContainer:SetScript("OnEnter", GameTooltip_Hide)
 		ToggleBagsContainer:SetScript("OnMouseUp", function(self, button)
-			CloseAllBags()
+			Bags:CloseAllBags()
 			CloseBankBagFrames()
 			CloseBankFrame()
 
@@ -425,9 +425,11 @@ end
 
 function Bags:BagUpdate(id)
 	local Size = GetContainerNumSlots(id)
+	
+	local ID = (id == -2 and 6) or (id + 1)
 
 	for Slot = 1, Size do
-		local Button = _G["ContainerFrame"..(id + 1).."Item"..Slot]
+		local Button = _G["ContainerFrame"..ID.."Item"..Slot]
 
 		if Button then
 			if not Button:IsShown() then
@@ -481,7 +483,7 @@ end
 
 function Bags:UpdateAllBags()
 	-- check if containers changed
-	for i = 1, 5 do
+	for i = 1, 6 do
 		local ContainerSize = _G["ContainerFrame"..i].size
 
 		if ContainerSize ~= BagSize[i] then
@@ -491,7 +493,7 @@ function Bags:UpdateAllBags()
 		end
 	end
 
-	if not NeedBagRefresh then
+	if (not NeedBagRefresh) then
 		return
 	end
 
@@ -499,8 +501,13 @@ function Bags:UpdateAllBags()
 	local NumRows, LastRowButton, NumButtons, LastButton = 0, ContainerFrame1Item1, 1, ContainerFrame1Item1
 	local FirstButton
 
-	for Bag = 1, 5 do
+	for Bag = 1, 6 do
 		local ID = Bag - 1
+		
+		if Bag == 6 then
+			ID = -2
+		end
+		
 		local Slots = GetContainerNumSlots(ID)
 
 		for Item = Slots, 1, -1 do
@@ -538,6 +545,15 @@ function Bags:UpdateAllBags()
 
 			if not Button.IsSkinned then
 				Bags.SkinBagButton(Button)
+				
+				-- Let's know users that it's a keyring slot
+				if Bag == 6 then
+					Button.Texture = Button:CreateTexture(nil, "OVERLAY")
+					Button.Texture:SetAllPoints()
+					Button.Texture:SetAlpha(0.2)
+					Button.Texture:Point("CENTER")
+					Button.Texture:SetTexture("Interface\\ContainerFrame\\KeyRing-Bag-Icon")
+				end
 			end
 
 			if not Money.IsMoved then
@@ -561,7 +577,7 @@ end
 
 function Bags:UpdateAllBankBags()
 	-- check if containers changed
-	for i = 6, 11 do
+	for i = 7, 13 do
 		local ContainerSize = _G["ContainerFrame"..i].size
 
 		if ContainerSize ~= BagSize[i] then
@@ -617,8 +633,8 @@ function Bags:UpdateAllBankBags()
 
 	BankFrameMoneyFrame:Hide()
 
-	for Bag = 6, 11 do
-		local Slots = GetContainerNumSlots(Bag - 1)
+	for Bag = 7, 13 do
+		local Slots = GetContainerNumSlots(Bag - 2)
 
 		for Item = Slots, 1, -1 do
 			local Button = _G["ContainerFrame"..Bag.."Item"..Item]
@@ -678,7 +694,7 @@ function Bags:OpenBag(id)
 	OpenFrame:SetID(id)
 	OpenFrame:Show()
 
-	if (id == 4) then
+	if (id == -2) then
 		Bags:UpdateAllBags()
 	end
 end
@@ -688,11 +704,13 @@ function Bags:CloseBag(id)
 end
 
 function Bags:OpenAllBags()
-	self:OpenBag(0, 1)
+	self:OpenBag(0)
 
 	for i = 1, 4 do
-		self:OpenBag(i, 1)
+		self:OpenBag(i)
 	end
+	
+	self:OpenBag(-2)
 
 	if IsBagOpen(0) then
 		self.Bag:Show()
@@ -744,6 +762,7 @@ function Bags:CloseAllBags()
 	end
 
 	CloseAllBags()
+	CloseBag(-2) -- Keys
 
 	PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE)
 end
