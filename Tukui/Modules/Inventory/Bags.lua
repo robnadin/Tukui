@@ -856,7 +856,8 @@ function Bags:OnEvent(event, ...)
 	elseif (event == "BANKFRAME_CLOSED") then
 		local Bank = self.Bank
 
-		Bank:Hide()
+		self:CloseAllBags()
+		self:CloseAllBankBags()
 
 		-- Clear search on close
 		self.Bag.SearchBox:SetText("")
@@ -937,7 +938,6 @@ function Bags:Enable()
 	
 	-- Just in case some other addon are calling CloseAllBags
 	hooksecurefunc("CloseAllBags", function() CloseBag(-2) end)
-	hooksecurefunc("CloseBankBagFrames", function() CloseBag(-2) end)
 
 	ToggleAllBags()
 	ToggleAllBags()
