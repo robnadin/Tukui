@@ -817,6 +817,8 @@ end
 function Bags:OnEvent(event, ...)
 	if (event == "BAG_UPDATE") then
 		self:BagUpdate(...)
+	elseif (event == "MERCHANT_CLOSED") then
+		CloseAllBags()
 	elseif (event == "CURRENCY_DISPLAY_UPDATE") then
 		BackpackTokenFrame_Update()
 	elseif (event == "BAG_CLOSED") then
@@ -926,6 +928,7 @@ function Bags:Enable()
 	self:RegisterEvent("BAG_CLOSED")
 	self:RegisterEvent("BANKFRAME_CLOSED")
 	self:RegisterEvent("BANKFRAME_OPENED")
+	self:RegisterEvent("MERCHANT_CLOSED")
 	self:SetScript("OnEvent", self.OnEvent)
 
 	for i = 1, 6 do
