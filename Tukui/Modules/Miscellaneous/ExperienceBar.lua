@@ -128,8 +128,8 @@ function Experience:Create()
 		RestedBar:SetAlpha(.5)
 		RestedBar:SetReverseFill(i == 2 and true)
 
-		XPBar:SetSize(i == 1 and Panels.LeftChatBG:GetWidth() or Panels.RightChatBG:GetWidth(), 6)
-		XPBar:Point("BOTTOMLEFT", i == 1 and Panels.LeftChatBG or Panels.RightChatBG, "TOPLEFT", 0, 4)
+		XPBar:SetSize(i == 1 and Panels.LeftChatBG:GetWidth() or Panels.RightChatBG:GetWidth(), 4)
+		XPBar:Point("BOTTOMLEFT", i == 1 and Panels.LeftChatBG or Panels.RightChatBG, "TOPLEFT", 0, 8)
 		XPBar:SetReverseFill(i == 2 and true)
 
 		XPBar.Backdrop:CreateShadow()

@@ -69,6 +69,8 @@ function Reputation:Create()
 		RepBar:Size(Panels.LeftChatBG:GetWidth() - 2, 6)
 		RepBar:SetAllPoints(i == 1 and XPBar1 or i == 2 and XPBar2)
 		RepBar:SetReverseFill(i == 2 and true)
+		
+		--RepBar.Backdrop:CreateShadow()
 
 		self["RepBar"..i] = RepBar
 	end
