@@ -937,6 +937,7 @@ function Bags:Enable()
 	
 	-- Just in case some other addon are calling CloseAllBags
 	hooksecurefunc("CloseAllBags", function() CloseBag(-2) end)
+	hooksecurefunc("CloseBankBagFrames", function() CloseBag(-2) end)
 
 	ToggleAllBags()
 	ToggleAllBags()
