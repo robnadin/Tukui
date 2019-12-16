@@ -290,7 +290,7 @@ function Loot:LOOT_OPENED(_, autoloot)
 	if IsFishingLoot() then
 		TukuiLootFrame.Title:SetText("Fishy Loot")
 	elseif not UnitIsFriend("player", "target") and UnitIsDead("target") then
-		TukuiLootFrame.Title:SetText(UnitName("target"))
+		TukuiLootFrame.Title:SetText(UnitName("target"):sub(1, 29))
 	else
 		TukuiLootFrame.Title:SetText(LOOT)
 	end
