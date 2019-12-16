@@ -70,7 +70,7 @@ function Reputation:Create()
 		RepBar:SetAllPoints(i == 1 and XPBar1 or i == 2 and XPBar2)
 		RepBar:SetReverseFill(i == 2 and true)
 		
-		--RepBar.Backdrop:CreateShadow()
+		RepBar.Backdrop:CreateShadow()
 
 		self["RepBar"..i] = RepBar
 	end
