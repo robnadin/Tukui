@@ -189,6 +189,10 @@ function TukuiUnitFrames:Raid()
 
 		self.HealthPrediction = HealthPrediction
 	end
+	
+    local ResurrectIndicator = Health:CreateTexture(nil, 'OVERLAY')
+    ResurrectIndicator:SetSize(24, 24)
+    ResurrectIndicator:SetPoint("CENTER", Health)
 
 	local Highlight = CreateFrame("Frame", nil, self)
 	Highlight:SetBackdrop({edgeFile = C.Medias.Glow, edgeSize = C.Raid.HighlightSize})
@@ -209,6 +213,7 @@ function TukuiUnitFrames:Raid()
 	self.Range.Override = TukuiUnitFrames.UpdateRange
 	self.RaidTargetIndicator = RaidIcon
 	self.Highlight = Highlight
+	self.ResurrectIndicator = ResurrectIndicator
 
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", TukuiUnitFrames.Highlight, true)
 	self:RegisterEvent("RAID_ROSTER_UPDATE", TukuiUnitFrames.Highlight, true)
