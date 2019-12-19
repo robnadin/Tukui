@@ -424,7 +424,6 @@ function Bags:SlotUpdate(id, button)
 end
 
 function Bags:BagUpdate(id)
-	print(id)
 	local Size = GetContainerNumSlots(id)
 	
 	local ID = (id == -2 and 6) or (id < 5 and id + 1) or (id + 2)
