@@ -64,7 +64,6 @@ local UnitExists = UnitExists
 local UnitGUID = UnitGUID
 local UnitIsCharmed = UnitIsCharmed
 local UnitIsVisible = UnitIsVisible
-local UnitIsUnit = UnitIsUnit
 local UnitLevel = UnitLevel
 local UnitName = UnitName
 local UnitPlayerControlled = UnitPlayerControlled
@@ -2186,7 +2185,11 @@ function HealComm:OnInitialize()
 				local healAmount =  spellData[spellName].averages[spellRank]
 				local ticks = spellData[spellName].ticks[spellRank]
 
-				return CHANNEL_HEALS, ceil(healAmount / ticks), ticks, spellData[spellName].interval
+				if healAmount then
+					return CHANNEL_HEALS, ceil(healAmount / ticks), ticks, spellData[spellName].interval
+				else
+					return
+				end
 			end
 
 			if _CalculateHealing then
