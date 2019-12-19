@@ -6,16 +6,24 @@ local T, C, L = select(2, ...):unpack()
 
 -- TEMP for bg bugs
 local Battleground = CreateFrame("Frame", nil, UIParent)
-Battleground:Size(574, 40)
+Battleground:SetFrameStrata("HIGH")
+Battleground:Size(400, 60)
 Battleground:SetTemplate()
 Battleground:CreateShadow()
 Battleground:SetPoint("TOP", 0, -29)
 Battleground:Hide()
-Battleground.Text = Battleground:CreateFontString(nil, "OVERLAY")
-Battleground.Text:SetFontTemplate(C.Medias.UnitFrameFont, 16)
-Battleground.Text:SetText("You can now enter a new battleground, right-click on minimap battleground button to enter or leave")
-Battleground.Text:SetPoint("CENTER")
-Battleground.Text:SetTextColor(1, 0, 0)
+Battleground:SetBorderColor(1.00, 0.95, 0.32)
+
+Battleground.Text1 = Battleground:CreateFontString(nil, "OVERLAY")
+Battleground.Text1:SetFontTemplate(C.Medias.Font, 16)
+Battleground.Text1:SetPoint("TOP", 0, -10)
+Battleground.Text1:SetTextColor(1.00, 0.95, 0.32)
+
+Battleground.Text2 = Battleground:CreateFontString(nil, "OVERLAY")
+Battleground.Text2:SetFontTemplate(C.Medias.Font, 16)
+Battleground.Text2:SetPoint("BOTTOM", 0, 10)
+Battleground.Text2:SetTextColor(1.00, 0.95, 0.32)
+Battleground.Text2:SetText("Right-click on minimap battleground button to enter")
 
 local Animation = Battleground:CreateAnimationGroup()
 Animation:SetLooping("BOUNCE")
@@ -31,10 +39,17 @@ local function OnEvent()
 		local Status, Map, InstanceID = GetBattlefieldStatus(i)
 		
 		if Status == "confirm" then
+			local String = StaticPopup1Text:GetText()
+			local Text = string.gsub(String, ",.*", "")
+
 			StaticPopup_Hide("CONFIRM_BATTLEFIELD_ENTRY")
 			
+			Battleground.Text1:SetText(Text)
 			Battleground:Show()
+			
 			Animation:Play()
+			
+			T.Print(Text)
 			
 			return
 		end
