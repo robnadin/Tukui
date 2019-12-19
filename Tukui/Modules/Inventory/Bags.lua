@@ -424,9 +424,10 @@ function Bags:SlotUpdate(id, button)
 end
 
 function Bags:BagUpdate(id)
+	print(id)
 	local Size = GetContainerNumSlots(id)
 	
-	local ID = (id == -2 and 6) or (id + 1)
+	local ID = (id == -2 and 6) or (id < 5 and id + 1) or (id + 2)
 
 	for Slot = 1, Size do
 		local Button = _G["ContainerFrame"..ID.."Item"..Slot]
@@ -659,7 +660,7 @@ function Bags:UpdateAllBankBags()
 			end
 
 			Bags.SkinBagButton(Button)
-			Bags.SlotUpdate(self, Bag - 1, Button)
+			Bags.SlotUpdate(self, Bag - 2, Button)
 
 			LastButton = Button
 		end
@@ -803,15 +804,7 @@ function Bags:ToggleBags()
 end
 
 function Bags:ToggleKeys()
-	-- Keys bag won't be available at launch, source:
-	-- https://us.forums.blizzard.com/en/wow/t/key-ring-in-classic/253354/19
-
-	-- TODO
-	--   1- Move default position
-	--   2- Skin it on first open
-	--   3- Add toggle to micromenu
-
-	OriginalToggleBag(KEYRING_CONTAINER)
+	-- Add a toggle for keys later because at the moment slots are always displayed.
 end
 
 function Bags:OnEvent(event, ...)
