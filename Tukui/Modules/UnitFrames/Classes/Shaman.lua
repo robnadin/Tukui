@@ -57,13 +57,6 @@ TukuiUnitFrames.AddClassFeatures["SHAMAN"] = function(self)
 			totems[i]:Point("BOTTOMLEFT", totems[i-1], "BOTTOMRIGHT", 1, 0)
 			totems[i]:Size(62, 8)
 		end
-
-		totems.Destroy[i] = CreateFrame("Button", totems[i]:GetName().."Destroy", UIParent, "SecureUnitButtonTemplate")
-		totems.Destroy[i]:RegisterForClicks("RightButtonUp")
-		totems.Destroy[i]:SetAllPoints(totems[i])
-		totems.Destroy[i]:SetID(i)
-		totems.Destroy[i]:SetAttribute("type2", "destroytotem")
-		totems.Destroy[i]:SetAttribute("*totem-slot*", i)
 	end
 
 	Shadow:SetPoint("TOPLEFT", -4, 13)
