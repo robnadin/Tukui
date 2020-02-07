@@ -138,7 +138,6 @@ C["Raid"] = {
 	["Font"] = "Tukui",
 	["HealthFont"] = "Tukui Outline",
 	["MyRaidBuffs"] = true,
-	["ClassRaidBuffs"] = true,
 	["WidthSize"] = 79,
 	["HeightSize"] = 55,
 	["HighlightColor"] = {0, 1, 0},
