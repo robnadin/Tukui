@@ -73,6 +73,109 @@ local oUF = ns.oUF
 local VISIBLE = 1
 local HIDDEN = 0
 
+local raidBuffs = {
+	-- Druid
+	[1126]  = true, -- Mark of the Wild (Rank 1)
+	[5232]  = true, -- Mark of the Wild (Rank 2)
+	[6756]  = true, -- Mark of the Wild (Rank 3)
+	[5234]  = true, -- Mark of the Wild (Rank 4)
+	[8907]  = true, -- Mark of the Wild (Rank 5)
+	[9884]  = true, -- Mark of the Wild (Rank 6)
+	[9885]  = true, -- Mark of the Wild (Rank 7)
+
+	[21849] = true, -- Gift of the Wild (Rank 1)
+	[21850] = true, -- Gift of the Wild (Rank 2)
+
+	[467]   = true, -- Thorns (Rank 1)
+	[782]   = true, -- Thorns (Rank 2)
+	[1075]  = true, -- Thorns (Rank 3)
+	[8914]  = true, -- Thorns (Rank 4)
+	[9756]  = true, -- Thorns (Rank 5)
+	[9756]  = true, -- Thorns (Rank 6)
+
+	[29167] = true, -- Innervate (Rank 1)
+
+	-- Priest
+	[1243]  = true, -- Power Word: Fortitude (Rank 1)
+	[1244]  = true, -- Power Word: Fortitude (Rank 2)
+	[1245]  = true, -- Power Word: Fortitude (Rank 3)
+	[2791]  = true, -- Power Word: Fortitude (Rank 4)
+	[10937] = true, -- Power Word: Fortitude (Rank 5)
+	[10938] = true, -- Power Word: Fortitude (Rank 6)
+
+	[21562] = true, -- Prayer of Fortitude (Rank 1)
+	[21564] = true, -- Prayer of Fortitude (Rank 2)
+
+	[27841] = true, -- Divine Spirit (Rank 1)
+	[14818] = true, -- Divine Spirit (Rank 2)
+	[14819] = true, -- Divine Spirit (Rank 3)
+
+	[27681] = true, -- Prayer of Spirit (Rank 1)
+
+	[976]   = true, -- Shadow Protection (Rank 1)
+	[10957] = true, -- Shadow Protection (Rank 2)
+	[10958] = true, -- Shadow Protection (Rank 3)
+
+	[6346]  = true, -- Fear Ward
+
+--	[17]    = true, -- Power Word: Shield (Rank 1)
+--	[592]   = true, -- Power Word: Shield (Rank 2)
+--	[600]   = true, -- Power Word: Shield (Rank 3)
+--	[3747]  = true, -- Power Word: Shield (Rank 4)
+--	[6065]  = true, -- Power Word: Shield (Rank 5)
+--	[6066]  = true, -- Power Word: Shield (Rank 6)
+--	[10898] = true, -- Power Word: Shield (Rank 7)
+--	[10899] = true, -- Power Word: Shield (Rank 8)
+--	[10900] = true, -- Power Word: Shield (Rank 9)
+--	[10901] = true, -- Power Word: Shield (Rank 10)
+
+	-- Paladin
+	[19977] = true, -- Blessing of Light (Rank 1)
+	[19978] = true, -- Blessing of Light (Rank 2)
+	[19979] = true, -- Blessing of Light (Rank 3)
+
+	[19740] = true, -- Blessing of Might (Rank 1)
+	[19834] = true, -- Blessing of Might (Rank 2)
+	[19835] = true, -- Blessing of Might (Rank 3)
+	[19836] = true, -- Blessing of Might (Rank 4)
+	[19837] = true, -- Blessing of Might (Rank 5)
+	[19838] = true, -- Blessing of Might (Rank 6)
+	[25291] = true, -- Blessing of Might (Rank 7)
+
+	[19742] = true, -- Blessing of Wisdom (Rank 1)
+	[19850] = true, -- Blessing of Wisdom (Rank 2)
+	[19852] = true, -- Blessing of Wisdom (Rank 3)
+	[19853] = true, -- Blessing of Wisdom (Rank 4)
+	[19854] = true, -- Blessing of Wisdom (Rank 5)
+	[25290] = true, -- Blessing of Wisdom (Rank 6)
+
+	[20217] = true, -- Blessing of Kings
+	[1038]  = true, -- Blessing of Salvation
+
+	[25890] = true, -- Greater Blessing of Light (Rank 1)
+
+	[25782] = true, -- Greater Blessing of Might (Rank 1)
+	[25916] = true, -- Greater Blessing of Might (Rank 2)
+
+	[25918] = true, -- Greater Blessing of Wisdom (Rank 1)
+	[25894] = true, -- Greater Blessing of Wisdom (Rank 2)
+
+	[25898] = true, -- Greater Blessing of Kings
+	[25895] = true, -- Greater Blessing of Salvation
+
+	-- Mage
+	[1459]  = true, -- Arcane Intellect (Rank 1)
+	[1460]  = true, -- Arcane Intellect (Rank 2)
+	[1461]  = true, -- Arcane Intellect (Rank 3)
+	[10156] = true, -- Arcane Intellect (Rank 4)
+	[10157] = true, -- Arcane Intellect (Rank 5)
+
+	[23028] = true, -- Arcane Brilliance (Rank 1)
+
+	-- Warlock
+	[20763]	= true, -- Soulstone
+}
+
 local function UpdateTooltip(self)
 	GameTooltip:SetUnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
 end
@@ -138,9 +241,15 @@ local function createAuraIcon(element, index)
 end
 
 local function customFilter(element, unit, button, name)
-	if((element.onlyShowPlayer and button.isPlayer) or (not element.onlyShowPlayer and name)) then
+	if (element.classRaidBuffs and raidBuffs[button.spellID] and button.canApply) then
 		return true
 	end
+
+	if (element.onlyShowPlayer) then
+		return button.isPlayer and button.isBuff
+	end
+
+	return not not name
 end
 
 local function updateIcon(element, unit, index, offset, filter, isDebuff, visible)
@@ -173,6 +282,9 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		button.caster = caster
 		button.filter = filter
 		button.isDebuff = isDebuff
+		button.isBuff = not isDebuff and debuffType ~= nil
+		button.spellID = spellID
+		button.canApply = canApply
 		button.isPlayer = caster == 'player' or caster == 'vehicle'
 
 		--[[ Override: Auras:CustomFilter(unit, button, ...)
@@ -292,7 +404,6 @@ local function filterIcons(element, unit, filter, limit, isDebuff, offset, dontH
 		elseif(result == HIDDEN) then
 			hidden = hidden + 1
 		end
-
 		index = index + 1
 	end
 
