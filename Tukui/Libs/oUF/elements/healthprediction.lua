@@ -63,7 +63,9 @@ local _, ns = ...
 local oUF = ns.oUF
 local myGUID = UnitGUID('player')
 local HealComm = LibStub("LibHealComm-4.0")
-local secondsPerTick = 3
+
+local tickDuration = 3
+local longestCast = 3.5
 
 local function Update(self, event, unit)
 	if(self.unit ~= unit) then return end
@@ -81,7 +83,7 @@ local function Update(self, event, unit)
 	end
 
 	local guid = UnitGUID(unit)
-	local time = GetTime() + secondsPerTick
+	local time = GetTime() + math.max(tickDuration, longestCast)
 
 	local allIncomingHeal = HealComm:GetHealAmount(guid, element.healType, time) or 0
 	local myIncomingHeal = (HealComm:GetHealAmount(guid, element.healType, time, myGUID) or 0) * (HealComm:GetHealModifier(myGUID) or 1)
