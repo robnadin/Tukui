@@ -137,7 +137,15 @@ C["Raid"] = {
 	["MaxUnitPerColumn"] = 10,
 	["Font"] = "Tukui",
 	["HealthFont"] = "Tukui Outline",
-	["MyRaidBuffs"] = true,
+	["RaidBuffs"] = {
+		["Options"] = {
+			["Hide"] = "Hide",
+			["Only my buffs"] = "Self",
+			["Only castable buffs"] = "Castable",
+			["All buffs"] = "All",
+		},
+		["Value"] = "Self",
+	},
 	["ClassRaidBuffs"] = true,
 	["WidthSize"] = 79,
 	["HeightSize"] = 55,
