@@ -352,7 +352,9 @@ function TukuiChat:Install()
 end
 
 function TukuiChat:MoveChannels()
-	-- Remove everything in 3 and 4
+	local ChatGroup = {}
+	
+	-- Remove everything in first 4 chat windows
 	for i = 1, 4 do
 		if i ~= 2 then
 			local ChatFrame = _G["ChatFrame"..i]
@@ -360,64 +362,47 @@ function TukuiChat:MoveChannels()
 			ChatFrame_RemoveAllMessageGroups(ChatFrame)
 		end
 	end
+	
+	-- Join general, trade, defense
+	SlashCmdList["JOIN"](GENERAL)
+	SlashCmdList["JOIN"](TRADE)
+	SlashCmdList["JOIN"]("LocalDefense")
 
-	ChatFrame_AddMessageGroup(ChatFrame1, "SAY")
-	ChatFrame_AddMessageGroup(ChatFrame1, "EMOTE")
-	ChatFrame_AddMessageGroup(ChatFrame1, "YELL")
-	ChatFrame_AddMessageGroup(ChatFrame1, "GUILD")
-	ChatFrame_AddMessageGroup(ChatFrame1, "OFFICER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "GUILD_ACHIEVEMENT")
-	ChatFrame_AddMessageGroup(ChatFrame1, "WHISPER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_SAY")
-	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_EMOTE")
-	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_YELL")
-	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_WHISPER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_BOSS_EMOTE")
-	ChatFrame_AddMessageGroup(ChatFrame1, "MONSTER_BOSS_WHISPER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "PARTY")
-	ChatFrame_AddMessageGroup(ChatFrame1, "PARTY_LEADER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "RAID")
-	ChatFrame_AddMessageGroup(ChatFrame1, "RAID_LEADER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "RAID_WARNING")
-	ChatFrame_AddMessageGroup(ChatFrame1, "INSTANCE_CHAT")
-	ChatFrame_AddMessageGroup(ChatFrame1, "INSTANCE_CHAT_LEADER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "BG_HORDE")
-	ChatFrame_AddMessageGroup(ChatFrame1, "BG_ALLIANCE")
-	ChatFrame_AddMessageGroup(ChatFrame1, "BG_NEUTRAL")
-	ChatFrame_AddMessageGroup(ChatFrame1, "AFK")
-	ChatFrame_AddMessageGroup(ChatFrame1, "DND")
-	ChatFrame_AddMessageGroup(ChatFrame1, "ACHIEVEMENT")
-	ChatFrame_AddMessageGroup(ChatFrame1, "BN_WHISPER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "BN_CONVERSATION")
+	-----------------------
+	-- ChatFrame 1 Setup --
+	-----------------------
+	
+	ChatGroup = {"SAY", "EMOTE", "YELL", "GUILD","OFFICER", "GUILD_ACHIEVEMENT", "WHISPER", "MONSTER_SAY", "MONSTER_EMOTE", "MONSTER_YELL", "MONSTER_WHISPER", "MONSTER_BOSS_EMOTE", "MONSTER_BOSS_WHISPER", "PARTY", "PARTY_LEADER", "RAID", "RAID_LEADER", "RAID_WARNING", "INSTANCE_CHAT", "INSTANCE_CHAT_LEADER", "BG_HORDE", "BG_ALLIANCE", "BG_NEUTRAL", "AFK", "DND", "ACHIEVEMENT", "BN_WHISPER", "BN_CONVERSATION"}
+	
+	for _, v in ipairs(ChatGroup) do
+		ChatFrame_AddMessageGroup(_G.ChatFrame1, v)
+	end
 
-	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_XP_GAIN")
-	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_HONOR_GAIN")
-	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_FACTION_CHANGE")
-	ChatFrame_AddMessageGroup(ChatFrame4, "LOOT")
-	ChatFrame_AddMessageGroup(ChatFrame4, "MONEY")
-	ChatFrame_AddMessageGroup(ChatFrame4, "SYSTEM")
-	ChatFrame_AddMessageGroup(ChatFrame4, "ERRORS")
-	ChatFrame_AddMessageGroup(ChatFrame4, "IGNORED")
-	ChatFrame_AddMessageGroup(ChatFrame4, "SKILL")
-	ChatFrame_AddMessageGroup(ChatFrame4, "CURRENCY")
+	-----------------------
+	-- ChatFrame 3 Setup --
+	-----------------------
+	
+	ChatFrame_RemoveChannel(_G.ChatFrame1, GENERAL)
+	ChatFrame_RemoveChannel(_G.ChatFrame1, TRADE)
+	ChatFrame_RemoveChannel(_G.ChatFrame1, "LocalDefense")
+	ChatFrame_AddChannel(_G.ChatFrame3, GENERAL)
+	ChatFrame_AddChannel(_G.ChatFrame3, TRADE)
+	ChatFrame_AddChannel(_G.ChatFrame3, "LocalDefense")
+	
+	-- Adjust Chat Colors
+	ChangeChatColor('CHANNEL1', 195/255, 230/255, 232/255) -- General
+	ChangeChatColor('CHANNEL2', 232/255, 158/255, 121/255) -- Trade
+	ChangeChatColor('CHANNEL3', 232/255, 228/255, 121/255) -- Local Defense
+	
+	-----------------------
+	-- ChatFrame 4 Setup --
+	-----------------------
 
-	ChatFrame_RemoveChannel(ChatFrame1, "General")
-	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
-	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
-
-	ChatFrame_AddChannel(ChatFrame3, "General")
-	ChatFrame_AddChannel(ChatFrame3, "Trade")
-	ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
-
-	T.Delay(5, function()
-		ChatFrame_RemoveChannel(ChatFrame1, "General")
-		ChatFrame_RemoveChannel(ChatFrame1, "Trade")
-		ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
-
-		ChatFrame_AddChannel(ChatFrame3, "General")
-		ChatFrame_AddChannel(ChatFrame3, "Trade")
-		ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
-	end)
+	ChatGroup = {"COMBAT_XP_GAIN", "COMBAT_HONOR_GAIN", "COMBAT_FACTION_CHANGE", "LOOT","MONEY", "SYSTEM", "ERRORS", "IGNORED", "SKILL", "CURRENCY"}
+	
+	for _, v in ipairs(ChatGroup) do
+		ChatFrame_AddMessageGroup(_G.ChatFrame4, v)
+	end
 end
 
 function TukuiChat:OnMouseWheel(delta)
