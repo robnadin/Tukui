@@ -31,6 +31,7 @@ local OnEnter = function(self)
 	if (not InCombatLockdown()) then
 		GameTooltip:SetOwner(self:GetTooltipAnchor())
 		GameTooltip:ClearLines()
+		GameTooltip:AddLine("Durability:")
 
 		for i = 1, 11 do
 			if (L.DataText.Slots[i][3] ~= 1000) then
