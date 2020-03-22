@@ -95,8 +95,11 @@ function TukuiUnitFrames:Raid()
 		outsideAlpha = C["Raid"].RangeAlpha,
 	}
 
-	if C.Raid.MyRaidBuffs then
+	if C.Raid.RaidBuffs.Value ~= "Hide" then
 		local Buffs = CreateFrame("Frame", self:GetName()..'Buffs', Health)
+		local onlyShowPlayer = C.Raid.RaidBuffs.Value == 'Self'
+		local filter = C.Raid.RaidBuffs.Value == 'All' and 'HELPFUL' or 'HELPFUL|RAID'
+
 		Buffs:Point("TOPLEFT", Health, "TOPLEFT", 0, 0)
 		Buffs:SetHeight(16)
 		Buffs:SetWidth(79)
@@ -107,7 +110,8 @@ function TukuiUnitFrames:Raid()
 		Buffs.initialAnchor = "TOPLEFT"
 		Buffs.disableCooldown = true
 		Buffs.disableMouse = true
-		Buffs.onlyShowPlayer = true
+		Buffs.onlyShowPlayer = onlyShowPlayer
+		Buffs.filter = filter
 		Buffs.IsRaid = true
 		Buffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
 
