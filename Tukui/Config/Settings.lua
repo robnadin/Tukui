@@ -84,6 +84,7 @@ C["DataTexts"] = {
 	["HideFriendsNotPlaying"] = true,
 	["NameColor"] = {1, 1, 1},
 	["ValueColor"] = {1, 1, 1},
+	["ClassColor"] = false,
 	["Hour24"] = false,
 	["Font"] = "Tukui",
 }

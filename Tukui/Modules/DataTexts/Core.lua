@@ -287,8 +287,8 @@ end
 
 function TukuiDT:Enable()
 	self.Font = T.GetFont(C["DataTexts"].Font)
-	self.NameColor = T.RGBToHex(unpack(C["DataTexts"].NameColor))
-	self.ValueColor = T.RGBToHex(unpack(C["DataTexts"].ValueColor))
+	self.NameColor = (C.DataTexts.ClassColor == true and T.RGBToHex(unpack(T.Colors.class[T.MyClass]))) or (T.RGBToHex(unpack(C["DataTexts"].NameColor)))
+	self.ValueColor = (C.DataTexts.ClassColor == true and T.RGBToHex(unpack(T.Colors.class[T.MyClass]))) or (T.RGBToHex(unpack(C["DataTexts"].ValueColor)))
 	self:Load()
 	self:AddRemove()
 
