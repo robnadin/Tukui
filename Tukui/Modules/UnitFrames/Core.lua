@@ -731,7 +731,7 @@ function TukuiUnitFrames:CreateUnits()
 
 		local Pet = oUF:Spawn("pet", "TukuiPetFrame")
 		Pet:SetParent(UIParent)
-		Pet:SetPoint("BOTTOM", TukuiUnitFrames.Anchor, "TOP", 0, 49)
+		Pet:SetPoint("BOTTOM", TukuiUnitFrames.Anchor, "TOP", 0, 70)
 		Pet:Size(129, 36)
 
 		self.Units.Player = Player

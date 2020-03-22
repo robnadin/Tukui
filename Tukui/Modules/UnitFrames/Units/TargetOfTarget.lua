@@ -51,6 +51,52 @@ function TukuiUnitFrames:TargetOfTarget()
 	RaidIcon:Size(C.UnitFrames.RaidIconSize)
 	RaidIcon:SetPoint("TOP", self, 0, C.UnitFrames.RaidIconSize / 2)
 	RaidIcon:SetTexture([[Interface\AddOns\Tukui\Medias\Textures\Others\RaidIcons]])
+    
+	if (C.UnitFrames.TOTAuras) then
+		local Buffs = CreateFrame("Frame", self:GetName()..'Buffs', self)
+		local Debuffs = CreateFrame("Frame", self:GetName()..'Debuffs', self)
+
+		Buffs:SetFrameStrata(self:GetFrameStrata())
+		Buffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 4)
+
+		Buffs:SetHeight(18)
+		Buffs:SetWidth(129)
+		Buffs.size = 18
+		Buffs.num = 3
+		Buffs.numRow = 1
+
+		Debuffs:SetFrameStrata(self:GetFrameStrata())
+		Debuffs:SetHeight(18)
+		Debuffs:SetWidth(129)
+		Debuffs:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 4)
+		Debuffs.size = 18
+		Debuffs.num = 3
+		Debuffs.numRow = 1
+
+		Buffs.spacing = 4
+		Buffs.initialAnchor = "TOPLEFT"
+		Buffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
+		Buffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
+		Buffs.onlyShowPlayer = C.UnitFrames.OnlySelfBuffs
+
+		Debuffs.spacing = 4
+		Debuffs.initialAnchor = "TOPRIGHT"
+		Debuffs["growth-x"] = "LEFT"
+		Debuffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
+		Debuffs.PostUpdateIcon = TukuiUnitFrames.PostUpdateAura
+		Debuffs.onlyShowPlayer = C.UnitFrames.OnlySelfDebuffs
+
+		if C.UnitFrames.AurasBelow then
+			Buffs:ClearAllPoints()
+			Buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 0, -4)
+			
+			Debuffs:ClearAllPoints()
+			Debuffs:Point("TOPRIGHT", self, "BOTTOMRIGHT", 0, -4)
+		end
+
+		self.Buffs = Buffs
+		self.Debuffs = Debuffs
+	end
 
 	if C.UnitFrames.HealComm then
 		local myBar = CreateFrame("StatusBar", nil, Health)
