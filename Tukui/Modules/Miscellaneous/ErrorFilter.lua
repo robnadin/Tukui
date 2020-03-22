@@ -25,7 +25,7 @@ function TukuiError:Enable()
 		return
 	end
 
-	UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
+	UIErrorsFrame:SetParent(T.Hider)
 	TukuiError:RegisterEvent("UI_ERROR_MESSAGE")
 	TukuiError:SetScript("OnEvent", TukuiError.OnEvent)
 end
