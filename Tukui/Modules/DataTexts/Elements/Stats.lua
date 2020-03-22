@@ -65,7 +65,7 @@ end
 local Enable = function(self)
 	self:SetScript("OnEnter", OnEnter)
 	self:SetScript("OnLeave", GameTooltip_Hide)
-	self.Text:SetText(PAPERDOLL_SIDEBAR_STATS)
+	self.Text:SetFormattedText("%s", DataText.NameColor .. PAPERDOLL_SIDEBAR_STATS .."|r")
 end
 
 local Disable = function(self)
