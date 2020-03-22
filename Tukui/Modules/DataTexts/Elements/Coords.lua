@@ -30,7 +30,7 @@ local Update = function(self, Elapsed)
 			X = 100 * math.floor(X * 10000) / 10000
 			Y = 100 * math.floor(Y * 10000) / 10000
 
-			self.Text:SetText(DataText.ValueColor..X.."|r, "..DataText.ValueColor..Y.."|r")
+			self.Text:SetText(DataText.ValueColor..X..", |r"..DataText.ValueColor..Y.."|r")
 		end
 
 		Timer = Interval
