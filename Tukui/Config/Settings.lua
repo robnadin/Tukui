@@ -138,6 +138,7 @@ C["Raid"] = {
 	["MaxUnitPerColumn"] = 10,
 	["Font"] = "Tukui",
 	["HealthFont"] = "Tukui Outline",
+	["DesaturateNonPlayerBuffs"] = false,
 	["RaidBuffs"] = {
 		["Options"] = {
 			["Hide"] = "Hide",
