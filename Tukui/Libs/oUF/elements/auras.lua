@@ -138,7 +138,9 @@ local function createAuraIcon(element, index)
 end
 
 local function customFilter(element, unit, button, name)
-	return not not name
+	if((element.onlyShowPlayer and button.isPlayer) or (not element.onlyShowPlayer and name)) then
+		return true
+	end
 end
 
 local function updateIcon(element, unit, index, offset, filter, isDebuff, visible)
