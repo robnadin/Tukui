@@ -2060,6 +2060,7 @@ local DataTexts = function(self)
 	Window:CreateSection("Color")
 	Window:CreateColorSelection("DataTexts", "NameColor", "Name color")
 	Window:CreateColorSelection("DataTexts", "ValueColor", "Value color")
+	Window:CreateColorSelection("DataTexts", "HighlightColor", "Highlight color")
 	Window:CreateSwitch("DataTexts", "ClassColor", "Color datatext by class (Overwrite Name/Value)")
 
 	Window:CreateSection("Font")
