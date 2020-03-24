@@ -90,7 +90,7 @@ local OnEnter = function(self)
 end
 
 local Enable = function(self)
-	self.Text:SetText(BINDING_HEADER_VOICE_CHAT)
+	self.Text:SetFormattedText("%s", DataText.NameColor .. BINDING_HEADER_VOICE_CHAT .. "|r")
 	self:SetScript("OnMouseUp", OnMouseUp)
 	self:SetScript("OnEnter", GameTooltip_Hide)
 	self:SetScript("OnLeave", OnLeave)
