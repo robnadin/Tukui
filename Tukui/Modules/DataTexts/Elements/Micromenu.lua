@@ -10,7 +10,7 @@ end
 
 local Enable = function(self)
 	self:SetScript("OnMouseDown", OnMouseDown)
-	self.Text:SetText("Micro Menu")
+	self.Text:SetFormattedText("%s", DataText.NameColor .. "Micro Menu|r")
 end
 
 local Disable = function(self)
