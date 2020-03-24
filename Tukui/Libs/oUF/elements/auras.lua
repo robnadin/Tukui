@@ -15,22 +15,22 @@ At least one of the above widgets must be present for the element to work.
 
 ## Options
 
-.disableMouse       		- Disables mouse events (boolean)
-.disableCooldown    		- Disables the cooldown spiral (boolean)
-.size               		- Aura icon size. Defaults to 16 (number)
-.onlyShowPlayer    			- Shows only auras created by player/vehicle (boolean)
-.showStealableBuffs 		- Displays the stealable texture on buffs that can be stolen (boolean)
-.desaturateNonPlayerBuffs 	- Displays other players buffs grayscaled
-.spacing            		- Spacing between each icon. Defaults to 0 (number)
-.['spacing-x']     			- Horizontal spacing between each icon. Takes priority over `spacing` (number)
-.['spacing-y']      		- Vertical spacing between each icon. Takes priority over `spacing` (number)
-.['growth-x']       		- Horizontal growth direction. Defaults to 'RIGHT' (string)
-.['growth-y']       		- Vertical growth direction. Defaults to 'UP' (string)
-.initialAnchor      		- Anchor point for the icons. Defaults to 'BOTTOMLEFT' (string)
-.filter             		- Custom filter list for auras to display. Defaults to 'HELPFUL' for buffs and 'HARMFUL' for
-                      		  debuffs (string)
-.tooltipAnchor      		- Anchor point for the tooltip. Defaults to 'ANCHOR_BOTTOMRIGHT', however, if a frame has anchoring
-                      		  restrictions it will be set to 'ANCHOR_CURSOR' (string)
+.disableMouse             - Disables mouse events (boolean)
+.disableCooldown          - Disables the cooldown spiral (boolean)
+.size                     - Aura icon size. Defaults to 16 (number)
+.onlyShowPlayer           - Shows only auras created by player/vehicle (boolean)
+.showStealableBuffs       - Displays the stealable texture on buffs that can be stolen (boolean)
+.desaturateNonPlayerBuffs - Displays other players buffs grayscaled
+.spacing                  - Spacing between each icon. Defaults to 0 (number)
+.['spacing-x']            - Horizontal spacing between each icon. Takes priority over `spacing` (number)
+.['spacing-y']            - Vertical spacing between each icon. Takes priority over `spacing` (number)
+.['growth-x']             - Horizontal growth direction. Defaults to 'RIGHT' (string)
+.['growth-y']             - Vertical growth direction. Defaults to 'UP' (string)
+.initialAnchor            - Anchor point for the icons. Defaults to 'BOTTOMLEFT' (string)
+.filter                   - Custom filter list for auras to display. Defaults to 'HELPFUL' for buffs and 'HARMFUL' for
+                            debuffs (string)
+.tooltipAnchor            - Anchor point for the tooltip. Defaults to 'ANCHOR_BOTTOMRIGHT', however, if a frame has anchoring
+                            restrictions it will be set to 'ANCHOR_CURSOR' (string)
 
 ## Options Auras
 
