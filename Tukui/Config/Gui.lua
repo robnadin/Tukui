@@ -2232,7 +2232,7 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "OnlySelfDebuffs", "Display only our debuffs on target")
 	Window:CreateSwitch("UnitFrames", "TargetAuras", "Enable target auras")
 	Window:CreateSwitch("UnitFrames", "TOTAuras", "Enable target of target auras")
-	Window:CreateSwitch("UnitFrames", "PetAuras", "Enable target of target auras")
+	Window:CreateSwitch("UnitFrames", "PetAuras", "Enable pet auras")
 	Window:CreateSwitch("UnitFrames", "AurasBelow", "Move auras below unitframes")
 
 	Window:CreateSection("Styling")
