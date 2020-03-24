@@ -111,6 +111,7 @@ function TukuiUnitFrames:Raid()
 		Buffs.disableCooldown = true
 		Buffs.disableMouse = true
 		Buffs.onlyShowPlayer = onlyShowPlayer
+		Buffs.desaturateNonPlayerBuffs = C.Raid.DesaturateNonPlayerBuffs
 		Buffs.filter = filter
 		Buffs.IsRaid = true
 		Buffs.PostCreateIcon = TukuiUnitFrames.PostCreateAura
