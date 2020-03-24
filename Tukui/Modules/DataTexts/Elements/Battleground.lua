@@ -52,9 +52,9 @@ function BGFrame:OnUpdate(t)
 			local Name, KillingBlows, HonorableKills, Deaths, HonorGained = GetBattlefieldScore(i)
 
 			if (Name and Name == MyName) then
-				self.Text1:SetText(DataText.NameColor..COMBAT_TEXT_SHOW_HONOR_GAINED_TEXT.."|r"..DataText.ValueColor..HonorableKills.."|r")
-				self.Text2:SetText(DataText.NameColor..HONOR.."|r"..DataText.ValueColor..format("%d", HonorGained).."|r")
-				self.Text3:SetText(DataText.NameColor..KILLING_BLOWS.."|r"..DataText.ValueColor..KillingBlows.."|r")
+				self.Text1:SetText(DataText.NameColor..COMBAT_TEXT_SHOW_HONOR_GAINED_TEXT..": |r"..DataText.ValueColor..HonorableKills.."|r")
+				self.Text2:SetText(DataText.NameColor..HONOR..": |r"..DataText.ValueColor..format("%d", HonorGained).."|r")
+				self.Text3:SetText(DataText.NameColor..KILLING_BLOWS..": |r"..DataText.ValueColor..KillingBlows.."|r")
 			end
 		end
 
