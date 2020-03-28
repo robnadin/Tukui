@@ -19,7 +19,7 @@ end
 TukuiUnitFrames.DebuffsTracking["RaidDebuffs"] = {
 	["type"] = "Whitelist",
 	["spells"] = {
-		-- [209858] = Defaults(), -- Necrotic
+		[23402] = Defaults(), -- Corrupted Healing Nefarian
 	},
 }
 
