@@ -336,7 +336,7 @@ function TukuiChat:Install()
 	FCF_SetLocked(ChatFrame1, 1)
 	FCF_DockFrame(ChatFrame2)
 	FCF_SetLocked(ChatFrame2, 1)
-	FCF_OpenNewWindow(GENERAL)
+	FCF_OpenNewWindow(GLOBAL_CHANNELS)
 	FCF_SetLocked(ChatFrame3, 1)
 	FCF_DockFrame(ChatFrame3)
 	FCF_OpenNewWindow(self.RightChatName)
@@ -352,7 +352,21 @@ function TukuiChat:Install()
 end
 
 function TukuiChat:MoveChannels()
+	local IsPublicChannelFound = EnumerateServerChannels()
+	
+	if not IsPublicChannelFound then
+		-- Restart this function until we are able to query public channels
+		T.Delay(1, TukuiChat.MoveChannels)
+		
+		return
+	end
+
 	local ChatGroup = {}
+	local Channels = {}
+	
+	for i=1, select("#", EnumerateServerChannels()), 1 do
+		Channels[i] = select(i, EnumerateServerChannels())
+	end
 	
 	-- Remove everything in first 4 chat windows
 	for i = 1, 4 do
@@ -360,13 +374,14 @@ function TukuiChat:MoveChannels()
 			local ChatFrame = _G["ChatFrame"..i]
 
 			ChatFrame_RemoveAllMessageGroups(ChatFrame)
+			ChatFrame_RemoveAllChannels(ChatFrame)
 		end
 	end
 	
-	-- Join general, trade, defense
-	SlashCmdList["JOIN"](GENERAL)
-	SlashCmdList["JOIN"](TRADE)
-	SlashCmdList["JOIN"]("LocalDefense")
+	-- Join public channels
+	for i = 1, #Channels do
+		SlashCmdList["JOIN"](Channels[i])
+	end
 
 	-----------------------
 	-- ChatFrame 1 Setup --
@@ -381,18 +396,19 @@ function TukuiChat:MoveChannels()
 	-----------------------
 	-- ChatFrame 3 Setup --
 	-----------------------
-	
-	ChatFrame_RemoveChannel(_G.ChatFrame1, GENERAL)
-	ChatFrame_RemoveChannel(_G.ChatFrame1, TRADE)
-	ChatFrame_RemoveChannel(_G.ChatFrame1, "LocalDefense")
-	ChatFrame_AddChannel(_G.ChatFrame3, GENERAL)
-	ChatFrame_AddChannel(_G.ChatFrame3, TRADE)
-	ChatFrame_AddChannel(_G.ChatFrame3, "LocalDefense")
+
+	for i = 1, #Channels do
+		ChatFrame_RemoveChannel(ChatFrame1, Channels[i])
+		ChatFrame_AddChannel(ChatFrame3, Channels[i])
+	end
 	
 	-- Adjust Chat Colors
-	ChangeChatColor('CHANNEL1', 195/255, 230/255, 232/255) -- General
-	ChangeChatColor('CHANNEL2', 232/255, 158/255, 121/255) -- Trade
-	ChangeChatColor('CHANNEL3', 232/255, 228/255, 121/255) -- Local Defense
+	ChangeChatColor("CHANNEL1", 195/255, 230/255, 232/255)
+	ChangeChatColor("CHANNEL2", 232/255, 158/255, 121/255)
+	ChangeChatColor("CHANNEL3", 232/255, 228/255, 121/255)
+	ChangeChatColor("CHANNEL4", 0/255, 228/255, 121/255)
+	ChangeChatColor("CHANNEL5", 147/255, 130/255, 201/255)
+	ChangeChatColor("CHANNEL6", 0/255, 228/255, 0/255)
 	
 	-----------------------
 	-- ChatFrame 4 Setup --
