@@ -117,7 +117,7 @@ function Tooltip:OnTooltipSetUnit()
 	if (UnitIsUnit(Unit, "mouseover")) then
 		Unit = "mouseover"
 	end
-
+	
 	local Line1 = GameTooltipTextLeft1
 	local Line2 = GameTooltipTextLeft2
 	local Race = UnitRace(Unit)
@@ -129,12 +129,8 @@ function Tooltip:OnTooltipSetUnit()
 	local CreatureClassification = UnitClassification(Unit)
 	local Relationship = UnitRealmRelationship(Unit);
 	local Title = UnitPVPName(Unit)
-	local Color = Tooltip:GetColor(Unit)
+	local Color = Class == "Shaman" and T.RGBToHex(unpack(T.Colors.class["SHAMAN"])) or Tooltip:GetColor(Unit) or "|CFFFFFFFF"
 	local R, G, B = GetQuestDifficultyColor(Level).r, GetQuestDifficultyColor(Level).g, GetQuestDifficultyColor(Level).b
-
-	if (not Color) then
-		Color = "|CFFFFFFFF"
-	end
 
 	if (UnitIsPlayer(Unit)) then
 		if Title then

@@ -453,7 +453,8 @@ end
 
 function TukuiChat:AddMessage(text, ...)
 	-- Short Channels
-	text = text:gsub('|h%[(%d+)%. .-%]|h', '|h[%1]|h')
+	text = text:gsub("|cfff48cba", T.RGBToHex(unpack(T.Colors.class["SHAMAN"])))
+	text = text:gsub("|h%[(%d+)%. .-%]|h", "|h[%1]|h")
 
 	return self.DefaultAddMessage(self, text, ...)
 end
