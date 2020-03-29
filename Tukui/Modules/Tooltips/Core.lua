@@ -78,13 +78,15 @@ function Tooltip:GetColor(unit)
 
 	if (UnitIsPlayer(unit)) then
 		local Class = select(2, UnitClass(unit))
-		local Color = RaidColors[Class]
+		local Color = T.Colors.class[Class]
 
 		if (not Color) then
 			return
 		end
+		
+		local Hex = T.RGBToHex(unpack(T.Colors.class[Class]))
 
-		return "|c"..Color.colorStr, Color.r, Color.g, Color.b
+		return Hex, Color.r, Color.g, Color.b
 	else
 		local Reaction = UnitReaction(unit, "player")
 		local Color = T.Colors.reaction[Reaction]
@@ -129,7 +131,7 @@ function Tooltip:OnTooltipSetUnit()
 	local CreatureClassification = UnitClassification(Unit)
 	local Relationship = UnitRealmRelationship(Unit);
 	local Title = UnitPVPName(Unit)
-	local Color = Class == "Shaman" and T.RGBToHex(unpack(T.Colors.class["SHAMAN"])) or Tooltip:GetColor(Unit) or "|CFFFFFFFF"
+	local Color = Tooltip:GetColor(Unit) or "|CFFFFFFFF"
 	local R, G, B = GetQuestDifficultyColor(Level).r, GetQuestDifficultyColor(Level).g, GetQuestDifficultyColor(Level).b
 
 	if (UnitIsPlayer(Unit)) then
