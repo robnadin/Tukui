@@ -23,10 +23,8 @@ A default texture will be applied to the Texture widgets if they don't have a te
 
 ## Options
 
-.maxOverflow     - The maximum amount of overflow past the end of the health bar. Set this to 1 to disable the overflow.
-                   Defaults to 1.05 (number)
-.frequentUpdates - Indicates whether to use UNIT_HEALTH_FREQUENT instead of UNIT_HEALTH. Use this if .frequentUpdates is
-                   also set on the Health element (boolean)
+.maxOverflow - The maximum amount of overflow past the end of the health bar. Set this to 1 to disable the overflow.
+               Defaults to 1.05 (number)
 
 ## Examples
 
@@ -55,7 +53,6 @@ A default texture will be applied to the Texture widgets if they don't have a te
         otherBar = otherBar,
         absorbBar = absorbBar,
         maxOverflow = 1.05,
-        frequentUpdates = true,
     }
 --]]
 
@@ -63,9 +60,6 @@ local _, ns = ...
 local oUF = ns.oUF
 local myGUID = UnitGUID('player')
 local HealComm = LibStub("LibHealComm-4.0")
-
-local tickDuration = 3
-local longestCast = 3.5
 
 local function Update(self, event, unit)
 	if(self.unit ~= unit) then return end
@@ -83,10 +77,9 @@ local function Update(self, event, unit)
 	end
 
 	local guid = UnitGUID(unit)
-	local time = GetTime() + math.max(tickDuration, longestCast)
 
-	local allIncomingHeal = HealComm:GetHealAmount(guid, element.healType, time) or 0
-	local myIncomingHeal = (HealComm:GetHealAmount(guid, element.healType, time, myGUID) or 0) * (HealComm:GetHealModifier(myGUID) or 1)
+	local allIncomingHeal = HealComm:GetHealAmount(guid, element.healType) or 0
+	local myIncomingHeal = (HealComm:GetHealAmount(guid, element.healType, nil, myGUID) or 0) * (HealComm:GetHealModifier(myGUID) or 1)
 	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
 	local otherIncomingHeal = 0
 
@@ -97,7 +90,7 @@ local function Update(self, event, unit)
 	if(allIncomingHeal < myIncomingHeal) then
 		myIncomingHeal = allIncomingHeal
 	else
-		otherIncomingHeal = HealComm:GetOthersHealAmount(guid, HealComm.ALL_HEALS, time) or 0
+		otherIncomingHeal = HealComm:GetOthersHealAmount(guid, HealComm.ALL_HEALS) or 0
 	end
 
 	if(element.myBar) then
