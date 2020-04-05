@@ -222,6 +222,8 @@ local OnMouseUp = function(self, btn)
 
 					if T.Colors.class[BNTable[i][14]] then
 						classc.r, classc.g, classc.b = unpack(T.Colors.class[BNTable[i][14]])
+					else
+						classc.r, classc.g, classc.b = 1, 1, 1
 					end
 
 					if UnitInParty(BNTable[i][4]) or UnitInRaid(BNTable[i][4]) then
@@ -323,6 +325,8 @@ local OnEnter = function(self)
 
 								if T.Colors.class[BNTable[i][14]] then
 									classc.r, classc.g, classc.b = unpack(T.Colors.class[BNTable[i][14]])
+								else
+									classc.r, classc.g, classc.b = 1, 1, 1
 								end
 
 								levelc = GetQuestDifficultyColor(BNTable[i][16])
