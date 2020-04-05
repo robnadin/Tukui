@@ -288,10 +288,8 @@ function Bags:CreateContainer(storagetype, ...)
 			end
 
 			if TukuiBank:IsShown() then
-				SetSortBagsRightToLeft(true)
 				SortBankBags()
 			else
-				SetSortBagsRightToLeft(true)
 				SortBags()
 			end
 		end)
@@ -865,8 +863,8 @@ function Bags:Enable()
 	if (not C.Bags.Enable) then
 		return
 	end
-
-	SetInsertItemsLeftToRight(false)
+	
+	SetSortBagsRightToLeft(true)
 
 	-- Bug with mouse click
 	GroupLootContainer:EnableMouse(false)

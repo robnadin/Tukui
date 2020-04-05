@@ -293,11 +293,7 @@ do
 	local function assign(slot, item)
 		if counts[item] > 0 then
 			local count
-			if SortBagsRightToLeft and mod(counts[item], itemStacks[item]) ~= 0 then
-				count = mod(counts[item], itemStacks[item])
-			else
-				count = min(counts[item], itemStacks[item])
-			end
+			count = min(counts[item], itemStacks[item])
 			slot.targetItem = item
 			slot.targetCount = count
 			counts[item] = counts[item] - count
