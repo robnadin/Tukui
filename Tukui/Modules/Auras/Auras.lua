@@ -117,6 +117,10 @@ function TukuiAuras:UpdateAura(index)
 			if (not C.Auras.ClassicTimer) then
 				self.Holder:Show()
 			end
+			
+			if (C.Auras.Animation and self.AuraGrowth) then
+				self.AuraGrowth:Play()
+			end
 		else
 			if C.Auras.Flash then
 				self.Animation:Stop()
