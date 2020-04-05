@@ -5,13 +5,11 @@ local MyName = UnitName("player")
 local format = format
 local int = 2
 local BGFrame = CreateFrame("Frame", nil, UIParent)
+local Color = {}
 
 function BGFrame:OnEnter()
 	local NumScores = GetNumBattlefieldScores()
 	local NumExtraStats = GetNumBattlefieldStats()
-	local Color = {}
-	
-	Color.r, Color.g, Color.b = unpack(T.Colors.class[select(2, UnitClass("player"))])
 
 	for i = 1, NumScores do
 		local Name, KillingBlows, HonorableKills, Deaths, HonorGained = GetBattlefieldScore(i)
@@ -82,8 +80,10 @@ function BGFrame:Enable()
 		return
 	end
 
+	Color.r, Color.g, Color.b = unpack(T.Colors.class[T.MyClass])
+
 	local DataTextLeft = T["Panels"].DataTextLeft
-	
+
 	BGFrame:SetAllPoints(DataTextLeft)
 	BGFrame:SetTemplate()
 	BGFrame:SetFrameLevel(4)

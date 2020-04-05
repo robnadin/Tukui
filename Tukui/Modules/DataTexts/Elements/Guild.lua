@@ -16,6 +16,7 @@ local officerNoteString = "  o: '%s'"
 
 local guildTable, guildXP, guildMotD = {}, {}, ""
 local totalOnline = 0
+local classc = {}
 
 local function BuildGuildTable()
 	totalOnline = 0
@@ -50,9 +51,9 @@ end
 
 local menuFrame = CreateFrame("Frame", "TukuiGuildRightClickMenu", UIParent, "UIDropDownMenuTemplate")
 local menuList = {
-	{ text = OPTIONS_MENU, isTitle = true,notCheckable=true},
-	{ text = INVITE, hasArrow = true,notCheckable=true,},
-	{ text = CHAT_MSG_WHISPER_INFORM, hasArrow = true,notCheckable=true,}
+	{ text = OPTIONS_MENU, isTitle = true, notCheckable=true},
+	{ text = INVITE, hasArrow = true, notCheckable=true, menuList = {}},
+	{ text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable=true, menuList = {}}
 }
 
 local function inviteClick(self, arg1, arg2, checked)
@@ -81,14 +82,13 @@ local OnMouseUp = function(self, btn)
 
 	GameTooltip_Hide()
 
-	local classc = {}
+	wipe(classc)
 	local levelc, grouped
 	local menuCountWhispers = 0
 	local menuCountInvites = 0
 
-
-	menuList[2].menuList = {}
-	menuList[3].menuList = {}
+	wipe(menuList[2].menuList)
+	wipe(menuList[3].menuList)
 
 	for i = 1, #guildTable do
 		if (guildTable[i][7] and (guildTable[i][1] ~= UnitName("player") and guildTable[i][1] ~= UnitName("player").."-"..GetRealmName())) then
@@ -121,7 +121,7 @@ local OnEnter = function(self)
 
 	local name, rank, level, zone, note, officernote, connected, status, class, isMobile
 	local zonec, levelc
-	local classc = {}
+	wipe(classc)
 	local online = totalOnline
 	local GuildInfo, GuildRank, GuildLevel = GetGuildInfo("player")
 
@@ -136,7 +136,7 @@ local OnEnter = function(self)
 		GameTooltip:AddLine(string.format(guildMotDString, GUILD_MOTD, guildMotD), ttsubh.r, ttsubh.g, ttsubh.b, 1)
 	end
 
-	local col = T.RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b)
+	-- local col = T.RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b) -- Unused??
 
 	if online > 1 then
 		local Count = 0
