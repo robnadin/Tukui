@@ -245,7 +245,7 @@ function TukuiDT:Reset()
 					Object:Enable()
 					self.Anchors[Num]:SetData(Object)
 				else
-					T.Print("DataText '" .. Name .. "' not found. Removing from cache.")
+					T.Print("DataText '" .. Name .. "' not found. Removing. Replace with [|cff00ff00/tukui dt|r]")
 					TukuiData[GetRealmName()][UnitName("player")].Texts[Name] = {false, 0}
 				end
 			end
@@ -276,7 +276,7 @@ function TukuiDT:Load()
 						Object:Enable()
 						self.Anchors[Num]:SetData(Object)
 					else
-						T.Print("DataText '" .. Name .. "' not found. Removing from cache.")
+						T.Print("DataText '" .. Name .. "' not found. Removing. Replace with [|cff00ff00/tukui dt|r]")
 						TukuiData[GetRealmName()][UnitName("player")].Texts[Name] = {false, 0}
 					end
 				end
