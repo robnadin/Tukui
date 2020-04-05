@@ -81,7 +81,8 @@ local OnMouseUp = function(self, btn)
 
 	GameTooltip_Hide()
 
-	local classc, levelc, grouped
+	local classc = {}
+	local levelc, grouped
 	local menuCountWhispers = 0
 	local menuCountInvites = 0
 
@@ -91,7 +92,8 @@ local OnMouseUp = function(self, btn)
 
 	for i = 1, #guildTable do
 		if (guildTable[i][7] and (guildTable[i][1] ~= UnitName("player") and guildTable[i][1] ~= UnitName("player").."-"..GetRealmName())) then
-			local classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[guildTable[i][9]], GetQuestDifficultyColor(guildTable[i][3])
+			levelc = GetQuestDifficultyColor(guildTable[i][3])
+			classc.r, classc.g, classc.b = unpack(T.Colors.class[guildTable[i][9]])
 
 			if UnitInParty(guildTable[i][1]) or UnitInRaid(guildTable[i][1]) then
 				grouped = "|cffaaaaaa*|r"
@@ -118,7 +120,8 @@ local OnEnter = function(self)
 	BuildGuildTable()
 
 	local name, rank, level, zone, note, officernote, connected, status, class, isMobile
-	local zonec, classc, levelc
+	local zonec, levelc
+	local classc = {}
 	local online = totalOnline
 	local GuildInfo, GuildRank, GuildLevel = GetGuildInfo("player")
 
@@ -148,7 +151,8 @@ local OnEnter = function(self)
 
 			if connected and name ~= UnitName("player") then
 				if GetRealZoneText() == zone then zonec = activezone else zonec = inactivezone end
-				classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class], GetQuestDifficultyColor(level)
+				levelc = GetQuestDifficultyColor(level)
+				classc.r, classc.g, classc.b = unpack(T.Colors.class[class])
 
 				if isMobile then zone = "" end
 

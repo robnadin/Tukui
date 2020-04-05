@@ -2,7 +2,6 @@ local T, C, L = select(2, ...):unpack()
 
 local _G = _G
 local unpack = unpack
-local RaidColors = RAID_CLASS_COLORS
 local LibClassicMobHealth = LibStub("LibClassicMobHealth-1.0")
 local Tooltip = CreateFrame("Frame")
 local gsub, find, format = string.gsub, string.find, string.format

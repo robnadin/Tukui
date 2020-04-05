@@ -9,13 +9,15 @@ local BGFrame = CreateFrame("Frame", nil, UIParent)
 function BGFrame:OnEnter()
 	local NumScores = GetNumBattlefieldScores()
 	local NumExtraStats = GetNumBattlefieldStats()
+	local Color = {}
+	
+	Color.r, Color.g, Color.b = unpack(T.Colors.class[select(2, UnitClass("player"))])
 
 	for i = 1, NumScores do
 		local Name, KillingBlows, HonorableKills, Deaths, HonorGained = GetBattlefieldScore(i)
 
 		if (Name and Name == MyName) then
 			local CurrentMapID = C_Map.GetBestMapForUnit("player")
-			local Color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 			local ClassColor = format("|cff%.2x%.2x%.2x", Color.r * 255, Color.g * 255, Color.b * 255)
 
 			GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4)
