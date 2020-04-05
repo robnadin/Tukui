@@ -210,7 +210,7 @@ function TukuiDT:AddDefaults()
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Durability"] = {true, 2}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Friends"] = {true, 3}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["System"] = {true, 4}
-	TukuiData[GetRealmName()][UnitName("player")].Texts["Bags Slots"] = {true, 5}
+	TukuiData[GetRealmName()][UnitName("player")].Texts["Micro Menu"] = {true, 5}
 	TukuiData[GetRealmName()][UnitName("player")].Texts["Gold"] = {true, 6}
 
 	if UnitLevel("player") == MAX_PLAYER_LEVEL then
