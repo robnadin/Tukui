@@ -110,11 +110,14 @@ local function Click()
 	end
 end
 
+local function OnLeave()
+	enteredFrame = false
+	GameTooltip_Hide()
+end
+
 local ipTypes = {"IPv4", "IPv6"}
 local function OnEnter(self)
 	if (InCombatLockdown()) then
-		OnLeave()
-		
 		return
 	end
 	
@@ -181,11 +184,6 @@ local function OnEnter(self)
 	GameTooltip:Show()
 end
 
-local function OnLeave()
-	enteredFrame = false
-	GameTooltip_Hide()
-end
-
 local function Update(self, t)
 	int = int - t
 	int2 = int2 - t
@@ -214,6 +212,8 @@ local function Update(self, t)
 end
 
 local Enable = function(self)
+	self:RegisterEvent("PLAYER_REGEN_DISABLED")
+	self:SetScript("OnEvent", OnLeave)
 	self:SetScript("OnEnter", OnEnter)
 	self:SetScript("OnUpdate", Update)
 	self:SetScript("OnLeave", OnLeave)
@@ -223,6 +223,8 @@ end
 
 local Disable = function(self)
 	self.Text:SetText("")
+	self:UnregisterAllEvents()
+	self:SetScript("OnEvent", nil)
 	self:SetScript("OnEnter", nil)
 	self:SetScript("OnUpdate", nil)
 	self:SetScript("OnLeave", nil)
