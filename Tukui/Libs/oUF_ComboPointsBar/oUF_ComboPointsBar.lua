@@ -31,7 +31,7 @@ local Update = function(self, event, unit, powerType)
 			if i <= points then
 				cpb[i]:SetAlpha(1)
 			else
-				cpb[i]:SetAlpha(.3)
+				cpb[i]:SetAlpha(.15)
 			end
 		end
 	end
