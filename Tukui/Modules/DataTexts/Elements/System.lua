@@ -113,7 +113,7 @@ end
 local ipTypes = {"IPv4", "IPv6"}
 local function OnEnter(self)
 	if (InCombatLockdown()) then
-		enteredFrame = false
+		OnLeave()
 		
 		return
 	end
