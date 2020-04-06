@@ -4,7 +4,7 @@ local DataText = T["DataTexts"]
 local MyName = UnitName("player")
 local format = format
 local int = 2
-local BGFrame = CreateFrame("Frame", nil, T["Panels"].DataTextLeft)
+local BGFrame = CreateFrame("Frame", nil, UIParent)
 local Color = {}
 
 function BGFrame:OnEnter()
