@@ -467,6 +467,7 @@ function TukuiChat:HideChatFrame(button, id)
 	local Panels = T.Panels
 	local Background = id == 1 and Panels.LeftChatBG or Panels.RightChatBG
 	local DataText = id == 1 and Panels.DataTextLeft or Panels.DataTextRight
+	local BG = T.DataTexts.BGFrame
 
 	Background:Hide()
 
@@ -476,6 +477,10 @@ function TukuiChat:HideChatFrame(button, id)
 
 		XP:SetParent(T.Hider)
 		Rep:SetParent(T.Hider)
+	end
+	
+	if BG then
+		BG:SetParent(T.Hider)
 	end
 
 	DataText:Hide()
@@ -507,6 +512,7 @@ function TukuiChat:ShowChatFrame(button, id)
 	local Panels = T.Panels
 	local Background = id == 1 and Panels.LeftChatBG or Panels.RightChatBG
 	local DataText = id == 1 and Panels.DataTextLeft or Panels.DataTextRight
+	local BG = T.DataTexts.BGFrame
 
 	Background:Show()
 
@@ -517,6 +523,10 @@ function TukuiChat:ShowChatFrame(button, id)
 		XP:SetParent(UIParent)
 		Rep:SetParent(UIParent)
 		Rep:SetFrameLevel(XP:GetFrameLevel() + 2)
+	end
+	
+	if BG then
+		BG:SetParent(UIParent)
 	end
 
 	DataText:Show()
