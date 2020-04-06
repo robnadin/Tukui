@@ -4,7 +4,7 @@ local DataText = T["DataTexts"]
 local MyName = UnitName("player")
 local format = format
 local int = 2
-local BGFrame = CreateFrame("Frame", nil, UIParent)
+local BGFrame = CreateFrame("Frame", nil, T["Panels"].DataTextLeft)
 local Color = {}
 
 function BGFrame:OnEnter()
@@ -88,7 +88,6 @@ function BGFrame:Enable()
 	BGFrame:SetTemplate()
 	BGFrame:SetFrameLevel(4)
 	BGFrame:SetFrameStrata("BACKGROUND")
-	BGFrame:SetParent(DataTextLeft)
 
 	local Text1 = BGFrame:CreateFontString(nil, "OVERLAY")
 	Text1:SetFontObject(DataText.Font)
