@@ -452,12 +452,6 @@ function TukuiChat:SwitchSpokenDialect(button)
 end
 
 function TukuiChat:AddMessage(text, ...)
-	local Faction = UnitFactionGroup("player")
-	
-	if Faction == "Horde" then
-		text = text:gsub("|cfff48cba", T.RGBToHex(unpack(T.Colors.class["SHAMAN"])))
-	end
-	
 	text = text:gsub("|h%[(%d+)%. .-%]|h", "|h[%1]|h")
 
 	return self.DefaultAddMessage(self, text, ...)
