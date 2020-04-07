@@ -14,6 +14,7 @@ function TukuiChat:Enable()
 	self:CreateCopyButtons()
 	self:MoveAudioButtons()
 	self:AddHooks()
+	self:OverwriteFunctions()
 
 	for i = 1, 10 do
 		local ChatFrame = _G["ChatFrame"..i]
