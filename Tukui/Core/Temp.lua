@@ -98,3 +98,23 @@ function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, a
 
 	return arg2
 end
+
+-- Temp, for /who command, shaman color.
+local function UpdateWhoShamanColor()
+	local WhoOffset = FauxScrollFrame_GetOffset(WhoListScrollFrame)
+	local WhoIndex, Button, Text
+	
+	for i=1, WHOS_TO_DISPLAY, 1 do
+		WhoIndex = WhoOffset + i;
+		Button = _G["WhoFrameButton"..i]
+		Text = _G["WhoFrameButton"..i.."Class"]
+
+		local Info = C_FriendList.GetWhoInfo(WhoIndex)
+		
+		if Info and Info.filename == "SHAMAN" and Text then
+			Text:SetTextColor(unpack(T.Colors.class["SHAMAN"]))
+		end
+	end
+end
+
+hooksecurefunc("WhoList_Update", UpdateWhoShamanColor)
