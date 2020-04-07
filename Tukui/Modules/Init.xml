@@ -47,6 +47,7 @@
 	<Script file="Miscellaneous\Grid.lua"/>
 	<Script file="Miscellaneous\UIErrorFilter.lua"/>
 	<Script file="Miscellaneous\GuildNamesByClassColor.lua"/>
+	<Script file="Miscellaneous\WhoNamesByClassColor.lua"/>
 	<Script file="Miscellaneous\Keybinds.lua"/>
 
 	<!-- Auras -->
