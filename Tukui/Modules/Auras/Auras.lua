@@ -255,12 +255,6 @@ function TukuiAuras:Skin()
 		Shrink:SetScale(0.75, 0.75)
 
 		self.AuraGrowth = AuraGrowth
-
-		self:SetScript("OnShow", function(self)
-			if self.AuraGrowth then
-				self.AuraGrowth:Play()
-			end
-		end)
 	end
 
 	self.Duration = Duration
