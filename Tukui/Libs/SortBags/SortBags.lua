@@ -393,7 +393,7 @@ function Item(container, position)
 	if link then
 		local _, _, itemID, enchantID, suffixID, uniqueID = strfind(link, 'item:(%d+):(%d*):(%d*):(%d*)')
 		itemID = tonumber(itemID)
-		local _, _, quality, _, _, _, _, stack, slot, _, _, classId, subClassId = GetItemInfo('item:' .. itemID)
+		local _, _, quality, _, _, _, _, stack, slot, _, sellPrice, classId, subClassId = GetItemInfo('item:' .. itemID)
 		local charges, usable, soulbound, quest, conjured = TooltipInfo(container, position)
 
 		local sortKey = {}
@@ -457,14 +457,17 @@ function Item(container, position)
 		-- higher quality
 		elseif quality > 1 then
 			tinsert(sortKey, 11)
+			tinsert(sortKey, -sellPrice)
 
 		-- common quality
 		elseif quality == 1 then
 			tinsert(sortKey, 14)
+			tinsert(sortKey, -sellPrice)
 
 		-- junk
 		elseif quality == 0 then
 			tinsert(sortKey, 15)
+			tinsert(sortKey, sellPrice)
 		end
 
 		tinsert(sortKey, classId)
