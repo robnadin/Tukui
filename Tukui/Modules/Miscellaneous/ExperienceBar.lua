@@ -44,7 +44,7 @@ function Experience:SetTooltip()
 		Current, Max = GetPetExperience()
 		happiness, damagePercentage, loyaltyRate = GetPetHappiness()
 		happy = ({"|cffFF0000Unhappy|r", "|cffFFFF00Content|r", "|cff00FF00Happy|r"})[happiness]
-		loyalty = loyaltyRate > 0 and "cff00FF00gaining|r" or "|cffFF0000losing|r"
+		loyalty = loyaltyRate > 0 and "|cff00FF00gaining|r" or "|cffFF0000losing|r"
 		petIcon, petName, petLevel, petType, petLoyalty = GetStablePetInfo(0)
 
 		if Max == 0 then
