@@ -14,6 +14,10 @@ Experience.PetXPColor = {255 / 255, 255 / 255, 105 / 255}
 function Experience:SetTooltip()
 	local BarType = self.BarType
 	local Current, Max, Pts
+	local happiness, damagePercentage, loyaltyRate
+	local happy
+	local loyalty
+	local petIcon, petName, petLevel, petType, petLoyalty
 
 	if (self == Experience.XPBar1) then
 		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", -1, 5)
@@ -38,12 +42,24 @@ function Experience:SetTooltip()
 		end
 	elseif BarType == "PETXP" then
 		Current, Max = GetPetExperience()
+		happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+		happy = ({"|cffFF0000Unhappy|r", "|cffFFFF00Content|r", "|cff00FF00Happy|r"})[happiness]
+		loyalty = loyaltyRate > 0 and "cff00FF00gaining|r" or "|cffFF0000losing|r"
+		petIcon, petName, petLevel, petType, petLoyalty = GetStablePetInfo(0)
 
 		if Max == 0 then
 			return
 		end
 
-		GameTooltip:AddLine("|cffFFFF66Pet XP: " .. Current .. " / " .. Max .. " (" .. floor(Current / Max * 100) .. "% - " .. floor(Bars - (Bars * (Max - Current) / Max)) .. "/" .. Bars .. ")|r")
+		GameTooltip:AddLine("" ..petName.."")
+		GameTooltip:AddLine(" ")
+		GameTooltip:AddDoubleLine("|cffFFFFFFType:|r","|cffFFFFFF"..petType.."|r")
+		GameTooltip:AddDoubleLine("|cffFFFFFFLevel:|r","|cffFFFFFF"..petLevel.."|r")
+		GameTooltip:AddDoubleLine("|cffFFFFFFHappiness:|r",""..happy.."")
+		GameTooltip:AddDoubleLine("|cffFFFFFFDamage:|r","|cffFFFFFF"..damagePercentage.."%|r")
+		GameTooltip:AddDoubleLine("|cffFFFFFFLoyalty:|r",""..loyalty.."")
+		GameTooltip:AddDoubleLine(" ")
+		GameTooltip:AddLine("|cffFFFF66PET XP: " .. Current .. " / " .. Max .. " (" .. floor(Current / Max * 100) .. "% - " .. floor(Bars - (Bars * (Max - Current) / Max)) .. "/" .. Bars .. ")|r")
 	end
 
 	GameTooltip:Show()
