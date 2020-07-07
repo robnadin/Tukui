@@ -197,6 +197,7 @@ C["UnitFrames"] = {
 	["ScrollingCombatText"] = false,
 	["ScrollingCombatTextFontSize"] = 32,
 	["ScrollingCombatTextFont"] = "Tukui Damage",
+	["StatusBarBackgroundMultiplier"] = 20,
 	["PowerTick"] = true,
 	["Portrait2D"] = true,
 	["OOCNameLevel"] = false,

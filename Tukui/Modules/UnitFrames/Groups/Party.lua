@@ -24,9 +24,10 @@ function TukuiUnitFrames:Party()
 	Health:Height(self:GetHeight() - 5)
 	Health:SetStatusBarTexture(HealthTexture)
 
-	Health.Background = Health:CreateTexture(nil, "BORDER")
-	Health.Background:SetAllPoints()
-	Health.Background:SetColorTexture(.1, .1, .1)
+	Health.Background = Health:CreateTexture(nil, "BACKGROUND")
+	Health.Background:SetTexture(C.Medias.Blank)
+    Health.Background:SetAllPoints(Health)
+	Health.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
 	if C.Party.ShowHealthText then
 		Health.Value = Health:CreateFontString(nil, "OVERLAY")
@@ -53,9 +54,9 @@ function TukuiUnitFrames:Party()
 	Power:SetStatusBarTexture(PowerTexture)
 
 	Power.Background = Power:CreateTexture(nil, "BORDER")
+	Power.Background:SetTexture(C.Medias.Blank)
 	Power.Background:SetAllPoints(Power)
-	Power.Background:SetColorTexture(.4, .4, .4)
-	Power.Background.multiplier = 0.3
+	Power.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
 	if C.Party.ShowManaText then
 		Power.Value = Power:CreateFontString(nil, "OVERLAY")

@@ -25,9 +25,10 @@ function TukuiUnitFrames:Nameplates()
 	Health:SetWidth(self:GetWidth())
 	Health:SetStatusBarTexture(HealthTexture)
 
-	Health.Background = Health:CreateTexture(nil, "BORDER")
-	Health.Background:SetAllPoints()
-	Health.Background:SetColorTexture(.1, .1, .1)
+	Health.Background = Health:CreateTexture(nil, "BACKGROUND")
+	Health.Background:SetTexture(C.Medias.Blank)
+    Health.Background:SetAllPoints(Health)
+	Health.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
 	Health.colorTapping = true
 	Health.colorReaction = true
@@ -52,8 +53,9 @@ function TukuiUnitFrames:Nameplates()
 	Power:SetStatusBarTexture(PowerTexture)
 
 	Power.Background = Power:CreateTexture(nil, "BORDER")
-	Power.Background:SetAllPoints()
-	Power.Background:SetColorTexture(.1, .1, .1)
+	Power.Background:SetTexture(C.Medias.Blank)
+	Power.Background:SetAllPoints(Power)
+	Power.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
 	Power.IsHidden = false
 	Power.frequentUpdates = true

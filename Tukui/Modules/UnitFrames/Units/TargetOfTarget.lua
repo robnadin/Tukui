@@ -27,10 +27,10 @@ function TukuiUnitFrames:TargetOfTarget()
 	Health:SetPoint("TOPRIGHT")
 	Health:SetStatusBarTexture(HealthTexture)
 
-	Health.Background = Health:CreateTexture(nil, "BORDER")
-	Health.Background:Point("TOPLEFT", Health, -1, 1)
-	Health.Background:Point("BOTTOMRIGHT", Health, 1, -1)
-	Health.Background:SetColorTexture(.1, .1, .1)
+	Health.Background = Health:CreateTexture(nil, "BACKGROUND")
+	Health.Background:SetTexture(C.Medias.Blank)
+    Health.Background:SetAllPoints(Health)
+	Health.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
 	Health.frequentUpdates = true
 	Health.colorDisconnected = true

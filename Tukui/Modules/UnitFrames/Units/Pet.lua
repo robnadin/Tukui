@@ -27,10 +27,10 @@ function TukuiUnitFrames:Pet()
 	Health:SetPoint("TOPRIGHT")
 	Health:SetStatusBarTexture(HealthTexture)
 
-	Health.Background = Health:CreateTexture(nil, "BORDER")
-	Health.Background:Point("TOPLEFT", Health, -1, 1)
-	Health.Background:Point("BOTTOMRIGHT", Health, 1, -1)
-	Health.Background:SetColorTexture(.1, .1, .1)
+	Health.Background = Health:CreateTexture(nil, "BACKGROUND")
+	Health.Background:SetTexture(C.Medias.Blank)
+    Health.Background:SetAllPoints(Health)
+	Health.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
 	Health.Value = Panel:CreateFontString(nil, "OVERLAY")
 	Health.Value:SetFontObject(Font)
@@ -58,10 +58,9 @@ function TukuiUnitFrames:Pet()
 	Power:SetStatusBarTexture(PowerTexture)
 
 	Power.Background = Power:CreateTexture(nil, "BORDER")
-	Power.Background:Point("TOPLEFT", Power, -1, 1)
-	Power.Background:Point("BOTTOMRIGHT", Power, 1, -1)
-	Power.Background:SetColorTexture(.4, .4, .4)
-	Power.Background.multiplier = 0.3
+	Power.Background:SetTexture(C.Medias.Blank)
+	Power.Background:SetAllPoints(Power)
+	Power.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
 	Power.Value = Panel:CreateFontString(nil, "OVERLAY")
 	Power.Value:SetFontObject(Font)

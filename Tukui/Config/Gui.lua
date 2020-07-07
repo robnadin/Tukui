@@ -2237,6 +2237,7 @@ local UnitFrames = function(self)
 	Window:CreateSwitch("UnitFrames", "AurasBelow", "Move auras below unitframes")
 
 	Window:CreateSection("Styling")
+	Window:CreateSlider("UnitFrames", "StatusBarBackgroundMultiplier", "Health and Power background opacity", 0, 100, 1)
 	Window:CreateSwitch("UnitFrames", "UnlinkCastBar", "Unlink cast bars from unitframes")
 	Window:CreateSwitch("UnitFrames", "CastBarIcon", "Display castbar spell icon")
 	Window:CreateSwitch("UnitFrames", "CastBarLatency", "Display castbar latency")
