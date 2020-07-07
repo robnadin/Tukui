@@ -406,8 +406,8 @@ function TukuiChat:MoveChannels()
 	ChangeChatColor("CHANNEL1", 195/255, 230/255, 232/255)
 	ChangeChatColor("CHANNEL2", 232/255, 158/255, 121/255)
 	ChangeChatColor("CHANNEL3", 232/255, 228/255, 121/255)
-	ChangeChatColor("CHANNEL4", 0/255, 228/255, 121/255)
-	ChangeChatColor("CHANNEL5", 147/255, 130/255, 201/255)
+	ChangeChatColor("CHANNEL4", 232/255, 228/255, 121/255)
+	ChangeChatColor("CHANNEL5", 0/255, 228/255, 121/255)
 	ChangeChatColor("CHANNEL6", 0/255, 228/255, 0/255)
 	
 	-----------------------
