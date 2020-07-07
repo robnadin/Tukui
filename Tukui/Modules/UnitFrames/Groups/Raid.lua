@@ -29,7 +29,7 @@ function TukuiUnitFrames:Raid()
 	end
 
 	Health.Background = Health:CreateTexture(nil, "BACKGROUND")
-	Health.Background:SetTexture(C.Medias.Blank)
+	Health.Background:SetTexture(HealthTexture)
     Health.Background:SetAllPoints(Health)
 	Health.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
@@ -56,7 +56,7 @@ function TukuiUnitFrames:Raid()
 	Power:Point("TOPRIGHT", Health, "BOTTOMRIGHT", 0, -1)
 
 	Power.Background = Power:CreateTexture(nil, "BORDER")
-	Power.Background:SetTexture(C.Medias.Blank)
+	Power.Background:SetTexture(PowerTexture)
 	Power.Background:SetAllPoints(Power)
 	Power.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 

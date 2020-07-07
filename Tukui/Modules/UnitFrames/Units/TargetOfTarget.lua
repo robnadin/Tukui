@@ -28,7 +28,7 @@ function TukuiUnitFrames:TargetOfTarget()
 	Health:SetStatusBarTexture(HealthTexture)
 
 	Health.Background = Health:CreateTexture(nil, "BACKGROUND")
-	Health.Background:SetTexture(C.Medias.Blank)
+	Health.Background:SetTexture(HealthTexture)
     Health.Background:SetAllPoints(Health)
 	Health.Background.multiplier = C.UnitFrames.StatusBarBackgroundMultiplier / 100
 
