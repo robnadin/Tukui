@@ -880,8 +880,8 @@ function Bags:Enable()
 	local DataTextLeft = T["Panels"].DataTextLeft
 	local DataTextRight = T["Panels"].DataTextRight
 
-	self:CreateContainer("Bag", "BOTTOMRIGHT", DataTextRight, "TOPRIGHT", 0, 6)
-	self:CreateContainer("Bank", "BOTTOMLEFT", DataTextLeft, "TOPLEFT", 0, 6)
+	self:CreateContainer("Bag", "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -34, 50)
+	self:CreateContainer("Bank", "BOTTOMLEFT", UIParent, "BOTTOMLEFT", 34, 50)
 	self:HideBlizzard()
 
 	Bag:SetScript("OnHide", function()

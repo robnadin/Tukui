@@ -55,7 +55,7 @@ function TukuiAuras:CreateHeaders()
 	local Debuffs = Headers[2]
 
 	if (not C.Auras.HideBuffs) then
-		Buffs:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -30, 2)
+		Buffs:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -200, -27)
 		Buffs:SetAttribute("filter", "HELPFUL")
 		Buffs:SetAttribute("includeWeapons", 1)
 		Buffs:Show()

@@ -46,7 +46,7 @@ function Tooltip:CreateAnchor()
 	Anchor:SetFrameStrata("TOOLTIP")
 	Anchor:SetFrameLevel(20)
 	Anchor:SetClampedToScreen(true)
-	Anchor:SetPoint("BOTTOMRIGHT", RightChat, "TOPRIGHT", 0, -13)
+	Anchor:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -28, 186)
 	Anchor:SetMovable(true)
 
 	self.Anchor = Anchor

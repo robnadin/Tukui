@@ -135,7 +135,7 @@ function TukuiActionBars:AddPanels()
 
 	-- Bar #2
 	local A2 = CreateFrame("Frame", "TukuiActionBar2", UIParent, "SecureHandlerStateTemplate")
-	A2:Point("BOTTOMRIGHT", A1, "BOTTOMLEFT", -6, 0)
+	A2:Point("BOTTOM", UIParent, "BOTTOM", -290, 12)
 	A2:SetFrameStrata("LOW")
 	A2:SetFrameLevel(10)
 	A2.Backdrop = CreateFrame("Frame", nil, A2)
@@ -144,7 +144,7 @@ function TukuiActionBars:AddPanels()
 
 	-- Bar #3
 	local A3 = CreateFrame("Frame", "TukuiActionBar3", UIParent, "SecureHandlerStateTemplate")
-	A3:Point("BOTTOMLEFT", A1, "BOTTOMRIGHT", 6, 0)
+	A3:Point("BOTTOM", UIParent, "BOTTOM", 290, 12)
 	A3:SetFrameStrata("LOW")
 	A3:SetFrameLevel(10)
 	A3.Backdrop = CreateFrame("Frame", nil, A3)
@@ -153,7 +153,7 @@ function TukuiActionBars:AddPanels()
 
 	-- Bar #4
 	local A4 = CreateFrame("Frame", "TukuiActionBar4", UIParent, "SecureHandlerStateTemplate")
-	A4:Point("BOTTOM", A1, "BOTTOM", 0, 0)
+	A4:Point("BOTTOM", UIParent, "BOTTOM", 0, 12)
 	A4:SetFrameStrata("LOW")
 	A4:SetFrameLevel(10)
 	A4.Backdrop = CreateFrame("Frame", nil, A4)
@@ -171,7 +171,7 @@ function TukuiActionBars:AddPanels()
 
 	-- Pet Bar
 	local A6 = CreateFrame("Frame", "TukuiPetActionBar", UIParent, "SecureHandlerStateTemplate")
-	A6:SetPoint("RIGHT", A5, "LEFT", -6, 0)
+	A6:SetPoint("RIGHT", UIParent, "LEFT", -6, 0)
 	A6:SetFrameStrata("LOW")
 	A6:SetFrameLevel(10)
 	A6.Backdrop = CreateFrame("Frame", nil, A6)
@@ -184,7 +184,7 @@ function TukuiActionBars:AddPanels()
 	-- Stance Bar
 	local A7 = CreateFrame("Frame", "TukuiStanceBar", UIParent, "SecureHandlerStateTemplate")
 	A7:SetSize((PetSize * 10) + (Spacing * 11), PetSize + (Spacing * 2))
-	A7:SetPoint("BOTTOMLEFT", T.Panels.LeftChatBG, "TOPLEFT", -1, 17)
+	A7:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 28, 214)
 	A7:SetFrameStrata("LOW")
 	A7:SetFrameLevel(10)
 	A7.Backdrop = CreateFrame("Frame", nil, A7)
