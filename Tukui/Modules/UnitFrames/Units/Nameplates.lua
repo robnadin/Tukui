@@ -134,9 +134,11 @@ function TukuiUnitFrames:Nameplates()
 	Highlight:Hide()
 
 	self.Health = Health
+	self.Health.bg = Health.Background
 	self.Debuffs = Debuffs
 	self.Name = Name
 	self.Power = Power
+	self.Power.bg = Power.Background
 	self.RaidTargetIndicator = RaidIcon
 	self.Highlight = Highlight
 
