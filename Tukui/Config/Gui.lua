@@ -2154,7 +2154,7 @@ local Raid = function(self)
 	Window:CreateSlider("Raid", "WidthSize", "Set raid unit width", 79, 150, 1)
 	Window:CreateSlider("Raid", "HeightSize", "Set raid unit height", 45, 150, 1)
 	Window:CreateColorSelection("Raid", "HighlightColor", "Highlight texture color")
-	Window:CreateSlider("Raid", "HighlightSize", "Set nameplate highlight size", 5, 15, 1)
+	Window:CreateSlider("Raid", "HighlightSize", "Set raid unit highlight size", 5, 15, 1)
 
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Raid", "Font", "Set raid font", "Font")
