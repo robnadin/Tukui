@@ -1,7 +1,7 @@
 ## Interface: 11304
 ## Author: Tukz
 ## X-Maintainer: Tukz & Azilroka & Hydra
-## Version: 1.37
+## Version: 1.38
 ## Title: |cffff8000Tukui|r
 ## Notes: UI of awesomeness!
 ## SavedVariables: TukuiData, TukuiSettings, TukuiGold, TukuiSettingsPerCharacter, LibClassicMobHealth10DB, LibClassicMobHealth10Opt
