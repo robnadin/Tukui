@@ -2145,9 +2145,9 @@ local Raid = function(self)
 	Window:CreateSwitch("Raid", "DebuffWatch", "Display dispellable debuffs")
 	Window:CreateSwitch("Raid", "VerticalHealth", "Enable vertical health")
 	Window:CreateSwitch("Raid", "DesaturateNonPlayerBuffs", "Displays other players buffs grayscaled")
-
 	Window:CreateDropdown("Raid", "RaidBuffs", "Show buff on raid frames")
-
+	Window:CreateDropdown("Raid", "GroupBy", "Set raid grouping")
+	
 	Window:CreateSection("Styling")
 	Window:CreateSlider("Raid", "RangeAlpha", "Set out of range alpha", 0, 1, 0.1)
 	Window:CreateSlider("Raid", "MaxUnitPerColumn", "Set max units per column", 1, 15, 1)
@@ -2159,7 +2159,6 @@ local Raid = function(self)
 	Window:CreateSection("Font")
 	Window:CreateDropdown("Raid", "Font", "Set raid font", "Font")
 	Window:CreateDropdown("Raid", "HealthFont", "Set raid health font", "Font")
-	Window:CreateDropdown("Raid", "GroupBy", "Set raid grouping")
 end
 
 local Tooltips = function(self)
