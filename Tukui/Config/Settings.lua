@@ -96,6 +96,7 @@ C["Loot"] = {
 }
 
 C["Misc"] = {
+	["ThreatBar"] = true,
 	["WorldMapEnable"] = true,
 	["ExperienceEnable"] = true,
 	["ErrorFilterEnable"] = true,

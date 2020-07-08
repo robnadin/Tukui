@@ -49,6 +49,7 @@
 	<Script file="Miscellaneous\GuildNamesByClassColor.lua"/>
 	<Script file="Miscellaneous\WhoNamesByClassColor.lua"/>
 	<Script file="Miscellaneous\Keybinds.lua"/>
+	<Script file="Miscellaneous\ThreatBar.lua"/>
 
 	<!-- Auras -->
 	<Include file="Auras\Templates.xml"/>

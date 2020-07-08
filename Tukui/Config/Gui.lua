@@ -2079,7 +2079,9 @@ end
 
 local Misc = function(self)
 	local Window = self:CreateWindow("Misc")
-
+				
+	Window:CreateSection("Threat")
+	Window:CreateSwitch("Misc", "ThreatBar", "Enable Threat Bar")
 	Window:CreateSection("World Map")
 	Window:CreateSwitch("Misc", "WorldMapEnable", "Enable our custom world map")
 	Window:CreateSwitch("Misc", "FadeWorldMapWhileMoving", "Fade world map while moving?")
