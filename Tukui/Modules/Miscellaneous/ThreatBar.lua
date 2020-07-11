@@ -1,10 +1,11 @@
 local T, C, L = select(2, ...):unpack()
 
 local Miscellaneous = T["Miscellaneous"]
+local Movers = T["Movers"]
 local format = string.format
 local floor = math.floor
 local UnitName = UnitName
-local ThreatBar = CreateFrame("StatusBar", nil, UIParent)
+local ThreatBar = CreateFrame("StatusBar", "TukuiThreatBar", UIParent)
 
 function ThreatBar:OnEvent(event)
 	local Party = GetNumGroupMembers()
@@ -19,7 +20,7 @@ function ThreatBar:OnEvent(event)
 		if (Party > 0 or Raid > 0 or Pet) then
 			self:Show()
 		else
-			self:Show()
+			self:Hide()
 		end
 	end
 end
@@ -54,14 +55,19 @@ function ThreatBar:OnUpdate()
 end
 
 function ThreatBar:Create()
-	self:SetParent(T["Panels"].DataTextRight)
-	self:Point("TOPLEFT", 2, -2)
-	self:Point("BOTTOMRIGHT", -2, 2)
+	self:Size(T["Panels"].DataTextRight:GetSize())
+	self:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -34, 19)
 	self:SetFrameLevel(T["Panels"].DataTextRight:GetFrameLevel() + 2)
 	self:SetFrameStrata("HIGH")
 	self:SetStatusBarTexture(C.Medias.Normal)
 	self:SetMinMaxValues(0, 100)
 	self:SetAlpha(0)
+	
+	self.Backdrop = CreateFrame("Frame", nil, self)
+	self.Backdrop:SetFrameLevel(self:GetFrameLevel() - 1)
+	self.Backdrop:SetOutside()
+	self.Backdrop:SetTemplate()
+	self.Backdrop:CreateShadow()
 
 	self.Text = self:CreateFontString(nil, "OVERLAY")
 	self.Text:SetFont(C.Medias.Font, 12)
@@ -93,6 +99,9 @@ function ThreatBar:Create()
 	self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self:SetScript("OnEvent", self.OnEvent)
+	
+	-- Register for moving
+	Movers:RegisterFrame(self)
 end
 
 function ThreatBar:Enable()
