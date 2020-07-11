@@ -171,7 +171,7 @@ function TukuiActionBars:AddPanels()
 
 	-- Pet Bar
 	local A6 = CreateFrame("Frame", "TukuiPetActionBar", UIParent, "SecureHandlerStateTemplate")
-	A6:SetPoint("RIGHT", UIParent, "LEFT", -6, 0)
+	A6:SetPoint("RIGHT", A5, "LEFT", -6, 0)
 	A6:SetFrameStrata("LOW")
 	A6:SetFrameLevel(10)
 	A6.Backdrop = CreateFrame("Frame", nil, A6)
