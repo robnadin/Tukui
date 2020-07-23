@@ -78,7 +78,20 @@ local SPECIAL = set(5462, 17696, 17117, 13347, 13289, 11511)
 
 local KEYS = set(9240, 17191, 13544, 12324, 16309, 12384, 20402)
 
-local TOOLS = set(7005, 12709, 19727, 5956, 2901, 6219, 10498, 6218, 6339, 11130, 11145, 16207, 9149, 15846, 6256, 6365, 6367)
+local TOOLS = set(7005, 12709, 19727, 5956, 2901, 6219, 10498, 6218, 6339, 11130, 11145, 16207, 9149, 15846, 6256, 6365, 6367, 2901, 4471, 5060)
+
+local POISONS = set(
+	-- instant	
+	6947, 6949, 6950, 8926, 8927, 8928,
+	-- crippling
+	3775, 3776,
+	--mind-numbing
+	5237, 6951, 9186,
+	--wound
+	10918, 10920, 10921, 10922,
+	--deadly
+	2892, 2893, 8984, 8985, 20844
+)
 
 local ENCHANTING_MATERIALS = set(
 	-- dust
@@ -380,7 +393,7 @@ function Item(container, position)
 	if link then
 		local _, _, itemID, enchantID, suffixID, uniqueID = strfind(link, 'item:(%d+):(%d*):(%d*):(%d*)')
 		itemID = tonumber(itemID)
-		local _, _, quality, _, _, _, _, stack, slot, _, _, classId, subClassId = GetItemInfo('item:' .. itemID)
+		local _, _, quality, _, _, _, _, stack, slot, _, sellPrice, classId, subClassId = GetItemInfo('item:' .. itemID)
 		local charges, usable, soulbound, quest, conjured = TooltipInfo(container, position)
 
 		local sortKey = {}
@@ -405,13 +418,17 @@ function Item(container, position)
 		elseif TOOLS[itemID] then
 			tinsert(sortKey, 5)
 
+		-- poisons
+		elseif POISONS[itemID] then
+			tinsert(sortKey, 9)
+
 		-- soul shards
 		elseif itemID == 6265 then
 			tinsert(sortKey, 14)
 
 		-- conjured items
 		elseif conjured then
-			tinsert(sortKey, 15)
+			tinsert(sortKey, 16)
 
 		-- soulbound items
 		elseif soulbound then
@@ -423,31 +440,34 @@ function Item(container, position)
 
 		-- quest items
 		elseif quest then
-			tinsert(sortKey, 9)
+			tinsert(sortKey, 10)
 
 		-- consumables
-		elseif usable and classId ~= 1 and classId ~= 2 and classId ~= 8 or classId == 4 then
+		elseif usable and classId ~= 1 and classId ~= 2 and classId ~= 8 or classId == 4 and not POISONS[itemID] then
 			tinsert(sortKey, 8)
 
 		-- enchanting materials
 		elseif ENCHANTING_MATERIALS[itemID] then
-			tinsert(sortKey, 11)
+			tinsert(sortKey, 12)
 
 		-- herbs
 		elseif HERBS[itemID] then
-			tinsert(sortKey, 12)
+			tinsert(sortKey, 13)
 
 		-- higher quality
 		elseif quality > 1 then
-			tinsert(sortKey, 10)
+			tinsert(sortKey, 11)
+			tinsert(sortKey, -sellPrice)
 
 		-- common quality
 		elseif quality == 1 then
-			tinsert(sortKey, 13)
+			tinsert(sortKey, 14)
+			tinsert(sortKey, -sellPrice)
 
 		-- junk
 		elseif quality == 0 then
-			tinsert(sortKey, 14)
+			tinsert(sortKey, 15)
+			tinsert(sortKey, sellPrice)
 		end
 
 		tinsert(sortKey, classId)
