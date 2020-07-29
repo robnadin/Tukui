@@ -13,7 +13,7 @@ Experience.PetXPColor = {255 / 255, 255 / 255, 105 / 255}
 
 function Experience:SetTooltip()
 	local BarType = self.BarType
-	local Current, Max, Pts
+	local Current, Max
 
 	if (self == Experience.XPBar1) then
 		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", -1, 5)
