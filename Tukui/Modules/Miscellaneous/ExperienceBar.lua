@@ -37,7 +37,7 @@ function Experience:SetTooltip()
 			GameTooltip:AddLine("|cff4BAF4C"..TUTORIAL_TITLE26..": +" .. Rested .." (" .. floor(Rested / Max * 100) .. "%)|r")
 		end
 	elseif BarType == "PETXP" then
-		Local Happiness, DamagePercentage, LoyaltyRate = GetPetHappiness()
+		local Happiness, DamagePercentage, LoyaltyRate = GetPetHappiness()
 		local Happy = ({"|cffFF0000Unhappy|r", "|cffFFFF00Content|r", "|cff00FF00Happy|r"})[Happiness]
 		local Loyalty = LoyaltyRate > 0 and "|cff00FF00gaining|r" or "|cffFF0000losing|r"
 		local PetIcon, PetName, PetLevel, PetType, PetLoyalty = GetStablePetInfo(0)
