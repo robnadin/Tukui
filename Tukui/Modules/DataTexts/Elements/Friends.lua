@@ -360,6 +360,10 @@ local OnEnter = function(self)
 								GameTooltip:AddDoubleLine("|cffeeeeee"..BNName.."|r", "Battle.net")
 							end
 
+							if BNTable[i][6] == "OSI" then
+								GameTooltip:AddDoubleLine("|cffeeeeee"..BNName.."|r", "Diablo II: Resurrected")
+							end
+
 							if BNTable[i][6] == "D3" then
 								GameTooltip:AddDoubleLine("|cffeeeeee"..BNName.."|r", "Diablo 3")
 							end
@@ -433,11 +437,11 @@ local OnEnter = function(self)
 				end
 
 				local R, G, B = 1, 1, 1
-				
+
 				if (T.Colors.class[class]) then
 					R, G, B = unpack(T.Colors.class[class])
 				end
-				
+
 				local Hex = T.RGBToHex(R, G, B)
 				local levelc = GetQuestDifficultyColor(level)
 				local levelhex = T.RGBToHex(levelc.r, levelc.g, levelc.b)
