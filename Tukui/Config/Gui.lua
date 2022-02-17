@@ -379,7 +379,7 @@ local UnitFrames = function(self)
 
 	Window:CreateSection("All", "Scrolling combat text for yourself")
 	Window:CreateSwitch("All", "UnitFrames", "ScrollingCombatText", "Enable scrolling combat text")
-	Window:CreateSwitch("All", "UnitFrames", "ScrollingCombatTextIcon", "Display icon on on scrolling combat text")
+	Window:CreateSwitch("All", "UnitFrames", "ScrollingCombatTextIcon", "Display icon on the scrolling combat text")
 	Window:CreateSlider("All", "UnitFrames", "ScrollingCombatTextFontSize", "Text size of scrolling", 10, 80, 1)
 	Window:CreateSlider("All", "UnitFrames", "ScrollingCombatTextRadius", "Area size of the scrolling combat text", 50, 500, 10)
 	Window:CreateSlider("All", "UnitFrames", "ScrollingCombatTextDisplayTime", "Number of seconds the text remain to be seen", .5, 3, .1)
